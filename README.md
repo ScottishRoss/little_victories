@@ -35,8 +35,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Little Victories Screenshot](https://github.com/ScottishRoss/little_victories/blob/Release/Images/full.png)
-
 Everyday life is full of Little Victories, the small steps that we don't always celebrate as we should. We look to the big wins and we judge ourselves by achieving milestones, rather than congratulating ourselves for small moments of progress towards our goals.
 
 Especially fo those of us who struggle with depression and other mental illnesses, it can be hard to celebrate those Little Victories that actually mean more than we let ourselves believe.
@@ -65,8 +63,6 @@ See the [open issues](https://github.com/scottishross/little_victories/issues) f
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
-Contributions are welcome, but please read through [CONTRIBUTE.md](https://github.com/ScottishRoss/little_victories/blob/main/CONTRIBUTE.md)
 
 1. Fork the Project
 2. Create your Feature Branch from develop (`git checkout -b feature/AmazingFeature`)
