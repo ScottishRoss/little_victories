@@ -1,7 +1,5 @@
 
-![GitHub All Releases](https://img.shields.io/github/downloads/ScottishRoss/little_victories/total?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ScottishRoss/little_victories?style=for-the-badge)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/ScottishRoss/little_victories?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/scottishross/little_victories?style=for-the-badge)
 ![Twitter Follow](https://img.shields.io/twitter/follow/Rhenderson91?style=for-the-badge)
 
