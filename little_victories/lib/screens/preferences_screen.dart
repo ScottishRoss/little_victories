@@ -21,6 +21,7 @@ class PreferencesScreen extends StatefulWidget {
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
   late User _user;
+  // ignore: unused_field
   final bool _isSigningOut = false;
 
   @override
@@ -30,17 +31,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     super.initState();
   }
 
-
-@override
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal]
-          )
-      ),
+              colors: [CustomColours.darkPurple, CustomColours.teal])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -57,16 +55,16 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               ),
               const Spacer(),
               NiceButton(
-                width: double.infinity,
-                fontSize: 18.0,
-                elevation: 10.0,
-                radius: 52.0,
-                text: "Push Notifications",
-                background: CustomColours.darkPurple,
-                onPressed: () {
-                  NavigationHelper.navigateToPushNotificationsScreen(context, _user);
-                }
-              ),
+                  width: double.infinity,
+                  fontSize: 18.0,
+                  elevation: 10.0,
+                  radius: 52.0,
+                  text: "Push Notifications",
+                  background: CustomColours.darkPurple,
+                  onPressed: () {
+                    NavigationHelper()
+                        .navigateToPushNotificationsScreen(context, _user);
+                  }),
               NiceButton(
                 width: double.infinity,
                 fontSize: 18.0,
@@ -75,7 +73,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 text: "Sign out of Google",
                 background: CustomColours.darkPurple,
                 onPressed: () {
-                  showDialog(context: context,
+                  showDialog(
+                      context: context,
                       builder: (BuildContext context) {
                         return const SignOutOfGoogleBox();
                       });
@@ -90,9 +89,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   text: "Back",
                   background: CustomColours.darkPurple,
                   onPressed: () {
-                    NavigationHelper.navigateToHomePageScreen(context, _user);
-                  }
-                ),
+                    NavigationHelper().navigateToHomePageScreen(context, _user);
+                  }),
             ],
           ),
         ),

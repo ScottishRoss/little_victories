@@ -15,35 +15,38 @@ class PushNotificationsScreen extends StatefulWidget {
   final User _user;
 
   @override
-  _PushNotificationsScreenState createState() => _PushNotificationsScreenState();
+  _PushNotificationsScreenState createState() =>
+      _PushNotificationsScreenState();
 }
 
 class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
   late User _user;
   final _topics = ['general', 'news', 'reminders'];
   List _subscribed = [];
-  late var _dataList;
+  late Stream<QuerySnapshot> victoriesStream;
 
   @override
   void initState() {
     _user = widget._user;
 
-    _dataList = firestore.collection('users').doc(_user.uid).collection('topics').snapshots();
+    victoriesStream = firestore
+        .collection('users')
+        .doc(_user.uid)
+        .collection('topics')
+        .snapshots();
     getSubscribedTopics(_user);
 
     super.initState();
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal]
-          )
-      ),
+              colors: [CustomColours.darkPurple, CustomColours.teal])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -60,10 +63,11 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               ),
               const Spacer(),
               SizedBox(
-                height: 200,
-                  child: StreamBuilder(
-                      stream: firestore.collection('users').doc(_user.uid).collection('topics').getsnapshots(),
-                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  height: 200,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: victoriesStream,
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
                             return const Center(
@@ -73,8 +77,8 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                             if (snapshot.hasError) {
                               return Center(
                                   child: Text('Error: ${snapshot.error}'));
-                            } else
-                            if (!snapshot.hasData || snapshot.data?.docs == null) {
+                            } else if (!snapshot.hasData ||
+                                snapshot.data?.docs == null) {
                               return const Center(
                                   child: Text('No Victories to show'));
                             } else {
@@ -90,9 +94,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                               );
                             }
                         }
-                      }
-                  )
-              ),
+                      })),
               const Spacer(),
               Container(
                 margin: const EdgeInsets.all(15.0),
@@ -104,9 +106,9 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                     text: "Back",
                     background: CustomColours.darkPurple,
                     onPressed: () {
-                      NavigationHelper.navigateToHomePageScreen(context, _user);
-                    }
-                ),
+                      NavigationHelper()
+                          .navigateToHomePageScreen(context, _user);
+                    }),
               ),
             ],
           ),
@@ -117,16 +119,14 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
 
   // ignore: type_annotate_public_apis, always_declare_return_types
   getSubscribedTopics(User user) async {
-
     await FirebaseFirestore.instance
         .doc(user.uid)
         .collection('topics')
         .get()
+        // ignore: avoid_function_literals_in_foreach_calls
         .then((value) => value.docs.forEach((element) {
-            _subscribed = element.data().keys.toList();
-          }
-        )
-    );
+              _subscribed = element.data().keys.toList();
+            }));
     setState(() {
       _subscribed = _subscribed;
     });

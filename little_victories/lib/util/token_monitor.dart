@@ -19,7 +19,6 @@ class _TokenMonitor extends State<TokenMonitor> {
   late Stream<String> _tokenStream;
 
   void setToken(String? token) {
-    print('FCM Token: $token');
     setState(() {
       _token = token!;
     });
@@ -38,5 +37,3 @@ class _TokenMonitor extends State<TokenMonitor> {
     return widget._builder(_token);
   }
 }
-
-

@@ -1,18 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_page_screen.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/navigation_helper.dart';
-import 'package:little_victories/util/token_monitor.dart';
 
 class Authentication {
-
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
 
   /// Initialise Firestore
@@ -38,7 +34,7 @@ class Authentication {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomePageScreen(user: user),
+          builder: (context) => HomeScreen(user: user),
         ),
       );
     }
@@ -55,7 +51,7 @@ class Authentication {
 
       try {
         final UserCredential userCredential =
-        await auth.signInWithPopup(authProvider);
+            await auth.signInWithPopup(authProvider);
 
         user = userCredential.user;
       } catch (e) {
@@ -65,11 +61,12 @@ class Authentication {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+            await googleSignInAccount.authentication;
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
@@ -77,23 +74,23 @@ class Authentication {
         );
 
         try {
-          final UserCredential userCredential = await auth.signInWithCredential(credential);
+          final UserCredential userCredential =
+              await auth.signInWithCredential(credential);
 
           user = userCredential.user;
-
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
               Authentication.customSnackBar(
                 content:
-                'The account already exists with a different credential',
+                    'The account already exists with a different credential',
               ),
             );
           } else if (e.code == 'invalid-credential') {
             ScaffoldMessenger.of(context).showSnackBar(
               Authentication.customSnackBar(
                 content:
-                'Error occurred while accessing credentials. Try again.',
+                    'Error occurred while accessing credentials. Try again.',
               ),
             );
           }
@@ -106,7 +103,7 @@ class Authentication {
         }
       }
     }
-    
+
     if (await isNewUser(user!)) {
       createUser(user);
     }
@@ -132,16 +129,16 @@ class Authentication {
         ),
       );
     }
-    
+
     Future.delayed(const Duration(milliseconds: 1000));
-    
+
     NavigationHelper.navigateToSignInScreen(context);
   }
 
   void authCheck() {
     if (FirebaseAuth.instance.currentUser == null) {
+      // ignore: unnecessary_statements
       NavigationHelper.navigateToSignInScreen;
     }
   }
-
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_page_screen.dart';
+import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/navigation_helper.dart';
 
@@ -20,69 +20,71 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: _isSigningIn ? const CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-      ) : OutlinedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ),
-        ),
-        onPressed: () async {
-          setState(() {
-            _isSigningIn = true;
-          });
-
-          final User? user =
-          await Authentication().signInWithGoogle(context: context);
-
-          setState(() {
-            _isSigningIn = false;
-          });
-
-          if (user != null) {
-            NavigationHelper.navigateToHomePageScreen(context, user);
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[ // ignore: prefer_const_literals_to_create_immutables
-              const Image(
-                image: AssetImage("assets/google_logo.png"),
-                height: 35.0,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text(
-                  'Continue with Google',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
+      child: _isSigningIn
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : OutlinedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isSigningIn = true;
+                });
+
+                final User? user =
+                    await Authentication().signInWithGoogle(context: context);
+
+                setState(() {
+                  _isSigningIn = false;
+                });
+
+                if (user != null) {
+                  NavigationHelper().navigateToHomePageScreen(context, user);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    // ignore: prefer_const_literals_to_create_immutables
+                    Image(
+                      image: AssetImage("assets/google_logo.png"),
+                      height: 35.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Continue with Google',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
 
 class SaveVictoryButton extends StatefulWidget {
-
-  const SaveVictoryButton({
-    Key? key,
-    required User user,
-    required String victory
-  }) : _user = user, _victory = victory, super(key: key);
+  const SaveVictoryButton(
+      {Key? key, required User user, required String victory})
+      : _user = user,
+        _victory = victory,
+        super(key: key);
 
   final User _user;
   final String _victory;
@@ -106,47 +108,48 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: _isSuccess ? const CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-      ) : TextButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
+      child: _isSuccess
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                _isSuccess = await saveLittleVictory(_user, _victory);
+
+                if (_isSuccess) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(
+                        user: _user,
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    'Celebrate a Victory',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Icon(Icons.celebration, size: 10)
+                ],
+              ),
             ),
-          ),
-        ),
-        onPressed: () async {
-
-          _isSuccess = await saveLittleVictory(_user, _victory);
-
-          if (_isSuccess) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => HomePageScreen(
-                  user: _user,
-                ),
-              ),
-            );
-          }
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[ // ignore: prefer_const_literals_to_create_immutables
-            const Text(
-                'Celebrate a Victory',
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            const Icon(Icons.celebration, size: 10)
-          ],
-        ),
-      ),
     );
   }
 }
