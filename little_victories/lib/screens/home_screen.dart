@@ -85,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'assets/lv_main.png',
                 ),
               ),
-              Center(
-                  child:
-                      Text(FirebaseAuth.instance.currentUser!.uid.toString())),
+
               const Spacer(),
               // Preferences Button
               Container(
