@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.little_victories">
-   <application
-        android:label="little_victories"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="dev.rhenderson.little_victories">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:label="Little Victories"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -31,11 +36,30 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
         </activity>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.com.shekarmudaliyar.social_share"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
     </application>
 </manifest>

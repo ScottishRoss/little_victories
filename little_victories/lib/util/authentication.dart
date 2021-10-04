@@ -1,0 +1,147 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/screens/home_page_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/token_monitor.dart';
+
+class Authentication {
+
+  //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
+
+  /// Initialise Firestore
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  static SnackBar customSnackBar({required String content}) {
+    return SnackBar(
+      backgroundColor: Colors.black,
+      content: Text(
+        content,
+        style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+      ),
+    );
+  }
+
+  static Future<FirebaseApp> initializeFirebase({
+    required BuildContext context,
+  }) async {
+    final FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => HomePageScreen(user: user),
+        ),
+      );
+    }
+
+    return firebaseApp;
+  }
+
+  Future<User?> signInWithGoogle({required BuildContext context}) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    if (kIsWeb) {
+      final GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+      try {
+        final UserCredential userCredential =
+        await auth.signInWithPopup(authProvider);
+
+        user = userCredential.user;
+      } catch (e) {
+        // ignore: avoid_print
+        print(e);
+      }
+    } else {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        try {
+          final UserCredential userCredential = await auth.signInWithCredential(credential);
+
+          user = userCredential.user;
+
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              Authentication.customSnackBar(
+                content:
+                'The account already exists with a different credential',
+              ),
+            );
+          } else if (e.code == 'invalid-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              Authentication.customSnackBar(
+                content:
+                'Error occurred while accessing credentials. Try again.',
+              ),
+            );
+          }
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            Authentication.customSnackBar(
+              content: 'Error occurred using Google Sign In. Try again.',
+            ),
+          );
+        }
+      }
+    }
+    
+    if (await isNewUser(user!)) {
+      createUser(user);
+    }
+
+    return user;
+  }
+
+  /// TODO: Clicking off google accounts screen breaks stuff.
+
+  /// SIGN OUT
+  static Future<void> signOutOfGoogle({required BuildContext context}) async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    try {
+      if (!kIsWeb) {
+        await googleSignIn.signOut();
+      }
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Error signing out. Try again.',
+        ),
+      );
+    }
+    
+    Future.delayed(const Duration(milliseconds: 1000));
+    
+    NavigationHelper.navigateToSignInScreen(context);
+  }
+
+  void authCheck() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      NavigationHelper.navigateToSignInScreen;
+    }
+  }
+
+}

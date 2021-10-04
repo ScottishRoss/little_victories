@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "33556680240",
+    "firebase_url": "https://little-victories-b2c60.firebaseio.com",
+    "project_id": "little-victories-b2c60",
+    "storage_bucket": "little-victories-b2c60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33556680240:android:a406e6a790d022f882e7f5",
+        "android_client_info": {
+          "package_name": "dev.rhenderson.little_victories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33556680240-nl95ic3smbfpnbh7vm31sip4irjn1k36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.rhenderson.little_victories",
+            "certificate_hash": "ea2f94e0631b6c9dba14ed9e8e5fc76f2397760d"
+          }
+        },
+        {
+          "client_id": "33556680240-vqba7fo48tq0rdgr08rd95jekinceod2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXs7qBwEGIOs98mCBvRu3k7jJM1llFtdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33556680240-vqba7fo48tq0rdgr08rd95jekinceod2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33556680240-5pfomjktn5jarm2jm3ver20117nbmcgi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.rhenderson.socialSignOn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33556680240:android:412f93f10bf289d582e7f5",
+        "android_client_info": {
+          "package_name": "dev.rhenderson.social_sign_on"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33556680240-7dn12bgfp5tfoe9h66ac0h0va6g9u7gq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.rhenderson.social_sign_on",
+            "certificate_hash": "ea2f94e0631b6c9dba14ed9e8e5fc76f2397760d"
+          }
+        },
+        {
+          "client_id": "33556680240-vqba7fo48tq0rdgr08rd95jekinceod2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXs7qBwEGIOs98mCBvRu3k7jJM1llFtdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33556680240-vqba7fo48tq0rdgr08rd95jekinceod2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33556680240-5pfomjktn5jarm2jm3ver20117nbmcgi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.rhenderson.socialSignOn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
