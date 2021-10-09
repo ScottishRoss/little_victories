@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/screens/home_screen.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 
 class Authentication {
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
@@ -132,13 +131,13 @@ class Authentication {
 
     Future.delayed(const Duration(milliseconds: 1000));
 
-    NavigationHelper.navigateToSignInScreen(context);
+    Navigator.pushNamed(context, '/sign_in');
   }
 
-  void authCheck() {
+  void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       // ignore: unnecessary_statements
-      NavigationHelper.navigateToSignInScreen;
+      Navigator.pushNamed(context, '/sign_in');
     }
   }
 }

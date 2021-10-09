@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/message.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/widgets/add_victory_modal.dart';
 import 'package:little_victories/widgets/nice_buttons.dart';
 
@@ -32,8 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {
-        Navigator.pushNamed(context, '/message',
-            arguments: MessageArguments(message, true));
+        Navigator.pushNamed(
+          context,
+          '/message',
+          arguments: MessageArguments(message, true),
+        );
       }
     });
 
@@ -56,8 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.pushNamed(context, '/message',
-          arguments: MessageArguments(message, true));
+      Navigator.pushNamed(
+        context,
+        '/message',
+        arguments: MessageArguments(message, true),
+      );
     });
 
     super.initState();
@@ -67,10 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal])),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [CustomColours.darkPurple, CustomColours.teal],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -98,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: "Preferences",
                     background: CustomColours.darkPurple,
                     onPressed: () {
-                      NavigationHelper()
-                          .navigateToPreferencesScreen(context, _user);
+                      Navigator.pushNamed(context, '/preferences',
+                          arguments: _user);
                     }),
               ),
               // View Victories
@@ -113,8 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   text: "View your Victories",
                   background: CustomColours.darkPurple,
                   onPressed: () => {
-                    NavigationHelper.navigateToViewVictoriesScreen(
-                        context, _user)
+                    Navigator.pushNamed(context, '/view_victories',
+                        arguments: _user)
                   },
                 ),
               ),
