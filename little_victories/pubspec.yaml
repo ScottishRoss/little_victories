@@ -26,6 +26,7 @@ dependencies:
   firebase_messaging: ^9.1.2
   flutter_local_notifications: ^5.0.0+1
   basic_utils: ^3.6.1
+  page_transition: ^2.0.4
 
 dev_dependencies:
   flutter_test:

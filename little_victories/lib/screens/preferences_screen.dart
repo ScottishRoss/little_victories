@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/widgets/nice_buttons.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
 
@@ -35,10 +34,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal])),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [CustomColours.darkPurple, CustomColours.teal],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -62,8 +63,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   text: "Push Notifications",
                   background: CustomColours.darkPurple,
                   onPressed: () {
-                    NavigationHelper()
-                        .navigateToPushNotificationsScreen(context, _user);
+                    Navigator.pushNamed(context, '/push_notifications',
+                        arguments: _user);
                   }),
               NiceButton(
                 width: double.infinity,
@@ -89,7 +90,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   text: "Back",
                   background: CustomColours.darkPurple,
                   onPressed: () {
-                    NavigationHelper().navigateToHomePageScreen(context, _user);
+                    Navigator.pushNamed(context, '/home', arguments: _user);
                   }),
             ],
           ),

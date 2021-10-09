@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 
 /// Google
 
@@ -46,7 +44,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                  NavigationHelper().navigateToHomePageScreen(context, user);
+                  Navigator.pushNamed(context, '/home', arguments: user);
                 }
               },
               child: Padding(
@@ -125,13 +123,8 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
                 _isSuccess = await saveLittleVictory(_user, _victory);
 
                 if (_isSuccess) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        user: _user,
-                      ),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/preferences',
+                      arguments: _user);
                 }
               },
               child: Row(

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/widgets/nice_buttons.dart';
 
 class PushNotificationsScreen extends StatefulWidget {
@@ -117,8 +116,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                     text: "Back",
                     background: CustomColours.darkPurple,
                     onPressed: () {
-                      NavigationHelper()
-                          .navigateToHomePageScreen(context, _user);
+                      Navigator.pushNamed(context, '/home', arguments: _user);
                     }),
               ),
             ],
