@@ -66,10 +66,11 @@ See the [open issues](https://github.com/scottishross/little_victories/issues) f
 
 1. Fork the Project
 2. Create your Feature Branch from develop (`git checkout -b feature/AmazingFeature`)
-3. Remember to create a test Firebase project and add your google-services.json file.
-4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the Branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
+3. Remember to create a test Firebase project and add your google-services.json file. 
+4. Configure your Firebase for Google Authentication. (https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
+5. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+6. Push to the Branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request targetting the Develop branch.
 
 
 <!-- LICENSE -->
