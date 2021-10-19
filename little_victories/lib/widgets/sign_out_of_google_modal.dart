@@ -70,15 +70,13 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
             ]),
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
           const SizedBox(height: 20),
-          Positioned(
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(Constants.avatarRadius)),
-                  child: Image.asset("assets/lv_logo_transparent.png")),
-            ),
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.avatarRadius,
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.avatarRadius)),
+                child: Image.asset("assets/lv_logo_transparent.png")),
           ),
           const SizedBox(height: 20),
           const Center(
