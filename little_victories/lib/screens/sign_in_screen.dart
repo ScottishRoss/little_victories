@@ -10,7 +10,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,9 +17,7 @@ class _SignInScreenState extends State<SignInScreen> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal]
-          )
-      ),
+              colors: [CustomColours.darkPurple, CustomColours.teal])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -54,13 +51,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     ],
                   ),
                 ),
+
                 /// Sign in with Google
                 FutureBuilder(
                   future: Authentication.initializeFirebase(context: context),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return const Text('Error initializing connection, please try again later.');
-                    } else if (snapshot.connectionState == ConnectionState.done) {
+                      return const Text(
+                          'Error initializing connection, please try again later.');
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
                       return GoogleSignInButton();
                     }
                     return const CircularProgressIndicator(
