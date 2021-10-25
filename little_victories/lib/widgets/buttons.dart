@@ -5,6 +5,7 @@ import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/utils.dart';
 
 /// Google
 
@@ -21,9 +22,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
-          ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+          ? buildCircleProgressIndicator()
           : OutlinedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -109,9 +108,7 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
   Widget build(BuildContext context) {
     return Container(
       child: _isSuccess
-          ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
+          ? buildCircleProgressIndicator()
           : TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),

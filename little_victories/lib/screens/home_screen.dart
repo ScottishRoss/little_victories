@@ -1,3 +1,6 @@
+// git clone -b <branchname> <remote-repo-url>
+// git clone -b DocumentPathMustPointToDocumentFix_09OCT21 https://github.com/ScottishRoss/little_victories/
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +8,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/message.dart';
 import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/add_victory_modal.dart';
-import 'package:little_victories/widgets/nice_buttons.dart';
 
 import '../main.dart';
 
@@ -66,11 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal])),
+      decoration: boxDecoration(),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -79,68 +78,44 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Little Victories Logo
-              Flexible(
-                flex: 4,
-                child: Image.asset(
-                  'assets/lv_main.png',
-                ),
-              ),
-
+              buildFlexibleImage(),
               const Spacer(),
               // Preferences Button
               Container(
                 margin: const EdgeInsets.all(15.0),
-                child: NiceButton(
-                    width: double.infinity,
-                    fontSize: 18.0,
-                    elevation: 10.0,
-                    radius: 52.0,
-                    text: "Preferences",
-                    background: CustomColours.darkPurple,
-                    onPressed: () {
-                      NavigationHelper()
-                          .navigateToPreferencesScreen(context, _user);
-                    }),
+                child: buildNiceButton(
+                    "Preferences",
+                    CustomColours.darkPurple,
+                    () => NavigationHelper()
+                        .navigateToPreferencesScreen(context, _user)),
               ),
               // View Victories
               Container(
                 margin: const EdgeInsets.all(15.0),
-                child: NiceButton(
-                  width: double.infinity,
-                  fontSize: 18.0,
-                  elevation: 10.0,
-                  radius: 52.0,
-                  text: "View your Victories",
-                  background: CustomColours.darkPurple,
-                  onPressed: () => {
-                    NavigationHelper.navigateToViewVictoriesScreen(
-                        context, _user)
-                  },
-                ),
+                child: buildNiceButton(
+                    "View your Victories",
+                    CustomColours.darkPurple,
+                    () => NavigationHelper.navigateToViewVictoriesScreen(
+                        context, _user)),
               ),
               const Spacer(),
               // Celebrate a Victory
               Container(
                 margin: const EdgeInsets.all(15.0),
-                child: NiceButton(
-                  width: double.infinity,
-                  fontSize: 20.0,
-                  elevation: 10.0,
+                child: buildNiceButton(
+                  "Celebrate a Victory",
+                  CustomColours.lightPurple,
+                  () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddVictoryBox(user: _user);
+                      }),
                   radius: 40.0,
-                  background: CustomColours.lightPurple,
-                  text: "Celebrate a Victory",
-                  // ignore: prefer_const_literals_to_create_immutables
+                  fontSize: 20.0,
                   gradientColors: [
                     CustomColours.darkPurple,
                     CustomColours.teal
                   ],
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AddVictoryBox(user: _user);
-                        });
-                  },
                 ),
               ),
             ],
