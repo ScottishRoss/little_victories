@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/utils.dart';
 
 class Constants {
   Constants._();
@@ -106,19 +107,14 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
               const Spacer(),
               Container(
                 child: _isSuccess
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                    : OutlinedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                          ),
-                        ),
+                    ? buildCircleProgressIndicator()
+                    : buildOutlinedButton(
+                        textType: 'Delete Victory',
+                        iconData: Icons.delete_forever,
+                        textColor: Colors.white,
+                        textSize: 15,
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.transparent),
                         onPressed: () async {
                           await deleteLittleVictory(_docId.toString());
                           setState(() {
