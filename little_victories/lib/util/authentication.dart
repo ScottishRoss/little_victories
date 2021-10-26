@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/utils.dart';
 
 class Authentication {
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
@@ -80,26 +81,15 @@ class Authentication {
           user = userCredential.user;
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
-                content:
-                    'The account already exists with a different credential',
-              ),
-            );
+            buildScaffoldMessenger(context);
           } else if (e.code == 'invalid-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              Authentication.customSnackBar(
+            buildScaffoldMessenger(context,
                 content:
-                    'Error occurred while accessing credentials. Try again.',
-              ),
-            );
+                    'Error occurred while accessing credentials. Try again.');
           }
         } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            Authentication.customSnackBar(
-              content: 'Error occurred using Google Sign In. Try again.',
-            ),
-          );
+          buildScaffoldMessenger(context,
+              content: 'Error occurred using Google Sign In. Try again.');
         }
       }
     }
@@ -123,11 +113,7 @@ class Authentication {
       }
       await FirebaseAuth.instance.signOut();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        Authentication.customSnackBar(
-          content: 'Error signing out. Try again.',
-        ),
-      );
+      buildScaffoldMessenger(context, content: 'Error signing out. Try again.');
     }
 
     Future.delayed(const Duration(milliseconds: 1000));

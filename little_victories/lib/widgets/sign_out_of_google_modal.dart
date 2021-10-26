@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/utils.dart';
 
 class Constants {
   Constants._();
@@ -98,34 +99,14 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                     style: TextStyle(fontSize: 15, color: Colors.white)),
               ),
               const Spacer(),
-              OutlinedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.redAccent),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                  ),
-                ),
-                onPressed: () {
+              buildOutlinedButton(
+                textType: 'Sign Out',
+                iconData: Icons.close,
+                textColor: Colors.white,
+                textSize: 15,
+                onPressed: () async {
                   Authentication.signOutOfGoogle(context: context);
                 },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: <Widget>[
-                    const Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Icon(Icons.close, size: 20, color: Colors.white)
-                  ],
-                ),
               ),
             ],
           ),
