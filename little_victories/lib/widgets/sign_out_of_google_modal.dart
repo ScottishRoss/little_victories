@@ -28,7 +28,7 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
 
     if (FirebaseAuth.instance.currentUser == null) {
       // ignore: unnecessary_statements
-      NavigationHelper.navigateToSignInScreen;
+      Navigator.pushNamed(context, '/sign_in');
     }
   }
 
@@ -46,57 +46,24 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
 
   // ignore: type_annotate_public_apis
   Stack contentBox(BuildContext context) {
-    return Stack(children: <Widget>[
-      Container(
-        padding: const EdgeInsets.only(
-          left: Constants.padding,
-          top: 10,
-          right: Constants.padding,
-          bottom: Constants.padding,
-        ),
-        margin: const EdgeInsets.only(top: Constants.avatarRadius),
-        decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                CustomColours.lightPurple,
-                CustomColours.teal,
-              ],
-            ),
-            borderRadius: BorderRadius.circular(Constants.padding),
-            // ignore: prefer_const_literals_to_create_immutables
-            boxShadow: [
-              const BoxShadow(offset: Offset(0, 10), blurRadius: 10),
-            ]),
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          const SizedBox(height: 20),
-          Positioned(
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(Constants.avatarRadius)),
-                  child: Image.asset("assets/lv_logo_transparent.png")),
-            ),
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(
+            left: Constants.padding,
+            top: 10,
+            right: Constants.padding,
+            bottom: Constants.padding,
           ),
-          const SizedBox(height: 20),
-          const Center(
-            child: Text(
-                'Are you sure you want to sign out of Little Victories?',
-                textScaleFactor: 1.2,
-                textAlign: TextAlign.center),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(this.context).pop();
-                },
-                child: const Text('Close',
-                    style: TextStyle(fontSize: 15, color: Colors.white)),
+          margin: const EdgeInsets.only(top: Constants.avatarRadius),
+          decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  CustomColours.lightPurple,
+                  CustomColours.teal,
+                ],
               ),
               const Spacer(),
               buildOutlinedButton(
@@ -107,11 +74,12 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                 onPressed: () async {
                   Authentication.signOutOfGoogle(context: context);
                 },
+
               ),
             ],
           ),
-        ]),
-      )
-    ]);
+        )
+      ],
+    );
   }
 }

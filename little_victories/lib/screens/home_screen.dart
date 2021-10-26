@@ -1,6 +1,3 @@
-// git clone -b <branchname> <remote-repo-url>
-// git clone -b DocumentPathMustPointToDocumentFix_09OCT21 https://github.com/ScottishRoss/little_victories/
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {
-        Navigator.pushNamed(context, '/message',
-            arguments: MessageArguments(message, true));
+        Navigator.pushNamed(
+          context,
+          '/message',
+          arguments: MessageArguments(message, true),
+        );
       }
     });
 
@@ -59,8 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.pushNamed(context, '/message',
-          arguments: MessageArguments(message, true));
+      Navigator.pushNamed(
+        context,
+        '/message',
+        arguments: MessageArguments(message, true),
+      );
     });
 
     super.initState();

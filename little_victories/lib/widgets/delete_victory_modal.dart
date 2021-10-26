@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -123,6 +122,23 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
                           });
                           Navigator.of(this.context).pop();
                         },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <Widget>[
+                            const Text(
+                              'Delete Victory',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const Icon(Icons.delete_forever,
+                                size: 20, color: Colors.white)
+                          ],
+                        ),
                       ),
               )
             ],

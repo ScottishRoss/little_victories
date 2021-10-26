@@ -118,13 +118,13 @@ class Authentication {
 
     Future.delayed(const Duration(milliseconds: 1000));
 
-    NavigationHelper.navigateToSignInScreen(context);
+    Navigator.pushNamed(context, '/sign_in');
   }
 
-  void authCheck() {
+  void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       // ignore: unnecessary_statements
-      NavigationHelper.navigateToSignInScreen;
+      Navigator.pushNamed(context, '/sign_in');
     }
   }
 }

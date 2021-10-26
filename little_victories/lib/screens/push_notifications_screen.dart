@@ -6,6 +6,7 @@ import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
 
+
 class PushNotificationsScreen extends StatefulWidget {
   const PushNotificationsScreen({Key? key, required User user})
       : _user = user,

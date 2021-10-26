@@ -60,7 +60,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       return const SignOutOfGoogleBox();
                     }),
               ),
-
               const Spacer(),
               buildNiceButton(
                 "Back",
