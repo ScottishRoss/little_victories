@@ -1,9 +1,9 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
 
 class Constants {
   Constants._();
@@ -73,15 +73,13 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
               const BoxShadow(offset: Offset(0, 10), blurRadius: 10),
             ]),
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          Positioned(
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: Constants.logoRadius,
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(Constants.logoRadius)),
-                  child: Image.asset("assets/lv_logo_transparent.png")),
-            ),
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.logoRadius,
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.logoRadius)),
+                child: Image.asset("assets/lv_logo_transparent.png")),
           ),
           const SizedBox(height: 20),
           Column(
@@ -107,14 +105,19 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
               const Spacer(),
               Container(
                 child: _isSuccess
-                    ? buildCircleProgressIndicator()
-                    : buildOutlinedButton(
-                        textType: 'Delete Victory',
-                        iconData: Icons.delete_forever,
-                        textColor: Colors.white,
-                        textSize: 15,
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
+                    ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : OutlinedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        ),
                         onPressed: () async {
                           await deleteLittleVictory(_docId.toString());
                           setState(() {

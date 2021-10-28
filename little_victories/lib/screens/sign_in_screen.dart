@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/buttons.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -14,7 +13,11 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [CustomColours.darkPurple, CustomColours.teal])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -31,8 +34,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Little Victories Logo
-                      buildFlexibleImage(),
+                      Flexible(
+                        child: Image.asset(
+                          'assets/lv_main.png',
+                          height: 400,
+                        ),
+                      ),
+                      //SizedBox(height: 10),
                       const Text(
                         'Celebrate your Little Victories',
                         style: TextStyle(
@@ -55,8 +63,27 @@ class _SignInScreenState extends State<SignInScreen> {
                         ConnectionState.done) {
                       return GoogleSignInButton();
                     }
-                    return buildCircleProgressIndicator(
-                      color: CustomColours.lightPurple,
+                    return const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        CustomColours.lightPurple,
+                      ),
+                    );
+                  },
+                ),
+                FutureBuilder(
+                  future: Authentication.initializeFirebase(context: context),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text(
+                          'Error initializing connection, please try again later.');
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return const TwitterSignInButton();
+                    }
+                    return const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        CustomColours.lightPurple,
+                      ),
                     );
                   },
                 ),

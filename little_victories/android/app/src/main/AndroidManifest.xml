@@ -35,6 +35,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https"
+                        android:host="little-victories-a8dbb.firebaseapp.com/__/auth/handler"/>
             </intent-filter>
 
             <intent-filter>
