@@ -48,3 +48,6 @@ app.*.map.json
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+
+# Twitter api creds
+/lib/api/twitter_api.dart
