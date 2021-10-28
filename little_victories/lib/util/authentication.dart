@@ -1,13 +1,14 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_screen.dart';
-import 'package:little_victories/util/navigation_helper.dart';
-import 'package:little_victories/util/utils.dart';
+import '../data/firestore_operations.dart';
+import '../screens/home_screen.dart';
+import '../util/navigation_helper.dart';
+import 'utils.dart';
 
 class Authentication {
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
@@ -43,6 +44,130 @@ class Authentication {
     return firebaseApp;
   }
 
+  static Future<User?> linkingAccounts(
+      String platform, AuthCredential authCred, String? emailId) async {
+    final auth = FirebaseAuth.instance;
+    UserCredential? userCred;
+    UserCredential? signInCred;
+    if (platform == 'google.com') {
+      final GoogleSignIn _gSignIn = GoogleSignIn();
+      final GoogleSignInAccount? gSignInAccount = await _gSignIn.signIn();
+      GoogleSignInAuthentication? googleSignInAuthentication;
+      try {
+        googleSignInAuthentication = await gSignInAccount!.authentication;
+      } on FirebaseException catch (_) {
+        Authentication.customSnackBar(
+            content: 'Error authenticating user. Try Again!!');
+      } catch (e) {
+        return null;
+      }
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication!.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        userCred = await auth.signInWithCredential(credential);
+      } on FirebaseException catch (e) {
+        Authentication.customSnackBar(content: 'Error signing in. Try Again!!');
+      }
+    }
+
+    try {
+      signInCred = await userCred!.user!.linkWithCredential(authCred);
+    } on FirebaseException catch (e) {
+      Authentication.customSnackBar(
+          content: 'Error connecting profile. Try Again!!');
+    }
+    return signInCred!.user;
+  }
+
+  static Future<User?> signInWithCredential(
+      AuthCredential authCred, BuildContext context) async {
+    User? user;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      final UserCredential userCredential =
+          await auth.signInWithCredential(authCred);
+      print('additional user info: ${userCredential.user!.email}');
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        final List<String> emailList =
+            await auth.fetchSignInMethodsForEmail(e.email!);
+        print('EMAIL: ${e.email}');
+        // ignore: avoid_print
+        print('emailList = $emailList');
+        if (emailList.first == 'google.com') {
+          user = await Authentication.linkingAccounts(
+              emailList.first, e.credential!, e.email);
+        }
+      } else if (e.code == 'invalid-credential') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          Authentication.customSnackBar(
+            content: 'Error occurred while verifying credentials. Try again.',
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Error occurred using Sign In. Try again.',
+        ),
+      );
+    }
+
+    return user;
+  }
+
+  Future<User?> signInWithTwitter({required BuildContext context}) async {
+    User? user;
+    final TwitterLoginCred twitterLoginCred = TwitterLoginCred();
+    TwitterLoginResult? twitterAuthResult;
+    try {
+      twitterAuthResult = await twitterLoginCred.twitterLogin.authorize();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Twitter : Error occurred authorizing. Try again.',
+        ),
+      );
+    }
+
+    AuthCredential authCred;
+    switch (twitterAuthResult!.status) {
+      case TwitterLoginStatus.loggedIn:
+        authCred = TwitterAuthProvider.credential(
+            accessToken: twitterAuthResult.session.token!.toString(),
+            secret: twitterAuthResult.session.secret!.toString());
+
+        user = await Authentication.signInWithCredential(authCred, context);
+        if (user == null) {
+          Authentication.customSnackBar(
+              content: 'Error signing in user. Try Again!!');
+        }
+        break;
+      case TwitterLoginStatus.cancelledByUser:
+        break;
+      case TwitterLoginStatus.error:
+        // ignore: avoid_print
+        print('twitter error : ${TwitterLoginStatus.error.toString()}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          Authentication.customSnackBar(
+            content: 'Twitter: Error occurred while logging in. Try again.',
+          ),
+        );
+        break;
+      case null:
+        break;
+    }
+
+    if (user != null && await isNewUser(user)) {
+      createUser(user);
+    }
+    return user;
+  }
+
   Future<User?> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
@@ -74,27 +199,15 @@ class Authentication {
           idToken: googleSignInAuthentication.idToken,
         );
 
-        try {
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
-
-          user = userCredential.user;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            buildScaffoldMessenger(context);
-          } else if (e.code == 'invalid-credential') {
-            buildScaffoldMessenger(context,
-                content:
-                    'Error occurred while accessing credentials. Try again.');
-          }
-        } catch (e) {
-          buildScaffoldMessenger(context,
-              content: 'Error occurred using Google Sign In. Try again.');
+        user = await Authentication.signInWithCredential(credential, context);
+        if (user == null) {
+          Authentication.customSnackBar(
+              content: 'Error signing in user. Try Again!!');
         }
       }
     }
 
-    if (await isNewUser(user!)) {
+    if (user != null && await isNewUser(user)) {
       createUser(user);
     }
 
@@ -103,7 +216,7 @@ class Authentication {
 
   /// TODO: Clicking off google accounts screen breaks stuff.
 
-  /// SIGN OUT
+  /// SIGN OUT of Google
   static Future<void> signOutOfGoogle({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -113,18 +226,22 @@ class Authentication {
       }
       await FirebaseAuth.instance.signOut();
     } catch (e) {
-      buildScaffoldMessenger(context, content: 'Error signing out. Try again.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Error signing out. Try again.',
+        ),
+      );
     }
 
     Future.delayed(const Duration(milliseconds: 1000));
 
-    Navigator.pushNamed(context, '/sign_in');
+    NavigationHelper.navigateToSignInScreen(context);
   }
 
-  void authCheck(BuildContext context) {
+  void authCheck() {
     if (FirebaseAuth.instance.currentUser == null) {
       // ignore: unnecessary_statements
-      Navigator.pushNamed(context, '/sign_in');
+      NavigationHelper.navigateToSignInScreen;
     }
   }
 }
