@@ -18,10 +18,12 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal])),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[CustomColours.darkPurple, CustomColours.teal],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -70,9 +72,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     );
                   },
                 ),
-                FutureBuilder(
+                FutureBuilder<dynamic>(
                   future: Authentication.initializeFirebase(context: context),
-                  builder: (context, snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasError) {
                       return const Text(
                           'Error initializing connection, please try again later.');

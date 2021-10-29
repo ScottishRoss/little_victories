@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
@@ -21,19 +20,11 @@ class PushNotificationsScreen extends StatefulWidget {
 class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
   late User _user;
   late Stream<QuerySnapshot<Object?>> _pushNotificationSettingsStream;
-  late dynamic _subscribed;
 
   @override
   void initState() {
     super.initState();
     _user = widget._user;
-
-    final Stream<QuerySnapshot<Map<String, dynamic>>> victoriesStream =
-        firestore
-            .collection('users')
-            .doc(_user.uid)
-            .collection('topics')
-            .snapshots();
   }
 
   @override

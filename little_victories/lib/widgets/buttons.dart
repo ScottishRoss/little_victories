@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/utils.dart';
 
 /// Google
 

@@ -43,7 +43,7 @@ class Authentication {
 
   static Future<User?> linkingAccounts(
       String platform, AuthCredential authCred, String? emailId) async {
-    final auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
     UserCredential? userCred;
     UserCredential? signInCred;
     if (platform == 'google.com') {
@@ -65,6 +65,7 @@ class Authentication {
 
       try {
         userCred = await auth.signInWithCredential(credential);
+        // ignore: unused_catch_clause
       } on FirebaseException catch (e) {
         Authentication.customSnackBar(content: 'Error signing in. Try Again!!');
       }
@@ -72,6 +73,7 @@ class Authentication {
 
     try {
       signInCred = await userCred!.user!.linkWithCredential(authCred);
+      // ignore: unused_catch_clause
     } on FirebaseException catch (e) {
       Authentication.customSnackBar(
           content: 'Error connecting profile. Try Again!!');
@@ -232,13 +234,14 @@ class Authentication {
 
     Future<dynamic>.delayed(const Duration(milliseconds: 1000));
 
-    NavigationHelper.navigateToSignInScreen(context);
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/sign_in', (Route<dynamic> route) => false);
   }
 
-  void authCheck() {
+  void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      // ignore: unnecessary_statements
-      NavigationHelper.navigateToSignInScreen;
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/sign_in', (Route<dynamic> route) => false);
     }
   }
 }

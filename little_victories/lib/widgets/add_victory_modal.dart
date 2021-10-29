@@ -71,7 +71,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
               gradient: const LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [
+                colors: <Color>[
                   CustomColours.lightPurple,
                   CustomColours.teal,
                 ],
@@ -121,7 +121,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       TextButton(
                         onPressed: () {
                           Navigator.of(this.context).pop();
