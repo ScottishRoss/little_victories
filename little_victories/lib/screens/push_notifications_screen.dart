@@ -77,7 +77,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                               snapshot.data!.docs.first.data();
 
                           return ListView.builder(
-                            shrinkWrap: true,
+
                             itemCount: result.length as int?,
                             itemBuilder: (BuildContext context, int index) {
                               final String key =

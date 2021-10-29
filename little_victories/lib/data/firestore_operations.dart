@@ -56,6 +56,7 @@ Future<bool> createUser(User user) async {
 
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(User user, String victory, int category) async {
+
   final DateTime currentDateTime = DateTime.now();
 
   _victoriesCollection.add(<String, dynamic>{

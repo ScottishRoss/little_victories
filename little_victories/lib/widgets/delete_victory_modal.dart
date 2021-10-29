@@ -82,6 +82,7 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
                     Radius.circular(Constants.logoRadius),
                   ),
                   child: Image.asset('assets/lv_logo_transparent.png'),
+
                 ),
               ),
               const SizedBox(height: 20),
