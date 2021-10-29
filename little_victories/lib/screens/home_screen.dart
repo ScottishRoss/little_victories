@@ -49,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             channel.id,
             channel.name,
             channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
+            // TODO add a proper drawable resource to android, for now using one that already exists in example app.
             icon: 'launch_background',
           ),
         ),
@@ -99,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'View your Victories',
                   CustomColours.darkPurple,
                   () => Navigator.pushNamed(context, '/view_victories',
-                      arguments: [_user]),
+                      arguments: <User>[_user]),
                 ),
               ),
               const Spacer(),

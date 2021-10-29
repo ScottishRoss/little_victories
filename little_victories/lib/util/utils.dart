@@ -40,7 +40,7 @@ Widget buildNiceButton(
         text: text,
         background: backgroundColor,
         onPressed: onPressed,
-        gradientColors: gradientColors ?? [],
+        gradientColors: gradientColors ?? <Color>[],
       ),
     );
 
@@ -67,7 +67,7 @@ BoxDecoration boxDecoration({
         begin: Alignment.topLeft,
         end: end ?? Alignment.bottomRight,
         colors: colors ??
-            [
+            <Color>[
               CustomColours.darkPurple,
               CustomColours.teal,
             ],
@@ -77,7 +77,7 @@ BoxDecoration boxDecoration({
             Constants.padding,
           ),
       boxShadow: boxShadow ??
-          [
+          <BoxShadow>[
             const BoxShadow(
               offset: Offset(0, 10),
               blurRadius: 10,

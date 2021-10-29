@@ -19,7 +19,7 @@ class PushNotificationsScreen extends StatefulWidget {
 
 class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
   late User _user;
-  late Stream<QuerySnapshot> _pushNotificationSettingsStream;
+  late Stream<QuerySnapshot<Object?>> _pushNotificationSettingsStream;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [CustomColours.darkPurple, CustomColours.teal],
+          colors: <Color>[CustomColours.darkPurple, CustomColours.teal],
         ),
       ),
       child: Scaffold(
@@ -55,9 +55,10 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               const Spacer(),
               SizedBox(
                 height: 200,
-                child: StreamBuilder<QuerySnapshot>(
+                child: StreamBuilder<QuerySnapshot<Object?>>(
                   stream: _pushNotificationSettingsStream,
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                         return const Center(
@@ -105,10 +106,10 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               Container(
                 margin: const EdgeInsets.all(15.0),
                 child: buildNiceButton(
-                  "Back",
+                  'Back',
                   CustomColours.darkPurple,
-                  () =>
-                      Navigator.pushNamed(context, '/home', arguments: [_user]),
+                  () => Navigator.pushNamed(context, '/home',
+                      arguments: <User>[_user]),
                 ),
               ),
             ],

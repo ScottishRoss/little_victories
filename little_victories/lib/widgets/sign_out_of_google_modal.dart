@@ -58,7 +58,7 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [
+              colors: <Color>[
                 CustomColours.lightPurple,
                 CustomColours.teal,
               ],

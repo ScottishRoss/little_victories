@@ -46,7 +46,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 'Push Notifications',
                 CustomColours.darkPurple,
                 () => Navigator.pushNamed(context, '/push_notifications',
-                    arguments: [_user]),
+                    arguments: <User>[_user]),
               ),
               buildNiceButton(
                 'Sign out of Google',
@@ -61,7 +61,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/home', arguments: [_user]),
+                () => Navigator.pushNamed(context, '/home',
+                    arguments: <User>[_user]),
               ),
             ],
           ),

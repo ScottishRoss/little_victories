@@ -57,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           'Error initializing connection, please try again later.');
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
-                      return GoogleSignInButton();
+                      return const GoogleSignInButton();
                     }
                     return buildCircleProgressIndicator(
                       color: CustomColours.lightPurple,

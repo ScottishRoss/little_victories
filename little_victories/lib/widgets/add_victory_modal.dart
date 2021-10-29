@@ -102,7 +102,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 numberOfParticles: 30,
                 gravity: 0.05,
                 // ignore: prefer_const_literals_to_create_immutables
-                colors: [
+                colors: <Color>[
                   CustomColours.lightPurple,
                   CustomColours.darkPurple,
                   CustomColours.teal,
@@ -110,15 +110,16 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 ],
               ),
               Row(
-                children: [
+                children: <Widget>[
                   TextButton(
-                      onPressed: () {
-                        Navigator.of(this.context).pop();
-                      },
-                      child: buildtext(
-                        'Close',
-                        fontSize: 15,
-                      )),
+                    onPressed: () {
+                      Navigator.of(this.context).pop();
+                    },
+                    child: buildtext(
+                      'Close',
+                      fontSize: 15,
+                    ),
+                  ),
                   const Spacer(),
                   Container(
                     child: _isSuccess

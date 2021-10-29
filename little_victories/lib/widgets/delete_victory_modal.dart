@@ -60,7 +60,7 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
             gradient: const LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [
+              colors: <Color>[
                 CustomColours.lightPurple,
                 CustomColours.teal,
               ],
@@ -97,7 +97,7 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
               ),
               const SizedBox(height: 20),
               Row(
-                children: [
+                children: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(this.context).pop();

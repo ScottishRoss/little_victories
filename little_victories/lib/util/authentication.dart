@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/utils.dart';
 
 class Authentication {

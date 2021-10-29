@@ -96,10 +96,10 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                       color: Colors.blue,
                                       icon: Icons.share,
                                       onTap: () => SocialShare.shareTwitter(
-                                          decodedString,
-                                          hashtags: ['LittleVictories'],
-                                          url:
-                                              'https://www.littlevictories.app/'),
+                                        decodedString,
+                                        hashtags: <String>['LittleVictories'],
+                                        url: 'https://www.littlevictories.app/',
+                                      ),
                                     ),
                                   ),
                                 ],

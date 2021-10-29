@@ -23,7 +23,7 @@ class MessageView extends StatelessWidget {
   Widget row(String title, String value) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-      child: Row(children: [
+      child: Row(children: <Text>[
         Text('$title: '),
         Text(value),
       ]),
@@ -46,7 +46,7 @@ class MessageView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
-            children: [
+            children: <Widget>[
               row('Triggered application open',
                   args.openedApplication.toString()),
               row('Message ID', message.messageId!),
@@ -78,7 +78,7 @@ class MessageView extends StatelessWidget {
                         'Body',
                         notification.body!,
                       ),
-                      if (notification.android != null) ...[
+                      if (notification.android != null) ...<Widget>[
                         const Text(
                           'Android Properties',
                           style: TextStyle(fontSize: 18),
