@@ -3,15 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-CollectionReference _victoriesCollection = firestore.collection('victories');
-CollectionReference _usersCollection = firestore.collection('users');
+CollectionReference<Map<String, dynamic>> _victoriesCollection =
+    firestore.collection('victories');
+CollectionReference<Map<String, dynamic>> _usersCollection =
+    firestore.collection('users');
 
 /// START: Check if user exists.
 
 Future<bool> isNewUser(User user) async {
-  final QuerySnapshot snapshot = await firestore
-      .collection("users")
-      .where("UserId", isEqualTo: user.uid)
+  final QuerySnapshot<Object?> snapshot = await firestore
+      .collection('users')
+      .where('UserId', isEqualTo: user.uid)
       .get();
 
   if (snapshot.docs.isNotEmpty) {
@@ -26,10 +28,10 @@ Future<bool> isNewUser(User user) async {
 /// START: Create User.
 
 Future<bool> createUser(User user) async {
-  final currentDateTime = DateTime.now();
-  final token = await FirebaseMessaging.instance.getToken();
+  final DateTime currentDateTime = DateTime.now();
+  final String? token = await FirebaseMessaging.instance.getToken();
 
-  _usersCollection.doc(user.uid).set({
+  _usersCollection.doc(user.uid).set(<String, dynamic>{
     'UserId': user.uid,
     'Email': user.email,
     'FCM-Token': token,
@@ -38,9 +40,13 @@ Future<bool> createUser(User user) async {
 
   _usersCollection
       .doc(user.uid)
-      .collection("topics")
+      .collection('topics')
       .doc(token)
-      .set({'encouragement': true, 'news': true, 'reminder': true}).then((_) {
+      .set(<String, dynamic>{
+    'encouragement': true,
+    'news': true,
+    'reminder': true
+  }).then((_) {
     return true;
   });
   return false;
@@ -50,9 +56,9 @@ Future<bool> createUser(User user) async {
 
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(User user, String victory, int category) async {
-  final currentDateTime = DateTime.now();
+  final DateTime currentDateTime = DateTime.now();
 
-  _victoriesCollection.add({
+  _victoriesCollection.add(<String, dynamic>{
     'UserId': user.uid,
     'Category': category,
     'Victory': victory,

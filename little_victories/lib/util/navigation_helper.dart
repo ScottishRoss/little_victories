@@ -10,7 +10,7 @@ import 'package:little_victories/screens/view_victories_screen.dart';
 class NavigationHelper {
   // ignore: avoid_void_async
   void navigateToPreferencesScreen(BuildContext context, User _user) async {
-    Navigator.of(context).push(PageRouteBuilder(
+    Navigator.of(context).push(PageRouteBuilder<PreferencesScreen>(
         opaque: true,
         transitionDuration: const Duration(milliseconds: 300),
         pageBuilder: (BuildContext context, _, __) {
@@ -30,7 +30,7 @@ class NavigationHelper {
   // ignore: avoid_void_async
   void navigateToPushNotificationsScreen(
       BuildContext context, User _user) async {
-    Navigator.of(context).push(PageRouteBuilder(
+    Navigator.of(context).push(PageRouteBuilder<PushNotificationsScreen>(
         opaque: true,
         transitionDuration: const Duration(milliseconds: 300),
         pageBuilder: (BuildContext context, _, __) {
@@ -50,7 +50,7 @@ class NavigationHelper {
   // ignore: avoid_void_async
   static void navigateToViewVictoriesScreen(
       BuildContext context, User _user) async {
-    Navigator.of(context).push(PageRouteBuilder(
+    Navigator.of(context).push(PageRouteBuilder<ViewVictoriesScreen>(
         opaque: true,
         transitionDuration: const Duration(milliseconds: 300),
         pageBuilder: (BuildContext context, _, __) {
@@ -69,7 +69,7 @@ class NavigationHelper {
 
   // ignore:, avoid_void_async
   void navigateToHomePageScreen(BuildContext context, User _user) async {
-    Navigator.of(context).push(PageRouteBuilder(
+    Navigator.of(context).push(PageRouteBuilder<SlideTransition>(
         opaque: true,
         transitionDuration: const Duration(milliseconds: 300),
         pageBuilder: (BuildContext context, _, __) {
@@ -91,7 +91,7 @@ class NavigationHelper {
     BuildContext context,
   ) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => SignInScreen()),
+        MaterialPageRoute<SignInScreen>(builder: (_) => const SignInScreen()),
         (Route<dynamic> route) => false);
   }
 }

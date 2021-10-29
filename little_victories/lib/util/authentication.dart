@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../api/twitter_api.dart';
 import '../data/firestore_operations.dart';
-import '../screens/home_screen.dart';
 import '../util/navigation_helper.dart';
 
 class Authentication {
@@ -34,11 +33,9 @@ class Authentication {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(user: user),
-        ),
-      );
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/home', (Route<dynamic> route) => false,
+          arguments: <User>[user]);
     }
 
     return firebaseApp;
@@ -46,7 +43,7 @@ class Authentication {
 
   static Future<User?> linkingAccounts(
       String platform, AuthCredential authCred, String? emailId) async {
-    final auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
     UserCredential? userCred;
     UserCredential? signInCred;
     if (platform == 'google.com') {
@@ -229,7 +226,7 @@ class Authentication {
       );
     }
 
-    Future.delayed(const Duration(milliseconds: 1000));
+    Future<dynamic>.delayed(const Duration(milliseconds: 1000));
 
     NavigationHelper.navigateToSignInScreen(context);
   }

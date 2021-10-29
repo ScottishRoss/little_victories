@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/navigation_helper.dart';
-import 'package:little_victories/widgets/nice_buttons.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
+import '../util/utils.dart';
 
 // TODO: Add delete account function.
 
@@ -21,8 +20,6 @@ class PreferencesScreen extends StatefulWidget {
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
   late User _user;
-  // ignore: unused_field
-  final bool _isSigningOut = false;
 
   @override
   void initState() {
@@ -38,59 +35,38 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [CustomColours.darkPurple, CustomColours.teal])),
+              colors: <Color>[CustomColours.darkPurple, CustomColours.teal])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Little Victories Logo
-              Flexible(
-                flex: 4,
-                child: Image.asset(
-                  'assets/lv_main.png',
-                ),
+              buildFlexibleImage(),
+              const Spacer(),
+              buildNiceButton(
+                'Push Notifications',
+                CustomColours.darkPurple,
+                () => Navigator.pushNamed(context, '/push_notifications',
+                    arguments: <User>[_user]),
+              ),
+              buildNiceButton(
+                'Sign out of Google',
+                CustomColours.darkPurple,
+                () => showDialog<Widget>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const SignOutOfGoogleBox();
+                    }),
               ),
               const Spacer(),
-              NiceButton(
-                  width: double.infinity,
-                  fontSize: 18.0,
-                  elevation: 10.0,
-                  radius: 52.0,
-                  text: "Push Notifications",
-                  background: CustomColours.darkPurple,
-                  onPressed: () {
-                    NavigationHelper()
-                        .navigateToPushNotificationsScreen(context, _user);
-                  }),
-              NiceButton(
-                width: double.infinity,
-                fontSize: 18.0,
-                elevation: 10.0,
-                radius: 52.0,
-                text: "Sign out of Google",
-                background: CustomColours.darkPurple,
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const SignOutOfGoogleBox();
-                      });
-                },
+              buildNiceButton(
+                'Back',
+                CustomColours.darkPurple,
+                () => Navigator.pushNamed(context, '/home',
+                    arguments: <User>[_user]),
               ),
-              const Spacer(),
-              NiceButton(
-                  width: double.infinity,
-                  fontSize: 18.0,
-                  elevation: 10.0,
-                  radius: 52.0,
-                  text: "Back",
-                  background: CustomColours.darkPurple,
-                  onPressed: () {
-                    NavigationHelper().navigateToHomePageScreen(context, _user);
-                  }),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),

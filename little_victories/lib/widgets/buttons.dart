@@ -7,6 +7,8 @@ import 'package:little_victories/util/navigation_helper.dart';
 /// Google
 
 class GoogleSignInButton extends StatefulWidget {
+  const GoogleSignInButton({Key? key}) : super(key: key);
+
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
 }
@@ -104,13 +106,13 @@ class _TwitterSignInButtonState extends State<TwitterSignInButton> {
 /// signIn button
 
 class SignInButtonLogic extends StatefulWidget {
-  final String platform;
-  final String imageLogo;
   const SignInButtonLogic({
     required this.platform,
     required this.imageLogo,
     Key? key,
   }) : super(key: key);
+  final String platform;
+  final String imageLogo;
 
   @override
   _SignInButtonLogicState createState() => _SignInButtonLogicState();
