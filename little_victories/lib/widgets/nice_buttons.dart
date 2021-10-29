@@ -4,6 +4,24 @@ import 'package:flutter/material.dart';
 
 @immutable
 class NiceButton extends StatelessWidget {
+  const NiceButton(
+      {Key? key,
+      this.mini = false,
+      this.radius = 4,
+      this.elevation = 1.8,
+      this.textColor = Colors.white,
+      this.iconColor = Colors.white,
+      required this.width,
+      this.padding = const EdgeInsets.all(12.0),
+      required this.onPressed,
+      required this.text,
+      required this.background,
+      this.fontFamily,
+      this.gradientColors = const <Color>[],
+      this.icon,
+      this.fontSize = 23.0})
+      : super(key: key);
+
   /// This is a builder class for a nice button
   ///
   /// Icon can be used to define the button design
@@ -49,32 +67,14 @@ class NiceButton extends StatelessWidget {
   /// This is the family of the font
   final String? fontFamily;
 
-  const NiceButton(
-      { Key? key,
-        this.mini = false,
-        this.radius = 4,
-        this.elevation = 1.8,
-        this.textColor = Colors.white,
-        this.iconColor = Colors.white,
-        required this.width,
-        this.padding = const EdgeInsets.all(12.0),
-        required this.onPressed,
-        required this.text,
-        required this.background,
-        this.fontFamily,
-        this.gradientColors = const [],
-        this.icon,
-        this.fontSize = 23.0})
-      : super(key: key);
-
   bool get existGradientColors => gradientColors.isNotEmpty;
 
   LinearGradient get linearGradient => existGradientColors
       ? LinearGradient(
-      colors: gradientColors,
-      begin: Alignment.topLeft,
-      end: Alignment.topRight)
-      : LinearGradient(colors: [background, background]);
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.topRight)
+      : LinearGradient(colors: <Color>[background, background]);
 
   BoxDecoration get boxDecoration => BoxDecoration(
       gradient: linearGradient,
@@ -89,32 +89,31 @@ class NiceButton extends StatelessWidget {
 
   Widget createContainer(BuildContext context) => mini
       ? Container(
-    decoration: boxDecoration,
-    width: width,
-    height: width,
-    child: Icon(icon, color: iconColor),
-  )
+          decoration: boxDecoration,
+          width: width,
+          height: width,
+          child: Icon(icon, color: iconColor),
+        )
       : Container(
-    padding: padding,
-    decoration: boxDecoration,
-    constraints: BoxConstraints(
-        maxWidth: width),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: textStyle,
-        ),
-        if (icon != null)
-          Icon(
-            icon,
-            color: Colors.white,
+          padding: padding,
+          decoration: boxDecoration,
+          constraints: BoxConstraints(maxWidth: width),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: textStyle,
+              ),
+              if (icon != null)
+                Icon(
+                  icon,
+                  color: Colors.white,
+                ),
+            ],
           ),
-      ],
-    ),
-  );
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -122,8 +121,7 @@ class NiceButton extends StatelessWidget {
       //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius!)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius!)),
         ),
       ),
       onPressed: onPressed,

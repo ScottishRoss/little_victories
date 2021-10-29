@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/navigation_helper.dart';
+import 'package:little_victories/util/utils.dart';
 
 /// Google
 
 class GoogleSignInButton extends StatefulWidget {
+  const GoogleSignInButton({Key? key}) : super(key: key);
+
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
 }
@@ -22,69 +24,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       platform: 'Google',
       imageLogo: 'assets/google_logo.png',
     );
-
-    // Padding(
-    //   padding: const EdgeInsets.only(bottom: 16.0),
-    //   child: _isSigningIn
-    //       ? const CircularProgressIndicator(
-    //           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-    //         )
-    //       : OutlinedButton(
-    //           style: ButtonStyle(
-    //             backgroundColor: MaterialStateProperty.all(Colors.white),
-    //             shape: MaterialStateProperty.all(
-    //               RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(40),
-    //               ),
-    //             ),
-    //           ),
-    //           onPressed: () async {
-    //             setState(() {
-    //               _isSigningIn = true;
-    //             });
-
-    //             final User? user =
-    //                 await Authentication().signInWithGoogle(context: context);
-
-    //             setState(() {
-    //               _isSigningIn = false;
-    //             });
-
-    //             if (user != null) {
-    //               NavigationHelper().navigateToHomePageScreen(context, user);
-    //             }
-    //           },
-    //           child: Padding(
-    //             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-    //             child: Row(
-    //               mainAxisSize: MainAxisSize.min,
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: const <Widget>[
-    //                 // ignore: prefer_const_literals_to_create_immutables
-    //                 Image(
-    //                   image: AssetImage("assets/google_logo.png"),
-    //                   height: 35.0,
-    //                 ),
-    //                 Padding(
-    //                   padding: EdgeInsets.only(left: 10),
-    //                   child: Text(
-    //                     'Continue with Google',
-    //                     style: TextStyle(
-    //                       fontSize: 20,
-    //                       color: Colors.black54,
-    //                       fontWeight: FontWeight.w600,
-    //                     ),
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    // );
   }
 }
-
-/// Twitter Sign In
 
 class TwitterSignInButton extends StatefulWidget {
   const TwitterSignInButton({Key? key}) : super(key: key);
@@ -106,13 +47,13 @@ class _TwitterSignInButtonState extends State<TwitterSignInButton> {
 /// signIn button
 
 class SignInButtonLogic extends StatefulWidget {
-  final String platform;
-  final String imageLogo;
   const SignInButtonLogic({
     required this.platform,
     required this.imageLogo,
     Key? key,
   }) : super(key: key);
+  final String platform;
+  final String imageLogo;
 
   @override
   _SignInButtonLogicState createState() => _SignInButtonLogicState();
@@ -155,7 +96,8 @@ class _SignInButtonLogicState extends State<SignInButtonLogic> {
                 });
 
                 if (user != null) {
-                  NavigationHelper().navigateToHomePageScreen(context, user);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
                 }
               },
               child: Padding(
@@ -234,13 +176,8 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
                 _isSuccess = await saveLittleVictory(_user, _victory);
 
                 if (_isSuccess) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        user: _user,
-                      ),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/home',
+                      arguments: <User>[_user]);
                 }
               },
               child: Row(

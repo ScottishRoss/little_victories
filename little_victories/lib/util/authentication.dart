@@ -1,14 +1,13 @@
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import '../data/firestore_operations.dart';
-import '../screens/home_screen.dart';
-import '../util/navigation_helper.dart';
-import 'utils.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/util/utils.dart';
 
 class Authentication {
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
@@ -34,11 +33,9 @@ class Authentication {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(user: user),
-        ),
-      );
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/home', (Route<dynamic> route) => false,
+          arguments: <User>[user]);
     }
 
     return firebaseApp;
@@ -233,7 +230,7 @@ class Authentication {
       );
     }
 
-    Future.delayed(const Duration(milliseconds: 1000));
+    Future<dynamic>.delayed(const Duration(milliseconds: 1000));
 
     NavigationHelper.navigateToSignInScreen(context);
   }

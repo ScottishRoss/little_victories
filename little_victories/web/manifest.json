@@ -1,11 +1,11 @@
 {
-    "name": "social_sign_in",
-    "short_name": "social_sign_in",
+    "name": "Little Victories",
+    "short_name": "Little Victories",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A wellbeing app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

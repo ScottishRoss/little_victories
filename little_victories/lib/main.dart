@@ -5,8 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:page_transition/page_transition.dart';
 import 'screens/home_screen.dart';
+import 'screens/preferences_screen.dart';
+import 'screens/push_notifications_screen.dart';
 import 'screens/sign_in_screen.dart';
+import 'screens/view_victories_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -46,7 +50,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _user = FirebaseAuth.instance.currentUser;
+  MyApp({Key? key}) : super(key: key);
+
+  final User? _user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,38 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           brightness: Brightness.dark,
           fontFamily: 'Montserrat'),
-      home: _user != null ? HomeScreen(user: _user!) : SignInScreen(),
+      home: _user != null ? HomeScreen(user: _user!) : const SignInScreen(),
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/home':
+            return PageTransition<void>(
+              child: HomeScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
+          case '/preferences':
+            return PageTransition<void>(
+              child: PreferencesScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
+          case '/push_notifications':
+            return PageTransition<void>(
+              child: PushNotificationsScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
+          case '/sign_in':
+            return PageTransition<void>(
+              child: const SignInScreen(),
+              type: PageTransitionType.fade,
+            );
+          case '/view_victories':
+            return PageTransition<void>(
+              child: ViewVictoriesScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
+          default:
+            return null;
+        }
+      },
     );
   }
 }

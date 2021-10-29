@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Random random = Random();
 int colourIndex = 0;
+
 // ignore: avoid_classes_with_only_static_members
 class CustomColours {
   static const Color googleBackground = Color(0xFF4285F4);
@@ -10,16 +11,17 @@ class CustomColours {
   static const Color lightPurple = Color(0xff8060c3);
   static const Color teal = Color(0xff7fc7df);
 
-  static final List<Color> customColoursList = [darkPurple, lightPurple, teal];
-  // TODO: Add more colours to the list.
-
+  static final List<Color> customColoursList = <Color>[
+    darkPurple,
+    lightPurple,
+    teal,
+  ];
 }
 
 Color getRandomColor() {
-
-  final list = CustomColours.customColoursList;
-  final _random = Random();
-  final colour = list[_random.nextInt(list.length)];
+  final List<Color> list = CustomColours.customColoursList;
+  final Random _random = Random();
+  final Color colour = list[_random.nextInt(list.length)];
 
   return colour;
 }
