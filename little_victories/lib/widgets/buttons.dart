@@ -3,12 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
 
 /// Google
 
 class GoogleSignInButton extends StatefulWidget {
+  const GoogleSignInButton({Key? key}) : super(key: key);
+
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
 }
@@ -55,7 +56,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   children: const <Widget>[
                     // ignore: prefer_const_literals_to_create_immutables
                     Image(
-                      image: AssetImage("assets/google_logo.png"),
+                      image: AssetImage('assets/google_logo.png'),
                       height: 35.0,
                     ),
                     Padding(

@@ -1,10 +1,8 @@
-import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
 
 class Constants {
@@ -56,29 +54,27 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
             bottom: Constants.padding,
           ),
           margin: const EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  CustomColours.lightPurple,
-                  CustomColours.teal,
-                ],
-              ),
-              const Spacer(),
-              buildOutlinedButton(
-                textType: 'Sign Out',
-                iconData: Icons.close,
-                textColor: Colors.white,
-                textSize: 15,
-                onPressed: () async {
-                  Authentication.signOutOfGoogle(context: context);
-                },
-
-              ),
-            ],
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                CustomColours.lightPurple,
+                CustomColours.teal,
+              ],
+            ),
           ),
-        )
+        ),
+        const Spacer(),
+        buildOutlinedButton(
+          textType: 'Sign Out',
+          iconData: Icons.close,
+          textColor: Colors.white,
+          textSize: 15,
+          onPressed: () async {
+            Authentication.signOutOfGoogle(context: context);
+          },
+        ),
       ],
     );
   }

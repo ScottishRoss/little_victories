@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/screens/home_screen.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
 
 class Authentication {
@@ -33,11 +32,9 @@ class Authentication {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(user: user),
-        ),
-      );
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/home', (Route<dynamic> route) => false,
+          arguments: <User>[user]);
     }
 
     return firebaseApp;
@@ -116,7 +113,7 @@ class Authentication {
       buildScaffoldMessenger(context, content: 'Error signing out. Try again.');
     }
 
-    Future.delayed(const Duration(milliseconds: 1000));
+    Future<dynamic>.delayed(const Duration(milliseconds: 1000));
 
     Navigator.pushNamed(context, '/sign_in');
   }

@@ -48,7 +48,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _user = FirebaseAuth.instance.currentUser;
+  MyApp({Key? key}) : super(key: key);
+
+  final User? _user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -59,27 +61,34 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           brightness: Brightness.dark,
           fontFamily: 'Montserrat'),
-      home: _user != null ? HomeScreen(user: _user!) : SignInScreen(),
-      onGenerateRoute: (settings) {
+      home: _user != null ? HomeScreen(user: _user!) : const SignInScreen(),
+      onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/home':
-            return PageTransition(
-                child: HomeScreen(user: _user!), type: PageTransitionType.fade);
+            return PageTransition<void>(
+              child: HomeScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
           case '/preferences':
-            return PageTransition(
-                child: PreferencesScreen(user: _user!),
-                type: PageTransitionType.fade);
+            return PageTransition<void>(
+              child: PreferencesScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
           case '/push_notifications':
-            return PageTransition(
-                child: PushNotificationsScreen(user: _user!),
-                type: PageTransitionType.fade);
+            return PageTransition<void>(
+              child: PushNotificationsScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
           case '/sign_in':
-            return PageTransition(
-                child: SignInScreen(), type: PageTransitionType.fade);
+            return PageTransition<void>(
+              child: const SignInScreen(),
+              type: PageTransitionType.fade,
+            );
           case '/view_victories':
-            return PageTransition(
-                child: ViewVictoriesScreen(user: _user!),
-                type: PageTransitionType.fade);
+            return PageTransition<void>(
+              child: ViewVictoriesScreen(user: _user!),
+              type: PageTransitionType.fade,
+            );
           default:
             return null;
         }

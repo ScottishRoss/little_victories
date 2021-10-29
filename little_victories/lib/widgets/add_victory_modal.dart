@@ -54,7 +54,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
   }
 
   // ignore: type_annotate_public_apis
-  Stack contentBox(context) {
+  Stack contentBox(BuildContext context) {
     assert(context != null);
     return Stack(
       children: <Widget>[
@@ -71,14 +71,14 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
               gradient: const LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [
+                colors: <Color>[
                   CustomColours.lightPurple,
                   CustomColours.teal,
                 ],
               ),
               borderRadius: BorderRadius.circular(Constants.padding),
               // ignore: prefer_const_literals_to_create_immutables
-              boxShadow: [
+              boxShadow: <BoxShadow>[
                 const BoxShadow(offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: Column(
@@ -138,7 +138,8 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                                 });
 
                                 _confettiController.play();
-                                Future.delayed(const Duration(seconds: 3), () {
+                                Future<dynamic>.delayed(
+                                    const Duration(seconds: 3), () {
                                   Navigator.of(this.context).pop();
                                 });
                               }
@@ -158,13 +159,13 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
               backgroundColor: Colors.transparent,
               radius: Constants.avatarRadius,
               child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(Constants.avatarRadius)),
-                  child: Image.asset("assets/lv_logo_transparent.png")),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.avatarRadius)),
+                child: Image.asset('assets/lv_logo_transparent.png'),
+              ),
             ),
           ),
         ),
-
       ],
     );
   }

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
 
@@ -21,8 +20,6 @@ class PreferencesScreen extends StatefulWidget {
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
   late User _user;
-  // ignore: unused_field
-  final bool _isSigningOut = false;
 
   @override
   void initState() {
@@ -46,15 +43,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               buildFlexibleImage(),
               const Spacer(),
               buildNiceButton(
-                "Push Notifications",
+                'Push Notifications',
                 CustomColours.darkPurple,
-                () => NavigationHelper()
-                    .navigateToPushNotificationsScreen(context, _user),
+                () => Navigator.pushNamed(context, '/push_notifications',
+                    arguments: [_user]),
               ),
               buildNiceButton(
-                "Sign out of Google",
+                'Sign out of Google',
                 CustomColours.darkPurple,
-                () => showDialog(
+                () => showDialog<Widget>(
                     context: context,
                     builder: (BuildContext context) {
                       return const SignOutOfGoogleBox();
@@ -62,10 +59,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               ),
               const Spacer(),
               buildNiceButton(
-                "Back",
+                'Back',
                 CustomColours.darkPurple,
-                () =>
-                    NavigationHelper().navigateToHomePageScreen(context, _user),
+                () => Navigator.pushNamed(context, '/home', arguments: [_user]),
               ),
             ],
           ),

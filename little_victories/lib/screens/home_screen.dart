@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/message.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/add_victory_modal.dart';
 
 import '../main.dart';
 
@@ -43,19 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final RemoteNotification notification = message.notification!;
       flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channel.description,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
-            ),
-          ));
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channel.description,
+            // TODO add a proper drawable resource to android, for now using
+            //      one that already exists in example app.
+            icon: 'launch_background',
+          ),
+        ),
+      );
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -87,40 +86,24 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: const EdgeInsets.all(15.0),
                 child: buildNiceButton(
-                    "Preferences",
-                    CustomColours.darkPurple,
-                    () => NavigationHelper()
-                        .navigateToPreferencesScreen(context, _user)),
+                  'Preferences',
+                  CustomColours.darkPurple,
+                  () => Navigator.pushNamed(context, '/preferences',
+                      arguments: <User>[_user]),
+                ),
               ),
               // View Victories
               Container(
                 margin: const EdgeInsets.all(15.0),
                 child: buildNiceButton(
-                    "View your Victories",
-                    CustomColours.darkPurple,
-                    () => NavigationHelper.navigateToViewVictoriesScreen(
-                        context, _user)),
+                  'View your Victories',
+                  CustomColours.darkPurple,
+                  () => Navigator.pushNamed(context, '/view_victories',
+                      arguments: [_user]),
+                ),
               ),
               const Spacer(),
               // Celebrate a Victory
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                child: buildNiceButton(
-                  "Celebrate a Victory",
-                  CustomColours.lightPurple,
-                  () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AddVictoryBox(user: _user);
-                      }),
-                  radius: 40.0,
-                  fontSize: 20.0,
-                  gradientColors: [
-                    CustomColours.darkPurple,
-                    CustomColours.teal
-                  ],
-                ),
-              ),
             ],
           ),
         ),

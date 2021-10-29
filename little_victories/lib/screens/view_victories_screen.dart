@@ -22,7 +22,7 @@ class ViewVictoriesScreen extends StatefulWidget {
 class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late final SlidableController _slidableController;
-  late Stream<QuerySnapshot>? _dataList;
+  late Stream<QuerySnapshot<Object?>>? _dataList;
 
   late User _user;
 
@@ -44,94 +44,97 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
     return Container(
       decoration: boxDecoration(),
       child: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.all(5),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: SafeArea(
             // ignore: avoid_unnecessary_containers
             child: Container(
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: _dataList,
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
+              child: StreamBuilder<QuerySnapshot<Object?>>(
+                stream: _dataList,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    default:
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData ||
+                          snapshot.data?.docs == null) {
                         return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      default:
-                        if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
-                        } else if (!snapshot.hasData ||
-                            snapshot.data?.docs == null) {
-                          return const Center(
-                              child: Text('No Victories to show'));
-                        } else {
-                          return ListView.builder(
-                              itemCount: snapshot.data?.docs.length,
-                              itemBuilder: (context, index) {
-                                final victory = snapshot.data?.docs[index];
-                                final Timestamp timestamp =
-                                    victory!.data()['CreatedOn'] as Timestamp;
-                                final date = timestamp.toDate();
-                                final formattedDate = DateFormat.Hm()
-                                    .add_yMMMMEEEEd()
-                                    .format(date);
+                            child: Text('No Victories to show'));
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final QueryDocumentSnapshot<Object?>? victory =
+                                snapshot.data?.docs[index];
+                            final Timestamp timestamp =
+                                victory!['CreatedOn'] as Timestamp;
+                            final DateTime date = timestamp.toDate();
+                            final String formattedDate =
+                                DateFormat.Hm().add_yMMMMEEEEd().format(date);
 
-                                /// TODO: There must be a cleaner way of doing this date -> string cast.
-                                final String decodedString =
-                                    victory.data()['Victory'].toString();
-                                return Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Slidable(
-                                    controller: _slidableController,
-                                    key: ValueKey(index),
-                                    actionPane:
-                                        const SlidableDrawerActionPane(),
-                                    actions: <Widget>[
-                                      // ignore: prefer_const_literals_to_create_immutables
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: IconSlideAction(
-                                            caption: 'Twitter',
-                                            color: Colors.blue,
-                                            icon: Icons.share,
-                                            onTap: () => SocialShare.shareTwitter(
-                                                decodedString,
-                                                hashtags: ["LittleVictories"],
-                                                url:
-                                                    'https://www.littlevictories.app/')),
-                                      ),
-                                    ],
-                                    secondaryActions: <Widget>[
-                                      Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: IconSlideAction(
-                                              caption: 'Delete',
-                                              color: Colors.red,
-                                              icon: Icons.delete,
-                                              onTap: () => showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return DeleteVictoryBox(
-                                                        docId: victory.id);
-                                                  })))
-                                    ],
-                                    child: Card(
-                                      color: getRandomColor(),
-                                      child: ListTile(
-                                        title: Text(decodedString.toString()),
-                                        subtitle:
-                                            Text(formattedDate.toString()),
+                            /// TODO: There must be a cleaner way of doing this date -> string cast.
+                            final String decodedString =
+                                victory['Victory'].toString();
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Slidable(
+                                controller: _slidableController,
+                                key: ValueKey<int>(index),
+                                actionPane: const SlidableDrawerActionPane(),
+                                actions: <Widget>[
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: IconSlideAction(
+                                      caption: 'Twitter',
+                                      color: Colors.blue,
+                                      icon: Icons.share,
+                                      onTap: () => SocialShare.shareTwitter(
+                                          decodedString,
+                                          hashtags: ['LittleVictories'],
+                                          url:
+                                              'https://www.littlevictories.app/'),
+                                    ),
+                                  ),
+                                ],
+                                secondaryActions: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: IconSlideAction(
+                                      caption: 'Delete',
+                                      color: Colors.red,
+                                      icon: Icons.delete,
+                                      onTap: () => showDialog<Widget>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DeleteVictoryBox(
+                                              docId: victory.id);
+                                        },
                                       ),
                                     ),
                                   ),
-                                );
-                              });
-                        }
-                    }
-                  }),
+                                ],
+                                child: Card(
+                                  color: getRandomColor(),
+                                  child: ListTile(
+                                    title: Text(decodedString.toString()),
+                                    subtitle: Text(formattedDate.toString()),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                  }
+                },
+              ),
             ),
           ),
         ),

@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/navigation_helper.dart';
 import 'package:little_victories/util/utils.dart';
-
 
 class PushNotificationsScreen extends StatefulWidget {
   const PushNotificationsScreen({Key? key, required User user})
@@ -74,13 +72,14 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                           return const Center(
                               child: Text('No Victories to show'));
                         } else {
-                          final Map<String, dynamic> result =
+                          final dynamic result =
                               snapshot.data!.docs.first.data();
 
                           return ListView.builder(
-                            itemCount: result.length,
+                            itemCount: result.length as int?,
                             itemBuilder: (BuildContext context, int index) {
-                              final String key = result.keys.elementAt(index);
+                              final String key =
+                                  result.keys.elementAt(index) as String;
                               final dynamic value =
                                   result.values.elementAt(index);
                               return Column(
@@ -106,10 +105,11 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               Container(
                 margin: const EdgeInsets.all(15.0),
                 child: buildNiceButton(
-                    "Back",
-                    CustomColours.darkPurple,
-                    () => NavigationHelper()
-                        .navigateToHomePageScreen(context, _user)),
+                  "Back",
+                  CustomColours.darkPurple,
+                  () =>
+                      Navigator.pushNamed(context, '/home', arguments: [_user]),
+                ),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -6,6 +7,8 @@ import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/buttons.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -25,12 +28,12 @@ class _SignInScreenState extends State<SignInScreen> {
               bottom: 20.0,
             ),
             child: Column(
-              children: [
+              children: <Widget>[
                 Row(),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       // Little Victories Logo
                       buildFlexibleImage(),
                       const Text(
@@ -45,9 +48,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
 
                 /// Sign in with Google
-                FutureBuilder(
+                FutureBuilder<FirebaseApp>(
                   future: Authentication.initializeFirebase(context: context),
-                  builder: (context, snapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<FirebaseApp> snapshot) {
                     if (snapshot.hasError) {
                       return const Text(
                           'Error initializing connection, please try again later.');
