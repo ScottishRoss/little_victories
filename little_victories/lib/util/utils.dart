@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/widgets/add_victory_modal.dart';
 import 'package:little_victories/widgets/nice_buttons.dart';
 
 Widget buildtext(
@@ -72,10 +71,6 @@ BoxDecoration boxDecoration({
               CustomColours.teal,
             ],
       ),
-      borderRadius: borderRadius ??
-          BorderRadius.circular(
-            Constants.padding,
-          ),
       boxShadow: boxShadow ??
           <BoxShadow>[
             const BoxShadow(

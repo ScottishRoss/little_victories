@@ -36,8 +36,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Little Victories Logo
               buildFlexibleImage(),
@@ -64,6 +62,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 () => Navigator.pushNamed(context, '/home',
                     arguments: <User>[_user]),
               ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),

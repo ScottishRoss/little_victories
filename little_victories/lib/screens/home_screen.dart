@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/message.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/add_victory_modal.dart';
 
 import '../main.dart';
 
@@ -74,36 +75,40 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              // Little Victories Logo
-              buildFlexibleImage(),
-              const Spacer(),
-              // Preferences Button
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                child: buildNiceButton(
+          child: Expanded(
+            child: Column(
+              children: <Widget>[
+                // Little Victories Logo
+                buildFlexibleImage(),
+                const Spacer(),
+                // Preferences Button
+                buildNiceButton(
                   'Preferences',
                   CustomColours.darkPurple,
                   () => Navigator.pushNamed(context, '/preferences',
                       arguments: <User>[_user]),
                 ),
-              ),
-              // View Victories
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                child: buildNiceButton(
+                // View Victories
+                buildNiceButton(
                   'View your Victories',
                   CustomColours.darkPurple,
                   () => Navigator.pushNamed(context, '/view_victories',
                       arguments: <User>[_user]),
                 ),
-              ),
-              const Spacer(),
-              // Celebrate a Victory
-            ],
+                const Spacer(),
+                // Celebrate a Victory
+                buildNiceButton(
+                  'Celebrate a Victory',
+                  CustomColours.darkPurple,
+                  () => showDialog<Widget>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddVictoryBox(user: _user);
+                      }),
+                ),
+                const SizedBox(height: 20.0),
+              ],
+            ),
           ),
         ),
       ),

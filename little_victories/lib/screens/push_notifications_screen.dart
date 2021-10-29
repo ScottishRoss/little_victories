@@ -103,15 +103,14 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               ),
 
               const Spacer(),
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                child: buildNiceButton(
-                  'Back',
-                  CustomColours.darkPurple,
-                  () => Navigator.pushNamed(context, '/home',
-                      arguments: <User>[_user]),
-                ),
+
+              buildNiceButton(
+                'Back',
+                CustomColours.darkPurple,
+                () => Navigator.pushNamed(context, '/home',
+                    arguments: <User>[_user]),
               ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
