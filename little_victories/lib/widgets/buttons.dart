@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/navigation_helper.dart';
 
@@ -188,77 +186,77 @@ class _SignInButtonLogicState extends State<SignInButtonLogic> {
   }
 }
 
-class SaveVictoryButton extends StatefulWidget {
-  const SaveVictoryButton(
-      {Key? key, required User user, required String victory})
-      : _user = user,
-        _victory = victory,
-        super(key: key);
+// class SaveVictoryButton extends StatefulWidget {
+//   const SaveVictoryButton(
+//       {Key? key, required User user, required String victory})
+//       : _user = user,
+//         _victory = victory,
+//         super(key: key);
 
-  final User _user;
-  final String _victory;
+//   final User _user;
+//   final String _victory;
 
-  @override
-  _SaveVictoryButtonState createState() => _SaveVictoryButtonState();
-}
+//   @override
+//   _SaveVictoryButtonState createState() => _SaveVictoryButtonState();
+// }
 
-class _SaveVictoryButtonState extends State<SaveVictoryButton> {
-  bool _isSuccess = false;
-  late User _user;
-  late String _victory;
+// class _SaveVictoryButtonState extends State<SaveVictoryButton> {
+//   bool _isSuccess = false;
+//   late User _user;
+//   late String _victory;
 
-  @override
-  void initState() {
-    _user = widget._user;
-    _victory = widget._victory;
-    super.initState();
-  }
+//   @override
+//   void initState() {
+//     _user = widget._user;
+//     _victory = widget._victory;
+//     super.initState();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: _isSuccess
-          ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
-          : TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
-              ),
-              onPressed: () async {
-                _isSuccess = await saveLittleVictory(_user, _victory);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: _isSuccess
+//           ? const CircularProgressIndicator(
+//               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+//             )
+//           : TextButton(
+//               style: ButtonStyle(
+//                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
+//                 shape: MaterialStateProperty.all(
+//                   RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(40),
+//                   ),
+//                 ),
+//               ),
+//               onPressed: () async {
+//                 _isSuccess = await saveLittleVictory(_user, _victory, );
 
-                if (_isSuccess) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        user: _user,
-                      ),
-                    ),
-                  );
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    'Celebrate a Victory',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Icon(Icons.celebration, size: 10)
-                ],
-              ),
-            ),
-    );
-  }
-}
+//                 if (_isSuccess) {
+//                   Navigator.of(context).pushReplacement(
+//                     MaterialPageRoute(
+//                       builder: (context) => HomeScreen(
+//                         user: _user,
+//                       ),
+//                     ),
+//                   );
+//                 }
+//               },
+//               child: Row(
+//                 mainAxisSize: MainAxisSize.min,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: const <Widget>[
+//                   Text(
+//                     'Celebrate a Victory',
+//                     style: TextStyle(
+//                       fontSize: 10,
+//                       color: Colors.black54,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                   Icon(Icons.celebration, size: 10)
+//                 ],
+//               ),
+//             ),
+//     );
+//   }
+// }

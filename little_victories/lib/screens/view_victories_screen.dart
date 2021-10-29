@@ -38,6 +38,16 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
     super.initState();
   }
 
+  // Icon fetchedIcon(int codePoint) {
+  //   Icon iconFetched;
+  //   switch (codePoint) {
+  //     case 58123:
+  //       iconFetched = Icon();
+  //       break;
+  //   }
+  //   return iconFetched;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,9 +97,15 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                               .add_yMMMMEEEEd()
                                               .format(date);
 
+                                          final int categoryIcon = int.parse(
+                                              vicData['Category'].toString());
+
                                           /// TODO: There must be a cleaner way of doing this date -> string cast.
                                           final String decodedString =
                                               vicData['Victory'].toString();
+                                          // final IconData categoryIcon =
+                                          //     IconData(
+                                          //         vicData['Category'] as int);
                                           return Padding(
                                               padding:
                                                   const EdgeInsets.all(5.0),
@@ -143,6 +159,17 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                                   child: Card(
                                                       color: getRandomColor(),
                                                       child: ListTile(
+                                                        leading: CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          child: Icon(
+                                                            IconData(
+                                                                categoryIcon,
+                                                                fontFamily:
+                                                                    'MaterialIcons'),
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
                                                         title: Text(
                                                             decodedString
                                                                 .toString()),

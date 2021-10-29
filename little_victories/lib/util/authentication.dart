@@ -5,10 +5,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import '../api/twitter_api.dart';
 import '../data/firestore_operations.dart';
 import '../screens/home_screen.dart';
 import '../util/navigation_helper.dart';
-import 'utils.dart';
 
 class Authentication {
   //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
@@ -68,14 +68,14 @@ class Authentication {
 
       try {
         userCred = await auth.signInWithCredential(credential);
-      } on FirebaseException catch (e) {
+      } on FirebaseException catch (_) {
         Authentication.customSnackBar(content: 'Error signing in. Try Again!!');
       }
     }
 
     try {
       signInCred = await userCred!.user!.linkWithCredential(authCred);
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (_) {
       Authentication.customSnackBar(
           content: 'Error connecting profile. Try Again!!');
     }
@@ -89,15 +89,11 @@ class Authentication {
     try {
       final UserCredential userCredential =
           await auth.signInWithCredential(authCred);
-      print('additional user info: ${userCredential.user!.email}');
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         final List<String> emailList =
             await auth.fetchSignInMethodsForEmail(e.email!);
-        print('EMAIL: ${e.email}');
-        // ignore: avoid_print
-        print('emailList = $emailList');
         if (emailList.first == 'google.com') {
           user = await Authentication.linkingAccounts(
               emailList.first, e.credential!, e.email);
@@ -244,4 +240,11 @@ class Authentication {
       NavigationHelper.navigateToSignInScreen;
     }
   }
+}
+
+class TwitterLoginCred {
+  TwitterLogin twitterLogin = TwitterLogin(
+    consumerKey: TwitterApi.apiKey,
+    consumerSecret: TwitterApi.apiKeySecret,
+  );
 }
