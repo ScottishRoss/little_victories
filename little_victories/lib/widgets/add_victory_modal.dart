@@ -95,6 +95,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                   ],
                 ),
               ),
+              const Expanded(child: VictoryCategory()),
               ConfettiWidget(
                 blastDirectionality: BlastDirectionality.explosive,
                 confettiController: _confettiController,
@@ -132,7 +133,9 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await saveLittleVictory(
-                                    _user, _victoryController.text);
+                                    _user,
+                                    _victoryController.text,
+                                    Category.selectedcategory.codePoint);
 
                                 setState(() {
                                   _isSuccess = true;
@@ -173,3 +176,75 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
 }
 
 // TODO: Let user select an Icon as a "category" which we can use to organise and filter ViewVictoriesScreen with.
+
+class VictoryCategory extends StatefulWidget {
+  const VictoryCategory({Key? key}) : super(key: key);
+
+  @override
+  _VictoryCategoryState createState() => _VictoryCategoryState();
+}
+
+class _VictoryCategoryState extends State<VictoryCategory> {
+  late int _categoryNumber;
+
+  static const Color _activeColor = Colors.black;
+  static const Color _disabledColor = Colors.white;
+
+  Widget _iconButton(int buttonNum, IconData categoryIcon) {
+    return IconButton(
+      onPressed: () {
+        if (_categoryNumber != buttonNum) {
+          setState(() {
+            _categoryNumber = buttonNum;
+          });
+          Category.pressedCategory(categoryNumber: _categoryNumber);
+        }
+      },
+      icon: Icon(categoryIcon),
+      color: _categoryNumber == buttonNum ? _activeColor : _disabledColor,
+    );
+  }
+
+  @override
+  void initState() {
+    _categoryNumber = 6;
+    super.initState();
+  }
+
+  static const List<IconData> _categoryIcons = Category.categoryIcons;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemExtent: 60,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext context, int index) =>
+            _iconButton(index, _categoryIcons[index]),
+        itemCount: 7);
+  }
+}
+
+class Category {
+  static const List<IconData> categoryIcons = <IconData>[
+    Icons.sentiment_very_satisfied,
+    Icons.local_activity,
+    Icons.nature_people,
+    Icons.restaurant,
+    Icons.bathtub,
+    Icons.fitness_center,
+    Icons.help_outline,
+  ];
+
+  static IconData selectedcategory = Icons.help_outline;
+
+  static void pressedCategory({int categoryNumber = 6}) {
+    Category.selectedcategory = categoryIcons[categoryNumber];
+  }
+
+  int get categorySelected {
+    // ignore: avoid_print
+    print('selectedCategory: $selectedcategory');
+    final int iconCodePoint = selectedcategory.codePoint;
+    return iconCodePoint;
+  }
+}

@@ -76,15 +76,20 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               final QueryDocumentSnapshot<Object?>? victory =
                                   snapshot.data?.docs[index];
+                              final Map<String, dynamic>? vicData =
+                                  victory!.data() as Map<String, dynamic>?;
                               final Timestamp timestamp =
-                                  victory!['CreatedOn'] as Timestamp;
+                                  vicData!['CreatedOn'] as Timestamp;
                               final DateTime date = timestamp.toDate();
                               final String formattedDate =
                                   DateFormat.Hm().add_yMMMMEEEEd().format(date);
+                              final int categoryIcon =
+                                  int.parse(vicData['Category'].toString());
 
                               ///? There must be a cleaner way of doing this date -> string cast.
                               final String decodedString =
                                   victory['Victory'].toString();
+
                               return Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Slidable(
@@ -129,6 +134,14 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                     margin: const EdgeInsets.all(10.0),
                                     color: getRandomColor(),
                                     child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        child: Icon(
+                                          IconData(categoryIcon,
+                                              fontFamily: 'MaterialIcons'),
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       title: Text(decodedString.toString()),
                                       subtitle: Text(formattedDate.toString()),
                                     ),
