@@ -77,18 +77,3 @@ Future<bool> deleteLittleVictory(String docId) async {
   });
   return false;
 }
-
-/// START: Update Push Notification Preferences
-//
-// Future<bool> updatePushNotificationPreferences(User user, String topic, bool) async {
-//
-//   _usersCollection.doc(user.uid).collection("topics").doc(token).set({
-//     'encouragement' : true,
-//     'news' : true,
-//     'reminder' : true
-//   }).then((_){
-//     return true;
-//   });
-//   return false;
-// }
-

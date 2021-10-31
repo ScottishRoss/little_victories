@@ -53,7 +53,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     arguments: <User>[_user]),
               ),
               buildNiceButton(
-                'Sign out of Google',
+                'Sign out', // Since there can be other platforms such as Twitter
                 CustomColours.darkPurple,
                 () => showDialog<Widget>(
                     context: context,

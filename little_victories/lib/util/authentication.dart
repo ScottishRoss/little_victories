@@ -88,15 +88,11 @@ class Authentication {
     try {
       final UserCredential userCredential =
           await auth.signInWithCredential(authCred);
-      print('additional user info: ${userCredential.user!.email}');
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         final List<String> emailList =
             await auth.fetchSignInMethodsForEmail(e.email!);
-        print('EMAIL: ${e.email}');
-        // ignore: avoid_print
-        print('emailList = $emailList');
         if (emailList.first == 'google.com') {
           user = await Authentication.linkingAccounts(
               emailList.first, e.credential!, e.email);
