@@ -123,4 +123,12 @@ class Authentication {
       Navigator.pushNamed(context, '/sign_in');
     }
   }
+
+  /// Fetching current loggedIn userID
+
+  static String get fetchingUserID {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final String userId = auth.currentUser!.uid;
+    return userId;
+  }
 }

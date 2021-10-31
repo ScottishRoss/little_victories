@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
+import '../widgets/delete_user_account.dart';
 
 // TODO: Add delete account function.
 
@@ -55,6 +56,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       return const SignOutOfGoogleBox();
                     }),
               ),
+
+              buildNiceButton(
+                  'Delete Account',
+                  CustomColours.darkPurple,
+                  () => showDialog<Widget>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const DeleteUserAccount();
+                      })),
               const Spacer(),
               buildNiceButton(
                 'Back',

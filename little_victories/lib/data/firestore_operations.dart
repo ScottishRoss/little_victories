@@ -9,7 +9,6 @@ CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 
 /// START: Check if user exists.
-
 Future<bool> isNewUser(User user) async {
   final QuerySnapshot<Object?> snapshot = await firestore
       .collection('users')
@@ -24,9 +23,7 @@ Future<bool> isNewUser(User user) async {
 }
 
 /// END: Check if user exists.
-
 /// START: Create User.
-
 Future<bool> createUser(User user) async {
   final DateTime currentDateTime = DateTime.now();
   final String? token = await FirebaseMessaging.instance.getToken();
@@ -53,7 +50,6 @@ Future<bool> createUser(User user) async {
 }
 
 /// END: Create User
-
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(User user, String victory, int category) async {
   final DateTime currentDateTime = DateTime.now();
@@ -71,7 +67,6 @@ Future<bool> saveLittleVictory(User user, String victory, int category) async {
 }
 
 /// START: Delete Little Victory
-
 Future<bool> deleteLittleVictory(String docId) async {
   _victoriesCollection.doc(docId).delete().then((_) {
     return true;
@@ -93,3 +88,34 @@ Future<bool> deleteLittleVictory(String docId) async {
 //   return false;
 // }
 
+/// START: Delete User Account
+Future<bool> deleteUserAccount(String userId) async {
+  final QuerySnapshot<Object?> snapshot = await firestore
+      .collection('users')
+      .where('UserId', isEqualTo: userId)
+      .get();
+  final String docId = snapshot.docs[0].id;
+  bool _isDeleted = false;
+  try {
+    await firestore.collection('users').doc(docId).delete();
+    _isDeleted = true;
+  } catch (e) {
+    _isDeleted = false;
+    print('error in deletion: $e');
+  }
+  // bool _accountDeleted = false;
+
+  // if (_isDeleted) {
+  //   try {
+  //     await FirebaseAuth.instance.currentUser!.delete();
+  //     _accountDeleted = true;
+  //   } catch (e) {
+  //     print('error in deletion of account: $e');
+  //     _accountDeleted = false;
+  //   }
+  // }
+
+  return _isDeleted;
+} 
+
+/// END : Delete User Account
