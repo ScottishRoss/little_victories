@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
@@ -25,12 +25,6 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
   void initState() {
     super.initState();
     _user = widget._user;
-
-    _pushNotificationSettingsStream = firestore
-        .collection('users')
-        .doc(_user.uid)
-        .collection('topics')
-        .snapshots();
   }
 
   @override
@@ -51,7 +45,12 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Little Victories Logo
-              buildFlexibleImage(),
+              Flexible(
+                flex: 4,
+                child: Image.asset(
+                  'assets/lv_main.png',
+                ),
+              ),
               const Spacer(),
               SizedBox(
                 height: 200,
@@ -77,25 +76,24 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                               snapshot.data!.docs.first.data();
 
                           return ListView.builder(
-                            itemCount: result.length as int?,
-                            itemBuilder: (BuildContext context, int index) {
-                              final String key =
-                                  result.keys.elementAt(index) as String;
-                              final dynamic value =
-                                  result.values.elementAt(index);
-                              return Column(
-                                children: <Widget>[
-                                  SwitchListTile(
-                                    title: Text(key),
-                                    value: value as bool,
-                                    onChanged: (bool value) {
-                                      // TODO: Update document on switch change.
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                              itemCount: result.length as int?,
+                              itemBuilder: (BuildContext context, int index) {
+                                final String key =
+                                    result.keys.elementAt(index) as String;
+                                final dynamic value =
+                                    result.values.elementAt(index);
+                                return Column(
+                                  children: <Widget>[
+                                    SwitchListTile(
+                                      title: Text(key),
+                                      value: value as bool,
+                                      onChanged: (bool value) {
+                                        // TODO: Update document on switch change.
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
                         }
                     }
                   },

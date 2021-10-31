@@ -31,11 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {
-        Navigator.pushNamed(
-          context,
-          '/message',
-          arguments: MessageArguments(message, true),
-        );
+        Navigator.pushNamed(context, '/message',
+            arguments: MessageArguments(message, true));
       }
     });
 
@@ -58,11 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.pushNamed(
-        context,
-        '/message',
-        arguments: MessageArguments(message, true),
-      );
+      Navigator.pushNamed(context, '/message',
+          arguments: MessageArguments(message, true));
     });
 
     super.initState();
@@ -71,7 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[CustomColours.darkPurple, CustomColours.teal],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(

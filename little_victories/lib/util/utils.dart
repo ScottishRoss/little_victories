@@ -1,8 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:little_victories/api/twitter_api.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/widgets/nice_buttons.dart';
+
+class TwitterLoginCred {
+  TwitterLogin twitterLogin = TwitterLogin(
+    consumerKey: TwitterApi.apiKey,
+    consumerSecret: TwitterApi.apiKeySecret,
+  );
+}
 
 Widget buildtext(
   String text, {

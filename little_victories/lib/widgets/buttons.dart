@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/utils.dart';
 
 /// Google
 
@@ -15,14 +14,62 @@ class GoogleSignInButton extends StatefulWidget {
 }
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+  // bool _isSigningIn = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return const SignInButtonLogic(
+      platform: 'Google',
+      imageLogo: 'assets/google_logo.png',
+    );
+  }
+}
+
+class TwitterSignInButton extends StatefulWidget {
+  const TwitterSignInButton({Key? key}) : super(key: key);
+
+  @override
+  _TwitterSignInButtonState createState() => _TwitterSignInButtonState();
+}
+
+class _TwitterSignInButtonState extends State<TwitterSignInButton> {
+  @override
+  Widget build(BuildContext context) {
+    return const SignInButtonLogic(
+      platform: 'Twitter',
+      imageLogo: 'assets/twitter_logo.png',
+    );
+  }
+}
+
+/// signIn button
+
+class SignInButtonLogic extends StatefulWidget {
+  const SignInButtonLogic({
+    required this.platform,
+    required this.imageLogo,
+    Key? key,
+  }) : super(key: key);
+  final String platform;
+  final String imageLogo;
+
+  @override
+  _SignInButtonLogicState createState() => _SignInButtonLogicState();
+}
+
+class _SignInButtonLogicState extends State<SignInButtonLogic> {
   bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
+    final String platform = widget.platform;
+    final String logo = widget.imageLogo;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 16),
       child: _isSigningIn
-          ? buildCircleProgressIndicator()
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
           : OutlinedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -37,15 +84,18 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   _isSigningIn = true;
                 });
 
-                final User? user =
-                    await Authentication().signInWithGoogle(context: context);
+                final User? user = platform == 'Google'
+                    ? await Authentication().signInWithGoogle(context: context)
+                    : await Authentication()
+                        .signInWithTwitter(context: context);
 
                 setState(() {
                   _isSigningIn = false;
                 });
 
                 if (user != null) {
-                  Navigator.pushNamed(context, '/home', arguments: user);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (Route<dynamic> route) => false);
                 }
               },
               child: Padding(
@@ -53,17 +103,17 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     // ignore: prefer_const_literals_to_create_immutables
                     Image(
-                      image: AssetImage('assets/google_logo.png'),
+                      image: AssetImage(logo),
                       height: 35.0,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Continue with Google',
-                        style: TextStyle(
+                        'Continue with $platform',
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
@@ -108,7 +158,9 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
   Widget build(BuildContext context) {
     return Container(
       child: _isSuccess
-          ? buildCircleProgressIndicator()
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
           : TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
@@ -122,8 +174,8 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
                 _isSuccess = await saveLittleVictory(_user, _victory);
 
                 if (_isSuccess) {
-                  Navigator.pushNamed(context, '/preferences',
-                      arguments: _user);
+                  Navigator.pushNamed(context, '/home',
+                      arguments: <User>[_user]);
                 }
               },
               child: Row(

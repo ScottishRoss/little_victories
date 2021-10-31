@@ -5,14 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:little_victories/screens/preferences_screen.dart';
-import 'package:little_victories/screens/push_notifications_screen.dart';
-import 'package:little_victories/screens/view_victories_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'screens/home_screen.dart';
+import 'screens/preferences_screen.dart';
+import 'screens/push_notifications_screen.dart';
 import 'screens/sign_in_screen.dart';
+import 'screens/view_victories_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 }
 

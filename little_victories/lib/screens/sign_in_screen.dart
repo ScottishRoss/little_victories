@@ -17,7 +17,13 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[CustomColours.darkPurple, CustomColours.teal],
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -59,8 +65,28 @@ class _SignInScreenState extends State<SignInScreen> {
                         ConnectionState.done) {
                       return const GoogleSignInButton();
                     }
-                    return buildCircleProgressIndicator(
-                      color: CustomColours.lightPurple,
+                    return const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        CustomColours.lightPurple,
+                      ),
+                    );
+                  },
+                ),
+                FutureBuilder<dynamic>(
+                  future: Authentication.initializeFirebase(context: context),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text(
+                          'Error initializing connection, please try again later.');
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return const TwitterSignInButton();
+                    }
+                    return const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        CustomColours.lightPurple,
+                      ),
                     );
                   },
                 ),

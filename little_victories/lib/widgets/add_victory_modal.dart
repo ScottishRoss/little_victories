@@ -30,9 +30,10 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
   late User _user;
 
   final TextEditingController _victoryController = TextEditingController();
-  final ConfettiController _confettiController =
-      ConfettiController(duration: const Duration(seconds: 3));
-  // ignore: prefer_typing_uninitialized_variables
+  final ConfettiController _confettiController = ConfettiController(
+    duration: const Duration(seconds: 3),
+  );
+
   bool _isSuccess = false;
 
   @override
@@ -59,7 +60,6 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
     return Stack(
       children: <Widget>[
         Container(
-          height: 300,
           padding: const EdgeInsets.only(
             left: Constants.padding,
             top: 10,
@@ -77,99 +77,141 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 ],
               ),
               borderRadius: BorderRadius.circular(Constants.padding),
-              // ignore: prefer_const_literals_to_create_immutables
-              boxShadow: <BoxShadow>[
-                const BoxShadow(offset: Offset(0, 10), blurRadius: 10),
+              boxShadow: const <BoxShadow>[
+                BoxShadow(offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildTextFormField(_victoryController),
-                  ],
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: Constants.avatarRadius,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.avatarRadius),
+                  ),
+                  child: Image.asset('assets/lv_logo_transparent.png'),
                 ),
               ),
-              ConfettiWidget(
-                blastDirectionality: BlastDirectionality.explosive,
-                confettiController: _confettiController,
-                emissionFrequency: 0,
-                numberOfParticles: 30,
-                gravity: 0.05,
-                // ignore: prefer_const_literals_to_create_immutables
-                colors: <Color>[
-                  CustomColours.lightPurple,
-                  CustomColours.darkPurple,
-                  CustomColours.teal,
-                  Colors.white,
-                ],
-              ),
-              Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(this.context).pop();
-                    },
-                    child: buildtext(
-                      'Close',
-                      fontSize: 15,
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        buildTextFormField(_victoryController),
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  Container(
-                    child: _isSuccess
-                        ? buildCircleProgressIndicator()
-                        : buildOutlinedButton(
-                            textType: 'Celebrate a Victory',
-                            iconData: Icons.celebration,
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await saveLittleVictory(
-                                    _user, _victoryController.text);
+                  ConfettiWidget(
+                    blastDirectionality: BlastDirectionality.explosive,
+                    confettiController: _confettiController,
+                    emissionFrequency: 0,
+                    numberOfParticles: 30,
+                    gravity: 0.05,
+                    colors: const <Color>[
+                      CustomColours.lightPurple,
+                      CustomColours.darkPurple,
+                      CustomColours.teal,
+                      Colors.white,
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(this.context).pop();
+                        },
+                        child: const Text(
+                          'Close',
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                      ),
+                      ConfettiWidget(
+                        blastDirectionality: BlastDirectionality.explosive,
+                        confettiController: _confettiController,
+                        emissionFrequency: 0,
+                        numberOfParticles: 30,
+                        gravity: 0.05,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        colors: <Color>[
+                          CustomColours.lightPurple,
+                          CustomColours.darkPurple,
+                          CustomColours.teal,
+                          Colors.white,
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(this.context).pop();
+                            },
+                            child: buildtext(
+                              'Close',
+                              fontSize: 15,
+                            ),
+                          ),
+                          const Spacer(),
+                          Container(
+                            child: _isSuccess
+                                ? buildCircleProgressIndicator()
+                                : buildOutlinedButton(
+                                    textType: 'Celebrate a Victory',
+                                    iconData: Icons.celebration,
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.transparent),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        await saveLittleVictory(
+                                            _user, _victoryController.text);
 
-                                setState(() {
-                                  _isSuccess = true;
-                                });
+                                        setState(() {
+                                          _isSuccess = true;
+                                        });
 
-                                _confettiController.play();
-                                Future<dynamic>.delayed(
-                                    const Duration(seconds: 3), () {
-                                  Navigator.of(this.context).pop();
-                                });
-                              }
-                            }),
-                  )
+                                        _confettiController.play();
+                                        Future<dynamic>.delayed(
+                                            const Duration(seconds: 3), () {
+                                          Navigator.of(this.context).pop();
+                                        });
+                                      }
+                                    }),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 60,
+                    left: 30,
+                    right: 30,
+                    child: Center(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: Constants.avatarRadius,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(Constants.avatarRadius)),
+                          child: Image.asset('assets/lv_logo_transparent.png'),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
-          ),
-        ),
-        Positioned(
-          top: 60,
-          left: 30,
-          right: 30,
-          child: Center(
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(Constants.avatarRadius)),
-                child: Image.asset('assets/lv_logo_transparent.png'),
-              ),
-            ),
           ),
         ),
       ],
     );
   }
 }
+  
+
 
 // TODO: Let user select an Icon as a "category" which we can use to organise and filter ViewVictoriesScreen with.

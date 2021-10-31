@@ -19,13 +19,13 @@ dependencies:
   firebase_auth: ^1.0.1
   google_sign_in: ^5.0.0
   cloud_firestore: ^2.5.3
-  confetti: ^0.6.0-nullsafety
+  confetti: ^0.6.0
   flutter_slidable: ^0.6.0-nullsafety.0
   social_share: ^2.1.1
   path_provider: ^2.0.1
   firebase_messaging: ^10.0.8
   flutter_local_notifications: ^5.0.0+1
-  basic_utils: ^3.6.1
+  flutter_twitter_login: ^1.1.0
   page_transition: ^2.0.4
 
 dev_dependencies:
