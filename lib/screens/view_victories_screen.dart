@@ -48,7 +48,7 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.all(20.0),
+                margin: const EdgeInsets.all(10.0),
                 child: const Text(
                   'Your Victories',
                   style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
@@ -75,75 +75,89 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                             child: Text('No Victories to show'),
                           );
                         } else {
-                          return GroupedListView<Element, DateTime>(
-                            elements: List<Element>.generate(
-                              snapshot.data!.docs.length,
-                              (int index) {
-                                final QueryDocumentSnapshot<Object?>? victory =
-                                    snapshot.data?.docs[index];
-                                final Timestamp timestamp =
-                                    victory!['CreatedOn'] as Timestamp;
-                                final DateTime date = timestamp.toDate();
-                                final String decodedString =
-                                    victory['Victory'].toString();
+                          return RawScrollbar(
+                            thumbColor: CustomColours.teal,
+                            isAlwaysShown: true,
+                            radius: const Radius.circular(20),
+                            thickness: 5,
+                            child: GroupedListView<Element, DateTime>(
+                              elements: List<Element>.generate(
+                                snapshot.data!.docs.length,
+                                (int index) {
+                                  final QueryDocumentSnapshot<Object?>?
+                                      victory = snapshot.data?.docs[index];
+                                  final Timestamp timestamp =
+                                      victory!['CreatedOn'] as Timestamp;
+                                  final DateTime date = timestamp.toDate();
+                                  final String decodedString =
+                                      victory['Victory'].toString();
 
-                                return Element(date, decodedString);
+                                  return Element(date, decodedString);
+                                },
+                              ),
+                              groupBy: (Element element) {
+                                return DateTime(
+                                  element.date.year,
+                                  element.date.month,
+                                  element.date.day,
+                                );
                               },
-                            ),
-                            groupBy: (Element element) {
-                              return DateTime(
-                                element.date.year,
-                                element.date.month,
-                                element.date.day,
-                              );
-                            },
-                            groupSeparatorBuilder: (DateTime date) =>
-                                TransactionGroupSeparator(date: date),
-                            order: GroupedListOrder.DESC,
-                            itemBuilder:
-                                (BuildContext context, dynamic element) {
-                              final DateTime time = element.date as DateTime;
-                              final String formattedDate =
-                                  DateFormat.Hm().format(time);
-                              return Container(
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 10.0,
-                                ),
-                                child: Card(
-                                  color: CustomColours.darkPurple,
-                                  elevation: 10.0,
-                                  child: Container(
-                                    margin: const EdgeInsets.all(20.0),
+                              groupSeparatorBuilder: (DateTime date) =>
+                                  DateSeparator(date: date),
+                              order: GroupedListOrder.DESC,
+                              separator: const Divider(
+                                color: CustomColours.darkPurple,
+                                thickness: 2.0,
+                              ),
+                              itemBuilder:
+                                  (BuildContext context, dynamic element) {
+                                final DateTime time = element.date as DateTime;
+                                final String formattedDate =
+                                    DateFormat.Hm().format(time);
+                                return Container(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 20.0,
+                                    vertical: 10.0,
+                                  ),
+                                  child: IntrinsicHeight(
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
-                                        Text(
-                                          formattedDate,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20.0),
-                                        Expanded(
+                                        SizedBox(
+                                          width: 50.0,
                                           child: Text(
-                                            element.victory.toString(),
-                                            softWrap: true,
+                                            formattedDate,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.0,
                                             ),
                                           ),
                                         ),
+                                        const SizedBox(width: 10.0),
+                                        const VerticalDivider(
+                                          color: Colors.white,
+                                          thickness: 2.0,
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        Expanded(
+                                          child: Text(
+                                            element.victory.toString(),
+                                            softWrap: true,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 22.0,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           );
                         }
                     }
@@ -173,20 +187,35 @@ class Element {
   String victory;
 }
 
-class TransactionGroupSeparator extends StatelessWidget {
+class DateSeparator extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const TransactionGroupSeparator({required this.date});
+  const DateSeparator({required this.date});
   final DateTime date;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8),
-        child: Text(
-          DateFormat.yMMMMd().format(date),
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+    return Container(
+      color: Colors.white,
+      margin: const EdgeInsets.only(top: 8, bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(
+              right: 30,
+              top: 5.0,
+              bottom: 5.0,
+            ),
+            child: Text(
+              DateFormat.yMMMMd().format(date),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: CustomColours.darkPurple,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

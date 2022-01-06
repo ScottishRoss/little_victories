@@ -84,7 +84,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
         ScaffoldMessenger.of(context).showSnackBar(
           Authentication.customSnackBar(
             content: content ??
-                'The account already exists with a different credential',
+                'The account already exists with different credentials',
           ),
         );
 

@@ -28,6 +28,7 @@ dependencies:
   basic_utils: ^3.9.4
   page_transition: ^2.0.4
   grouped_list: ^4.1.0
+  fading_edge_scrollview: ^2.0.1
 
 dev_dependencies:
   flutter_test:
