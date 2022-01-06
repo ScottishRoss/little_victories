@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
@@ -29,7 +29,7 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
     _dataList = firestore
         .collection('victories')
         .where('UserId', isEqualTo: _user.uid)
-        .orderBy('CreatedOn', descending: true)
+        .orderBy('CreatedOn', descending: false)
         .snapshots();
 
     super.initState();
@@ -46,8 +46,14 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
           backgroundColor: Colors.transparent,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(20.0),
+                child: const Text(
+                  'Your Victories',
+                  style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+                ),
+              ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot<Object?>>(
                   stream: _dataList,
@@ -69,134 +75,73 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                             child: Text('No Victories to show'),
                           );
                         } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final QueryDocumentSnapshot<Object?>? victory =
-                                  snapshot.data?.docs[index];
-                              final Timestamp timestamp =
-                                  victory!['CreatedOn'] as Timestamp;
-                              final DateTime date = timestamp.toDate();
+                          return GroupedListView<Element, DateTime>(
+                            elements: List<Element>.generate(
+                              snapshot.data!.docs.length,
+                              (int index) {
+                                final QueryDocumentSnapshot<Object?>? victory =
+                                    snapshot.data?.docs[index];
+                                final Timestamp timestamp =
+                                    victory!['CreatedOn'] as Timestamp;
+                                final DateTime date = timestamp.toDate();
+                                final String decodedString =
+                                    victory['Victory'].toString();
+
+                                return Element(date, decodedString);
+                              },
+                            ),
+                            groupBy: (Element element) {
+                              return DateTime(
+                                element.date.year,
+                                element.date.month,
+                                element.date.day,
+                              );
+                            },
+                            groupSeparatorBuilder: (DateTime date) =>
+                                TransactionGroupSeparator(date: date),
+                            order: GroupedListOrder.DESC,
+                            itemBuilder:
+                                (BuildContext context, dynamic element) {
+                              final DateTime time = element.date as DateTime;
                               final String formattedDate =
-                                  DateFormat.Hm().add_yMMMMEEEEd().format(date);
-
-                              ///? There must be a cleaner way of doing this date -> string cast.
-                              final String decodedString =
-                                  victory['Victory'].toString();
-                              return Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Slidable(
-                                  // Specify a key if the Slidable is dismissible.
-                                  key: const ValueKey<int>(0),
-
-                                  // The start action pane is the one at the left or the top side.
-                                  startActionPane: ActionPane(
-                                    // A motion is a widget used to control how the pane animates.
-                                    motion: const ScrollMotion(),
-
-                                    // A pane can dismiss the Slidable.
-                                    dismissible:
-                                        DismissiblePane(onDismissed: () {}),
-
-                                    // All actions are defined in the children parameter.
-                                    children: <SlidableAction>[
-                                      // A SlidableAction can have an icon and/or a label.
-                                      SlidableAction(
-                                        onPressed: doNothing,
-                                        backgroundColor:
-                                            const Color(0xFFFE4A49),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.delete,
-                                        label: 'Delete',
-                                      ),
-                                      SlidableAction(
-                                        onPressed: doNothing,
-                                        backgroundColor:
-                                            const Color(0xFF21B7CA),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.share,
-                                        label: 'Share',
-                                      ),
-                                    ],
-                                  ),
-
-                                  // The end action pane is the one at the right or the bottom side.
-                                  endActionPane: ActionPane(
-                                    motion: const ScrollMotion(),
-                                    children: <SlidableAction>[
-                                      SlidableAction(
-                                        // An action can be bigger than the others.
-                                        flex: 2,
-                                        onPressed: doNothing,
-                                        backgroundColor:
-                                            const Color(0xFF7BC043),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.archive,
-                                        label: 'Archive',
-                                      ),
-                                      SlidableAction(
-                                        onPressed: doNothing,
-                                        backgroundColor:
-                                            const Color(0xFF0392CF),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.save,
-                                        label: 'Save',
-                                      ),
-                                    ],
-                                  ),
-
-                                  // The child of the Slidable is what the user sees when the
-                                  // component is not dragged.
-                                  child:
-                                      const ListTile(title: Text('Slide me')),
+                                  DateFormat.Hm().format(time);
+                              return Container(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 10.0,
                                 ),
-                                // child: Slidable(
-                                //   controller: _slidableController,
-                                //   key: ValueKey<int>(index),
-                                //   actionPane: const SlidableDrawerActionPane(),
-                                //   actions: <Widget>[
-                                //     Padding(
-                                //       padding: const EdgeInsets.all(5.0),
-                                //       child: IconSlideAction(
-                                //         caption: 'Twitter',
-                                //         color: Colors.blue,
-                                //         icon: Icons.share,
-                                //         onTap: () => SocialShare.shareTwitter(
-                                //           decodedString,
-                                //           hashtags: <String>['LittleVictories'],
-                                //           url:
-                                //               'https://www.littlevictories.app/',
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ],
-                                //   secondaryActions: <Widget>[
-                                //     Padding(
-                                //       padding: const EdgeInsets.all(5.0),
-                                //       child: IconSlideAction(
-                                //         caption: 'Delete',
-                                //         color: Colors.red,
-                                //         icon: Icons.delete,
-                                //         onTap: () => showDialog<Widget>(
-                                //           context: context,
-                                //           builder: (BuildContext context) {
-                                //             return DeleteVictoryBox(
-                                //                 docId: victory.id);
-                                //           },
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ],
-                                //   child: Card(
-                                //     elevation: 10,
-                                //     margin: const EdgeInsets.all(10.0),
-                                //     color: getRandomColor(),
-                                //     child: ListTile(
-                                //       title: Text(decodedString.toString()),
-                                //       subtitle: Text(formattedDate.toString()),
-                                //     ),
-                                //   ),
-                                // ),
+                                child: Card(
+                                  color: CustomColours.darkPurple,
+                                  elevation: 10.0,
+                                  child: Container(
+                                    margin: const EdgeInsets.all(20.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          formattedDate,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 20.0),
+                                        Expanded(
+                                          child: Text(
+                                            element.victory.toString(),
+                                            softWrap: true,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               );
                             },
                           );
@@ -214,6 +159,33 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
               const SizedBox(height: 20.0),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+mixin StickyGroupedListOrder {}
+
+class Element {
+  Element(this.date, this.victory);
+  DateTime date;
+  String victory;
+}
+
+class TransactionGroupSeparator extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
+  const TransactionGroupSeparator({required this.date});
+  final DateTime date;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8),
+        child: Text(
+          DateFormat.yMMMMd().format(date),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

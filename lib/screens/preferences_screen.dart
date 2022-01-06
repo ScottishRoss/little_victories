@@ -39,14 +39,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               // Little Victories Logo
               buildFlexibleImage(),
               const Spacer(),
+              // buildNiceButton(
+              //   'Push Notifications',
+              //   CustomColours.darkPurple,
+              //   () => Navigator.pushNamed(context, '/push_notifications',
+              //       arguments: <User>[_user]),
+              // ),
               buildNiceButton(
-                'Push Notifications',
-                CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/push_notifications',
-                    arguments: <User>[_user]),
-              ),
-              buildNiceButton(
-                'Sign out of Google',
+                'Sign Out',
                 CustomColours.darkPurple,
                 () => showDialog<Widget>(
                     context: context,

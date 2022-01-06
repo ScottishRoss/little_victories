@@ -53,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       AsyncSnapshot<FirebaseApp> snapshot) {
                     if (snapshot.hasError) {
                       return const Text(
-                          'Error initializing connection, please try again later.');
+                          'Error signing in, please try again later.');
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
                       return const GoogleSignInButton();

@@ -19,7 +19,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
-  'test',
   importance: Importance.high,
 );
 
