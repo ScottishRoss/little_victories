@@ -58,7 +58,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/home',
+                () => Navigator.pushNamed(context, '/homeFromPreferences',
                     arguments: <User>[_user]),
               ),
               const SizedBox(height: 20.0),

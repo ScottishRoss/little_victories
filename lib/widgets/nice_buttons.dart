@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// TODO: FIX NULL ISSUES OR CREATE NEW BUTTONS
-
 @immutable
 class NiceButton extends StatelessWidget {
   const NiceButton(

@@ -63,15 +63,23 @@ class MyApp extends StatelessWidget {
       home: _user != null ? HomeScreen(user: _user!) : const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
-          case '/home':
+          case '/homeFromViewVictories':
             return PageTransition<void>(
               child: HomeScreen(user: _user!),
-              type: PageTransitionType.fade,
+              type: PageTransitionType.leftToRightJoined,
+              childCurrent: ViewVictoriesScreen(user: _user!),
+            );
+          case '/homeFromPreferences':
+            return PageTransition<void>(
+              child: HomeScreen(user: _user!),
+              type: PageTransitionType.leftToRightJoined,
+              childCurrent: PreferencesScreen(user: _user!),
             );
           case '/preferences':
             return PageTransition<void>(
               child: PreferencesScreen(user: _user!),
-              type: PageTransitionType.fade,
+              type: PageTransitionType.rightToLeftJoined,
+              childCurrent: HomeScreen(user: _user!),
             );
           case '/push_notifications':
             return PageTransition<void>(
@@ -86,7 +94,8 @@ class MyApp extends StatelessWidget {
           case '/view_victories':
             return PageTransition<void>(
               child: ViewVictoriesScreen(user: _user!),
-              type: PageTransitionType.fade,
+              type: PageTransitionType.rightToLeftJoined,
+              childCurrent: HomeScreen(user: _user!),
             );
           default:
             return null;

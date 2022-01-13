@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/share_victory_modal.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
   const ViewVictoriesScreen({Key? key, required User user})
@@ -20,6 +22,7 @@ class ViewVictoriesScreen extends StatefulWidget {
 class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late Stream<QuerySnapshot<Object?>>? _dataList;
+  final ScrollController scrollController = ScrollController();
 
   late User _user;
 
@@ -27,9 +30,10 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
   void initState() {
     _user = widget._user;
     _dataList = firestore
+        .collection('users')
+        .doc(_user.uid)
         .collection('victories')
-        .where('UserId', isEqualTo: _user.uid)
-        .orderBy('CreatedOn', descending: false)
+        .orderBy('createdOn', descending: false)
         .snapshots();
 
     super.initState();
@@ -48,13 +52,13 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(20.0),
                 child: const Text(
                   'Your Victories',
                   style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: StreamBuilder<QuerySnapshot<Object?>>(
                   stream: _dataList,
                   builder: (BuildContext context,
@@ -69,14 +73,10 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                           return Center(
                             child: Text('Error: ${snapshot.error}'),
                           );
-                        } else if (!snapshot.hasData ||
-                            snapshot.data?.docs == null) {
-                          return const Center(
-                            child: Text('No Victories to show'),
-                          );
-                        } else {
+                        } else if (snapshot.data!.docs.isNotEmpty) {
                           return RawScrollbar(
                             thumbColor: CustomColours.teal,
+                            controller: scrollController,
                             isAlwaysShown: true,
                             radius: const Radius.circular(20),
                             thickness: 5,
@@ -87,10 +87,10 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                   final QueryDocumentSnapshot<Object?>?
                                       victory = snapshot.data?.docs[index];
                                   final Timestamp timestamp =
-                                      victory!['CreatedOn'] as Timestamp;
+                                      victory!['createdOn'] as Timestamp;
                                   final DateTime date = timestamp.toDate();
                                   final String decodedString =
-                                      victory['Victory'].toString();
+                                      victory['victory'].toString();
 
                                   return Element(date, decodedString);
                                 },
@@ -107,56 +107,28 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                               order: GroupedListOrder.DESC,
                               separator: const Divider(
                                 color: CustomColours.darkPurple,
-                                thickness: 2.0,
+                                thickness: 1.0,
                               ),
                               itemBuilder:
                                   (BuildContext context, dynamic element) {
                                 final DateTime time = element.date as DateTime;
                                 final String formattedDate =
                                     DateFormat.Hm().format(time);
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 20.0,
-                                    vertical: 10.0,
-                                  ),
-                                  child: IntrinsicHeight(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 50.0,
-                                          child: Text(
-                                            formattedDate,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        const VerticalDivider(
-                                          color: Colors.white,
-                                          thickness: 2.0,
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        Expanded(
-                                          child: Text(
-                                            element.victory.toString(),
-                                            softWrap: true,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 22.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+
+                                return _viewVictoryRow(
+                                  formattedDate,
+                                  element.victory.toString(),
+                                  context,
+                                  _user,
                                 );
                               },
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: Text(
+                              'No Victories, yet!',
+                              style: TextStyle(fontSize: 18.0),
                             ),
                           );
                         }
@@ -167,7 +139,7 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/home',
+                () => Navigator.pushNamed(context, '/homeFromViewVictories',
                     arguments: <User>[_user]),
               ),
               const SizedBox(height: 20.0),
@@ -177,6 +149,95 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
       ),
     );
   }
+}
+
+Widget _viewVictoryRow(
+    String date, String victory, BuildContext context, User _user) {
+  return Container(
+    margin: const EdgeInsets.symmetric(
+      horizontal: 20.0,
+      vertical: 10.0,
+    ),
+    child: IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            height: double.infinity,
+            width: MediaQuery.of(context).size.width / 8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10.0),
+          const VerticalDivider(
+            color: Colors.white,
+            thickness: 2.0,
+          ),
+          const SizedBox(width: 10.0),
+          Expanded(
+            child: Text(
+              victory,
+              softWrap: true,
+              style: const TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+          const VerticalDivider(
+            color: Colors.white,
+            thickness: 2.0,
+          ),
+          SizedBox(
+            width: 30.0,
+            child: Column(
+              children: <IconButton>[
+                IconButton(
+                  onPressed: () => showDialog<Widget>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ShareVictoryModal(
+                          user: _user,
+                          victory: victory,
+                        );
+                      }),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.trashAlt,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => showDialog<Widget>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ShareVictoryModal(
+                          user: _user,
+                          victory: victory,
+                        );
+                      }),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.shareAlt,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 mixin StickyGroupedListOrder {}

@@ -169,5 +169,3 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
     );
   }
 }
-
-// TODO: Let user select an Icon as a "category" which we can use to organise and filter ViewVictoriesScreen with.

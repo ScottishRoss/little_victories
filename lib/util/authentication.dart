@@ -97,8 +97,6 @@ class Authentication {
     return user;
   }
 
-  /// TODO: Clicking off google accounts screen breaks stuff.
-
   /// SIGN OUT
   static Future<void> signOutOfGoogle({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();

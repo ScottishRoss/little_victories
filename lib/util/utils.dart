@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
@@ -188,4 +190,17 @@ Widget buildCircleProgressIndicator({Color? color}) {
   return CircularProgressIndicator(
     valueColor: AlwaysStoppedAnimation<Color>(color ?? Colors.white),
   );
+}
+
+String generateRandomString() {
+  final Random _random = Random();
+  const String _availableChars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  final String randomString = List<String>.generate(
+      5,
+      (int index) =>
+          _availableChars[_random.nextInt(_availableChars.length)]).join();
+
+  return randomString;
 }

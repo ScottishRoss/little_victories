@@ -40,8 +40,8 @@ Future<bool> createUser(User user) async {
 
   _usersCollection
       .doc(user.uid)
-      .collection('topics')
-      .doc(token)
+      .collection('notifications')
+      .doc('topics')
       .set(<String, dynamic>{
     'encouragement': true,
     'news': true,
@@ -58,11 +58,13 @@ Future<bool> createUser(User user) async {
 Future<bool> saveLittleVictory(User user, String victory) async {
   final DateTime currentDateTime = DateTime.now();
 
-  _victoriesCollection.add(<String, dynamic>{
-    'UserId': user.uid,
-    'Victory': victory,
-    'IV': 'null',
-    'CreatedOn': currentDateTime
+  _usersCollection
+      .doc(user.uid)
+      .collection('victories')
+      .doc(currentDateTime.toString())
+      .set(<String, dynamic>{
+    'victory': victory,
+    'createdOn': currentDateTime,
   }).then((_) {
     return true;
   });
