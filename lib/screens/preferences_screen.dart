@@ -49,17 +49,21 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 'Sign Out',
                 CustomColours.darkPurple,
                 () => showDialog<Widget>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const SignOutOfGoogleBox();
-                    }),
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const SignOutOfGoogleBox();
+                  },
+                ),
               ),
               const Spacer(),
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/homeFromPreferences',
-                    arguments: <User>[_user]),
+                () => Navigator.pushNamed(
+                  context,
+                  '/homeFromPreferences',
+                  arguments: <User>[_user],
+                ),
               ),
               const SizedBox(height: 20.0),
             ],

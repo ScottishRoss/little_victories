@@ -22,7 +22,7 @@ class ViewVictoriesScreen extends StatefulWidget {
 class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late Stream<QuerySnapshot<Object?>>? _dataList;
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   late User _user;
 
@@ -74,12 +74,8 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                             child: Text('Error: ${snapshot.error}'),
                           );
                         } else if (snapshot.data!.docs.isNotEmpty) {
-                          return RawScrollbar(
-                            thumbColor: CustomColours.teal,
-                            controller: scrollController,
-                            isAlwaysShown: true,
-                            radius: const Radius.circular(20),
-                            thickness: 5,
+                          return Scrollbar(
+                            controller: _scrollController,
                             child: GroupedListView<Element, DateTime>(
                               elements: List<Element>.generate(
                                 snapshot.data!.docs.length,

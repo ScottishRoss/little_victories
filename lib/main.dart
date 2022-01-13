@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/screens/preferences_screen.dart';
 import 'package:little_victories/screens/push_notifications_screen.dart';
 import 'package:little_victories/screens/view_victories_screen.dart';
@@ -45,9 +45,10 @@ class MyApp extends StatelessWidget {
       title: 'Little Victories',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          brightness: Brightness.dark,
-          fontFamily: 'Montserrat'),
+        brightness: Brightness.dark,
+        fontFamily: 'Montserrat',
+        highlightColor: CustomColours.teal,
+      ),
       home: _user != null ? HomeScreen(user: _user!) : const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {

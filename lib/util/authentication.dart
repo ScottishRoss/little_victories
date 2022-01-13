@@ -8,8 +8,6 @@ import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/utils.dart';
 
 class Authentication {
-  //TODO: Add Twitter and Facebook authentication. Combine authentications if multiple exist.
-
   /// Initialise Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 

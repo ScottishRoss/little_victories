@@ -39,7 +39,6 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
     );
   }
 
-  // ignore: type_annotate_public_apis
   Stack contentBox(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -74,17 +73,20 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                   backgroundColor: Colors.transparent,
                   radius: Constants.avatarRadius,
                   child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(Constants.avatarRadius)),
-                      child: Image.asset('assets/lv_logo_transparent.png')),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(Constants.avatarRadius),
+                    ),
+                    child: Image.asset('assets/lv_logo_transparent.png'),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
               const Center(
                 child: Text(
-                    'Are you sure you want to sign out of Little Victories?',
-                    textScaleFactor: 1.2,
-                    textAlign: TextAlign.center),
+                  'Are you sure you want to sign out of Little Victories?',
+                  textScaleFactor: 1.2,
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 20),
               Row(
@@ -95,7 +97,10 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                     },
                     child: const Text(
                       'Close',
-                      style: TextStyle(fontSize: 15, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -125,7 +130,11 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const Icon(Icons.close, size: 20, color: Colors.white)
+                        const Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.white,
+                        )
                       ],
                     ),
                   ),

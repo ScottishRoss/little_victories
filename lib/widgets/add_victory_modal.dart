@@ -28,9 +28,9 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
   late User _user;
 
   final TextEditingController _victoryController = TextEditingController();
-  final ConfettiController _confettiController =
-      ConfettiController(duration: const Duration(seconds: 3));
-  // ignore: prefer_typing_uninitialized_variables
+  final ConfettiController _confettiController = ConfettiController(
+    duration: const Duration(seconds: 3),
+  );
   bool _isSuccess = false;
 
   @override
@@ -75,9 +75,8 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 ],
               ),
               borderRadius: BorderRadius.circular(Constants.padding),
-              // ignore: prefer_const_literals_to_create_immutables
-              boxShadow: <BoxShadow>[
-                const BoxShadow(offset: Offset(0, 10), blurRadius: 10),
+              boxShadow: const <BoxShadow>[
+                BoxShadow(offset: Offset(0, 10), blurRadius: 10),
               ]),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -99,8 +98,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 emissionFrequency: 0,
                 numberOfParticles: 30,
                 gravity: 0.05,
-                // ignore: prefer_const_literals_to_create_immutables
-                colors: <Color>[
+                colors: const <Color>[
                   CustomColours.lightPurple,
                   CustomColours.darkPurple,
                   CustomColours.teal,
@@ -142,8 +140,9 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                                   Navigator.of(this.context).pop();
                                 });
                               }
-                            }),
-                  )
+                            },
+                          ),
+                  ),
                 ],
               ),
             ],
@@ -159,7 +158,8 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
               radius: Constants.avatarRadius,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(
-                    Radius.circular(Constants.avatarRadius)),
+                  Radius.circular(Constants.avatarRadius),
+                ),
                 child: Image.asset('assets/lv_logo_transparent.png'),
               ),
             ),
