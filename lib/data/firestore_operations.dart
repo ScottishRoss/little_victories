@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/util/toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-CollectionReference<Map<String, dynamic>> _victoriesCollection =
-    firestore.collection('victories');
 CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
+LVToast lvToast = LVToast();
 
 /// START: Check if user exists.
 
@@ -73,8 +74,18 @@ Future<bool> saveLittleVictory(User user, String victory) async {
 
 /// START: Delete Little Victory
 
-Future<bool> deleteLittleVictory(String docId) async {
-  _victoriesCollection.doc(docId).delete().then((_) {
+Future<bool> deleteLittleVictory(User user, String docId) async {
+  await _usersCollection
+      .doc(user.uid)
+      .collection('victories')
+      .doc(docId)
+      .delete()
+      .then((_) {
+    lvToast.showToast(
+      message: 'Victory deleted.',
+      gravity: ToastGravity.TOP,
+      length: Toast.LENGTH_SHORT,
+    );
     return true;
   });
   return false;

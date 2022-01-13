@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -10,11 +11,14 @@ class Constants {
 }
 
 class DeleteVictoryBox extends StatefulWidget {
-  const DeleteVictoryBox({Key? key, required String docId})
-      : _docId = docId,
-        super(key: key);
+  const DeleteVictoryBox({
+    Key? key,
+    required this.docId,
+    required this.user,
+  }) : super(key: key);
 
-  final String _docId;
+  final String docId;
+  final User user;
 
   @override
   _DeleteVictoryBoxState createState() => _DeleteVictoryBoxState();
@@ -22,11 +26,13 @@ class DeleteVictoryBox extends StatefulWidget {
 
 class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
   late String _docId;
+  late User _user;
   bool _isSuccess = false;
 
   @override
   void initState() {
-    _docId = widget._docId;
+    _docId = widget.docId;
+    _user = widget.user;
     super.initState();
   }
 
@@ -71,16 +77,14 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Positioned(
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: Constants.logoRadius,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(Constants.logoRadius),
-                    ),
-                    child: Image.asset('assets/lv_logo_transparent.png'),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: Constants.logoRadius,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.logoRadius),
                   ),
+                  child: Image.asset('assets/lv_logo_transparent.png'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -117,10 +121,12 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.transparent),
                             onPressed: () async {
-                              await deleteLittleVictory(_docId.toString());
                               setState(() {
                                 _isSuccess = true;
                               });
+                              await deleteLittleVictory(
+                                  _user, _docId.toString());
+
                               Navigator.of(this.context).pop();
                             },
                           ),

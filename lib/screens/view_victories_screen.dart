@@ -6,6 +6,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/delete_victory_modal.dart';
 import 'package:little_victories/widgets/share_victory_modal.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
@@ -87,8 +88,10 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                   final DateTime date = timestamp.toDate();
                                   final String decodedString =
                                       victory['victory'].toString();
+                                  final String docId =
+                                      snapshot.data!.docs[index].id.toString();
 
-                                  return Element(date, decodedString);
+                                  return Element(date, decodedString, docId);
                                 },
                               ),
                               groupBy: (Element element) {
@@ -116,6 +119,7 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                                   element.victory.toString(),
                                   context,
                                   _user,
+                                  element.docId.toString(),
                                 );
                               },
                             ),
@@ -148,7 +152,12 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
 }
 
 Widget _viewVictoryRow(
-    String date, String victory, BuildContext context, User _user) {
+  String date,
+  String victory,
+  BuildContext context,
+  User _user,
+  String docId,
+) {
   return Container(
     margin: const EdgeInsets.symmetric(
       horizontal: 20.0,
@@ -203,9 +212,9 @@ Widget _viewVictoryRow(
                   onPressed: () => showDialog<Widget>(
                       context: context,
                       builder: (BuildContext context) {
-                        return ShareVictoryModal(
+                        return DeleteVictoryBox(
+                          docId: docId,
                           user: _user,
-                          victory: victory,
                         );
                       }),
                   icon: const FaIcon(
@@ -239,9 +248,10 @@ Widget _viewVictoryRow(
 mixin StickyGroupedListOrder {}
 
 class Element {
-  Element(this.date, this.victory);
+  Element(this.date, this.victory, this.docId);
   DateTime date;
   String victory;
+  String docId;
 }
 
 class DateSeparator extends StatelessWidget {
