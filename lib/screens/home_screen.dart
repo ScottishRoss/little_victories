@@ -1,19 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/message.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/add_victory_modal.dart';
-
-import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required User user})
       : _user = user,
         super(key: key);
 
+  // ignore: unused_field
   final User _user;
 
   @override
@@ -22,49 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late User _user;
-
-  @override
-  void initState() {
-    _user = widget._user;
-
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? message) {
-      if (message != null) {
-        Navigator.pushNamed(
-          context,
-          '/message',
-          arguments: MessageArguments(message, true),
-        );
-      }
-    });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final RemoteNotification notification = message.notification!;
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            icon: 'launch_background',
-          ),
-        ),
-      );
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.pushNamed(
-        context,
-        '/message',
-        arguments: MessageArguments(message, true),
-      );
-    });
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
