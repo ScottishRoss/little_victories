@@ -27,12 +27,14 @@ Widget buildNiceButton(
   Color backgroundColor,
   Function() onPressed, {
   List<Color>? gradientColors,
+  Color textColor = Colors.white,
   double? radius,
   double? fontSize,
 }) =>
     Container(
       margin: const EdgeInsets.all(15.0),
       child: NiceButton(
+        textColor: textColor,
         width: double.infinity,
         fontSize: fontSize ?? 18.0,
         elevation: 10.0,

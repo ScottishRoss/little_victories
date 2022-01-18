@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
@@ -38,15 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               // Little Victories Logo
               buildFlexibleImage(),
-
               const Spacer(),
               // Preferences Button
-
               buildNiceButton(
                 'Preferences',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/preferences',
-                    arguments: <User>[_user]),
+                () => Navigator.pushNamed(
+                  context,
+                  '/preferences',
+                  arguments: <User>[_user],
+                ),
               ),
               // View Victories
               buildNiceButton(

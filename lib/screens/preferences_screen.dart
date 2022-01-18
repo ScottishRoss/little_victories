@@ -40,14 +40,18 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               const Spacer(),
               buildNiceButton(
                 'Delete Account',
-                Colors.redAccent,
-                () => showDialog<Widget>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return DeleteAccountBox(user: _user);
-                  },
-                ),
+                Colors.red.shade400,
+                () {
+                  showDialog<Widget>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DeleteAccountBox(user: _user);
+                    },
+                  );
+                },
+                //textColor: CustomColours.darkPurple,
               ),
+
               buildNiceButton(
                 'Sign Out',
                 CustomColours.darkPurple,

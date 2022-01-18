@@ -2,18 +2,29 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/screens/preferences_screen.dart';
 import 'package:little_victories/screens/push_notifications_screen.dart';
 import 'package:little_victories/screens/view_victories_screen.dart';
 import 'package:page_transition/page_transition.dart';
+
 import 'screens/home_screen.dart';
 import 'screens/sign_in_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      <DeviceOrientation>[DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
+
+  if (kDebugMode) {
+    // Force disable Crashlytics collection while doing every day development.
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  }
 
   runApp(MyApp());
 }
