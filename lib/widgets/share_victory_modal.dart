@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:social_share/social_share.dart';
 
@@ -70,6 +71,10 @@ class ShareVictoryModal extends StatelessWidget {
                     onPressed: () {
                       SocialShare.shareTwitter(victory!,
                           hashtags: <String>['LittleVictories']);
+                      FirebaseAnalyticsService()
+                          .logEvent('share_victory', <String, Object>{
+                        'platform': 'twitter',
+                      });
                     },
                     icon: const FaIcon(FontAwesomeIcons.twitter),
                   ),
@@ -87,6 +92,10 @@ class ShareVictoryModal extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       SocialShare.shareWhatsapp(victory!);
+                      FirebaseAnalyticsService()
+                          .logEvent('share_victory', <String, Object>{
+                        'platform': 'whatsapp',
+                      });
                     },
                     icon: const FaIcon(FontAwesomeIcons.whatsapp),
                   ),

@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
@@ -67,6 +68,9 @@ class _ShareImageState extends State<ShareImage> {
         Share.shareFiles(<String>[path]);
         break;
     }
+    FirebaseAnalyticsService().logEvent('share_victory', <String, Object>{
+      'platform': platform,
+    });
   }
 
   // ignore: unused_element

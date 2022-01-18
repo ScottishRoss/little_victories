@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -48,6 +49,9 @@ Future<bool> createUser(User user) async {
     'news': true,
     'reminder': true
   }).then((_) {
+    FirebaseAnalyticsService().logEvent('g_sign_up', <String, Object>{
+      'method': 'google',
+    });
     return true;
   });
   return false;
@@ -67,6 +71,9 @@ Future<bool> saveLittleVictory(User user, String victory) async {
     'victory': victory,
     'createdOn': currentDateTime,
   }).then((_) {
+    FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
+      'submit': 'true',
+    });
     return true;
   });
   return false;
