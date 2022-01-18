@@ -88,9 +88,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
                                   SwitchListTile(
                                     title: Text(key),
                                     value: value as bool,
-                                    onChanged: (bool value) {
-                                      // TODO: Update document on switch change.
-                                    },
+                                    onChanged: (bool value) {},
                                   ),
                                 ],
                               );
