@@ -1,29 +1,20 @@
+# little_victories
 
-![GitHub Repo stars](https://img.shields.io/github/stars/ScottishRoss/little_victories?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues-raw/scottishross/little_victories?style=for-the-badge)
-![Twitter Follow](https://img.shields.io/twitter/follow/Rhenderson91?style=for-the-badge)
+A new Flutter application.
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/ScottishRoss/little_victories">
-    <img src="https://github.com/ScottishRoss/LittleVictories/blob/Release/Images/LV%20Big.png?raw=true" alt="Logo" width="500" height="250">
-  </a>
+## Getting Started
 
-  <p align="center">
-    Everyday life is full of Little Victories, the small steps that we don't always celebrate as we should. We look to the big wins and we judge ourselves by achieving milestones, rather than congratulating ourselves for small moments of progress towards our goals.
-    <br />
-    <br />
-    ·
-    <a href="https://github.com/scottishross/little_victories/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/scottishross/little_victories/issues">Request Feature</a>
-  </p>
+This project is a starting point for a Flutter application.
 
+A few resources to get you started if this is your first Flutter project:
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+=======
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
 * [Usage](#usage)
@@ -87,3 +78,4 @@ Ross Henderson - [@RHenderson91](https://twitter.com/RHenderson91) - rphenderson
 Project Link: [https://github.com/ScottishRoss/little_victories](https://github.com/ScottishRoss/LittleVictories)
 
  
+
