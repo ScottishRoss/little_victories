@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/authentication.dart';
+import 'package:little_victories/util/toast.dart';
 import 'package:little_victories/util/utils.dart';
 
 /// Google
@@ -44,7 +46,17 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                  Navigator.pushNamed(context, '/home', arguments: user);
+                  Navigator.pushReplacementNamed(
+                    context,
+                    '/homeFromSignIn',
+                    arguments: user,
+                  );
+                } else {
+                  LVToast().showToast(
+                    message: 'Sign in failed, try again later.',
+                    gravity: ToastGravity.CENTER,
+                    length: Toast.LENGTH_LONG,
+                  );
                 }
               },
               child: Padding(

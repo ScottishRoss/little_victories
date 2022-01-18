@@ -21,18 +21,17 @@ class Authentication {
     );
   }
 
-  static Future<FirebaseApp> initializeFirebase({
-    required BuildContext context,
-  }) async {
+  static Future<FirebaseApp> initializeFirebase(
+      {required BuildContext context}) async {
     final FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-    final User? user = FirebaseAuth.instance.currentUser;
+    // final User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/home', (Route<dynamic> route) => false,
-          arguments: <User>[user]);
-    }
+    // if (user != null) {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, '/homeFromSignIn', (Route<dynamic> route) => false,
+    //       arguments: <User>[user]);
+    // }
 
     return firebaseApp;
   }
@@ -88,9 +87,10 @@ class Authentication {
       }
     }
 
-    if (await isNewUser(user!)) {
-      createUser(user);
-    }
+    final bool _isNewUser = await isNewUser(user!);
+
+    // ignore: always_put_control_body_on_new_line
+    if (_isNewUser) createUser(user);
 
     return user;
   }
@@ -115,6 +115,7 @@ class Authentication {
 
   void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
+      print('No user signed in.');
       // ignore: unnecessary_statements
       Navigator.pushNamed(context, '/sign_in');
     }

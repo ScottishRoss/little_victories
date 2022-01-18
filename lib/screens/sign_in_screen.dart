@@ -20,18 +20,16 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
+          child: Container(
+            margin: const EdgeInsets.only(
               left: 16.0,
               right: 16.0,
               bottom: 20.0,
             ),
             child: Column(
               children: <Widget>[
-                Row(),
                 Expanded(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       // Little Victories Logo
                       buildFlexibleImage(),
@@ -53,13 +51,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       AsyncSnapshot<FirebaseApp> snapshot) {
                     if (snapshot.hasError) {
                       return const Text(
-                          'Error signing in, please try again later.');
+                        'Error signing in, please try again later.',
+                      );
                     } else if (snapshot.connectionState ==
                         ConnectionState.done) {
                       return const GoogleSignInButton();
                     }
                     return buildCircleProgressIndicator(
-                      color: CustomColours.lightPurple,
+                      color: CustomColours.teal,
                     );
                   },
                 ),

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/screens/preferences_screen.dart';
 import 'package:little_victories/screens/push_notifications_screen.dart';
@@ -12,24 +11,9 @@ import 'package:page_transition/page_transition.dart';
 import 'screens/home_screen.dart';
 import 'screens/sign_in_screen.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  importance: Importance.high,
-);
-
-/// Initialize the [FlutterLocalNotificationsPlugin] package.
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
 
   runApp(MyApp());
 }
@@ -57,6 +41,11 @@ class MyApp extends StatelessWidget {
               child: HomeScreen(user: _user!),
               type: PageTransitionType.leftToRightJoined,
               childCurrent: ViewVictoriesScreen(user: _user!),
+            );
+          case '/homeFromSignIn':
+            return PageTransition<void>(
+              child: HomeScreen(user: _user!),
+              type: PageTransitionType.fade,
             );
           case '/homeFromPreferences':
             return PageTransition<void>(
@@ -87,7 +76,10 @@ class MyApp extends StatelessWidget {
               childCurrent: HomeScreen(user: _user!),
             );
           default:
-            return null;
+            return PageTransition<void>(
+              child: const SignInScreen(),
+              type: PageTransitionType.fade,
+            );
         }
       },
     );

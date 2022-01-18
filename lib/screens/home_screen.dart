@@ -38,9 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               // Little Victories Logo
               buildFlexibleImage(),
-              Text(_user.uid),
+
               const Spacer(),
               // Preferences Button
+
               buildNiceButton(
                 'Preferences',
                 CustomColours.darkPurple,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/res/custom_colours.dart';
 
 @immutable
 class NiceButton extends StatelessWidget {
@@ -77,6 +78,7 @@ class NiceButton extends StatelessWidget {
   BoxDecoration get boxDecoration => BoxDecoration(
       gradient: linearGradient,
       borderRadius: BorderRadius.circular(radius!),
+      border: Border.all(color: CustomColours.teal),
       color: background);
 
   TextStyle get textStyle => TextStyle(
