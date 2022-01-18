@@ -36,7 +36,7 @@ class Authentication {
     return firebaseApp;
   }
 
-  Future<User?> signInWithGoogle({required BuildContext context}) async {
+  Future<User> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
