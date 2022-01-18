@@ -18,4 +18,16 @@ class LVToast {
       fontSize: 16.0,
     );
   }
+
+  void somethingWentWrong() {
+    Fluttertoast.showToast(
+      msg: 'Something went wrong, please try again later.',
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: CustomColours.lightPurple,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 }

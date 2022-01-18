@@ -12,7 +12,7 @@ LVToast lvToast = LVToast();
 
 /// START: Check if user exists.
 
-Future<bool> isNewUser(User user) async {
+Future<bool> doesUserExist(User user) async {
   final QuerySnapshot<Object?> snapshot = await firestore
       .collection('users')
       .where('UserId', isEqualTo: user.uid)
@@ -26,6 +26,34 @@ Future<bool> isNewUser(User user) async {
 }
 
 /// END: Check if user exists.
+
+/// START: Delete User
+
+Future<bool> deleteUser(User user) async {
+  final bool topicsDeleted = await deleteTopics(user);
+  final bool victoriesDeleted = await deleteAllVictories(user);
+
+  if (topicsDeleted && victoriesDeleted) {
+    try {
+      await _usersCollection.doc(user.uid).delete();
+      LVToast().showToast(
+        message: 'Account succesfully deleted.',
+        gravity: ToastGravity.BOTTOM,
+        length: Toast.LENGTH_LONG,
+      );
+    } catch (e) {
+      LVToast().showToast(
+        message: 'An issue occurred deleting your account. Try again later.',
+        gravity: ToastGravity.BOTTOM,
+        length: Toast.LENGTH_LONG,
+      );
+    }
+  }
+  print('Account deleted');
+  return true;
+}
+
+///
 
 /// START: Create User.
 
@@ -98,6 +126,39 @@ Future<bool> deleteLittleVictory(User user, String docId) async {
   return false;
 }
 
+Future<bool> deleteTopics(User user) async {
+  final DocumentReference<Map<String, dynamic>> _topicsDoc =
+      _usersCollection.doc(user.uid).collection('notifications').doc('topics');
+
+  try {
+    await _topicsDoc.delete();
+  } catch (e) {
+    lvToast.somethingWentWrong();
+  }
+  return true;
+}
+
+Future<bool> deleteAllVictories(User user) async {
+  final CollectionReference<Map<String, dynamic>> _victoriesCollection =
+      _usersCollection.doc(user.uid).collection('victories');
+
+  try {
+    _victoriesCollection
+        .get()
+        .then((QuerySnapshot<Map<String, dynamic>> value) {
+      for (final QueryDocumentSnapshot<Map<String, dynamic>> result
+          in value.docs) {
+        final String id = result.id;
+        _victoriesCollection.doc(id).delete();
+      }
+    });
+  } catch (e) {
+    lvToast.somethingWentWrong();
+  }
+  return true;
+}
+
+
 /// START: Update Push Notification Preferences
 //
 // Future<bool> updatePushNotificationPreferences(User user, String topic, bool) async {
@@ -111,4 +172,3 @@ Future<bool> deleteLittleVictory(User user, String docId) async {
 //   });
 //   return false;
 // }
-

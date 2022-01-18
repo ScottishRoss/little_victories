@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/delete_account_modal.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
-
-// TODO: Add delete account function.
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key, required User user})
@@ -39,12 +38,16 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               // Little Victories Logo
               buildFlexibleImage(),
               const Spacer(),
-              // buildNiceButton(
-              //   'Push Notifications',
-              //   CustomColours.darkPurple,
-              //   () => Navigator.pushNamed(context, '/push_notifications',
-              //       arguments: <User>[_user]),
-              // ),
+              buildNiceButton(
+                'Delete Account',
+                Colors.redAccent,
+                () => showDialog<Widget>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DeleteAccountBox(user: _user);
+                  },
+                ),
+              ),
               buildNiceButton(
                 'Sign Out',
                 CustomColours.darkPurple,
