@@ -65,9 +65,11 @@ flutter:
 
 flutter_native_splash:
   color: "#8060c3"
-  image: assets/lv_main.png
+  image: assets/lv_logo_transparent.png
 
 android12: true
 fullscreen: true
+
+# flutter pub run flutter_native_splash:create
 
 
