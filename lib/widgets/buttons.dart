@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/toast.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/custom_toast.dart';
 
 /// Google
 
@@ -17,6 +17,8 @@ class GoogleSignInButton extends StatefulWidget {
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   bool _isSigningIn = false;
+  final FToast fToast = FToast();
+  late User _user;
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +40,26 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   _isSigningIn = true;
                 });
 
-                final User user =
+                _user =
                     await Authentication().signInWithGoogle(context: context);
 
                 setState(() {
                   _isSigningIn = false;
                 });
 
-                if (user != null) {
+                if (_user != null) {
+                  print(_user);
                   Navigator.pushReplacementNamed(
                     context,
                     '/homeFromSignIn',
-                    arguments: user,
+                    arguments: <User>[_user],
                   );
                 } else {
-                  LVToast().showToast(
-                    message: 'Sign in failed, try again later.',
-                    gravity: ToastGravity.CENTER,
-                    length: Toast.LENGTH_LONG,
+                  fToast.showToast(
+                    child: const CustomToast(
+                        message: 'Sign-in fail, please try again later.'),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
                   );
                 }
               },

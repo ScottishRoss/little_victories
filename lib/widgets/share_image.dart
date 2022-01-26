@@ -71,6 +71,7 @@ class _ShareImageState extends State<ShareImage> {
     FirebaseAnalyticsService().logEvent('share_victory', <String, Object>{
       'platform': platform,
     });
+    Navigator.of(context).pop();
   }
 
   // ignore: unused_element
