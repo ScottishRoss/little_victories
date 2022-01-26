@@ -23,7 +23,7 @@ Future<void> main() async {
 
   if (kDebugMode) {
     // Force disable Crashlytics collection while doing every day development.
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   }
 
   runApp(MyApp());
