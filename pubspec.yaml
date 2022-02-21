@@ -31,7 +31,7 @@ dependencies:
   page_transition: ^2.0.4
   grouped_list: ^4.1.0
   flutter_social_content_share: ^1.0.2
-  image_picker: ^0.8.4+4
+  image_picker: ^0.8.4+4 
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^9.2.0
   flutter_launcher_icons: ^0.9.2
@@ -65,9 +65,11 @@ flutter:
 
 flutter_native_splash:
   color: "#8060c3"
-  image: assets/lv_main.png
+  image: assets/lv_logo_transparent.png
 
 android12: true
 fullscreen: true
+
+# flutter pub run flutter_native_splash:create
 
 

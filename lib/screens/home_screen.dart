@@ -53,8 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
               buildNiceButton(
                 'View your Victories',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/view_victories',
-                    arguments: <User>[_user]),
+                () => Navigator.pushNamed(
+                  context,
+                  '/view_victories',
+                  arguments: <User>[_user],
+                ),
               ),
               const Spacer(),
               // Celebrate a Victory
