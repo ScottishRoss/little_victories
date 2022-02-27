@@ -16,6 +16,7 @@ class CustomToast extends StatefulWidget {
 
 class _CustomToastState extends State<CustomToast> {
   late FToast fToast;
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,7 @@ class _CustomToastState extends State<CustomToast> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CircleAvatar(
-            child: Image.asset('assets/lv_logo_transparent_purple.png'),
+            child: Image.asset('assets/lv_logo_transparent.png'),
           ),
           const SizedBox(
             width: 12.0,

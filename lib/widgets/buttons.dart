@@ -18,7 +18,12 @@ class GoogleSignInButton extends StatefulWidget {
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   bool _isSigningIn = false;
   final FToast fToast = FToast();
-  late User _user;
+
+  @override
+  void initState() {
+    super.initState();
+    fToast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   _isSigningIn = true;
                 });
 
-                _user =
+                final User _user =
                     await Authentication().signInWithGoogle(context: context);
 
                 setState(() {
@@ -52,7 +57,6 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   Navigator.pushReplacementNamed(
                     context,
                     '/homeFromSignIn',
-                    arguments: <User>[_user],
                   );
                 } else {
                   fToast.showToast(

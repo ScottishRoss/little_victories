@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -13,6 +14,21 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  void isUserSignedIn() {
+    final User? _user = FirebaseAuth.instance.currentUser;
+    if (_user != null) {
+      Navigator.pushNamed(context, '/homeFromSignIn');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      isUserSignedIn();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

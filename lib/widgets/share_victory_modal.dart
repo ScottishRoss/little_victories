@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -15,13 +14,16 @@ class Constants {
 }
 
 // ignore: must_be_immutable
-class ShareVictoryModal extends StatelessWidget {
-  ShareVictoryModal({Key? key, required this.user, this.victory})
-      : super(key: key);
+class ShareVictoryModal extends StatefulWidget {
+  ShareVictoryModal({Key? key, this.victory}) : super(key: key);
 
-  final User user;
   String? victory = 'I celebrated a Little Victory!';
 
+  @override
+  State<ShareVictoryModal> createState() => _ShareVictoryModalState();
+}
+
+class _ShareVictoryModalState extends State<ShareVictoryModal> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -69,7 +71,7 @@ class ShareVictoryModal extends StatelessWidget {
                 children: <Widget>[
                   IconButton(
                     onPressed: () {
-                      SocialShare.shareTwitter(victory!,
+                      SocialShare.shareTwitter(widget.victory!,
                           hashtags: <String>['LittleVictories']);
                       FirebaseAnalyticsService()
                           .logEvent('share_victory', <String, Object>{
@@ -83,7 +85,7 @@ class ShareVictoryModal extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return ShareImage(
-                            victory: victory!,
+                            victory: widget.victory!,
                             platform: 'Facebook',
                           );
                         }),
@@ -91,7 +93,7 @@ class ShareVictoryModal extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      SocialShare.shareWhatsapp(victory!);
+                      SocialShare.shareWhatsapp(widget.victory!);
                       FirebaseAnalyticsService()
                           .logEvent('share_victory', <String, Object>{
                         'platform': 'whatsapp',
@@ -104,7 +106,7 @@ class ShareVictoryModal extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return ShareImage(
-                            victory: victory!,
+                            victory: widget.victory!,
                             platform: 'Instagram',
                           );
                         }),
@@ -115,7 +117,7 @@ class ShareVictoryModal extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return ShareImage(
-                            victory: victory!,
+                            victory: widget.victory!,
                             platform: 'Other',
                           );
                         }),

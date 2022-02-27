@@ -6,11 +6,7 @@ import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
 class PushNotificationsScreen extends StatefulWidget {
-  const PushNotificationsScreen({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const PushNotificationsScreen({Key? key}) : super(key: key);
 
   @override
   _PushNotificationsScreenState createState() =>
@@ -24,7 +20,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
   @override
   void initState() {
     super.initState();
-    _user = widget._user;
+    _user = _user = FirebaseAuth.instance.currentUser!;
 
     _pushNotificationSettingsStream = firestore
         .collection('users')
@@ -105,8 +101,10 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,
-                () => Navigator.pushNamed(context, '/home',
-                    arguments: <User>[_user]),
+                () => Navigator.pushNamed(
+                  context,
+                  '/home',
+                ),
               ),
               const SizedBox(height: 20.0),
             ],

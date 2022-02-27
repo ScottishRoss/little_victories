@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/toast.dart';
+import 'package:little_victories/widgets/custom_toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
-LVToast lvToast = LVToast();
+FToast fToast = FToast();
 
 /// START: Check if user exists.
 
@@ -36,16 +36,19 @@ Future<bool> deleteUser(User user) async {
   if (topicsDeleted && victoriesDeleted) {
     try {
       await _usersCollection.doc(user.uid).delete();
-      LVToast().showToast(
-        message: 'Account succesfully deleted.',
+
+      fToast.showToast(
+        child: const CustomToast(message: 'Victory deleted.'),
         gravity: ToastGravity.BOTTOM,
-        length: Toast.LENGTH_LONG,
+        toastDuration: const Duration(seconds: 2),
       );
     } catch (e) {
-      LVToast().showToast(
-        message: 'An issue occurred deleting your account. Try again later.',
+      fToast.showToast(
+        child: const CustomToast(
+            message:
+                'Something went wrong deleting your account. Try again later.'),
         gravity: ToastGravity.BOTTOM,
-        length: Toast.LENGTH_LONG,
+        toastDuration: const Duration(seconds: 2),
       );
     }
   }
@@ -116,11 +119,12 @@ Future<bool> deleteLittleVictory(User user, String docId) async {
       .doc(docId)
       .delete()
       .then((_) {
-    lvToast.showToast(
-      message: 'Victory deleted.',
-      gravity: ToastGravity.TOP,
-      length: Toast.LENGTH_SHORT,
+    fToast.showToast(
+      child: const CustomToast(message: 'Victory deleted.'),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
     );
+
     return true;
   });
   return false;
@@ -133,7 +137,11 @@ Future<bool> deleteTopics(User user) async {
   try {
     await _topicsDoc.delete();
   } catch (e) {
-    lvToast.somethingWentWrong();
+    fToast.showToast(
+      child: const CustomToast(message: 'Something went wrong.'),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
+    );
   }
   return true;
 }
@@ -153,7 +161,11 @@ Future<bool> deleteAllVictories(User user) async {
       }
     });
   } catch (e) {
-    lvToast.somethingWentWrong();
+    fToast.showToast(
+      child: const CustomToast(message: 'Something went wrong.'),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
+    );
   }
   return true;
 }

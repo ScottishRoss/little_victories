@@ -6,11 +6,7 @@ import 'package:little_victories/widgets/delete_account_modal.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
 
 class PreferencesScreen extends StatefulWidget {
-  const PreferencesScreen({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const PreferencesScreen({Key? key}) : super(key: key);
 
   @override
   _PreferencesScreenState createState() => _PreferencesScreenState();
@@ -21,7 +17,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   @override
   void initState() {
-    _user = widget._user;
+    _user = FirebaseAuth.instance.currentUser!;
 
     super.initState();
   }
@@ -69,7 +65,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 () => Navigator.pushNamed(
                   context,
                   '/homeFromPreferences',
-                  arguments: <User>[_user],
                 ),
               ),
               const SizedBox(height: 20.0),

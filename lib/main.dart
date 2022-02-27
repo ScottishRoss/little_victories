@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
@@ -26,13 +25,11 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  final User? _user = FirebaseAuth.instance.currentUser;
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,35 +41,35 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Montserrat',
         highlightColor: CustomColours.teal,
       ),
-      home: _user != null ? HomeScreen(user: _user!) : const SignInScreen(),
+      home: const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/homeFromViewVictories':
             return PageTransition<void>(
-              child: HomeScreen(user: _user!),
+              child: const HomeScreen(),
               type: PageTransitionType.leftToRightJoined,
-              childCurrent: ViewVictoriesScreen(user: _user!),
+              childCurrent: const ViewVictoriesScreen(),
             );
           case '/homeFromSignIn':
             return PageTransition<void>(
-              child: HomeScreen(user: _user!),
+              child: const HomeScreen(),
               type: PageTransitionType.fade,
             );
           case '/homeFromPreferences':
             return PageTransition<void>(
-              child: HomeScreen(user: _user!),
+              child: const HomeScreen(),
               type: PageTransitionType.leftToRightJoined,
-              childCurrent: PreferencesScreen(user: _user!),
+              childCurrent: const PreferencesScreen(),
             );
           case '/preferences':
             return PageTransition<void>(
-              child: PreferencesScreen(user: _user!),
+              child: const PreferencesScreen(),
               type: PageTransitionType.rightToLeftJoined,
-              childCurrent: HomeScreen(user: _user!),
+              childCurrent: const HomeScreen(),
             );
           case '/push_notifications':
             return PageTransition<void>(
-              child: PushNotificationsScreen(user: _user!),
+              child: const PushNotificationsScreen(),
               type: PageTransitionType.fade,
             );
           case '/sign_in':
@@ -82,9 +79,9 @@ class MyApp extends StatelessWidget {
             );
           case '/view_victories':
             return PageTransition<void>(
-              child: ViewVictoriesScreen(user: _user!),
+              child: const ViewVictoriesScreen(),
               type: PageTransitionType.rightToLeftJoined,
-              childCurrent: HomeScreen(user: _user!),
+              childCurrent: const HomeScreen(),
             );
           default:
             return PageTransition<void>(
