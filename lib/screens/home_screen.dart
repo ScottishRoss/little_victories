@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
@@ -6,23 +5,15 @@ import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/add_victory_modal.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  // ignore: unused_field
-  final User _user;
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late User _user;
-
   @override
   void initState() {
-    _user = widget._user;
     Authentication().authCheck(context);
     super.initState();
   }
@@ -46,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 () => Navigator.pushNamed(
                   context,
                   '/preferences',
-                  arguments: <User>[_user],
                 ),
               ),
               // View Victories
@@ -56,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 () => Navigator.pushNamed(
                   context,
                   '/view_victories',
-                  arguments: <User>[_user],
                 ),
               ),
               const Spacer(),
@@ -67,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 () => showDialog<Widget>(
                     context: context,
                     builder: (BuildContext context) {
-                      return AddVictoryBox(user: _user);
+                      return const AddVictoryBox();
                     }),
               ),
               const SizedBox(height: 20.0),

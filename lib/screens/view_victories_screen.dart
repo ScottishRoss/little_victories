@@ -10,11 +10,7 @@ import 'package:little_victories/widgets/delete_victory_modal.dart';
 import 'package:little_victories/widgets/share_victory_modal.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
-  const ViewVictoriesScreen({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const ViewVictoriesScreen({Key? key}) : super(key: key);
 
   @override
   _ViewVictoriesScreenState createState() => _ViewVictoriesScreenState();
@@ -29,15 +25,14 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
 
   @override
   void initState() {
-    _user = widget._user;
+    super.initState();
+    _user = FirebaseAuth.instance.currentUser!;
     _dataList = firestore
         .collection('users')
         .doc(_user.uid)
         .collection('victories')
         .orderBy('createdOn', descending: false)
         .snapshots();
-
-    super.initState();
   }
 
   void doNothing(BuildContext context) {}
@@ -227,7 +222,6 @@ Widget _viewVictoryRow(
                       context: context,
                       builder: (BuildContext context) {
                         return ShareVictoryModal(
-                          user: _user,
                           victory: victory,
                         );
                       }),

@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>dev.rhenderson.socialSignOn</string>
+	<string>rphenderson.dev.littlevictories</string>
 	<key>PROJECT_ID</key>
 	<string>little-victories-b2c60</string>
 	<key>STORAGE_BUCKET</key>

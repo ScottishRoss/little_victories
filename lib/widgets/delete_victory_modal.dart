@@ -31,9 +31,10 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
 
   @override
   void initState() {
+    super.initState();
     _docId = widget.docId;
     _user = widget.user;
-    super.initState();
+    fToast.init(context);
   }
 
   @override

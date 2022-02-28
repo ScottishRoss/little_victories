@@ -14,11 +14,7 @@ class Constants {
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class AddVictoryBox extends StatefulWidget {
-  const AddVictoryBox({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const AddVictoryBox({Key? key}) : super(key: key);
 
   @override
   _AddVictoryBoxState createState() => _AddVictoryBoxState();
@@ -35,7 +31,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
 
   @override
   void initState() {
-    _user = widget._user;
+    _user = FirebaseAuth.instance.currentUser!;
     super.initState();
   }
 

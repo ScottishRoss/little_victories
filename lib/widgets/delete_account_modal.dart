@@ -28,8 +28,10 @@ class _DeleteAccountBoxState extends State<DeleteAccountBox> {
 
   @override
   void initState() {
-    _user = widget.user;
     super.initState();
+    _user = widget.user;
+
+    fToast.init(context);
   }
 
   @override
