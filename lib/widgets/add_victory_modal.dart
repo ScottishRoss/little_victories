@@ -132,7 +132,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
 
                                 _confettiController.play();
                                 Future<dynamic>.delayed(
-                                    const Duration(seconds: 3), () {
+                                    const Duration(seconds: 2), () {
                                   Navigator.of(this.context).pop();
                                 });
                               }
