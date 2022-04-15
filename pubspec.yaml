@@ -22,6 +22,7 @@ dependencies:
   firebase_crashlytics: ^2.4.5
   cloud_firestore: ^3.1.5
   google_sign_in: ^5.2.1
+  expansion_tile_card: ^2.0.0
 
   confetti: ^0.6.0
   social_share: ^2.2.1

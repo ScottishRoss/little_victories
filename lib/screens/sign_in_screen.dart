@@ -17,7 +17,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void isUserSignedIn() {
     final User? _user = FirebaseAuth.instance.currentUser;
     if (_user != null) {
-      Navigator.pushNamed(context, '/homeFromSignIn');
+      Navigator.pushNamed(context, '/home');
     }
   }
 

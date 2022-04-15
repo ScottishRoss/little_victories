@@ -47,7 +47,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 },
                 //textColor: CustomColours.darkPurple,
               ),
-
               buildNiceButton(
                 'Sign Out',
                 CustomColours.darkPurple,
@@ -64,7 +63,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 CustomColours.darkPurple,
                 () => Navigator.pushNamed(
                   context,
-                  '/homeFromPreferences',
+                  '/home',
                 ),
               ),
               const SizedBox(height: 20.0),
