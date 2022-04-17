@@ -91,7 +91,11 @@ Future<bool> createUser(User user) async {
 /// END: Create User
 
 /// START: Add Little Victory
-Future<bool> saveLittleVictory(User user, String victory) async {
+Future<bool> saveLittleVictory(
+  User user,
+  String victory,
+  String icon,
+) async {
   final DateTime currentDateTime = DateTime.now();
 
   _usersCollection
@@ -101,6 +105,7 @@ Future<bool> saveLittleVictory(User user, String victory) async {
       .set(<String, dynamic>{
     'victory': victory,
     'createdOn': currentDateTime,
+    'icon': icon
   }).then((_) {
     FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
       'submit': 'true',

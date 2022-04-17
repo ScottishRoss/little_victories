@@ -97,14 +97,19 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 }
 
 class SaveVictoryButton extends StatefulWidget {
-  const SaveVictoryButton(
-      {Key? key, required User user, required String victory})
-      : _user = user,
+  const SaveVictoryButton({
+    Key? key,
+    required User user,
+    required String victory,
+    required String icon,
+  })  : _user = user,
         _victory = victory,
+        _icon = icon,
         super(key: key);
 
   final User _user;
   final String _victory;
+  final String _icon;
 
   @override
   _SaveVictoryButtonState createState() => _SaveVictoryButtonState();
@@ -114,11 +119,13 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
   bool _isSuccess = false;
   late User _user;
   late String _victory;
+  late String _icon;
 
   @override
   void initState() {
     _user = widget._user;
     _victory = widget._victory;
+    _icon = widget._icon;
     super.initState();
   }
 
@@ -137,7 +144,7 @@ class _SaveVictoryButtonState extends State<SaveVictoryButton> {
                 ),
               ),
               onPressed: () async {
-                _isSuccess = await saveLittleVictory(_user, _victory);
+                _isSuccess = await saveLittleVictory(_user, _victory, _icon);
 
                 if (_isSuccess) {
                   Navigator.pushNamed(context, '/preferences',
