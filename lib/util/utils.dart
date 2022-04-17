@@ -30,9 +30,18 @@ Widget buildNiceButton(
   Color textColor = Colors.white,
   double? radius,
   double? fontSize,
+  double marginTop = 15.0,
+  double marginBottom = 15.0,
+  double marginLeft = 15.0,
+  double marginRight = 15.0,
 }) =>
     Container(
-      margin: const EdgeInsets.all(15.0),
+      margin: EdgeInsets.fromLTRB(
+        marginLeft,
+        marginTop,
+        marginRight,
+        marginBottom,
+      ),
       child: NiceButton(
         textColor: textColor,
         width: double.infinity,

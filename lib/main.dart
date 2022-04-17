@@ -39,33 +39,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Montserrat',
-        highlightColor: CustomColours.teal,
+        highlightColor: CustomColours.lightPurple,
       ),
       home: const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
-          case '/homeFromViewVictories':
-            return PageTransition<void>(
-              child: const HomeScreen(),
-              type: PageTransitionType.leftToRightJoined,
-              childCurrent: const ViewVictoriesScreen(),
-            );
-          case '/homeFromSignIn':
+          case '/home':
             return PageTransition<void>(
               child: const HomeScreen(),
               type: PageTransitionType.fade,
             );
-          case '/homeFromPreferences':
-            return PageTransition<void>(
-              child: const HomeScreen(),
-              type: PageTransitionType.leftToRightJoined,
-              childCurrent: const PreferencesScreen(),
-            );
           case '/preferences':
             return PageTransition<void>(
               child: const PreferencesScreen(),
-              type: PageTransitionType.rightToLeftJoined,
-              childCurrent: const HomeScreen(),
+              type: PageTransitionType.fade,
             );
           case '/push_notifications':
             return PageTransition<void>(
@@ -80,8 +67,7 @@ class MyApp extends StatelessWidget {
           case '/view_victories':
             return PageTransition<void>(
               child: const ViewVictoriesScreen(),
-              type: PageTransitionType.rightToLeftJoined,
-              childCurrent: const HomeScreen(),
+              type: PageTransitionType.fade,
             );
           default:
             return PageTransition<void>(
