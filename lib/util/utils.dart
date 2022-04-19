@@ -106,6 +106,7 @@ Widget buildTextFormField(
 ) {
   return TextFormField(
     controller: controller,
+    cursorColor: CustomColours.darkPurple,
     textCapitalization: TextCapitalization.sentences,
     autofocus: true,
     maxLength: 100,

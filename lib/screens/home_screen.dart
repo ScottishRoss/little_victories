@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     '/preferences',
                   ),
                 ),
+
                 // View Victories
                 buildNiceButton(
                   'View your Victories',
@@ -56,10 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Celebrate a Victory',
                   CustomColours.darkPurple,
                   () => showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const AddVictoryBox();
-                      }),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const AddVictoryBox();
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20.0),
               ],

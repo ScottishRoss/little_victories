@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:social_share/social_share.dart';
 
 import 'share_image.dart';
-
-class Constants {
-  Constants._();
-  static const double padding = 20;
-  static const double avatarRadius = 45;
-}
 
 // ignore: must_be_immutable
 class ShareVictoryModal extends StatefulWidget {
@@ -28,7 +23,7 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Constants.padding),
+        borderRadius: BorderRadius.circular(kModalPadding),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -42,12 +37,12 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
         Container(
           height: 300,
           padding: const EdgeInsets.only(
-            left: Constants.padding,
+            left: kModalPadding,
             top: 10,
-            right: Constants.padding,
-            bottom: Constants.padding,
+            right: kModalPadding,
+            bottom: kModalPadding,
           ),
-          margin: const EdgeInsets.only(top: Constants.avatarRadius),
+          margin: const EdgeInsets.only(top: kModalAvatarRadius),
           decoration: BoxDecoration(
               gradient: const LinearGradient(
                 begin: Alignment.topRight,
@@ -57,7 +52,7 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
                   CustomColours.teal,
                 ],
               ),
-              borderRadius: BorderRadius.circular(Constants.padding),
+              borderRadius: BorderRadius.circular(kModalPadding),
               boxShadow: const <BoxShadow>[
                 BoxShadow(offset: Offset(0, 10), blurRadius: 10),
               ]),
@@ -150,10 +145,11 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
           child: Center(
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
+              radius: kModalAvatarRadius,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(
-                    Radius.circular(Constants.avatarRadius)),
+                  Radius.circular(kModalAvatarRadius),
+                ),
                 child: Image.asset('assets/lv_logo_transparent.png'),
               ),
             ),
