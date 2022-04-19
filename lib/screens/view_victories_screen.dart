@@ -106,10 +106,11 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                   backgroundColor: CustomColours.darkPurple,
                   onPressed: () {
                     showDialog<Widget>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const AddVictoryBox();
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const AddVictoryBox();
+                      },
+                    );
                   },
                   child: const Icon(
                     Icons.add,

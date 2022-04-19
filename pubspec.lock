@@ -371,13 +371,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.1"
-  grouped_list:
-    dependency: "direct main"
-    description:
-      name: grouped_list
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.2.0"
   http:
     dependency: transitive
     description:
@@ -462,13 +455,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
-  logger:
-    dependency: transitive
-    description:
-      name: logger
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   logging:
     dependency: transitive
     description:
@@ -623,13 +609,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1+1"
-  rename:
-    dependency: "direct main"
-    description:
-      name: rename
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   share:
     dependency: "direct main"
     description:

@@ -2,14 +2,9 @@ import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
-
-class Constants {
-  Constants._();
-  static const double padding = 20;
-  static const double avatarRadius = 45;
-}
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -166,133 +161,117 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
     return Dialog(
       insetPadding: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Constants.padding),
+        borderRadius: BorderRadius.circular(kModalPadding),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
-      child: contentBox(context),
-    );
-  }
-
-  // ignore: type_annotate_public_apis
-  Stack contentBox(BuildContext context) {
-    assert(context != null);
-    return Stack(
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height / 2,
-          padding: const EdgeInsets.only(
-            left: Constants.padding,
-            top: 10,
-            right: Constants.padding,
-            bottom: Constants.padding,
-          ),
-          margin: const EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: <Color>[
-                  CustomColours.lightPurple,
-                  CustomColours.teal,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(Constants.padding),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(offset: Offset(0, 10), blurRadius: 10),
-              ]),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildTextFormField(_victoryController),
-                  ],
-                ),
-              ),
-              ConfettiWidget(
-                blastDirectionality: BlastDirectionality.explosive,
-                confettiController: _confettiController,
-                emissionFrequency: 0,
-                numberOfParticles: 30,
-                gravity: 0.05,
-                colors: const <Color>[
-                  CustomColours.lightPurple,
-                  CustomColours.darkPurple,
-                  CustomColours.teal,
-                  Colors.white,
-                ],
-              ),
-              _iconRow(),
-              Row(
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(this.context).pop();
-                    },
-                    child: buildtext(
-                      'Close',
-                      fontSize: 15,
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    child: _isSuccess
-                        ? buildCircleProgressIndicator()
-                        : buildOutlinedButton(
-                            textType: 'Celebrate a Victory',
-                            iconData: Icons.celebration,
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await saveLittleVictory(
-                                  _user,
-                                  _victoryController.text,
-                                  icon,
-                                );
-
-                                setState(() {
-                                  _isSuccess = true;
-                                });
-
-                                _confettiController.play();
-                                Future<dynamic>.delayed(
-                                    const Duration(seconds: 2), () {
-                                  Navigator.of(this.context).pop();
-                                });
-                              }
-                            },
-                          ),
-                  ),
-                ],
-              ),
+      child: Container(
+        padding: const EdgeInsets.all(kModalPadding),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: <Color>[
+              CustomColours.lightPurple,
+              CustomColours.teal,
             ],
           ),
+          borderRadius: BorderRadius.circular(kModalPadding),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              offset: Offset(0, 10),
+              blurRadius: 10,
+            ),
+          ],
         ),
-        Positioned(
-          top: 60,
-          left: 30,
-          right: 30,
-          child: Center(
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: Constants.avatarRadius,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(Constants.avatarRadius),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Center(
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: MediaQuery.of(context).size.height * 0.075,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(kModalAvatarRadius),
+                  ),
+                  child: Image.asset('assets/lv_logo_transparent.png'),
                 ),
-                child: Image.asset('assets/lv_logo_transparent.png'),
               ),
             ),
-          ),
+            const SizedBox(height: 20),
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  buildTextFormField(
+                    _victoryController,
+                  ),
+                ],
+              ),
+            ),
+            ConfettiWidget(
+              blastDirectionality: BlastDirectionality.explosive,
+              confettiController: _confettiController,
+              emissionFrequency: 0,
+              numberOfParticles: 30,
+              gravity: 0.05,
+              colors: const <Color>[
+                CustomColours.lightPurple,
+                CustomColours.darkPurple,
+                CustomColours.teal,
+                Colors.white,
+              ],
+            ),
+            _iconRow(),
+            Row(
+              children: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(this.context).pop();
+                  },
+                  child: buildtext(
+                    'Close',
+                    fontSize: 15,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  child: _isSuccess
+                      ? buildCircleProgressIndicator()
+                      : buildOutlinedButton(
+                          textType: 'Celebrate a Victory',
+                          iconData: Icons.celebration,
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              await saveLittleVictory(
+                                _user,
+                                _victoryController.text,
+                                icon,
+                              );
+
+                              setState(() {
+                                _isSuccess = true;
+                              });
+
+                              _confettiController.play();
+                              Future<dynamic>.delayed(
+                                  const Duration(seconds: 2), () {
+                                Navigator.of(this.context).pop();
+                              });
+                            }
+                          },
+                        ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -309,6 +288,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.sentiment_very_satisfied,
             color: _isHappyPressed ? CustomColours.darkPurple : Colors.white,
+            size: _isHappyPressed ? 30 : 20,
           ),
         ),
         IconButton(
@@ -318,6 +298,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.park,
             color: _isTreePressed ? CustomColours.darkPurple : Colors.white,
+            size: _isTreePressed ? 30 : 20,
           ),
         ),
         IconButton(
@@ -327,6 +308,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.restaurant,
             color: _isFoodPressed ? CustomColours.darkPurple : Colors.white,
+            size: _isFoodPressed ? 30 : 20,
           ),
         ),
         IconButton(
@@ -336,6 +318,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.groups,
             color: _isPeoplePressed ? CustomColours.darkPurple : Colors.white,
+            size: _isPeoplePressed ? 30 : 20,
           ),
         ),
         IconButton(
@@ -345,6 +328,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.fitness_center,
             color: _isExercisePressed ? CustomColours.darkPurple : Colors.white,
+            size: _isExercisePressed ? 30 : 20,
           ),
         ),
         IconButton(
@@ -354,6 +338,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
           icon: Icon(
             Icons.favorite,
             color: _isHeartPressed ? CustomColours.darkPurple : Colors.white,
+            size: _isHeartPressed ? 30 : 20,
           ),
         ),
       ],

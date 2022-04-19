@@ -1,14 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/util/utils.dart';
-
-class Constants {
-  Constants._();
-  static const double padding = 20;
-  static const double logoRadius = 45;
-}
 
 class DeleteVictoryBox extends StatefulWidget {
   const DeleteVictoryBox({
@@ -41,7 +35,7 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Constants.padding),
+        borderRadius: BorderRadius.circular(kModalPadding),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -55,22 +49,15 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.only(
-            left: Constants.padding,
+            left: kModalPadding,
             top: 10,
-            right: Constants.padding,
-            bottom: Constants.padding,
+            right: kModalPadding,
+            bottom: kModalPadding,
           ),
-          margin: const EdgeInsets.only(top: Constants.logoRadius),
+          margin: const EdgeInsets.only(top: kModalAvatarRadius),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: <Color>[
-                CustomColours.lightPurple,
-                CustomColours.teal,
-              ],
-            ),
-            borderRadius: BorderRadius.circular(Constants.padding),
+            gradient: kTealGradient,
+            borderRadius: BorderRadius.circular(kModalPadding),
             boxShadow: const <BoxShadow>[
               BoxShadow(offset: Offset(0, 10), blurRadius: 10),
             ],
@@ -80,10 +67,10 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
             children: <Widget>[
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: Constants.logoRadius,
+                radius: kModalAvatarRadius,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(Constants.logoRadius),
+                    Radius.circular(kModalAvatarRadius),
                   ),
                   child: Image.asset('assets/lv_logo_transparent.png'),
                 ),
@@ -126,7 +113,9 @@ class _DeleteVictoryBoxState extends State<DeleteVictoryBox> {
                                 _isSuccess = true;
                               });
                               await deleteLittleVictory(
-                                  _user, _docId.toString());
+                                _user,
+                                _docId.toString(),
+                              );
 
                               Navigator.of(this.context).pop();
                             },
