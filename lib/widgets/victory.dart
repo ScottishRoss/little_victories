@@ -41,17 +41,43 @@ class _VictoryState extends State<Victory> {
   late String victoryString;
   late String truncatedString;
   late String formattedDate;
+  late String? iconName;
   late String docId;
+
+  late Map<String?, dynamic> data;
+
+  IconData getIcon(String iconName) {
+    switch (iconName) {
+      case 'happy':
+        return Icons.sentiment_very_satisfied;
+      case 'tree':
+        return Icons.park;
+      case 'food':
+        return Icons.restaurant;
+      case 'exercise':
+        return Icons.fitness_center;
+      case 'heart':
+        return Icons.favorite;
+      case 'people':
+        return Icons.groups;
+      default:
+        return Icons.sentiment_very_satisfied;
+    }
+  }
 
   @override
   void initState() {
+    // ignore: cast_nullable_to_non_nullable
+    data = widget.victory!.data() as Map<String?, dynamic>;
     docId = widget.docId;
-    timestamp = widget.victory!['createdOn'] as Timestamp;
+    timestamp = data['createdOn'] as Timestamp;
     date = timestamp.toDate();
     time = DateFormat('hh:mm a').format(date);
-    victoryString = widget.victory!['victory'].toString();
+    victoryString = data['victory'] as String;
     truncatedString = victoryString.truncate(30);
+    iconName = data['icon'] as String? ?? 'happy';
     formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(date);
+    print(iconName);
     super.initState();
   }
 
@@ -65,7 +91,13 @@ class _VictoryState extends State<Victory> {
         baseColor: CustomColours.darkPurple,
         expandedColor: CustomColours.darkPurple,
         expandedTextColor: Colors.white,
-        leading: const Text(''),
+        leading: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: Icon(
+            getIcon(iconName!),
+            color: Colors.white,
+          ),
+        ),
         title: Text(formattedDate),
         subtitle: Text(truncatedString),
         children: <Widget>[

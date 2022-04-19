@@ -152,7 +152,6 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
         });
         break;
     }
-    print(icon);
   }
 
   @override
@@ -165,6 +164,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      insetPadding: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Constants.padding),
       ),
@@ -180,7 +180,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
     return Stack(
       children: <Widget>[
         Container(
-          height: 320,
+          height: MediaQuery.of(context).size.height / 2,
           padding: const EdgeInsets.only(
             left: Constants.padding,
             top: 10,
@@ -297,72 +297,66 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
   }
 
   Widget _iconRow() {
-    return SizedBox(
-        width: double.infinity,
+    return Flexible(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <IconButton>[
-            IconButton(
-              onPressed: () {
-                _changeIconColour('happy');
-              },
-              icon: Icon(
-                Icons.sentiment_very_satisfied,
-                color: _isHappyPressed ? CustomColours.teal : Colors.white,
-                size: _isHappyPressed ? 30 : 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _changeIconColour('tree');
-              },
-              icon: Icon(
-                Icons.park,
-                color: _isTreePressed ? CustomColours.teal : Colors.white,
-                size: _isTreePressed ? 30 : 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _changeIconColour('food');
-              },
-              icon: Icon(
-                Icons.restaurant,
-                color: _isFoodPressed ? CustomColours.teal : Colors.white,
-                size: _isFoodPressed ? 30 : 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _changeIconColour('people');
-              },
-              icon: Icon(
-                Icons.groups,
-                color: _isPeoplePressed ? CustomColours.teal : Colors.white,
-                size: _isPeoplePressed ? 30 : 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _changeIconColour('exercise');
-              },
-              icon: Icon(
-                Icons.fitness_center,
-                color: _isExercisePressed ? CustomColours.teal : Colors.white,
-                size: _isExercisePressed ? 30 : 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                _changeIconColour('heart');
-              },
-              icon: Icon(
-                Icons.favorite,
-                color: _isHeartPressed ? CustomColours.teal : Colors.white,
-                size: _isHeartPressed ? 30 : 20,
-              ),
-            ),
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <IconButton>[
+        IconButton(
+          color: Colors.red,
+          onPressed: () {
+            _changeIconColour('happy');
+          },
+          icon: Icon(
+            Icons.sentiment_very_satisfied,
+            color: _isHappyPressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('tree');
+          },
+          icon: Icon(
+            Icons.park,
+            color: _isTreePressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('food');
+          },
+          icon: Icon(
+            Icons.restaurant,
+            color: _isFoodPressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('people');
+          },
+          icon: Icon(
+            Icons.groups,
+            color: _isPeoplePressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('exercise');
+          },
+          icon: Icon(
+            Icons.fitness_center,
+            color: _isExercisePressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('heart');
+          },
+          icon: Icon(
+            Icons.favorite,
+            color: _isHeartPressed ? CustomColours.darkPurple : Colors.white,
+          ),
+        ),
+      ],
+    ));
   }
 }
