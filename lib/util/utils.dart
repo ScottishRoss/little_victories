@@ -137,13 +137,14 @@ Widget buildTextFormField(
   );
 }
 
-Widget buildOutlinedButton(
-        {Function()? onPressed,
-        String? textType,
-        Color? textColor,
-        double? textSize,
-        IconData? iconData,
-        MaterialStateProperty<Color?>? backgroundColor}) =>
+Widget buildOutlinedButton({
+  Function()? onPressed,
+  String? textType,
+  Color? textColor,
+  double? textSize,
+  IconData? iconData,
+  MaterialStateProperty<Color?>? backgroundColor,
+}) =>
     OutlinedButton(
       style: ButtonStyle(
         backgroundColor:
