@@ -77,7 +77,6 @@ class _VictoryState extends State<Victory> {
     truncatedString = victoryString.truncate(30);
     iconName = data['icon'] as String? ?? 'happy';
     formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(date);
-    print(iconName);
     super.initState();
   }
 

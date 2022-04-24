@@ -28,7 +28,7 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
         .collection('users')
         .doc(_user.uid)
         .collection('victories')
-        .orderBy('createdOn', descending: false)
+        .orderBy('createdOn', descending: true)
         .snapshots();
   }
 

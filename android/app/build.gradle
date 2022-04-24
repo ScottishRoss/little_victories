@@ -44,6 +44,12 @@ android {
         jvmTarget = '1.8'
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -56,6 +62,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        resConfigs "en", "US"
     }
 
     signingConfigs {
