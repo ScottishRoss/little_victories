@@ -1,4 +1,3 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
@@ -23,11 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: boxDecoration(),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: DoubleBackToCloseApp(
-            child: Column(
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Column(
               children: <Widget>[
                 // Little Victories Logo
                 buildFlexibleImage(),
@@ -65,15 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 20.0),
               ],
-            ),
-            snackBar: const SnackBar(
-              backgroundColor: CustomColours.lightPurple,
-              content: Text(
-                'Tap back again to leave',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
             ),
           ),
         ),

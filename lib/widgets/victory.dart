@@ -141,7 +141,7 @@ class _VictoryState extends State<Victory> {
                           );
                         }),
                     icon: const FaIcon(
-                      FontAwesomeIcons.trashAlt,
+                      FontAwesomeIcons.trashCan,
                       color: Colors.redAccent,
                     ),
                   ),
@@ -161,7 +161,7 @@ class _VictoryState extends State<Victory> {
                       },
                     ),
                     icon: const FaIcon(
-                      FontAwesomeIcons.shareAlt,
+                      FontAwesomeIcons.shareNodes,
                       color: CustomColours.teal,
                     ),
                   ),

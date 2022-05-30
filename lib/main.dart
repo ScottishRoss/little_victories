@@ -37,6 +37,17 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // ignore: avoid_field_initializers_in_const_classes
+  final SnackBar snackbar = const SnackBar(
+    backgroundColor: CustomColours.lightPurple,
+    content: Text(
+      'Tap back again to leave',
+      style: TextStyle(
+        color: Colors.white,
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

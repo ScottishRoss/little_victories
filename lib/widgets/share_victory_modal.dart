@@ -134,7 +134,7 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
                         );
                       }),
                   icon: const FaIcon(
-                    FontAwesomeIcons.shareAlt,
+                    FontAwesomeIcons.shareNodes,
                     size: 30.0,
                   ),
                 ),
