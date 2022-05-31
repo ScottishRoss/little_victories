@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/widgets/custom_toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+SecureStorage _secureStorage = SecureStorage();
 CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 FToast fToast = FToast();
@@ -52,7 +54,7 @@ Future<bool> deleteUser(User user) async {
       );
     }
   }
-  print('Account deleted');
+  _secureStorage.deleteAllFromSecureStorage();
   return true;
 }
 

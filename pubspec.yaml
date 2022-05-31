@@ -31,6 +31,8 @@ dependencies:
   image_picker: ^0.8.4+4
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^10.1.0
+  awesome_notifications: ^0.6.21
+  flutter_secure_storage: ^5.0.2
 
   # Social Packages
   google_sign_in: ^5.2.1

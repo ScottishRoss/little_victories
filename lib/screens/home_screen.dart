@@ -4,6 +4,8 @@ import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/add_victory_modal.dart';
 
+import '../res/constants.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -51,6 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     '/view_victories',
                   ),
                 ),
+                if (isDebugMode())
+                  buildNiceButton(
+                    'Debug Screen',
+                    CustomColours.darkPurple,
+                    () => Navigator.pushNamed(
+                      context,
+                      '/debug',
+                    ),
+                  ),
                 const Spacer(),
                 // Celebrate a Victory
                 buildNiceButton(

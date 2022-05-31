@@ -12,13 +12,17 @@ import 'package:little_victories/screens/push_notifications_screen.dart';
 import 'package:little_victories/screens/view_victories_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'res/notifications_service.dart';
+import 'screens/debug_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/sign_in_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationsService().init();
   SystemChrome.setPreferredOrientations(
-      <DeviceOrientation>[DeviceOrientation.portraitUp]);
+    <DeviceOrientation>[DeviceOrientation.portraitUp],
+  );
   await Firebase.initializeApp();
 
   if (kDebugMode) {
@@ -67,6 +71,11 @@ class MyApp extends StatelessWidget {
           case '/home':
             return PageTransition<void>(
               child: const HomeScreen(),
+              type: PageTransitionType.fade,
+            );
+          case '/debug':
+            return PageTransition<void>(
+              child: const DebugScreen(),
               type: PageTransitionType.fade,
             );
           case '/preferences':
