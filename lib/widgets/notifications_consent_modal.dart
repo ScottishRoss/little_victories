@@ -22,7 +22,7 @@ class _NotificationsConsentModalState extends State<NotificationsConsentModal> {
 
   late String? _isNotificationsOn;
 
-  void getNotificationsStatus() async {
+  Future<void> getNotificationsStatus() async {
     _isNotificationsOn =
         await _secureStorage.getFromSecureStorage('is_notifications_on');
     print('Notifications status: $_isNotificationsOn');

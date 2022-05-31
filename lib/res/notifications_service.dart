@@ -1,9 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/res/secure_storage.dart';
 
 class NotificationsService {
   final AwesomeNotifications _notifications = AwesomeNotifications();
+  final SecureStorage _secureStorage = SecureStorage();
 
   void init() {
     _notifications.initialize(
@@ -26,5 +28,12 @@ class NotificationsService {
       ],
       debug: isDebugMode(),
     );
+  }
+
+  void setNotificationPreference(bool isNotificationsEnabled) {
+    final String _notificationsValue =
+        isNotificationsEnabled ? 'true' : 'false';
+    _secureStorage.insertIntoSecureStorage(
+        kIsNotificationsEnabled, _notificationsValue);
   }
 }

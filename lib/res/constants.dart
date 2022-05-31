@@ -11,9 +11,18 @@ const LinearGradient kTealGradient = LinearGradient(
   ],
 );
 
+const TextStyle kSubtitleStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+);
+
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
 bool isDebugMode() {
   return kDebugMode;
 }
+
+const String kFirstTimeSetup = 'first_time_setup';
+const String kIsNotificationsEnabled = 'is_notifications_enabled';

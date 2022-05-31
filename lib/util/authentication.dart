@@ -8,6 +8,8 @@ import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
 
+import '../res/constants.dart';
+
 class Authentication {
   /// Initialise Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -42,7 +44,7 @@ class Authentication {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
-    _secureStorage.insertIntoSecureStorage('first_time_init', 'true');
+    _secureStorage.insertIntoSecureStorage(kFirstTimeSetup, 'true');
 
     if (kIsWeb) {
       final GoogleAuthProvider authProvider = GoogleAuthProvider();

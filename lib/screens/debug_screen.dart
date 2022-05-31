@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/notifications_consent_modal.dart';
@@ -23,31 +22,28 @@ class _DebugScreenState extends State<DebugScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: boxDecoration(),
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-              children: <Widget>[
-                // Little Victories Logo
-                buildFlexibleImage(),
-                const Spacer(),
-                // Preferences Button
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: <Widget>[
+              // Little Victories Logo
+              buildFlexibleImage(),
+              const Spacer(),
+              // Preferences Button
 
-                buildNiceButton(
-                  'Notifications Consent',
-                  CustomColours.darkPurple,
-                  () => showDialog<Widget>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const NotificationsConsentModal();
-                    },
-                  ),
+              buildNiceButton(
+                'Notifications Consent',
+                CustomColours.darkPurple,
+                () => showDialog<Widget>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const NotificationsConsentModal();
+                  },
                 ),
-                const SizedBox(height: 20.0),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20.0),
+            ],
           ),
         ),
       ),

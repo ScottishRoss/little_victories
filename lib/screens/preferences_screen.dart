@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/res/notifications_service.dart';
+import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/delete_account_modal.dart';
+import 'package:little_victories/widgets/preferences/reminders_widget.dart';
 import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
+
+import '../res/constants.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key}) : super(key: key);
@@ -13,13 +18,25 @@ class PreferencesScreen extends StatefulWidget {
 }
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
+  final SecureStorage _secureStorage = SecureStorage();
+
   late User _user;
+
+  Future<bool> getNotificationValues() async {
+    final String? _notificationsValue =
+        await _secureStorage.getFromSecureStorage(kIsNotificationsEnabled);
+    final bool _notificationsValueBool =
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        _notificationsValue == 'true' ? true : false;
+    print(_notificationsValue);
+    return _notificationsValueBool;
+  }
 
   @override
   void initState() {
-    _user = FirebaseAuth.instance.currentUser!;
-
     super.initState();
+    _user = FirebaseAuth.instance.currentUser!;
+    getNotificationValues();
   }
 
   @override
@@ -34,6 +51,39 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               // Little Victories Logo
               buildFlexibleImage(),
               const Spacer(),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        FutureBuilder<bool>(
+                          future: getNotificationValues(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<bool> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              case ConnectionState.done:
+                                if (snapshot.hasError)
+                                  return Text(snapshot.error.toString());
+                                else
+                                  return RemindersWidget(
+                                    isPreferencesEnabled: snapshot.data!,
+                                  );
+                              default:
+                                return Container();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               buildNiceButton(
                 'Delete Account',
                 Colors.red.shade400,
@@ -45,7 +95,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     },
                   );
                 },
-                //textColor: CustomColours.darkPurple,
               ),
               buildNiceButton(
                 'Sign Out',
