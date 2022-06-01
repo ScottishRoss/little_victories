@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/preferences_model.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/res/notifications_service.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/delete_account_modal.dart';
-import 'package:little_victories/widgets/preferences/reminders_widget.dart';
-import 'package:little_victories/widgets/sign_out_of_google_modal.dart';
+import 'package:little_victories/widgets/modals/delete_account_modal.dart';
+import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
+import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
+import 'package:little_victories/widgets/preferences/set_reminder_time.dart';
 
 import '../res/constants.dart';
 
@@ -22,21 +23,21 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   late User _user;
 
-  Future<bool> getNotificationValues() async {
+  Future<Preferences> getPreferences() async {
     final String? _notificationsValue =
         await _secureStorage.getFromSecureStorage(kIsNotificationsEnabled);
     final bool _notificationsValueBool =
         // ignore: avoid_bool_literals_in_conditional_expressions
         _notificationsValue == 'true' ? true : false;
-    print(_notificationsValue);
-    return _notificationsValueBool;
+
+    return Preferences(isNotificationsEnabled: _notificationsValueBool);
   }
 
   @override
   void initState() {
     super.initState();
     _user = FirebaseAuth.instance.currentUser!;
-    getNotificationValues();
+    getPreferences();
   }
 
   @override
@@ -57,11 +58,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FutureBuilder<bool>(
-                          future: getNotificationValues(),
+                        FutureBuilder<Preferences>(
+                          future: getPreferences(),
                           builder: (BuildContext context,
-                              AsyncSnapshot<bool> snapshot) {
+                              AsyncSnapshot<Preferences> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:
                                 return const Center(
@@ -71,9 +73,29 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                 if (snapshot.hasError)
                                   return Text(snapshot.error.toString());
                                 else
-                                  return RemindersWidget(
-                                    isPreferencesEnabled: snapshot.data!,
+                                  return RemindersSwitchWidget(
+                                    isPreferencesEnabled:
+                                        snapshot.data!.isNotificationsEnabled,
                                   );
+                              default:
+                                return Container();
+                            }
+                          },
+                        ),
+                        FutureBuilder<Preferences>(
+                          future: getPreferences(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Preferences> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              case ConnectionState.done:
+                                if (snapshot.hasError)
+                                  return Text(snapshot.error.toString());
+                                else
+                                  return const ReminderTimepickerWidget();
                               default:
                                 return Container();
                             }

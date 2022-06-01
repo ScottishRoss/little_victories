@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/notifications_consent_modal.dart';
+import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
+import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
 
 class DebugScreen extends StatefulWidget {
   const DebugScreen({Key? key}) : super(key: key);

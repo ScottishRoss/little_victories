@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
+import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/notifications_service.dart';
 import 'package:little_victories/res/secure_storage.dart';
 
-class RemindersWidget extends StatefulWidget {
-  const RemindersWidget({
+class RemindersSwitchWidget extends StatefulWidget {
+  const RemindersSwitchWidget({
     Key? key,
     required this.isPreferencesEnabled,
   }) : super(key: key);
@@ -12,10 +13,10 @@ class RemindersWidget extends StatefulWidget {
   final bool isPreferencesEnabled;
 
   @override
-  _RemindersWidgetState createState() => _RemindersWidgetState();
+  _RemindersSwitchWidgetState createState() => _RemindersSwitchWidgetState();
 }
 
-class _RemindersWidgetState extends State<RemindersWidget> {
+class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
   final SecureStorage _secureStorage = SecureStorage();
   final NotificationsService _notificationsService = NotificationsService();
 
@@ -33,6 +34,7 @@ class _RemindersWidgetState extends State<RemindersWidget> {
       children: <Widget>[
         const Text('Reminders: '),
         Switch(
+          activeColor: CustomColours.teal,
           value: _isPreferencesEnabled,
           onChanged: (bool value) {
             setState(() {
