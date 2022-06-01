@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/add_victory_modal.dart';
+import 'package:little_victories/widgets/modals/add_victory_modal.dart';
 import 'package:little_victories/widgets/victory.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
