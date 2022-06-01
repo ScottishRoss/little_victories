@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/constants.dart';
+import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/res/secure_storage.dart';
 
 class ReminderTimepickerWidget extends StatefulWidget {
-  const ReminderTimepickerWidget({Key? key}) : super(key: key);
+  const ReminderTimepickerWidget({
+    Key? key,
+    required this.reminderTime,
+  }) : super(key: key);
+
+  final String reminderTime;
 
   @override
   _ReminderTimepickerWidgetState createState() =>
@@ -11,7 +18,8 @@ class ReminderTimepickerWidget extends StatefulWidget {
 }
 
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
-  String? selectedTime = '18:00 PM';
+  late String selectedTime;
+  final SecureStorage _secureStorage = SecureStorage();
 
   String formatTimeOfDay(TimeOfDay tod) {
     final DateTime now = DateTime.now();
@@ -24,6 +32,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   Future<void> displayTimeDialog() async {
     final TimeOfDay? time = await showTimePicker(
       context: context,
+      helpText: 'Select a time',
       initialTime: TimeOfDay.now(),
       initialEntryMode: TimePickerEntryMode.input,
       builder: (BuildContext context, Widget? child) {
@@ -38,7 +47,14 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
         selectedTime = formatTimeOfDay(time);
       });
       print(time);
+      _secureStorage.insertIntoSecureStorage(kNotificationTime, selectedTime);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedTime = widget.reminderTime;
   }
 
   @override
@@ -51,13 +67,16 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                selectedTime!,
+                selectedTime,
                 style: kSubtitleStyle,
               ),
             ),
             ElevatedButton(
               onPressed: () => displayTimeDialog(),
               child: const Text('Change time'),
+              style: ElevatedButton.styleFrom(
+                primary: CustomColours.darkPurple,
+              ),
             ),
           ],
         )

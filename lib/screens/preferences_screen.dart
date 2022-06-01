@@ -24,13 +24,19 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   late User _user;
 
   Future<Preferences> getPreferences() async {
-    final String? _notificationsValue =
+    final String? _notificationsSwitchValue =
         await _secureStorage.getFromSecureStorage(kIsNotificationsEnabled);
+    final String _notificationTime =
+        await _secureStorage.getFromSecureStorage(kNotificationTime) ??
+            '08:00 AM';
     final bool _notificationsValueBool =
         // ignore: avoid_bool_literals_in_conditional_expressions
-        _notificationsValue == 'true' ? true : false;
+        _notificationsSwitchValue == 'true' ? true : false;
 
-    return Preferences(isNotificationsEnabled: _notificationsValueBool);
+    return Preferences(
+      isNotificationsEnabled: _notificationsValueBool,
+      notificationTime: _notificationTime,
+    );
   }
 
   @override
@@ -95,7 +101,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                 if (snapshot.hasError)
                                   return Text(snapshot.error.toString());
                                 else
-                                  return const ReminderTimepickerWidget();
+                                  return ReminderTimepickerWidget(
+                                    reminderTime:
+                                        snapshot.data!.notificationTime,
+                                  );
                               default:
                                 return Container();
                             }

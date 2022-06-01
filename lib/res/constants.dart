@@ -26,3 +26,4 @@ bool isDebugMode() {
 
 const String kFirstTimeSetup = 'first_time_setup';
 const String kIsNotificationsEnabled = 'is_notifications_enabled';
+const String kNotificationTime = 'notification_time';

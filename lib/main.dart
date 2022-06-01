@@ -7,15 +7,15 @@ import 'package:flutter/foundation.dart' show kDebugMode, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/screens/debug_screen.dart';
+import 'package:little_victories/screens/home_screen.dart';
 import 'package:little_victories/screens/preferences_screen.dart';
 import 'package:little_victories/screens/push_notifications_screen.dart';
+import 'package:little_victories/screens/sign_in_screen.dart';
 import 'package:little_victories/screens/view_victories_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'res/notifications_service.dart';
-import 'screens/debug_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/sign_in_screen.dart';
+import 'util/notifications_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,9 +61,29 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: ThemeData(
+        primarySwatch: buildMaterialColor(CustomColours.darkPurple),
+        primaryColor: CustomColours.darkPurple,
+        secondaryHeaderColor: CustomColours.darkPurple,
+        hintColor: CustomColours.darkPurple,
         brightness: Brightness.dark,
         fontFamily: 'Montserrat',
         highlightColor: CustomColours.lightPurple,
+        timePickerTheme: TimePickerThemeData(
+          backgroundColor: CustomColours.teal,
+          hourMinuteTextColor: CustomColours.darkPurple,
+          entryModeIconColor: CustomColours.darkPurple,
+          dayPeriodTextColor: CustomColours.darkPurple,
+          dayPeriodBorderSide: const BorderSide(
+            color: CustomColours.darkPurple,
+          ),
+          dialHandColor: CustomColours.darkPurple,
+          dialTextColor: CustomColours.darkPurple,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          hourMinuteShape: const CircleBorder(),
+          helpTextStyle: const TextStyle(color: CustomColours.darkPurple),
+        ),
       ),
       home: const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
