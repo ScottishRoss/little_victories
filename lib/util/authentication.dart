@@ -5,15 +5,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
-
-import '../res/constants.dart';
 
 class Authentication {
   /// Initialise Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final SecureStorage _secureStorage = SecureStorage();
 
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
@@ -43,8 +39,6 @@ class Authentication {
   Future<User> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-
-    _secureStorage.insertIntoSecureStorage(kFirstTimeSetup, 'true');
 
     if (kIsWeb) {
       final GoogleAuthProvider authProvider = GoogleAuthProvider();

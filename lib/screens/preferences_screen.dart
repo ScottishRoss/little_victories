@@ -7,7 +7,7 @@ import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/modals/delete_account_modal.dart';
 import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
 import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
-import 'package:little_victories/widgets/preferences/set_reminder_time.dart';
+import 'package:little_victories/widgets/preferences/reminders_timepicker_widget.dart';
 
 import '../res/constants.dart';
 
@@ -25,17 +25,16 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   Future<Preferences> getPreferences() async {
     final String? _notificationsSwitchValue =
-        await _secureStorage.getFromSecureStorage(kIsNotificationsEnabled);
-    final String _notificationTime =
-        await _secureStorage.getFromSecureStorage(kNotificationTime) ??
-            '08:00 AM';
+        await _secureStorage.getFromKey(kIsNotificationsEnabled);
+    final String? _notificationTime =
+        await _secureStorage.getFromKey(kNotificationTime);
     final bool _notificationsValueBool =
         // ignore: avoid_bool_literals_in_conditional_expressions
         _notificationsSwitchValue == 'true' ? true : false;
 
     return Preferences(
       isNotificationsEnabled: _notificationsValueBool,
-      notificationTime: _notificationTime,
+      notificationTime: _notificationTime!,
     );
   }
 
@@ -101,10 +100,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                                 if (snapshot.hasError)
                                   return Text(snapshot.error.toString());
                                 else
-                                  return ReminderTimepickerWidget(
-                                    reminderTime:
-                                        snapshot.data!.notificationTime,
-                                  );
+                                  return const ReminderTimepickerWidget();
                               default:
                                 return Container();
                             }

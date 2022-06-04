@@ -1,16 +1,15 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
+import 'package:little_victories/util/notifications_service.dart';
 
 class ReminderTimepickerWidget extends StatefulWidget {
   const ReminderTimepickerWidget({
     Key? key,
-    required this.reminderTime,
   }) : super(key: key);
-
-  final String reminderTime;
 
   @override
   _ReminderTimepickerWidgetState createState() =>
@@ -18,8 +17,11 @@ class ReminderTimepickerWidget extends StatefulWidget {
 }
 
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
-  late String selectedTime;
+  late String selectedTime = 'ERROR';
+  late bool isReminderTimeUpdated = false;
   final SecureStorage _secureStorage = SecureStorage();
+  final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
+  final NotificationsService _notificationsService = NotificationsService();
 
   String formatTimeOfDay(TimeOfDay tod) {
     final DateTime now = DateTime.now();
@@ -27,6 +29,28 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
         DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
     final DateFormat format = DateFormat.jm();
     return format.format(dt);
+  }
+
+  Future<bool> setReminderTime(String time) async {
+    final List<NotificationModel> _notificationsList =
+        await _awesomeNotifications.listScheduledNotifications();
+
+    if (_notificationsList.isNotEmpty) {
+      _notificationsService.cancelScheduledNotifications();
+    }
+    print(time);
+    return _secureStorage.insert(kNotificationTime, time.toString());
+  }
+
+  Future<void> getReminderTime() async {
+    final String? time = await _secureStorage.getFromKey(kNotificationTime);
+    final DateFormat format = DateFormat.jm();
+    if (time != null) {
+      setState(() {
+        selectedTime = format.format(DateTime.parse(time));
+      });
+    }
+    print(selectedTime);
   }
 
   Future<void> displayTimeDialog() async {
@@ -43,18 +67,22 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
       },
     );
     if (time != null) {
-      setState(() {
-        selectedTime = formatTimeOfDay(time);
-      });
-      print(time);
-      _secureStorage.insertIntoSecureStorage(kNotificationTime, selectedTime);
+      final DateTime now = DateTime.now();
+      final DateTime reminderStartDate =
+          DateTime(now.year, now.month, now.day, time.hour, time.minute);
+      print(reminderStartDate.toString());
+      await _secureStorage.deleteFromKey(kNotificationTime);
+      await _secureStorage.insert(
+          kNotificationTime, reminderStartDate.toString());
+      _notificationsService.startReminders();
     }
+    Navigator.pushNamed(context, '/preferences');
   }
 
   @override
   void initState() {
+    getReminderTime();
     super.initState();
-    selectedTime = widget.reminderTime;
   }
 
   @override

@@ -28,7 +28,7 @@ Color getRandomColor() {
 
 MaterialColor buildMaterialColor(Color color) {
   final List<double> strengths = <double>[.05];
-  final Map<int, Color> swatch = {};
+  final Map<int, Color> swatch = <int, Color>{};
   final int r = color.red, g = color.green, b = color.blue;
 
   for (int i = 1; i < 10; i++) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/res/secure_storage.dart';
+import 'package:little_victories/util/notifications_service.dart';
 
 class RemindersSwitchWidget extends StatefulWidget {
   const RemindersSwitchWidget({
@@ -36,17 +36,24 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
         Switch(
           activeColor: CustomColours.teal,
           value: _isPreferencesEnabled,
-          onChanged: (bool value) {
+          onChanged: (bool value) async {
             setState(() {
               _isPreferencesEnabled = value;
             });
             _notificationsService.setNotificationPreference(
               _isPreferencesEnabled,
             );
-            _secureStorage.insertIntoSecureStorage(
+            _secureStorage.insert(
               kIsNotificationsEnabled,
               _isPreferencesEnabled.toString(),
             );
+
+            if (value) {
+              _notificationsService.cancelScheduledNotifications();
+              _notificationsService.startReminders();
+            } else {
+              _notificationsService.cancelScheduledNotifications();
+            }
           },
         ),
       ],

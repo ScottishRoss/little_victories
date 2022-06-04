@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
+import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/utils.dart';
 
 class NotificationsConsentModal extends StatefulWidget {
@@ -18,13 +19,14 @@ class NotificationsConsentModal extends StatefulWidget {
 class _NotificationsConsentModalState extends State<NotificationsConsentModal> {
   bool _isSuccess = false;
   final AwesomeNotifications _notifications = AwesomeNotifications();
+  final NotificationsService _notificationsService = NotificationsService();
   final SecureStorage _secureStorage = SecureStorage();
 
   late String? _isNotificationsOn;
 
   Future<void> getNotificationsStatus() async {
     _isNotificationsOn =
-        await _secureStorage.getFromSecureStorage('is_notifications_on');
+        await _secureStorage.getFromKey(kIsNotificationsEnabled);
     print('Notifications status: $_isNotificationsOn');
   }
 
@@ -98,8 +100,8 @@ class _NotificationsConsentModalState extends State<NotificationsConsentModal> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    _secureStorage.insertIntoSecureStorage(
-                      'is_notifications_on',
+                    _secureStorage.insert(
+                      kIsNotificationsEnabled,
                       'false',
                     );
                     Navigator.pop(context);
@@ -133,8 +135,10 @@ class _NotificationsConsentModalState extends State<NotificationsConsentModal> {
                                     .requestPermissionToSendNotifications();
                               }
 
-                              _secureStorage.insertIntoSecureStorage(
-                                'is_notifications_on',
+                              _notificationsService.startReminders();
+
+                              _secureStorage.insert(
+                                kIsNotificationsEnabled,
                                 _isAllowed.toString(),
                               );
                               Navigator.pop(context);

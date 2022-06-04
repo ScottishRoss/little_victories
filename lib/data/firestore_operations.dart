@@ -54,7 +54,7 @@ Future<bool> deleteUser(User user) async {
       );
     }
   }
-  _secureStorage.deleteAllFromSecureStorage();
+  _secureStorage.deleteAll();
   return true;
 }
 

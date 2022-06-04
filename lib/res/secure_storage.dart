@@ -3,8 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorage {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  Future<bool> insertIntoSecureStorage(String key, String value) async {
-    final String? _doesKeyExist = await getFromSecureStorage(key);
+  Future<bool> insert(String key, String value) async {
+    final String? _doesKeyExist = await getFromKey(key);
+    print('Inserting $key: $value');
     if (_doesKeyExist == null) {
       try {
         await storage.write(key: key, value: value);
@@ -13,7 +14,7 @@ class SecureStorage {
         return false;
       }
     } else {
-      deleteFromSecureStorage(key);
+      deleteFromKey(key);
       try {
         await storage.write(key: key, value: value);
         return true;
@@ -23,7 +24,7 @@ class SecureStorage {
     }
   }
 
-  Future<String?> getFromSecureStorage(String key) async {
+  Future<String?> getFromKey(String key) async {
     // This allows us to be able to fetch secure values while the app is backgrounded,
     // by specifying first_unlock or first_unlock_this_device. The default if not specified is unlocked.
     const IOSOptions options = IOSOptions(
@@ -38,16 +39,27 @@ class SecureStorage {
     return null;
   }
 
-  Future<bool> deleteFromSecureStorage(String key) async {
+  Future<Map<String, String>?> getAll() async {
+    try {
+      final Map<String, String> value = await storage.readAll();
+      return value;
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Future<bool> deleteFromKey(String key) async {
     try {
       await storage.delete(key: key);
+      print('Deleted $key');
     } catch (e) {
       return false;
     }
     return true;
   }
 
-  Future<bool> deleteAllFromSecureStorage() async {
+  Future<bool> deleteAll() async {
     try {
       await storage.deleteAll();
     } catch (e) {
