@@ -206,8 +206,40 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  buildTextFormField(
-                    _victoryController,
+                  TextFormField(
+                    controller: _victoryController,
+                    cursorColor: CustomColours.darkPurple,
+                    textCapitalization: TextCapitalization.sentences,
+                    autofocus: true,
+                    maxLength: 100,
+                    decoration: InputDecoration(
+                      labelText: 'What was your Victory?',
+                      labelStyle:
+                          const TextStyle(fontSize: 22.0, color: Colors.white),
+                      fillColor: Colors.greenAccent,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 2),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            const BorderSide(color: Colors.redAccent, width: 2),
+                      ),
+                    ),
+                    style: const TextStyle(fontSize: 18, color: Colors.white),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter something';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),

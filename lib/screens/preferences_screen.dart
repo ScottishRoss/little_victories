@@ -4,6 +4,7 @@ import 'package:little_victories/data/preferences_model.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/modals/delete_account_modal.dart';
 import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
 import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
@@ -48,14 +49,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: kBackground,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              // Little Victories Logo
-              buildFlexibleImage(),
+              const LVLogo(),
               const Spacer(),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -133,7 +133,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   },
                 ),
               ),
-              const Spacer(),
               buildNiceButton(
                 'Back',
                 CustomColours.darkPurple,

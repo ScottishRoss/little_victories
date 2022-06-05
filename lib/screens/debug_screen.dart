@@ -1,10 +1,12 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
 
 class DebugScreen extends StatefulWidget {
@@ -25,14 +27,14 @@ class _DebugScreenState extends State<DebugScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: kBackground,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
               // Little Victories Logo
-              buildFlexibleImage(),
+              const LVLogo(),
               const Spacer(),
               // Preferences Button
 

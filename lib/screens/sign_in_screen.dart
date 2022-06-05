@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/buttons.dart';
+import 'package:little_victories/widgets/common/lv_logo.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: boxDecoration(),
+      decoration: kBackground,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -46,10 +48,10 @@ class _SignInScreenState extends State<SignInScreen> {
               children: <Widget>[
                 Expanded(
                   child: Column(
-                    children: <Widget>[
+                    children: const <Widget>[
                       // Little Victories Logo
-                      buildFlexibleImage(),
-                      const Text(
+                      LVLogo(),
+                      Text(
                         'Celebrate your Little Victories',
                         style: TextStyle(
                           color: CustomColours.teal,
