@@ -87,8 +87,11 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        const Text('Reminder Time: '),
+        const Text(
+          'Reminder Time: ',
+        ),
         Row(
           children: <Widget>[
             Container(

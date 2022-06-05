@@ -110,6 +110,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               ],
             ),
           ),
+          const Spacer(),
           buildNiceButton(
             'Delete Account',
             Colors.red.shade400,
@@ -121,6 +122,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 },
               );
             },
+            marginBottom: 0,
           ),
           buildNiceButton(
             'Sign Out',
@@ -131,7 +133,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 return const SignOutOfGoogleBox();
               },
             ),
+            marginTop: 0,
           ),
+          const Spacer(),
           buildNiceButton(
             'Back',
             CustomColours.darkPurple,
