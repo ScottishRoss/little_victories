@@ -5,6 +5,7 @@ import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
+import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/delete_account_modal.dart';
 import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
 import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
@@ -48,103 +49,99 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: kBackground,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              const LVLogo(),
-              const Spacer(),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return PageBody(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const LVLogo(),
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        FutureBuilder<Preferences>(
-                          future: getPreferences(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<Preferences> snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.waiting:
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              case ConnectionState.done:
-                                if (snapshot.hasError)
-                                  return Text(snapshot.error.toString());
-                                else
-                                  return RemindersSwitchWidget(
-                                    isPreferencesEnabled:
-                                        snapshot.data!.isNotificationsEnabled,
-                                  );
-                              default:
-                                return Container();
-                            }
-                          },
-                        ),
-                        FutureBuilder<Preferences>(
-                          future: getPreferences(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<Preferences> snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.waiting:
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              case ConnectionState.done:
-                                if (snapshot.hasError)
-                                  return Text(snapshot.error.toString());
-                                else
-                                  return const ReminderTimepickerWidget();
-                              default:
-                                return Container();
-                            }
-                          },
-                        ),
-                      ],
+                    FutureBuilder<Preferences>(
+                      future: getPreferences(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Preferences> snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          case ConnectionState.done:
+                            if (snapshot.hasError)
+                              return Text(snapshot.error.toString());
+                            else
+                              return RemindersSwitchWidget(
+                                isPreferencesEnabled:
+                                    snapshot.data!.isNotificationsEnabled,
+                              );
+                          default:
+                            return Container();
+                        }
+                      },
+                    ),
+                    FutureBuilder<Preferences>(
+                      future: getPreferences(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Preferences> snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          case ConnectionState.done:
+                            if (snapshot.hasError)
+                              return Text(snapshot.error.toString());
+                            else
+                              return const ReminderTimepickerWidget();
+                          default:
+                            return Container();
+                        }
+                      },
                     ),
                   ],
                 ),
-              ),
-              buildNiceButton(
-                'Delete Account',
-                Colors.red.shade400,
-                () {
-                  showDialog<Widget>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DeleteAccountBox(user: _user);
-                    },
-                  );
-                },
-              ),
-              buildNiceButton(
-                'Sign Out',
-                CustomColours.darkPurple,
-                () => showDialog<Widget>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const SignOutOfGoogleBox();
-                  },
-                ),
-              ),
-              buildNiceButton(
-                'Back',
-                CustomColours.darkPurple,
-                () => Navigator.pushNamed(
-                  context,
-                  '/home',
-                ),
-              ),
-              const SizedBox(height: 20.0),
-            ],
+              ],
+            ),
           ),
-        ),
+          buildNiceButton(
+            'Delete Account',
+            Colors.red.shade400,
+            () {
+              showDialog<Widget>(
+                context: context,
+                builder: (BuildContext context) {
+                  return DeleteAccountBox(user: _user);
+                },
+              );
+            },
+          ),
+          buildNiceButton(
+            'Sign Out',
+            CustomColours.darkPurple,
+            () => showDialog<Widget>(
+              context: context,
+              builder: (BuildContext context) {
+                return const SignOutOfGoogleBox();
+              },
+            ),
+          ),
+          buildNiceButton(
+            'Back',
+            CustomColours.darkPurple,
+            () => Navigator.pushNamed(
+              context,
+              '/home',
+            ),
+          ),
+          const SizedBox(height: 20.0),
+        ],
       ),
     );
   }

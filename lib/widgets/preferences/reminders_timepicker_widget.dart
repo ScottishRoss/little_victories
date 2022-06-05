@@ -58,7 +58,6 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
       context: context,
       helpText: 'Select a time',
       initialTime: TimeOfDay.now(),
-      initialEntryMode: TimePickerEntryMode.input,
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),

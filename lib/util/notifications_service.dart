@@ -108,6 +108,10 @@ class NotificationsService {
       schedule: NotificationCalendar(
         hour: hour,
         minute: minute,
+        second: 0,
+        allowWhileIdle: true,
+        repeats: true,
+        timeZone: AwesomeNotifications.localTimeZoneIdentifier,
       ),
     );
     print('Notification created: hour = $hour, minute = $minute');
