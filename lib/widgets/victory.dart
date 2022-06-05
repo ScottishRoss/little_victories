@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/extensions.dart';
-import 'package:little_victories/widgets/delete_victory_modal.dart';
-import 'package:little_victories/widgets/share_victory_modal.dart';
+import 'package:little_victories/widgets/modals/delete_victory_modal.dart';
+import 'package:little_victories/widgets/modals/share_victory_modal.dart';
 
 class Victory extends StatefulWidget {
   const Victory({

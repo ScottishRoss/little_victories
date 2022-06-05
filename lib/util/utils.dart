@@ -55,18 +55,6 @@ Widget buildNiceButton(
       ),
     );
 
-Widget buildFlexibleImage({
-  int? flex,
-  double? height,
-}) =>
-    Flexible(
-      flex: flex ?? 4,
-      child: Image.asset(
-        'assets/lv_main.png',
-        height: height ?? 400,
-      ),
-    );
-
 BoxDecoration boxDecoration({
   List<Color>? colors,
   BorderRadiusGeometry? borderRadius,

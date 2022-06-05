@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/lv_logo.dart';
 
 class PushNotificationsScreen extends StatefulWidget {
   const PushNotificationsScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Little Victories Logo
-              buildFlexibleImage(),
+              const LVLogo(),
               const Spacer(),
               SizedBox(
                 height: 200,
