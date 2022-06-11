@@ -33,8 +33,8 @@ class NotificationsService {
     channelKey: kNotificationChannelKeyReminders,
     channelName: kNotificationChannelNameReminders,
     channelDescription: kNotificationChannelRemindersDescription,
-    defaultColor: Colors.white,
-    ledColor: CustomColours.lightPurple,
+    defaultColor: CustomColours.teal,
+    ledColor: CustomColours.teal,
     importance: NotificationImportance.High,
     enableLights: true,
     enableVibration: true,
@@ -70,14 +70,15 @@ class NotificationsService {
       final DateTime now = DateTime.now();
       _secureStorage.insert(kFirstTimeSetup, 'true');
       _secureStorage.insert(
-          kNotificationTime,
-          DateTime(
-            now.year,
-            now.month,
-            now.day,
-            18,
-            0,
-          ).toString());
+        kNotificationTime,
+        DateTime(
+          now.year,
+          now.month,
+          now.day,
+          18,
+          0,
+        ).toString(),
+      );
     }
   }
 

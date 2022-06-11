@@ -50,14 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            // buildNiceButton(
-            //   'Debug Screen',
-            //   CustomColours.darkPurple,
-            //   () => Navigator.pushNamed(
-            //     context,
-            //     '/debug',
-            //   ),
-            // ),
+            buildNiceButton(
+              'Debug Screen',
+              CustomColours.darkPurple,
+              () => Navigator.pushNamed(
+                context,
+                '/debug',
+              ),
+            ),
             const Spacer(),
             // Celebrate a Victory
             buildNiceButton(
