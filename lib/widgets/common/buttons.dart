@@ -61,7 +61,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 } else {
                   fToast.showToast(
                     child: const CustomToast(
-                        message: 'Sign-in fail, please try again later.'),
+                        message: 'Sign-in failed, please try again later.'),
                     gravity: ToastGravity.BOTTOM,
                     toastDuration: const Duration(seconds: 2),
                   );

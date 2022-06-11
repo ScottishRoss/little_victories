@@ -3,6 +3,7 @@ import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/add_victory_modal.dart';
@@ -31,9 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             const LVLogo(),
             const Spacer(),
-            buildNiceButton(
+            CustomButton(
               'Preferences',
-              CustomColours.darkPurple,
               () => Navigator.pushNamed(
                 context,
                 '/preferences',
@@ -41,28 +41,25 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // View Victories
-            buildNiceButton(
+            CustomButton(
               'View your Victories',
-              CustomColours.darkPurple,
               () => Navigator.pushNamed(
                 context,
                 '/view_victories',
               ),
             ),
-
-            buildNiceButton(
+            CustomButton(
               'Debug Screen',
-              CustomColours.darkPurple,
               () => Navigator.pushNamed(
                 context,
                 '/debug',
               ),
             ),
+
             const Spacer(),
             // Celebrate a Victory
-            buildNiceButton(
+            CustomButton(
               'Celebrate a Victory',
-              CustomColours.darkPurple,
               () => showDialog<Widget>(
                 context: context,
                 builder: (BuildContext context) {
@@ -70,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 20.0),
           ],
         ),
       ),

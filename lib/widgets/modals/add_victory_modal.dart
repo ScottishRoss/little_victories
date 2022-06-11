@@ -264,9 +264,8 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                   onPressed: () {
                     Navigator.of(this.context).pop();
                   },
-                  child: buildtext(
+                  child: const Text(
                     'Close',
-                    fontSize: 15,
                   ),
                 ),
                 const Spacer(),

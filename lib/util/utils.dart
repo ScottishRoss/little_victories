@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/widgets/nice_buttons.dart';
 
 Widget buildtext(
   String text, {
@@ -22,63 +21,7 @@ Widget buildtext(
       ),
     );
 
-Widget buildNiceButton(
-  String text,
-  Color backgroundColor,
-  Function() onPressed, {
-  List<Color>? gradientColors,
-  Color textColor = Colors.white,
-  double? radius,
-  double? fontSize,
-  double marginTop = 15.0,
-  double marginBottom = 15.0,
-  double marginLeft = 15.0,
-  double marginRight = 15.0,
-}) =>
-    Container(
-      margin: EdgeInsets.fromLTRB(
-        marginLeft,
-        marginTop,
-        marginRight,
-        marginBottom,
-      ),
-      child: NiceButton(
-        textColor: textColor,
-        width: double.infinity,
-        fontSize: fontSize ?? 18.0,
-        elevation: 10.0,
-        radius: radius ?? 52.0,
-        text: text,
-        background: backgroundColor,
-        onPressed: onPressed,
-        gradientColors: gradientColors ?? <Color>[],
-      ),
-    );
-
-BoxDecoration boxDecoration({
-  List<Color>? colors,
-  BorderRadiusGeometry? borderRadius,
-  List<BoxShadow>? boxShadow,
-  AlignmentGeometry? end,
-}) =>
-    BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: end ?? Alignment.bottomRight,
-        colors: colors ??
-            <Color>[
-              CustomColours.darkPurple,
-              CustomColours.teal,
-            ],
-      ),
-      boxShadow: boxShadow ??
-          <BoxShadow>[
-            const BoxShadow(
-              offset: Offset(0, 10),
-              blurRadius: 10,
-            ),
-          ],
-    );
+//
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
     buildScaffoldMessenger(BuildContext context, {String? content}) =>

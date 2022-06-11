@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/buttons.dart';
+import 'package:little_victories/widgets/common/buttons.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 

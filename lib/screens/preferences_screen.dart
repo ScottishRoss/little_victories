@@ -4,6 +4,7 @@ import 'package:little_victories/data/preferences_model.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/delete_account_modal.dart';
@@ -111,9 +112,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             ),
           ),
           const Spacer(),
-          buildNiceButton(
+          CustomButton(
             'Delete Account',
-            Colors.red.shade400,
             () {
               showDialog<Widget>(
                 context: context,
@@ -123,22 +123,21 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               );
             },
             marginBottom: 0,
+            backgroundColor: Colors.red.shade400,
+            borderColor: Colors.red.shade400,
           ),
-          buildNiceButton(
+          CustomButton(
             'Sign Out',
-            CustomColours.darkPurple,
             () => showDialog<Widget>(
               context: context,
               builder: (BuildContext context) {
                 return const SignOutOfGoogleBox();
               },
             ),
-            marginTop: 0,
           ),
           const Spacer(),
-          buildNiceButton(
+          CustomButton(
             'Back',
-            CustomColours.darkPurple,
             () => Navigator.pushNamed(
               context,
               '/home',

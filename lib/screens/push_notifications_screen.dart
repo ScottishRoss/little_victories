@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 
 class PushNotificationsScreen extends StatefulWidget {
@@ -99,9 +100,8 @@ class _PushNotificationsScreenState extends State<PushNotificationsScreen> {
 
               const Spacer(),
 
-              buildNiceButton(
+              CustomButton(
                 'Back',
-                CustomColours.darkPurple,
                 () => Navigator.pushNamed(
                   context,
                   '/home',

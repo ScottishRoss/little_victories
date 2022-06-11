@@ -5,6 +5,7 @@ import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
@@ -33,39 +34,19 @@ class _DebugScreenState extends State<DebugScreen> {
           const LVLogo(),
           const Spacer(),
           // Preferences Button
-
-          buildNiceButton(
-            'Notifications Consent',
-            CustomColours.darkPurple,
-            () => showDialog<Widget>(
-              context: context,
-              builder: (BuildContext context) {
-                return const NotificationsConsentModal();
-              },
-            ),
-          ),
-          buildNiceButton(
+          CustomButton(
             'Fire Notification',
-            CustomColours.darkPurple,
             () => NotificationsService().fireNotification(),
           ),
-          buildNiceButton(
+          CustomButton(
             'Cleardown',
-            CustomColours.darkPurple,
             () {
               _secureStorage.deleteAll();
               Authentication.signOutOfGoogle(context: context);
             },
           ),
-          buildNiceButton('Print secure storage', CustomColours.darkPurple,
-              () async {
-            final Map<String, String>? _results = await _secureStorage.getAll();
-
-            print(_results);
-          }),
-          buildNiceButton(
+          CustomButton(
             'List Notifications',
-            CustomColours.darkPurple,
             () async {
               final List<dynamic> notifications =
                   await AwesomeNotifications().listScheduledNotifications();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/modals/add_victory_modal.dart';
 import 'package:little_victories/widgets/victory.dart';
 
@@ -113,9 +114,8 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                   color: Colors.white,
                 ),
               ),
-              buildNiceButton(
+              CustomButton(
                 'Back',
-                CustomColours.darkPurple,
                 () => Navigator.pushNamed(
                   context,
                   '/home',
