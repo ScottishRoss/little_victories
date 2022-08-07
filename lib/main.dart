@@ -11,6 +11,7 @@ import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_screen.dart';
 import 'package:little_victories/screens/home/preferences_screen.dart';
 import 'package:little_victories/screens/home/view_victories_screen.dart';
+import 'package:little_victories/screens/intro/intro_screen.dart';
 import 'package:little_victories/screens/preferences/push_notifications_screen.dart';
 import 'package:little_victories/screens/sign_in/sign_in_screen.dart';
 import 'package:little_victories/util/notifications_service.dart';
@@ -87,6 +88,11 @@ class MyApp extends StatelessWidget {
       home: const SignInScreen(),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
+          case '/intro':
+            return PageTransition<void>(
+              child: IntroScreen(),
+              type: PageTransitionType.fade,
+            );
           case '/home':
             return PageTransition<void>(
               child: const HomeScreen(),

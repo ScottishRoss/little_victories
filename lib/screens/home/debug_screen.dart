@@ -30,7 +30,10 @@ class _DebugScreenState extends State<DebugScreen> {
           // Little Victories Logo
           const LVLogo(),
           const Spacer(),
-          // Preferences Button
+          CustomButton(
+            'Intro screen',
+            () => Navigator.pushNamed(context, '/intro'),
+          ),
           CustomButton(
             'Fire Notification',
             () => NotificationsService().fireNotification(),

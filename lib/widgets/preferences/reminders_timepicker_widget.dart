@@ -17,7 +17,7 @@ class ReminderTimepickerWidget extends StatefulWidget {
 }
 
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
-  late String selectedTime = 'ERROR';
+  String selectedTime = 'ERROR';
   late bool isReminderTimeUpdated = false;
   final SecureStorage _secureStorage = SecureStorage();
   final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
