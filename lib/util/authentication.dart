@@ -117,7 +117,9 @@ class Authentication {
     if (FirebaseAuth.instance.currentUser == null) {
       print('No user signed in.');
       // ignore: unnecessary_statements
-      Navigator.pushNamed(context, '/sign_in');
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.pushNamed(context, '/sign_in');
+      });
     }
   }
 }

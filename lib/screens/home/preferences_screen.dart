@@ -35,7 +35,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
     return Preferences(
       isNotificationsEnabled: _notificationsValueBool,
-      notificationTime: _notificationTime!,
+      notificationTime: _notificationTime,
     );
   }
 
