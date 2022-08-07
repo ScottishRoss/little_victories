@@ -25,7 +25,6 @@ class NotificationsService {
     body: 'Celebrating your Victories daily will help your wellbeing.',
     wakeUpScreen: true,
     category: NotificationCategory.Reminder,
-    bigPicture: 'asset://assets/lv_logo_transparent_purple.png',
   );
 
   final NotificationChannel _notificationChannelReminders = NotificationChannel(
@@ -33,7 +32,7 @@ class NotificationsService {
     channelKey: kNotificationChannelKeyReminders,
     channelName: kNotificationChannelNameReminders,
     channelDescription: kNotificationChannelRemindersDescription,
-    defaultColor: CustomColours.teal,
+    defaultColor: CustomColours.lightPurple,
     ledColor: CustomColours.teal,
     importance: NotificationImportance.High,
     enableLights: true,
