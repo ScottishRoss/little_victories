@@ -7,15 +7,14 @@ import 'package:flutter/foundation.dart' show kDebugMode, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/screens/debug_screen.dart';
-import 'package:little_victories/screens/home_screen.dart';
-import 'package:little_victories/screens/preferences_screen.dart';
-import 'package:little_victories/screens/push_notifications_screen.dart';
-import 'package:little_victories/screens/sign_in_screen.dart';
-import 'package:little_victories/screens/view_victories_screen.dart';
+import 'package:little_victories/screens/home/debug_screen.dart';
+import 'package:little_victories/screens/home/home_screen.dart';
+import 'package:little_victories/screens/home/preferences_screen.dart';
+import 'package:little_victories/screens/preferences/push_notifications_screen.dart';
+import 'package:little_victories/screens/sign_in/sign_in_screen.dart';
+import 'package:little_victories/screens/home/view_victories_screen.dart';
+import 'package:little_victories/util/notifications_service.dart';
 import 'package:page_transition/page_transition.dart';
-
-import 'util/notifications_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
