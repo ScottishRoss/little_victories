@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/custom_toast.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 
 /// Google
 
