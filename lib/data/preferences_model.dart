@@ -1,11 +1,11 @@
 class Preferences {
   Preferences({
     required this.isNotificationsEnabled,
-    required this.notificationTime,
+    this.notificationTime,
   });
 
   late final bool isNotificationsEnabled;
-  late final String notificationTime;
+  late final String? notificationTime;
 
   set setIsNotificationsEnabled(bool value) {
     isNotificationsEnabled = value;
@@ -14,7 +14,4 @@ class Preferences {
   set setNotificationTime(String value) {
     notificationTime = value;
   }
-
-  String get getNotificationTime => notificationTime;
-  bool get getIsNotifcationsEnabled => isNotificationsEnabled;
 }

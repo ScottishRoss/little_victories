@@ -6,16 +6,28 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/screens/debug_screen.dart';
-import 'package:little_victories/screens/home_screen.dart';
-import 'package:little_victories/screens/preferences_screen.dart';
-import 'package:little_victories/screens/push_notifications_screen.dart';
-import 'package:little_victories/screens/sign_in_screen.dart';
-import 'package:little_victories/screens/view_victories_screen.dart';
+import 'package:little_victories/screens/home/debug_screen.dart';
+import 'package:little_victories/screens/home/home_screen.dart';
+import 'package:little_victories/screens/home/preferences_screen.dart';
+import 'package:little_victories/screens/home/view_victories_screen.dart';
+import 'package:little_victories/screens/intro/intro_screen.dart';
+import 'package:little_victories/screens/preferences/push_notifications_screen.dart';
+import 'package:little_victories/screens/sign_in/sign_in_screen.dart';
+import 'package:little_victories/util/notifications_service.dart';
+import 'package:little_victories/util/secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'util/notifications_service.dart';
+Future<Widget> routeOnFirstTimeSetup() async {
+  final String? _isFirstTime =
+      await SecureStorage().getFromKey(kFirstTimeSetup);
+  if (_isFirstTime != null) {
+    return const SignInScreen();
+  } else {
+    return IntroScreen();
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,16 +42,23 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   }
 
+  final Widget app = await routeOnFirstTimeSetup();
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
-      builder: (BuildContext context) => const MyApp(), // Wrap your app
+      builder: (BuildContext context) => MyApp(route: app),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({
+    Key? key,
+    required this.route,
+  }) : super(key: key);
+
+  final Widget route;
 
   // ignore: avoid_field_initializers_in_const_classes
   final SnackBar snackbar = const SnackBar(
@@ -85,9 +104,14 @@ class MyApp extends StatelessWidget {
           helpTextStyle: const TextStyle(color: CustomColours.darkPurple),
         ),
       ),
-      home: const SignInScreen(),
+      home: route,
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
+          case '/intro':
+            return PageTransition<void>(
+              child: IntroScreen(),
+              type: PageTransitionType.fade,
+            );
           case '/home':
             return PageTransition<void>(
               child: const HomeScreen(),

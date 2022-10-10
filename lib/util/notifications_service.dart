@@ -2,7 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/res/secure_storage.dart';
+import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
 
 const String kNotificationChannelKeyReminders =
@@ -25,7 +25,6 @@ class NotificationsService {
     body: 'Celebrating your Victories daily will help your wellbeing.',
     wakeUpScreen: true,
     category: NotificationCategory.Reminder,
-    bigPicture: 'asset://assets/lv_logo_transparent_purple.png',
   );
 
   final NotificationChannel _notificationChannelReminders = NotificationChannel(
@@ -33,7 +32,7 @@ class NotificationsService {
     channelKey: kNotificationChannelKeyReminders,
     channelName: kNotificationChannelNameReminders,
     channelDescription: kNotificationChannelRemindersDescription,
-    defaultColor: CustomColours.teal,
+    defaultColor: CustomColours.lightPurple,
     ledColor: CustomColours.teal,
     importance: NotificationImportance.High,
     enableLights: true,

@@ -46,13 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 '/view_victories',
               ),
             ),
-            CustomButton(
-              'Debug Screen',
-              () => Navigator.pushNamed(
-                context,
-                '/debug',
-              ),
-            ),
+            // CustomButton(
+            //   'Debug Screen',
+            //   () => Navigator.pushNamed(
+            //     context,
+            //     '/debug',
+            //   ),
+            // ),
 
             const Spacer(),
             // Celebrate a Victory

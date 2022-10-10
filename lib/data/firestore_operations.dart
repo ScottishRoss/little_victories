@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:little_victories/res/secure_storage.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
+import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
