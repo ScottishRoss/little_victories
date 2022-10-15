@@ -38,7 +38,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     if (_notificationsList.isNotEmpty) {
       _notificationsService.cancelScheduledNotifications();
     }
-    print(time);
+
     return _secureStorage.insert(kNotificationTime, time.toString());
   }
 
@@ -50,7 +50,6 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
         selectedTime = format.format(DateTime.parse(time));
       });
     }
-    print(selectedTime);
   }
 
   Future<void> displayTimeDialog() async {
@@ -69,7 +68,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
       final DateTime now = DateTime.now();
       final DateTime reminderStartDate =
           DateTime(now.year, now.month, now.day, time.hour, time.minute);
-      print(reminderStartDate.toString());
+
       await _secureStorage.deleteFromKey(kNotificationTime);
       await _secureStorage.insert(
           kNotificationTime, reminderStartDate.toString());

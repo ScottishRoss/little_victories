@@ -5,7 +5,6 @@ class SecureStorage {
 
   Future<bool> insert(String key, String value) async {
     final String? _doesKeyExist = await getFromKey(key);
-    print('Inserting $key: $value');
     if (_doesKeyExist == null) {
       try {
         await storage.write(key: key, value: value);
@@ -51,7 +50,6 @@ class SecureStorage {
   Future<bool> deleteFromKey(String key) async {
     try {
       await storage.delete(key: key);
-      print('Deleted $key');
     } catch (e) {
       return false;
     }

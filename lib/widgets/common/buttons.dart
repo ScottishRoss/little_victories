@@ -53,7 +53,6 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (_user != null) {
-                  print(_user);
                   Navigator.pushReplacementNamed(
                     context,
                     '/homeFromSignIn',

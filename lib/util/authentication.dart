@@ -115,7 +115,6 @@ class Authentication {
 
   void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      print('No user signed in.');
       // ignore: unnecessary_statements
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushNamed(context, '/sign_in');

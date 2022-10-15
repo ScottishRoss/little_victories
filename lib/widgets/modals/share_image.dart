@@ -33,7 +33,6 @@ class _ShareImageState extends State<ShareImage> {
 
   // ignore: avoid_void_async
   Future<void> getImageFileFromAssets() async {
-    print('starting');
     const String path = 'story.png';
     final ByteData byteData = await rootBundle.load('assets/$path');
 
@@ -51,7 +50,6 @@ class _ShareImageState extends State<ShareImage> {
   }
 
   void shareToChosenPlatform(String platform, String path) {
-    print(platform);
     switch (platform) {
       case 'Facebook':
         SocialShare.shareFacebookStory(
@@ -89,7 +87,6 @@ class _ShareImageState extends State<ShareImage> {
     final File pngFile =
         await File('${tempDir.path}/LV_$randomString.png').create();
     pngFile.writeAsBytesSync(pngBytes);
-    debugPrint(pngFile.path.toString());
 
     setState(() {
       _isSuccess = true;
@@ -167,13 +164,10 @@ class _ShareImageState extends State<ShareImage> {
           builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                print('waiting');
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               case ConnectionState.done:
-                print('done');
-
                 return _shareImage();
               case ConnectionState.none:
                 print(snapshot.error.toString());
