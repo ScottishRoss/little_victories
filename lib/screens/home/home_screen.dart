@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
@@ -46,13 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 '/view_victories',
               ),
             ),
-            // CustomButton(
-            //   'Debug Screen',
-            //   () => Navigator.pushNamed(
-            //     context,
-            //     '/debug',
-            //   ),
-            // ),
+            if (isDebugMode())
+              CustomButton(
+                'Debug Screen',
+                () => Navigator.pushNamed(
+                  context,
+                  '/debug',
+                ),
+              ),
 
             const Spacer(),
             // Celebrate a Victory
