@@ -104,7 +104,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
               onPressed: () => displayTimeDialog(),
               child: const Text('Change time'),
               style: ElevatedButton.styleFrom(
-                primary: CustomColours.darkPurple,
+                backgroundColor: CustomColours.darkPurple,
               ),
             ),
           ],
