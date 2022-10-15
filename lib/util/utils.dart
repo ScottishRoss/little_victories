@@ -131,8 +131,10 @@ Widget buildTextButton({
     );
 
 Widget buildCircleProgressIndicator({Color? color}) {
-  return CircularProgressIndicator(
-    valueColor: AlwaysStoppedAnimation<Color>(color ?? Colors.white),
+  return Center(
+    child: CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(color ?? Colors.white),
+    ),
   );
 }
 

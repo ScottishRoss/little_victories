@@ -114,7 +114,6 @@ class NotificationsService {
         timeZone: AwesomeNotifications.localTimeZoneIdentifier,
       ),
     );
-    print('Notification created: hour = $hour, minute = $minute');
   }
 
   void fireNotification() {
