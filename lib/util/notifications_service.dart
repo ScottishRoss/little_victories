@@ -33,6 +33,7 @@ class NotificationsService {
     channelName: kNotificationChannelNameReminders,
     channelDescription: kNotificationChannelRemindersDescription,
     ledColor: CustomColours.teal,
+    defaultColor: CustomColours.teal,
     importance: NotificationImportance.High,
     enableLights: true,
     enableVibration: true,
