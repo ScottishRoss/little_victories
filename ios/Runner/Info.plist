@@ -56,7 +56,7 @@
 		</array>
 		<!-- End of the Google Sign-In section -->
 		<key>UIStatusBarHidden</key>
-		<false/>
+		<true/>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>fbapi</string>
@@ -84,13 +84,13 @@
 			<string>tg</string>
 		</array>
 		<key>NSPhotoLibraryAddUsageDescription</key>
-			<string>Allow Little Victories access to your photo library to share images?</string>
+		<string>Allow Little Victories access to your photo library to share images?</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-			<string>Allow Little Victories access to your photo library to share images?</string>
+		<string>Allow Little Victories access to your photo library to share images?</string>
 		<key>FacebookAppID</key>
-			<string>286381316221449</string>
+		<string>286381316221449</string>
 		<key>FacebookDisplayName</key>
-			<string>Little Victories</string>
+		<string>Little Victories</string>
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
