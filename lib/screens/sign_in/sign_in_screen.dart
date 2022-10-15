@@ -28,49 +28,52 @@ class _SignInScreenState extends State<SignInScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isUserSignedIn();
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              children: const <Widget>[
-                // Little Victories Logo
-                LVLogo(),
-                Text(
-                  'Celebrate your Little Victories',
-                  style: TextStyle(
-                    color: CustomColours.teal,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-          ),
+      child:
 
           /// Sign in with Google
           FutureBuilder<FirebaseApp>(
-            future: Authentication.initializeFirebase(context: context),
-            builder:
-                (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-              if (snapshot.hasError) {
-                return const Text(
-                  'Error signing in, please try again later.',
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                return const GoogleSignInButton();
-              }
-              return buildCircleProgressIndicator(
-                color: CustomColours.teal,
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-        ],
+        future: Authentication.initializeFirebase(context: context),
+        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
+          if (snapshot.hasError) {
+            return const Text(
+              'Error signing in, please try again later.',
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    children: const <Widget>[
+                      // Little Victories Logo
+                      LVLogo(),
+                      Text(
+                        'Celebrate your Little Victories',
+                        style: TextStyle(
+                          color: CustomColours.teal,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Spacer(),
+                      GoogleSignInButton(),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+
+          return buildCircleProgressIndicator(
+            color: CustomColours.teal,
+          );
+        },
       ),
     );
   }
