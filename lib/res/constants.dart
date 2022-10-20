@@ -24,6 +24,14 @@ bool isDebugMode() {
   return kDebugMode;
 }
 
+final ColorScheme defaultLightColorScheme = ColorScheme.fromSwatch(
+  primarySwatch: buildMaterialColor(CustomColours.darkPurple),
+);
+
+final ColorScheme defaultDarkColorScheme = ColorScheme.fromSwatch(
+    primarySwatch: buildMaterialColor(CustomColours.darkPurple),
+    brightness: Brightness.dark);
+
 const String kFirstTimeSetup = 'first_time_setup';
 const String kIsNotificationsEnabled = 'is_notifications_enabled';
 const String kNotificationTime = 'notification_time';

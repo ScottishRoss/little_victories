@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kReleaseMode;
@@ -31,9 +32,7 @@ Future<Widget> routeOnFirstTimeSetup() async {
 }
 
 Future<void> main() async {
-  final WidgetsBinding widgetsBinding =
-      WidgetsFlutterBinding.ensureInitialized();
-  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
     <DeviceOrientation>[DeviceOrientation.portraitUp],
@@ -77,82 +76,69 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Little Victories',
-      debugShowCheckedModeBanner: false,
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      theme: ThemeData(
-        primarySwatch: buildMaterialColor(CustomColours.darkPurple),
-        primaryColor: CustomColours.darkPurple,
-        secondaryHeaderColor: CustomColours.darkPurple,
-        hintColor: CustomColours.darkPurple,
-        brightness: Brightness.dark,
-        fontFamily: 'Montserrat',
-        highlightColor: CustomColours.lightPurple,
-        timePickerTheme: TimePickerThemeData(
-          backgroundColor: CustomColours.teal,
-          hourMinuteTextColor: CustomColours.darkPurple,
-          entryModeIconColor: CustomColours.darkPurple,
-          dayPeriodTextColor: CustomColours.darkPurple,
-          dayPeriodBorderSide: const BorderSide(
-            color: CustomColours.darkPurple,
-          ),
-          dialHandColor: CustomColours.darkPurple,
-          dialTextColor: CustomColours.darkPurple,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          hourMinuteShape: const CircleBorder(),
-          helpTextStyle: const TextStyle(color: CustomColours.darkPurple),
+    return DynamicColorBuilder(
+        builder: (ColorScheme? lightColorScheme, ColorScheme? darkColorScheme) {
+      return MaterialApp(
+        title: 'Little Victories',
+        debugShowCheckedModeBanner: false,
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? defaultLightColorScheme,
+          useMaterial3: true,
         ),
-      ),
-      home: route,
-      onGenerateRoute: (RouteSettings settings) {
-        switch (settings.name) {
-          case '/intro':
-            return PageTransition<void>(
-              child: IntroScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/home':
-            return PageTransition<void>(
-              child: const HomeScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/debug':
-            return PageTransition<void>(
-              child: const DebugScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/preferences':
-            return PageTransition<void>(
-              child: const PreferencesScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/push_notifications':
-            return PageTransition<void>(
-              child: const PushNotificationsScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/sign_in':
-            return PageTransition<void>(
-              child: const SignInScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/view_victories':
-            return PageTransition<void>(
-              child: const ViewVictoriesScreen(),
-              type: PageTransitionType.fade,
-            );
-          default:
-            return PageTransition<void>(
-              child: const SignInScreen(),
-              type: PageTransitionType.fade,
-            );
-        }
-      },
-    );
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? defaultDarkColorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.dark,
+        home: route,
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case '/intro':
+              return PageTransition<void>(
+                child: IntroScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/home':
+              return PageTransition<void>(
+                child: const HomeScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/debug':
+              return PageTransition<void>(
+                child: const DebugScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/preferences':
+              return PageTransition<void>(
+                child: const PreferencesScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/push_notifications':
+              return PageTransition<void>(
+                child: const PushNotificationsScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/sign_in':
+              return PageTransition<void>(
+                child: const SignInScreen(),
+                type: PageTransitionType.fade,
+              );
+            case '/view_victories':
+              return PageTransition<void>(
+                child: const ViewVictoriesScreen(),
+                type: PageTransitionType.fade,
+              );
+            default:
+              return PageTransition<void>(
+                child: const SignInScreen(),
+                type: PageTransitionType.fade,
+              );
+          }
+        },
+      );
+    });
   }
 }
