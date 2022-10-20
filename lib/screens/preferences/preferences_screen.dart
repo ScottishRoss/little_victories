@@ -119,7 +119,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               showDialog<Widget>(
                 context: context,
                 builder: (BuildContext context) {
-                  return AccountModal(
+                  return CustomModal(
                     user: user,
                     title: 'Delete Victory',
                     desc: 'Are you sure you want to delete this Victory?',

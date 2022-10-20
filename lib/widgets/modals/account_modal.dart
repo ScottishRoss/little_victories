@@ -5,8 +5,8 @@ import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
-class AccountModal extends StatefulWidget {
-  const AccountModal({
+class CustomModal extends StatefulWidget {
+  const CustomModal({
     Key? key,
     required this.user,
     required this.title,
@@ -19,17 +19,15 @@ class AccountModal extends StatefulWidget {
   final Widget button;
 
   @override
-  _AccountModalState createState() => _AccountModalState();
+  _CustomModalState createState() => _CustomModalState();
 }
 
-class _AccountModalState extends State<AccountModal> {
-  late User _user;
+class _CustomModalState extends State<CustomModal> {
   final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
-    _user = widget.user;
 
     fToast.init(context);
   }

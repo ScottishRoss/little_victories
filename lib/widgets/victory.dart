@@ -137,7 +137,7 @@ class _VictoryState extends State<Victory> {
                     onPressed: () => showDialog<Widget>(
                         context: context,
                         builder: (BuildContext context) {
-                          return AccountModal(
+                          return CustomModal(
                             user: widget.user,
                             title: 'Delete Victory',
                             desc:
