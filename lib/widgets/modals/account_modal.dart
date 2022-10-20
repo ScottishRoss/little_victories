@@ -5,21 +5,26 @@ import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
-class DeleteAccountBox extends StatefulWidget {
-  const DeleteAccountBox({
+class AccountModal extends StatefulWidget {
+  const AccountModal({
     Key? key,
     required this.user,
+    required this.title,
+    required this.desc,
+    required this.button,
   }) : super(key: key);
 
   final User user;
+  final String title, desc;
+  final Widget button;
 
   @override
-  _DeleteAccountBoxState createState() => _DeleteAccountBoxState();
+  _AccountModalState createState() => _AccountModalState();
 }
 
-class _DeleteAccountBoxState extends State<DeleteAccountBox> {
+class _AccountModalState extends State<AccountModal> {
   late User _user;
-  bool _isSuccess = false;
+  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -74,20 +79,19 @@ class _DeleteAccountBoxState extends State<DeleteAccountBox> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Are you sure you want to delete your account?',
+            Text(
+              widget.title,
               textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-            ),
-            const SizedBox(height: 20.0),
-            const Text(
-              'All your Victories will be lost.',
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-              style: TextStyle(
-                color: CustomColours.darkPurple,
+              textScaleFactor: 2,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            const SizedBox(height: 20.0),
+            Text(
+              widget.desc,
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.5,
             ),
             const SizedBox(height: 20),
             Row(
@@ -102,30 +106,15 @@ class _DeleteAccountBoxState extends State<DeleteAccountBox> {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  child: _isSuccess
-                      ? buildCircleProgressIndicator()
-                      : buildOutlinedButton(
-                          textType: 'Delete Account',
-                          iconData: Icons.delete_forever,
-                          textColor: Colors.white,
-                          textSize: 15,
-                          backgroundColor: MaterialStateProperty.all(
-                            CustomColours.darkPurple,
-                          ),
-                          onPressed: () async {
-                            setState(() {
-                              _isSuccess = true;
-                            });
-                            await deleteUser(_user);
-
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/sign_in',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                        ),
+                ValueListenableBuilder<bool>(
+                  valueListenable: _isLoading,
+                  builder: (BuildContext context, bool value, Widget? child) {
+                    if (value) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return widget.button;
+                    }
+                  },
                 ),
               ],
             ),

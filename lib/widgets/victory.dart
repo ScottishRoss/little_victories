@@ -4,9 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/extensions.dart';
-import 'package:little_victories/widgets/modals/delete_victory_modal.dart';
+import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/modals/account_modal.dart';
 import 'package:little_victories/widgets/modals/share_victory_modal.dart';
 
 class Victory extends StatefulWidget {
@@ -135,9 +137,12 @@ class _VictoryState extends State<Victory> {
                     onPressed: () => showDialog<Widget>(
                         context: context,
                         builder: (BuildContext context) {
-                          return DeleteVictoryBox(
-                            docId: docId,
+                          return AccountModal(
                             user: widget.user,
+                            title: 'Delete Victory',
+                            desc:
+                                'Are you sure you want to delete this Victory?',
+                            button: _deleteVictoryButton(),
                           );
                         }),
                     icon: const FaIcon(
@@ -173,6 +178,26 @@ class _VictoryState extends State<Victory> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _deleteVictoryButton() {
+    return buildOutlinedButton(
+      textType: 'Delete Victory',
+      iconData: Icons.delete_forever,
+      textColor: Colors.white,
+      textSize: 15,
+      backgroundColor: MaterialStateProperty.all(
+        CustomColours.darkPurple,
+      ),
+      onPressed: () async {
+        await deleteLittleVictory(
+          widget.user,
+          widget.docId.toString(),
+        );
+
+        Navigator.pushReplacementNamed(context, '/view_victories');
+      },
     );
   }
 }
