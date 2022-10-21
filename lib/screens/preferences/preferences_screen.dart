@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/preferences_model.dart';
+import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/secure_storage.dart';
+import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
-import 'package:little_victories/widgets/modals/delete_account_modal.dart';
+import 'package:little_victories/widgets/modals/account_modal.dart';
 import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
 import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
 import 'package:little_victories/widgets/preferences/reminders_timepicker_widget.dart';
@@ -22,7 +25,7 @@ class PreferencesScreen extends StatefulWidget {
 class _PreferencesScreenState extends State<PreferencesScreen> {
   final SecureStorage _secureStorage = SecureStorage();
 
-  late User _user;
+  late User user;
 
   Future<Preferences> getPreferences() async {
     final String? _notificationsSwitchValue =
@@ -42,7 +45,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   @override
   void initState() {
     super.initState();
-    _user = FirebaseAuth.instance.currentUser!;
+    user = FirebaseAuth.instance.currentUser!;
     getPreferences();
   }
 
@@ -116,7 +119,12 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               showDialog<Widget>(
                 context: context,
                 builder: (BuildContext context) {
-                  return DeleteAccountBox(user: _user);
+                  return CustomModal(
+                    user: user,
+                    title: 'Delete Victory',
+                    desc: 'Are you sure you want to delete this Victory?',
+                    button: _deleteAccountButton(),
+                  );
                 },
               );
             },
@@ -145,5 +153,24 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
         ],
       ),
     );
+  }
+
+  Widget _deleteAccountButton() {
+    return buildOutlinedButton(
+        textType: 'Delete Account',
+        iconData: Icons.delete_forever,
+        textColor: Colors.white,
+        textSize: 15,
+        backgroundColor: MaterialStateProperty.all(
+          CustomColours.darkPurple,
+        ),
+        onPressed: () async {
+          await deleteUser(
+            user,
+          );
+
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/sign_in', (Route<dynamic> route) => false);
+        });
   }
 }

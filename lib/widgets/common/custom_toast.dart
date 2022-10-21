@@ -36,12 +36,19 @@ class _CustomToastState extends State<CustomToast> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CircleAvatar(
-            child: Image.asset('assets/lv_logo_transparent.png'),
+            child: Image.asset('assets/lv_logo_transparent_purple.png'),
+            backgroundColor: Colors.transparent,
           ),
           const SizedBox(
             width: 12.0,
           ),
-          Text(widget.message),
+          Text(
+            widget.message,
+            textScaleFactor: 1.5,
+            style: const TextStyle(
+              color: CustomColours.darkPurple,
+            ),
+          ),
         ],
       ),
     );
