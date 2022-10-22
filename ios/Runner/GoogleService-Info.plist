@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>33556680240-5pfomjktn5jarm2jm3ver20117nbmcgi.apps.googleusercontent.com</string>
+	<string>33556680240-2lm2v5rnneci9b8m7e95e5iial916h65.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.33556680240-5pfomjktn5jarm2jm3ver20117nbmcgi</string>
+	<string>com.googleusercontent.apps.33556680240-2lm2v5rnneci9b8m7e95e5iial916h65</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>33556680240-04s7a0jokgcajr8bnm6ce8ia8poiai1l.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAYrsPud5se3JMhLbaT1tj_l2e-SYAlhYk</string>
 	<key>GCM_SENDER_ID</key>
@@ -29,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:33556680240:ios:d62c906310aedd5b82e7f5</string>
+	<string>1:33556680240:ios:19bdc092556f805482e7f5</string>
 	<key>DATABASE_URL</key>
 	<string>https://little-victories-b2c60.firebaseio.com</string>
 </dict>
