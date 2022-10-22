@@ -34,5 +34,11 @@
 	<string>1:33556680240:ios:19bdc092556f805482e7f5</string>
 	<key>DATABASE_URL</key>
 	<string>https://little-victories-b2c60.firebaseio.com</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to demonstrate image picker plugin</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to capture audio for image picker plugin</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to demonstrate image picker plugin</string>
 </dict>
 </plist>
