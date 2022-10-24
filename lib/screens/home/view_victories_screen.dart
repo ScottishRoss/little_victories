@@ -17,7 +17,6 @@ class ViewVictoriesScreen extends StatefulWidget {
 class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late Stream<QuerySnapshot<Object?>>? _dataList;
-  final ScrollController _scrollController = ScrollController();
 
   late User _user;
 
@@ -66,23 +65,20 @@ class _ViewVictoriesScreenState extends State<ViewVictoriesScreen> {
                             child: Text('Error: ${snapshot.error}'),
                           );
                         } else if (snapshot.data!.docs.isNotEmpty) {
-                          return Scrollbar(
-                            controller: _scrollController,
-                            child: ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final QueryDocumentSnapshot<Object?>? victory =
-                                    snapshot.data?.docs[index];
-                                final String docId =
-                                    snapshot.data!.docs[index].id.toString();
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final QueryDocumentSnapshot<Object?>? victory =
+                                  snapshot.data?.docs[index];
+                              final String docId =
+                                  snapshot.data!.docs[index].id.toString();
 
-                                return Victory(
-                                  docId: docId,
-                                  victory: victory,
-                                  user: _user,
-                                );
-                              },
-                            ),
+                              return Victory(
+                                docId: docId,
+                                victory: victory,
+                                user: _user,
+                              );
+                            },
                           );
                         } else {
                           return const Center(

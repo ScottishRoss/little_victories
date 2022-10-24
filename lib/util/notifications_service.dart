@@ -105,6 +105,14 @@ class NotificationsService {
 
     _notifications.createNotification(
       content: _notificationContentReminders,
+      actionButtons: <NotificationActionButton>[
+        NotificationActionButton(
+          key: 'create_victory',
+          label: 'Celebrate',
+          autoDismissible: true,
+          buttonType: ActionButtonType.InputField,
+        )
+      ],
       schedule: NotificationCalendar(
         hour: hour,
         minute: minute,
@@ -119,6 +127,14 @@ class NotificationsService {
   void fireNotification() {
     _notifications.createNotification(
       content: _notificationContentReminders,
+      actionButtons: <NotificationActionButton>[
+        NotificationActionButton(
+          key: 'debug_victory',
+          label: 'Celebrate a Victory',
+          autoDismissible: true,
+          buttonType: ActionButtonType.InputField,
+        )
+      ],
     );
   }
 

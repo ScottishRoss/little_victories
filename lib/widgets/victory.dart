@@ -62,6 +62,8 @@ class _VictoryState extends State<Victory> {
         return Icons.favorite;
       case 'people':
         return Icons.groups;
+      case 'notification':
+        return Icons.notifications;
       default:
         return Icons.sentiment_very_satisfied;
     }
