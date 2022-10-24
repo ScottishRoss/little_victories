@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';

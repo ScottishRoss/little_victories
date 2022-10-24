@@ -34,8 +34,7 @@ Future<Widget> routeOnFirstTimeSetup() async {
 }
 
 Future<void> main() async {
-  final WidgetsBinding widgetsBinding =
-      WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
