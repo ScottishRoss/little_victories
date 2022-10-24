@@ -82,7 +82,12 @@ Widget buildOutlinedButton({
             backgroundColor ?? MaterialStateProperty.all(Colors.redAccent),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
+            borderRadius: BorderRadius.circular(5),
+            side: BorderSide(
+              width: 2.0,
+              color: textColor!,
+              style: BorderStyle.solid,
+            ),
           ),
         ),
       ),
@@ -100,7 +105,7 @@ Widget buildOutlinedButton({
           Icon(
             iconData,
             size: 20,
-            color: Colors.white,
+            color: textColor,
           ),
         ],
       ),
