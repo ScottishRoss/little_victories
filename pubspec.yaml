@@ -40,7 +40,6 @@ dependencies:
   # Social Packages
   google_sign_in: ^5.2.1
   social_share: ^2.2.1
-  share: ^2.0.4
 
   # Widget Packages
   expansion_tile_card: ^2.0.0
