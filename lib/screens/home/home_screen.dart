@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Authentication().authCheck(context);
-    NotificationsService().showNotificationModal(context);
+    //NotificationsService().showNotificationModal(context);
     super.initState();
   }
 

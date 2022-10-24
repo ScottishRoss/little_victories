@@ -117,6 +117,31 @@ Future<bool> saveLittleVictory(
   return false;
 }
 
+/// START: Add Little Victory from Notification
+Future<bool> saveLittleVictoryFromNotification(
+  User user,
+  String victory,
+) async {
+  final DateTime currentDateTime = DateTime.now();
+
+  _usersCollection
+      .doc(user.uid)
+      .collection('victories')
+      .doc(currentDateTime.toString())
+      .set(<String, dynamic>{
+    'victory': victory,
+    'createdOn': currentDateTime,
+    'icon': 'notification',
+  }).then((_) {
+    FirebaseAnalyticsService()
+        .logEvent('submit_victory_from_notification', <String, Object>{
+      'submit': 'true',
+    });
+    return true;
+  });
+  return false;
+}
+
 /// START: Delete Little Victory
 
 Future<bool> deleteLittleVictory(User user, String docId) async {
