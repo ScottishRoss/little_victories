@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/secure_storage.dart';
-import 'package:little_victories/widgets/modals/notifications_consent_modal.dart';
 
 const String kNotificationChannelKeyReminders =
     'little_victories_channel_reminders';
@@ -55,32 +54,6 @@ class NotificationsService {
     );
   }
 
-  Future<void> showNotificationModal(BuildContext context) async {
-    final String? _isFirstTime = await _secureStorage.getFromKey(
-      kFirstTimeSetup,
-    );
-    if (_isFirstTime == null) {
-      showDialog<Widget>(
-        context: context,
-        builder: (BuildContext context) {
-          return const NotificationsConsentModal();
-        },
-      );
-      final DateTime now = DateTime.now();
-      _secureStorage.insert(kFirstTimeSetup, 'true');
-      _secureStorage.insert(
-        kNotificationTime,
-        DateTime(
-          now.year,
-          now.month,
-          now.day,
-          18,
-          0,
-        ).toString(),
-      );
-    }
-  }
-
   Future<void> cancelScheduledNotifications() async {
     await _notifications.cancelAllSchedules();
   }
@@ -97,11 +70,10 @@ class NotificationsService {
   Future<void> startReminders() async {
     final String? storedTime =
         await _secureStorage.getFromKey(kNotificationTime);
-    final TimeOfDay convertedTime = fromDatetimeToTimeOfDay(
-      DateTime.parse(storedTime!),
-    );
-    final int hour = convertedTime.hour;
-    final int minute = convertedTime.minute;
+    print('Stored Time: $storedTime');
+
+    //? Split the 24 hour time into hours and minutes as a list.
+    final List<String> parts = storedTime!.split(':');
 
     _notifications.createNotification(
       content: _notificationContentReminders,
@@ -114,14 +86,15 @@ class NotificationsService {
         )
       ],
       schedule: NotificationCalendar(
-        hour: hour,
-        minute: minute,
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
         second: 0,
         allowWhileIdle: true,
         repeats: true,
         timeZone: AwesomeNotifications.localTimeZoneIdentifier,
       ),
     );
+    print('Notification started');
   }
 
   void fireNotification() {
@@ -142,6 +115,43 @@ class NotificationsService {
     return TimeOfDay(
       hour: dateTime.hour,
       minute: dateTime.minute,
+    );
+  }
+
+  Future<void> firstTimeNotificationSetup() async {
+    //? Check to see if reminders are off or haven't been started.
+    final String? _reminderFlag =
+        await _secureStorage.getFromKey(kIsNotificationsEnabled);
+    //? Notifications package check to see if notifications are enabled.
+    //? Not final as we do another check later.
+    bool _isNotificationsEnabled = await _notifications.isNotificationAllowed();
+
+    //? If false or null
+    if (_reminderFlag == 'false' || _reminderFlag == null) {
+      //? Get the notification time which should be there from initialisation.
+      final String? _notificationTime =
+          await _secureStorage.getFromKey(kNotificationTime);
+      //? If null it means it hasn't been initialised so insert the default time.
+      if (_notificationTime == null)
+        _secureStorage.insert(
+          kNotificationTime,
+          kDefaultNotificationTime,
+        );
+
+      //? If notifications haven't been enabled on startup, take them to the settings.
+      if (_isNotificationsEnabled == null) {
+        _notifications.requestPermissionToSendNotifications();
+        //? Recheck if notifications are enabled.
+        _isNotificationsEnabled = await _notifications.isNotificationAllowed();
+      }
+
+      //? Start default reminders.
+      NotificationsService().startReminders();
+    }
+    //? Insert user notifications preference.
+    _secureStorage.insert(
+      kIsNotificationsEnabled,
+      _isNotificationsEnabled.toString(),
     );
   }
 }
