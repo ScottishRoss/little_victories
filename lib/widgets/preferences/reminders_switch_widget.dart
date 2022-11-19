@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -7,10 +8,10 @@ import 'package:little_victories/util/secure_storage.dart';
 class RemindersSwitchWidget extends StatefulWidget {
   const RemindersSwitchWidget({
     Key? key,
-    required this.isPreferencesEnabled,
+    required this.isNotificationsEnabled,
   }) : super(key: key);
 
-  final bool isPreferencesEnabled;
+  final bool isNotificationsEnabled;
 
   @override
   _RemindersSwitchWidgetState createState() => _RemindersSwitchWidgetState();
@@ -20,12 +21,12 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
   final SecureStorage _secureStorage = SecureStorage();
   final NotificationsService _notificationsService = NotificationsService();
 
-  late bool _isPreferencesEnabled;
+  late bool _isNotificationsEnabled;
 
   @override
   void initState() {
     super.initState();
-    _isPreferencesEnabled = widget.isPreferencesEnabled;
+    _isNotificationsEnabled = widget.isNotificationsEnabled;
   }
 
   @override
@@ -35,20 +36,21 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
         const Text('Reminders: '),
         Switch(
           activeColor: CustomColours.teal,
-          value: _isPreferencesEnabled,
+          value: _isNotificationsEnabled,
           onChanged: (bool value) async {
             setState(() {
-              _isPreferencesEnabled = value;
+              _isNotificationsEnabled = value;
             });
             _notificationsService.setNotificationPreference(
-              _isPreferencesEnabled,
+              _isNotificationsEnabled,
             );
             _secureStorage.insert(
               kIsNotificationsEnabled,
-              _isPreferencesEnabled.toString(),
+              _isNotificationsEnabled.toString(),
             );
 
             if (value) {
+              _notificationsService.showNotificationsConsentIfNeeded();
               _notificationsService.cancelScheduledNotifications();
               _notificationsService.startReminders();
             } else {

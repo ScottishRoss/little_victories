@@ -54,6 +54,14 @@ class NotificationsService {
     );
   }
 
+  Future<void> showNotificationsConsentIfNeeded() async {
+    final bool _isNotificationsEnabled =
+        await _notifications.isNotificationAllowed();
+    print('Notifications Consent: $_isNotificationsEnabled');
+    if (!_isNotificationsEnabled)
+      _notifications.requestPermissionToSendNotifications();
+  }
+
   Future<void> cancelScheduledNotifications() async {
     await _notifications.cancelAllSchedules();
   }
