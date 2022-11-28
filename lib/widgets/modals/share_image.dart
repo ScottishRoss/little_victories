@@ -9,7 +9,6 @@ import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
 import 'package:social_share/social_share.dart';
 
 class ShareImage extends StatefulWidget {
@@ -45,24 +44,25 @@ class _ShareImageState extends State<ShareImage> {
   }
 
   Future<void> _delay() async {
-    await Future<Duration>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
   }
 
   void shareToChosenPlatform(String platform, String path) {
     switch (platform) {
       case 'Facebook':
         SocialShare.shareFacebookStory(
-            path,
-            CustomColours.darkPurple.toString(),
-            CustomColours.teal.toString(),
-            'https://www.littlevictories.app');
+          path,
+          CustomColours.darkPurple.toString(),
+          CustomColours.teal.toString(),
+          'https://www.littlevictories.app',
+        );
 
         break;
       case 'Instagram':
         SocialShare.shareInstagramStory(path);
         break;
       case 'Other':
-        Share.shareFiles(<String>[path]);
+        SocialShare.shareOptions(path);
         break;
     }
     FirebaseAnalyticsService().logEvent('share_victory', <String, Object>{
@@ -207,10 +207,10 @@ class _ShareImageState extends State<ShareImage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                         color: CustomColours.darkPurple,
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(5.0),
                         boxShadow: const <BoxShadow>[
                           BoxShadow(
                             color: Colors.black54,
@@ -228,7 +228,6 @@ class _ShareImageState extends State<ShareImage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -246,8 +245,8 @@ class _ShareImageState extends State<ShareImage> {
   Widget _buttonRow(String platform) {
     return SizedBox(
       width: double.infinity,
-      height: 100.0,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
             child: _isSuccess
@@ -256,6 +255,7 @@ class _ShareImageState extends State<ShareImage> {
                     textType: 'Share',
                     textSize: 30.0,
                     iconData: Icons.share,
+                    textColor: CustomColours.darkPurple,
                     backgroundColor:
                         MaterialStateProperty.all(Colors.transparent),
                     onPressed: () async {
@@ -266,13 +266,6 @@ class _ShareImageState extends State<ShareImage> {
                       setState(() {
                         _isSuccess = false;
                       });
-                      // Future<void>.delayed(const Duration(seconds: 2), () {
-                      //   _capturePng(platform);
-                      // }).then((_) => setState(
-                      //       () {
-                      //         _isSuccess = false;
-                      //       },
-                      //     ));
                     }),
           ),
           TextButton(
@@ -286,6 +279,7 @@ class _ShareImageState extends State<ShareImage> {
               ),
             ),
           ),
+          const SizedBox(height: 50),
         ],
       ),
     );

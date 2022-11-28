@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 //import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -33,8 +36,7 @@ Future<Widget> routeOnFirstTimeSetup() async {
 }
 
 Future<void> main() async {
-  final WidgetsBinding widgetsBinding =
-      WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
@@ -44,6 +46,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  AwesomeNotifications().actionStream.listen((ReceivedAction event) {
+    if (event.buttonKeyPressed == 'debug_victory') {
+      final User? _user = FirebaseAuth.instance.currentUser;
+      final String _textInput = event.buttonKeyInput.toString();
+
+      saveLittleVictoryFromNotification(_user!, _textInput);
+    }
+  });
 
   if (kDebugMode) {
     // Force disable Crashlytics collection while doing every day development.

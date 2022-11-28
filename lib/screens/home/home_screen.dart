@@ -15,10 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final NotificationsService _notificationsService = NotificationsService();
   @override
   void initState() {
     Authentication().authCheck(context);
-    NotificationsService().showNotificationModal(context);
+    _notificationsService.firstTimeNotificationSetup();
     super.initState();
   }
 

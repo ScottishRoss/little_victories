@@ -80,7 +80,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                               return Text(snapshot.error.toString());
                             else
                               return RemindersSwitchWidget(
-                                isPreferencesEnabled:
+                                isNotificationsEnabled:
                                     snapshot.data!.isNotificationsEnabled,
                               );
                           default:
