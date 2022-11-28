@@ -35,12 +35,12 @@ Future<Widget> routeOnFirstTimeSetup() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
-  await Firebase.initializeApp();
 
   AwesomeNotifications().actionStream.listen((ReceivedAction event) {
     if (event.buttonKeyPressed == 'debug_victory') {

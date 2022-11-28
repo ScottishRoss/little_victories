@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 
+const String kFacebookAppId = '1096908177639475';
+
 const LinearGradient kTealGradient = LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
