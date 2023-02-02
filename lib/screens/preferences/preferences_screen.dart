@@ -159,11 +159,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     return buildOutlinedButton(
         textType: 'Delete Account',
         iconData: Icons.delete_forever,
-        textColor: Colors.white,
         textSize: 15,
-        backgroundColor: MaterialStateProperty.all(
-          CustomColours.darkPurple,
-        ),
+        backgroundColor: CustomColours.darkPurple,
         onPressed: () async {
           await deleteUser(
             user,

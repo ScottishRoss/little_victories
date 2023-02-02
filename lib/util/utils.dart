@@ -1,3 +1,4 @@
+// ignore: flutter_style_todos
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -68,48 +69,51 @@ Widget buildTextFormField(
   );
 }
 
+//TODO(Ross): Refactor all this.
+
 Widget buildOutlinedButton({
-  Function()? onPressed,
-  String? textType,
-  Color? textColor,
-  double? textSize,
+  required Function() onPressed,
+  required String textType,
+  Color textColor = Colors.white,
+  double textSize = 14,
   IconData? iconData,
-  MaterialStateProperty<Color?>? backgroundColor,
-}) =>
-    OutlinedButton(
-      style: ButtonStyle(
-        backgroundColor:
-            backgroundColor ?? MaterialStateProperty.all(Colors.redAccent),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-            side: BorderSide(
-              width: 2.0,
-              color: textColor!,
-              style: BorderStyle.solid,
-            ),
+  Color backgroundColor = Colors.red,
+}) {
+  return OutlinedButton(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(backgroundColor),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+          side: BorderSide(
+            width: 2.0,
+            color: textColor,
+            style: BorderStyle.solid,
           ),
         ),
       ),
-      onPressed: onPressed,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          buildtext(
-            textType!,
-            fontSize: textSize,
-            color: textColor,
-            fontWeight: FontWeight.w600,
-          ),
+    ),
+    onPressed: onPressed,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        buildtext(
+          textType,
+          fontSize: textSize,
+          color: textColor,
+          fontWeight: FontWeight.w600,
+        ),
+        if (iconData != null)
           Icon(
             iconData,
             size: 20,
             color: textColor,
           ),
-        ],
-      ),
-    );
+      ],
+    ),
+  );
+}
 
 Widget buildTextButton({
   double? radius,
