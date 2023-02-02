@@ -44,10 +44,13 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
 
   Future<void> getReminderTime() async {
     final String? time = await _secureStorage.getFromKey(kNotificationTime);
-    final DateFormat format = DateFormat.jm();
+    final TimeOfDay convertedTime = TimeOfDay(
+        hour: int.parse(time!.split(':')[0]),
+        minute: int.parse(time.split(':')[1]));
+    //final DateFormat format = DateFormat.jm();
     if (time != null) {
       setState(() {
-        selectedTime = format.format(DateTime.parse(time));
+        selectedTime = convertedTime.format(context);
       });
     }
   }
