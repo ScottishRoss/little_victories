@@ -60,7 +60,7 @@ android {
         minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
         targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
         versionCode localProperties.getProperty('flutter.versionCode').toInteger()
-        versionName localProperties.getProperty('flutter.versionName').toInteger()
+        versionName localProperties.getProperty('flutter.versionName')
         multiDexEnabled true
         resConfigs "en", "US"
     }
