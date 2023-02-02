@@ -48,3 +48,6 @@ app.*.map.json
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+
+# Api Keys
+lib/api_keys.dart
