@@ -123,7 +123,7 @@ class _VictoryState extends State<Victory> {
                 victoryString,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .copyWith(fontSize: 16),
               ),
             ),
