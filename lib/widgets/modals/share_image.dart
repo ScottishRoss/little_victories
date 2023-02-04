@@ -258,8 +258,7 @@ class _ShareImageState extends State<ShareImage> {
                     textSize: 30.0,
                     iconData: Icons.share,
                     textColor: CustomColours.darkPurple,
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
+                    backgroundColor: Colors.transparent,
                     onPressed: () async {
                       setState(() {
                         _isSuccess = true;

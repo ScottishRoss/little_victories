@@ -189,9 +189,7 @@ class _VictoryState extends State<Victory> {
       iconData: Icons.delete_forever,
       textColor: Colors.white,
       textSize: 15,
-      backgroundColor: MaterialStateProperty.all(
-        CustomColours.darkPurple,
-      ),
+      backgroundColor: CustomColours.darkPurple,
       onPressed: () async {
         await deleteLittleVictory(
           widget.user,

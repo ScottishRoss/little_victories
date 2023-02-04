@@ -110,9 +110,7 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                           iconData: Icons.delete_forever,
                           textColor: Colors.white,
                           textSize: 15,
-                          backgroundColor: MaterialStateProperty.all(
-                            CustomColours.darkPurple,
-                          ),
+                          backgroundColor: CustomColours.darkPurple,
                           onPressed: () async {
                             setState(() {
                               _isSuccess = true;

@@ -1,6 +1,7 @@
 import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
@@ -275,25 +276,27 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                       : buildOutlinedButton(
                           textType: 'Celebrate a Victory',
                           iconData: Icons.celebration,
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          backgroundColor: Colors.transparent,
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await saveLittleVictory(
-                                _user,
-                                _victoryController.text,
-                                icon,
-                              );
-
-                              setState(() {
-                                _isSuccess = true;
-                              });
-
-                              _confettiController.play();
-                              Future<dynamic>.delayed(
-                                  const Duration(seconds: 2), () {
-                                Navigator.of(this.context).pop();
-                              });
+                              try {
+                                await saveLittleVictory(
+                                  _user,
+                                  _victoryController.text,
+                                  icon,
+                                );
+                                setState(() {
+                                  _isSuccess = true;
+                                });
+                                //TODO: Confetti is crashing the app.
+                                //_confettiController.play();
+                                Future<dynamic>.delayed(
+                                    const Duration(seconds: 2), () {
+                                  Navigator.of(this.context).pop();
+                                });
+                              } catch (e) {
+                                Fluttertoast.showToast(msg: e.toString());
+                              }
                             }
                           },
                         ),
