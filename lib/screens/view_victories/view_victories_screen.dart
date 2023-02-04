@@ -5,7 +5,7 @@ import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/modals/add_victory_modal.dart';
-import 'package:little_victories/widgets/victory.dart';
+import 'package:little_victories/screens/view_victories/victory.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
   const ViewVictoriesScreen({Key? key}) : super(key: key);

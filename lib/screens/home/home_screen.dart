@@ -18,9 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final NotificationsService _notificationsService = NotificationsService();
   @override
   void initState() {
+    super.initState();
     Authentication().authCheck(context);
     _notificationsService.firstTimeNotificationSetup();
-    super.initState();
   }
 
   @override

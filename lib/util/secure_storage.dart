@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -10,6 +12,7 @@ class SecureStorage {
         await storage.write(key: key, value: value);
         return true;
       } catch (e) {
+        log(e.toString());
         return false;
       }
     } else {
@@ -18,6 +21,7 @@ class SecureStorage {
         await storage.write(key: key, value: value);
         return true;
       } catch (e) {
+        log(e.toString());
         return false;
       }
     }

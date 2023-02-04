@@ -70,6 +70,20 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconButton(
+                  onPressed: () {
+                    SocialShare.shareTwitter(widget.victory!,
+                        hashtags: <String>['LittleVictories']);
+                    FirebaseAnalyticsService()
+                        .logEvent('share_victory', <String, Object>{
+                      'platform': 'twitter',
+                    });
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.twitter,
+                    size: 30.0,
+                  ),
+                ),
+                IconButton(
                   onPressed: () => showDialog<Widget>(
                       context: context,
                       builder: (BuildContext context) {

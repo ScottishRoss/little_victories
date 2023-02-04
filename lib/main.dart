@@ -14,11 +14,11 @@ import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_screen.dart';
-import 'package:little_victories/screens/home/view_victories_screen.dart';
 import 'package:little_victories/screens/intro/intro_screen.dart';
 import 'package:little_victories/screens/preferences/preferences_screen.dart';
 import 'package:little_victories/screens/preferences/push_notifications_screen.dart';
 import 'package:little_victories/screens/sign_in/sign_in_screen.dart';
+import 'package:little_victories/screens/view_victories/view_victories_screen.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
@@ -26,6 +26,7 @@ import 'package:page_transition/page_transition.dart';
 Future<Widget> routeOnFirstTimeSetup() async {
   final String? _isFirstTime =
       await SecureStorage().getFromKey(kFirstTimeSetup);
+  print(_isFirstTime);
   if (_isFirstTime != null) {
     return const SignInScreen();
   } else {

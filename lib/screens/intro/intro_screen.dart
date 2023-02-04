@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -104,21 +106,16 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageBody(
       child: Builder(
-        builder: (BuildContext context) => IntroViewsFlutter(
-          pages,
-          showNextButton: true,
-          showBackButton: true,
-          pageButtonTextStyles: const TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-          ),
-          onTapDoneButton: () {
-            Navigator.pushReplacementNamed(
-              context,
-              '/home',
-            );
-          },
-        ),
+        builder: (BuildContext context) => IntroViewsFlutter(pages,
+            showNextButton: true,
+            showBackButton: true,
+            pageButtonTextStyles: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ), onTapDoneButton: () {
+          SecureStorage().insert(kFirstTimeSetup, 'true');
+          Navigator.pushReplacementNamed(context, '/sign_in');
+        }),
       ),
     );
   }
