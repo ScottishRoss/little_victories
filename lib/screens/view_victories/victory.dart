@@ -168,8 +168,8 @@ class _VictoryState extends State<Victory> {
                       },
                     ),
                     icon: const FaIcon(
-                      FontAwesomeIcons.shareNodes,
-                      color: CustomColours.teal,
+                      FontAwesomeIcons.share,
+                      color: Colors.white,
                     ),
                   ),
                   const Text('Share'),

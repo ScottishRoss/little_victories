@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="rphenderson.dev.littlevictories">
-   <application
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <application
         android:label="Little Victories"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -28,6 +30,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/constants.dart';
@@ -78,7 +80,7 @@ class NotificationsService {
   Future<void> startReminders() async {
     final String? storedTime =
         await _secureStorage.getFromKey(kNotificationTime);
-    print('Stored Time: $storedTime');
+    log('Stored Time: $storedTime');
 
     //? Split the 24 hour time into hours and minutes as a list.
     final List<String> parts = storedTime!.split(':');
@@ -127,34 +129,49 @@ class NotificationsService {
   }
 
   Future<void> firstTimeNotificationSetup() async {
+    bool _isTimeInserted = false;
+    log('Starting first time notification setup...');
+
     //? Check to see if reminders are off or haven't been started.
     final String? _reminderFlag =
         await _secureStorage.getFromKey(kIsNotificationsEnabled);
+    log('Reminder flag: $_reminderFlag');
+
     //? Notifications package check to see if notifications are enabled.
     //? Not final as we do another check later.
-    bool _isNotificationsEnabled = await _notifications.isNotificationAllowed();
+    final bool _isNotificationsEnabled =
+        await _notifications.isNotificationAllowed();
+    log('Notifications enabled: $_isNotificationsEnabled');
 
     //? If false or null
     if (_reminderFlag == 'false' || _reminderFlag == null) {
+      //? Insert the reminder flag.
+      _secureStorage.insert(
+        kIsNotificationsEnabled,
+        _isNotificationsEnabled.toString(),
+      );
+      log('Set reminder flag to: $_isNotificationsEnabled');
+
       //? Get the notification time which should be there from initialisation.
       final String? _notificationTime =
           await _secureStorage.getFromKey(kNotificationTime);
+      log('Notification time: $_notificationTime');
+
       //? If null it means it hasn't been initialised so insert the default time.
       if (_notificationTime == null)
-        _secureStorage.insert(
+        _isTimeInserted = await _secureStorage.insert(
           kNotificationTime,
           kDefaultNotificationTime,
         );
+      log('Time inserted: $_isTimeInserted');
 
-      //? If notifications haven't been enabled on startup, take them to the settings.
-      if (_isNotificationsEnabled == null) {
-        _notifications.requestPermissionToSendNotifications();
-        //? Recheck if notifications are enabled.
-        _isNotificationsEnabled = await _notifications.isNotificationAllowed();
+      if (_isNotificationsEnabled) {
+        //? Start default reminders.
+        NotificationsService().startReminders();
+        log('Started reminders');
+      } else {
+        log('Notifications not enabled');
       }
-
-      //? Start default reminders.
-      NotificationsService().startReminders();
     }
     //? Insert user notifications preference.
     _secureStorage.insert(
