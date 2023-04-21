@@ -12,6 +12,8 @@ import 'package:little_victories/util/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_share/social_share.dart';
 
+/// TODO: Refactor into an image service
+
 class ShareImage extends StatefulWidget {
   const ShareImage({Key? key, required this.victory, required this.platform})
       : super(key: key);
@@ -26,7 +28,7 @@ class ShareImage extends StatefulWidget {
 class _ShareImageState extends State<ShareImage> {
   final GlobalKey globalKey = GlobalKey();
   late String platform;
-  late File _image;
+  File? _image;
   final ImagePicker _picker = ImagePicker();
   bool _isSuccess = false;
 
@@ -97,7 +99,6 @@ class _ShareImageState extends State<ShareImage> {
   }
 
   Future<void> _imgFromCamera() async {
-    // ignore: cast_nullable_to_non_nullable
     final XFile? image =
         await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     final File selectedImage = File(image!.path);
@@ -150,7 +151,7 @@ class _ShareImageState extends State<ShareImage> {
   void initState() {
     super.initState();
 
-    getImageFileFromAssets();
+    // getImageFileFromAssets();
     platform = widget.platform;
   }
 
@@ -191,7 +192,7 @@ class _ShareImageState extends State<ShareImage> {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Image.file(_image),
+              if (_image != null) Image.file(_image!) else Container(),
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -213,21 +214,26 @@ class _ShareImageState extends State<ShareImage> {
                       decoration: BoxDecoration(
                         color: CustomColours.darkPurple,
                         borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: const <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black54,
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 6),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            widget.victory,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 30.0,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            '#LittleVictories',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              color: CustomColours.teal,
+                            ),
                           ),
                         ],
-                      ),
-                      child: Text(
-                        widget.victory,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 30.0,
-                        ),
                       ),
                     ),
                   ],
@@ -255,9 +261,7 @@ class _ShareImageState extends State<ShareImage> {
                 ? buildCircleProgressIndicator()
                 : buildOutlinedButton(
                     textType: 'Share',
-                    textSize: 30.0,
-                    iconData: Icons.share,
-                    textColor: CustomColours.darkPurple,
+                    textSize: 42.0,
                     backgroundColor: Colors.transparent,
                     onPressed: () async {
                       setState(() {
