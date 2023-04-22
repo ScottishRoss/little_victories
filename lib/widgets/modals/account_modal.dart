@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
 
 class CustomModal extends StatefulWidget {
   const CustomModal({
@@ -98,9 +97,11 @@ class _CustomModalState extends State<CustomModal> {
                   onPressed: () {
                     Navigator.of(this.context).pop();
                   },
-                  child: buildtext(
+                  child: const Text(
                     'Close',
-                    fontSize: 15,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const Spacer(),

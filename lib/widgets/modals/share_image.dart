@@ -1,7 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui' as ui;
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:little_victories/api_keys.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_outlined_button.dart';
+import 'package:little_victories/widgets/common/progress_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_share/social_share.dart';
 
@@ -31,6 +31,19 @@ class _ShareImageState extends State<ShareImage> {
   File? _image;
   final ImagePicker _picker = ImagePicker();
   bool _isSuccess = false;
+
+  String generateRandomString() {
+    final Random _random = Random();
+    const String _availableChars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+    final String randomString = List<String>.generate(
+        5,
+        (int index) =>
+            _availableChars[_random.nextInt(_availableChars.length)]).join();
+
+    return randomString;
+  }
 
   // ignore: avoid_void_async
   Future<void> getImageFileFromAssets() async {
@@ -254,11 +267,10 @@ class _ShareImageState extends State<ShareImage> {
         children: <Widget>[
           Container(
             child: _isSuccess
-                ? buildCircleProgressIndicator()
-                : buildOutlinedButton(
-                    textType: 'Share',
+                ? const ProgressWidget()
+                : CustomOutlinedButton(
+                    text: 'Share',
                     textSize: 32.0,
-                    backgroundColor: Colors.transparent,
                     onPressed: () async {
                       setState(() {
                         _isSuccess = true;
@@ -267,7 +279,8 @@ class _ShareImageState extends State<ShareImage> {
                       setState(() {
                         _isSuccess = false;
                       });
-                    }),
+                    },
+                  ),
           ),
           TextButton(
             onPressed: () {

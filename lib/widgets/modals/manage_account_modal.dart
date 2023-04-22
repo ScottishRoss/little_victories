@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_outlined_button.dart';
+import 'package:little_victories/widgets/common/progress_widget.dart';
 
 class ManageAccountModal extends StatefulWidget {
   const ManageAccountModal({
@@ -96,17 +97,19 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                   onPressed: () {
                     Navigator.of(this.context).pop();
                   },
-                  child: buildtext(
+                  child: const Text(
                     'Close',
-                    fontSize: 15,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const Spacer(),
                 Container(
                   child: _isSuccess
-                      ? buildCircleProgressIndicator()
-                      : buildOutlinedButton(
-                          textType: 'Delete Account',
+                      ? const ProgressWidget()
+                      : CustomOutlinedButton(
+                          text: 'Delete Account',
                           iconData: Icons.delete_forever,
                           textColor: Colors.white,
                           textSize: 15,

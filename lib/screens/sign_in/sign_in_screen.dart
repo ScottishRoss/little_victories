@@ -3,10 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/common/buttons.dart';
+import 'package:little_victories/widgets/common/google_sign_in_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
+import 'package:little_victories/widgets/common/progress_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -34,10 +34,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child:
-
-          /// Sign in with Google
-          FutureBuilder<FirebaseApp>(
+      child: FutureBuilder<FirebaseApp>(
         future: Authentication.initializeFirebase(context: context),
         builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
           if (snapshot.hasError) {
@@ -68,10 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             );
           }
-
-          return buildCircleProgressIndicator(
-            color: CustomColours.teal,
-          );
+          return const ProgressWidget();
         },
       ),
     );

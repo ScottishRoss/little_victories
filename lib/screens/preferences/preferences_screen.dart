@@ -4,8 +4,8 @@ import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/preferences_model.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/secure_storage.dart';
-import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
+import 'package:little_victories/widgets/common/custom_outlined_button.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/account_modal.dart';
@@ -156,8 +156,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   }
 
   Widget _deleteAccountButton() {
-    return buildOutlinedButton(
-        textType: 'Delete Account',
+    return CustomOutlinedButton(
+        text: 'Delete Account',
         iconData: Icons.delete_forever,
         textSize: 15,
         backgroundColor: CustomColours.darkPurple,

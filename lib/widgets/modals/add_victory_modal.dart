@@ -5,7 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_outlined_button.dart';
+import 'package:little_victories/widgets/common/progress_widget.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -272,11 +273,10 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                 const Spacer(),
                 Container(
                   child: _isSuccess
-                      ? buildCircleProgressIndicator()
-                      : buildOutlinedButton(
-                          textType: 'Celebrate a Victory',
+                      ? const ProgressWidget()
+                      : CustomOutlinedButton(
+                          text: 'Celebrate a Victory',
                           iconData: Icons.celebration,
-                          backgroundColor: Colors.transparent,
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               try {
@@ -310,71 +310,73 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
 
   Widget _iconRow() {
     return Flexible(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <IconButton>[
-        IconButton(
-          color: Colors.red,
-          onPressed: () {
-            _changeIconColour('happy');
-          },
-          icon: Icon(
-            Icons.sentiment_very_satisfied,
-            color: _isHappyPressed ? CustomColours.darkPurple : Colors.white,
-            size: _isHappyPressed ? 30 : 20,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <IconButton>[
+          IconButton(
+            color: Colors.red,
+            onPressed: () {
+              _changeIconColour('happy');
+            },
+            icon: Icon(
+              Icons.sentiment_very_satisfied,
+              color: _isHappyPressed ? CustomColours.darkPurple : Colors.white,
+              size: _isHappyPressed ? 30 : 20,
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('tree');
-          },
-          icon: Icon(
-            Icons.park,
-            color: _isTreePressed ? CustomColours.darkPurple : Colors.white,
-            size: _isTreePressed ? 30 : 20,
+          IconButton(
+            onPressed: () {
+              _changeIconColour('tree');
+            },
+            icon: Icon(
+              Icons.park,
+              color: _isTreePressed ? CustomColours.darkPurple : Colors.white,
+              size: _isTreePressed ? 30 : 20,
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('food');
-          },
-          icon: Icon(
-            Icons.restaurant,
-            color: _isFoodPressed ? CustomColours.darkPurple : Colors.white,
-            size: _isFoodPressed ? 30 : 20,
+          IconButton(
+            onPressed: () {
+              _changeIconColour('food');
+            },
+            icon: Icon(
+              Icons.restaurant,
+              color: _isFoodPressed ? CustomColours.darkPurple : Colors.white,
+              size: _isFoodPressed ? 30 : 20,
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('people');
-          },
-          icon: Icon(
-            Icons.groups,
-            color: _isPeoplePressed ? CustomColours.darkPurple : Colors.white,
-            size: _isPeoplePressed ? 30 : 20,
+          IconButton(
+            onPressed: () {
+              _changeIconColour('people');
+            },
+            icon: Icon(
+              Icons.groups,
+              color: _isPeoplePressed ? CustomColours.darkPurple : Colors.white,
+              size: _isPeoplePressed ? 30 : 20,
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('exercise');
-          },
-          icon: Icon(
-            Icons.fitness_center,
-            color: _isExercisePressed ? CustomColours.darkPurple : Colors.white,
-            size: _isExercisePressed ? 30 : 20,
+          IconButton(
+            onPressed: () {
+              _changeIconColour('exercise');
+            },
+            icon: Icon(
+              Icons.fitness_center,
+              color:
+                  _isExercisePressed ? CustomColours.darkPurple : Colors.white,
+              size: _isExercisePressed ? 30 : 20,
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('heart');
-          },
-          icon: Icon(
-            Icons.favorite,
-            color: _isHeartPressed ? CustomColours.darkPurple : Colors.white,
-            size: _isHeartPressed ? 30 : 20,
+          IconButton(
+            onPressed: () {
+              _changeIconColour('heart');
+            },
+            icon: Icon(
+              Icons.favorite,
+              color: _isHeartPressed ? CustomColours.darkPurple : Colors.white,
+              size: _isHeartPressed ? 30 : 20,
+            ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }

@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/utils.dart';
 import 'package:social_share/social_share.dart';
 
 import 'share_image.dart';
@@ -147,9 +146,9 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: buildtext(
+                  child: const Text(
                     'Close',
-                    fontSize: 15,
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
                 const Spacer(),

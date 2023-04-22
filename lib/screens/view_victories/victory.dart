@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/extensions.dart';
-import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/widgets/common/custom_outlined_button.dart';
 import 'package:little_victories/widgets/modals/account_modal.dart';
 import 'package:little_victories/widgets/modals/share_victory_modal.dart';
 
@@ -184,10 +184,9 @@ class _VictoryState extends State<Victory> {
   }
 
   Widget _deleteVictoryButton() {
-    return buildOutlinedButton(
-      textType: 'Delete Victory',
+    return CustomOutlinedButton(
+      text: 'Delete Victory',
       iconData: Icons.delete_forever,
-      textColor: Colors.white,
       textSize: 15,
       backgroundColor: CustomColours.darkPurple,
       onPressed: () async {
