@@ -20,17 +20,11 @@ class CustomButton extends StatelessWidget {
   final Function() onPressed;
   Color backgroundColor, textColor, borderColor;
   double marginTop, marginBottom, marginLeft, marginRight;
+  static double kBorderRadius = 20.0;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(35),
-        border: Border.all(
-          color: borderColor,
-          width: 2,
-        ),
-      ),
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(
         marginLeft,
@@ -41,14 +35,14 @@ class CustomButton extends StatelessWidget {
       child: Material(
         elevation: 10,
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(kBorderRadius),
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(kBorderRadius),
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(kBorderRadius),
             ),
             alignment: Alignment.center,
             child: Text(

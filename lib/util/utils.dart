@@ -86,7 +86,7 @@ Widget buildOutlinedButton({
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
           side: BorderSide(
-            width: 2.0,
+            width: 0.0,
             color: textColor,
             style: BorderStyle.solid,
           ),

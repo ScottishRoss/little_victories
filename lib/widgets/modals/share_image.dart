@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,8 +13,6 @@ import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_share/social_share.dart';
-
-/// TODO: Refactor into an image service
 
 class ShareImage extends StatefulWidget {
   const ShareImage({Key? key, required this.victory, required this.platform})
@@ -109,7 +109,6 @@ class _ShareImageState extends State<ShareImage> {
   }
 
   Future<void> _imgFromGallery() async {
-    // ignore: cast_nullable_to_non_nullable
     final XFile? image =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     final File selectedImage = File(image!.path);
@@ -150,8 +149,6 @@ class _ShareImageState extends State<ShareImage> {
   @override
   void initState() {
     super.initState();
-
-    // getImageFileFromAssets();
     platform = widget.platform;
   }
 
@@ -162,25 +159,24 @@ class _ShareImageState extends State<ShareImage> {
       width: double.infinity,
       height: double.infinity,
       child: FutureBuilder<void>(
-          future: _delay(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              case ConnectionState.done:
-                return _shareImage();
-              case ConnectionState.none:
-                print(snapshot.error.toString());
-                break;
-              case ConnectionState.active:
-                print(snapshot.error.toString());
-                break;
-            }
-            // ignore: always_specify_types
-            throw {print('error')};
-          }),
+        future: _delay(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            case ConnectionState.done:
+              return _shareImage();
+            case ConnectionState.none:
+              return const Center(
+                child: Text('Something went wrong, please try again.'),
+              );
+            case ConnectionState.active:
+              return _shareImage();
+          }
+        },
+      ),
     );
   }
 
@@ -196,7 +192,7 @@ class _ShareImageState extends State<ShareImage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                  margin: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Image.asset(
                     'assets/lv_main.png',
                     width: MediaQuery.of(context).size.width / 4,
@@ -212,8 +208,8 @@ class _ShareImageState extends State<ShareImage> {
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: CustomColours.darkPurple,
-                        borderRadius: BorderRadius.circular(5.0),
+                        color: CustomColours.darkPurple.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Column(
                         children: <Widget>[
@@ -221,7 +217,7 @@ class _ShareImageState extends State<ShareImage> {
                             widget.victory,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 30.0,
+                              fontSize: 24.0,
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -229,7 +225,7 @@ class _ShareImageState extends State<ShareImage> {
                             '#LittleVictories',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 30.0,
+                              fontSize: 18.0,
                               color: CustomColours.teal,
                             ),
                           ),
@@ -261,7 +257,7 @@ class _ShareImageState extends State<ShareImage> {
                 ? buildCircleProgressIndicator()
                 : buildOutlinedButton(
                     textType: 'Share',
-                    textSize: 42.0,
+                    textSize: 32.0,
                     backgroundColor: Colors.transparent,
                     onPressed: () async {
                       setState(() {
