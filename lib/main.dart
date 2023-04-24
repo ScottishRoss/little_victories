@@ -23,6 +23,8 @@ import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'firebase_options.dart';
+
 Future<Widget> routeOnFirstTimeSetup() async {
   final String? _isFirstTime =
       await SecureStorage().getFromKey(kFirstTimeSetup);
@@ -41,7 +43,10 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations(
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
-  await Firebase.initializeApp();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   AwesomeNotifications().actionStream.listen((ReceivedAction event) {
     if (event.buttonKeyPressed == 'debug_victory') {
