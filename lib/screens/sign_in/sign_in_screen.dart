@@ -45,11 +45,11 @@ class _SignInScreenState extends State<SignInScreen> {
               'Error signing in, please try again later.',
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
-            return Column(
+            return const Column(
               children: <Widget>[
                 Expanded(
                   child: Column(
-                    children: const <Widget>[
+                    children: <Widget>[
                       // Little Victories Logo
                       LVLogo(),
                       Text(

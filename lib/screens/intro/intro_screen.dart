@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_field_initializers_in_const_classes
-
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:little_victories/res/constants.dart';

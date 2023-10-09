@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:little_victories/api_keys.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
@@ -52,7 +51,7 @@ class _ShareImageState extends State<ShareImage> {
     switch (platform) {
       case 'Facebook':
         SocialShare.shareFacebookStory(
-          appId: kMetaAppId,
+          appId: '286381316221449',
           imagePath: path,
           backgroundTopColor: CustomColours.darkPurple.toString(),
           backgroundBottomColor: CustomColours.teal.toString(),
@@ -61,7 +60,8 @@ class _ShareImageState extends State<ShareImage> {
 
         break;
       case 'Instagram':
-        SocialShare.shareInstagramStory(appId: kMetaAppId, imagePath: path);
+        SocialShare.shareInstagramStory(
+            appId: '286381316221449', imagePath: path);
         break;
       case 'Other':
         SocialShare.shareOptions(path);

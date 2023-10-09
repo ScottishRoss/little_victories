@@ -69,8 +69,6 @@ Widget buildTextFormField(
   );
 }
 
-//TODO(Ross): Refactor all this.
-
 Widget buildOutlinedButton({
   required Function() onPressed,
   required String textType,
