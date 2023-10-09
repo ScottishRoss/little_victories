@@ -48,7 +48,7 @@ class NotificationsService {
       ],
       channelGroups: <NotificationChannelGroup>[
         NotificationChannelGroup(
-          channelGroupkey: kNotificationsChannelGroupKey,
+          channelGroupKey: kNotificationsChannelGroupKey,
           channelGroupName: kNotificationsChannelGroupName,
         )
       ],
@@ -92,8 +92,8 @@ class NotificationsService {
           key: 'create_victory',
           label: 'Celebrate',
           autoDismissible: true,
-          buttonType: ActionButtonType.InputField,
-        )
+          requireInputText: true,
+        ),
       ],
       schedule: NotificationCalendar(
         hour: int.parse(parts[0]),
@@ -115,7 +115,7 @@ class NotificationsService {
           key: 'debug_victory',
           label: 'Celebrate a Victory',
           autoDismissible: true,
-          buttonType: ActionButtonType.InputField,
+          requireInputText: true,
         )
       ],
     );

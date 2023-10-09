@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Authentication().authCheck(context);
-    _notificationsService.firstTimeNotificationSetup();
+    super.initState();
   }
 
   @override

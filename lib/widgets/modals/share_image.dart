@@ -53,15 +53,17 @@ class _ShareImageState extends State<ShareImage> {
       case 'Facebook':
         SocialShare.shareFacebookStory(
           appId: kMetaAppId,
+          imagePath: appId: '286381316221449',
           imagePath: path,
-          backgroundTopColor: CustomColours.darkPurple.toString(),
-          backgroundBottomColor: CustomColours.teal.toString(),
-          attributionURL: 'https://www.littlevictories.app',
+          backgroundTopColor: backgroundTopColor: CustomColours.darkPurple.toString(),
+          backgroundBottomColor: backgroundBottomColor: CustomColours.teal.toString(),
+          attributionURL: attributionURL: 'https://www.littlevictories.app',
         );
 
         break;
       case 'Instagram':
-        SocialShare.shareInstagramStory(appId: kMetaAppId, imagePath: path);
+        SocialShare.shareInstagramStory(
+            appId: '286381316221449', imagePath: path);
         break;
       case 'Other':
         SocialShare.shareOptions(path);

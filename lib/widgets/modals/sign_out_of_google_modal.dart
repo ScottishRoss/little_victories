@@ -95,10 +95,10 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
                   onPressed: () {
                     Authentication.signOutOfGoogle(context: context);
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
                         'Sign Out',
                         style: TextStyle(
