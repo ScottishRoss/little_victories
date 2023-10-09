@@ -35,7 +35,7 @@
 			<string>Google</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.33556680240-2lm2v5rnneci9b8m7e95e5iial916h65</string>
+				<string>com.googleusercontent.apps.33556680240-5pfomjktn5jarm2jm3ver20117nbmcgi</string>
 			</array>
 		</dict>
 	</array>
@@ -61,7 +61,6 @@
 		<string>fbapi20150313</string>
 		<string>fbapi20150629</string>
 		<string>instagram</string>
-		<string>instagram-stories</string>
 		<string>whatsapp</string>
 		<string>instagram-stories</string>
 		<string>facebook-stories</string>

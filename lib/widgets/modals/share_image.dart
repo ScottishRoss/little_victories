@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:little_victories/api_keys.dart';
 import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/utils.dart';
@@ -52,12 +51,11 @@ class _ShareImageState extends State<ShareImage> {
     switch (platform) {
       case 'Facebook':
         SocialShare.shareFacebookStory(
-          appId: kMetaAppId,
-          imagePath: appId: '286381316221449',
+          appId: '286381316221449',
           imagePath: path,
-          backgroundTopColor: backgroundTopColor: CustomColours.darkPurple.toString(),
-          backgroundBottomColor: backgroundBottomColor: CustomColours.teal.toString(),
-          attributionURL: attributionURL: 'https://www.littlevictories.app',
+          backgroundTopColor: CustomColours.darkPurple.toString(),
+          backgroundBottomColor: CustomColours.teal.toString(),
+          attributionURL: 'https://www.littlevictories.app',
         );
 
         break;

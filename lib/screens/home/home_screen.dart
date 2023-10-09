@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // ignore: unused_field
   final NotificationsService _notificationsService = NotificationsService();
   @override
   void initState() {

@@ -288,7 +288,7 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                                 setState(() {
                                   _isSuccess = true;
                                 });
-                                //TODO: Confetti is crashing the app.
+
                                 //_confettiController.play();
                                 Future<dynamic>.delayed(
                                     const Duration(seconds: 2), () {
