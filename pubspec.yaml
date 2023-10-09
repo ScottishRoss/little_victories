@@ -48,6 +48,8 @@ dependencies:
   expansion_tile_card: ^3.0.0
   confetti: ^0.7.0
   intro_views_flutter: ^3.2.0
+  avatar_glow: ^2.0.2
+  flutter_fadein: ^2.0.0
 
   # Other Packages
 

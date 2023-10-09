@@ -11,10 +11,14 @@ const LinearGradient kTealGradient = LinearGradient(
   ],
 );
 
+const TextStyle kTitleText = TextStyle(
+  fontSize: 32,
+  fontWeight: FontWeight.bold,
+);
+
 const TextStyle kSubtitleStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,
-  color: Colors.white,
 );
 
 const double kModalPadding = 20;
