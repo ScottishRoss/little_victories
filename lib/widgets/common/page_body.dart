@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/constants.dart';
+import 'package:little_victories/res/custom_colours.dart';
 
 class PageBody extends StatelessWidget {
   const PageBody({
@@ -12,7 +12,7 @@ class PageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: kBackground,
+      color: CustomColours.teal,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,

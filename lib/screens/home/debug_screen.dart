@@ -25,36 +25,46 @@ class _DebugScreenState extends State<DebugScreen> {
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child: Column(
-        children: <Widget>[
-          // Little Victories Logo
-          const LVLogo(),
-          const Spacer(),
-          CustomButton(
-            'Intro screen',
-            () => Navigator.pushNamed(context, '/intro'),
-          ),
-          CustomButton(
-            'Fire Notification',
-            () => NotificationsService().fireNotification(),
-          ),
-          CustomButton(
-            'Cleardown',
-            () {
-              _secureStorage.deleteAll();
-              Authentication.signOutOfGoogle(context: context);
-            },
-          ),
-          CustomButton(
-            'List Notifications',
-            () async {
-              final List<dynamic> notifications =
-                  await AwesomeNotifications().listScheduledNotifications();
-              print(notifications);
-            },
-          ),
-          const SizedBox(height: 20.0),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // Little Victories Logo
+            const LVLogo(),
+
+            CustomButton(
+              'Intro screen',
+              () => Navigator.pushReplacementNamed(context, '/intro'),
+            ),
+            CustomButton(
+              'Fire Notification',
+              () => NotificationsService().fireNotification(),
+            ),
+            CustomButton(
+              'Cleardown',
+              () {
+                _secureStorage.deleteAll();
+                Authentication.signOutOfGoogle(context: context);
+              },
+            ),
+            CustomButton(
+              'List Notifications',
+              () async {
+                final List<dynamic> notifications =
+                    await AwesomeNotifications().listScheduledNotifications();
+                print(notifications);
+              },
+            ),
+
+            CustomButton(
+              'Back',
+              () => Navigator.pushNamed(
+                context,
+                '/home',
+              ),
+            ),
+            const SizedBox(height: 20.0),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/res/constants.dart';
 import 'package:little_victories/res/custom_colours.dart';
 
 // ignore: must_be_immutable
@@ -25,7 +26,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(35),
+        borderRadius: BorderRadius.circular(kButtonBorderRadius),
         border: Border.all(
           color: borderColor,
           width: 2,
@@ -41,14 +42,14 @@ class CustomButton extends StatelessWidget {
       child: Material(
         elevation: 10,
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(kButtonBorderRadius),
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(kButtonBorderRadius),
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(kButtonBorderRadius),
             ),
             alignment: Alignment.center,
             child: Text(

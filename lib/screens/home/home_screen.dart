@@ -31,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
         onWillPop: () async => false,
         child: Column(
           children: <Widget>[
-            const LVLogo(),
+            const LVLogo(isLightMode: false),
             const Spacer(),
             CustomButton(
               'Preferences',
-              () => Navigator.pushNamed(
+              () => Navigator.pushReplacementNamed(
                 context,
                 '/preferences',
               ),
@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // View Victories
             CustomButton(
               'View your Victories',
-              () => Navigator.pushNamed(
+              () => Navigator.pushReplacementNamed(
                 context,
                 '/view_victories',
               ),
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (isDebugMode())
               CustomButton(
                 'Debug Screen',
-                () => Navigator.pushNamed(
+                () => Navigator.pushReplacementNamed(
                   context,
                   '/debug',
                 ),
