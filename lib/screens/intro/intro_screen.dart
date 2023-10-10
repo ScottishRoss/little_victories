@@ -89,7 +89,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black87,
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: LayoutBuilder(builder: (
