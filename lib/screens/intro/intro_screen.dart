@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
@@ -18,6 +19,7 @@ class IntroScreen extends StatelessWidget {
 
   PageViewModel firstPageView = PageViewModel(
     pageColor: CustomColours.darkPurple,
+    bubbleBackgroundColor: Colors.white,
     body: const Text(
       'Little Victories is here to help you celebrate the small wins in life.',
       textAlign: TextAlign.left,
@@ -37,7 +39,8 @@ class IntroScreen extends StatelessWidget {
   );
 
   PageViewModel secondPageView = PageViewModel(
-    pageBackground: Container(color: CustomColours.teal),
+    pageColor: CustomColours.teal,
+    bubbleBackgroundColor: Colors.white,
     body: const Text(
       'Every time you achieve a small goal, keep a note of it in here. No Victory is too small.',
       textAlign: TextAlign.left,
@@ -54,48 +57,29 @@ class IntroScreen extends StatelessWidget {
       ),
     ),
     mainImage: Image.asset(
-      'assets/lv_logo_transparent.png',
+      'assets/lv_logo_transparent_dark_purple.png',
       alignment: Alignment.center,
     ),
   );
 
   PageViewModel thirdPageView = PageViewModel(
-    pageBackground: Container(color: CustomColours.lightPurple),
+    pageColor: Colors.black26,
+    bubbleBackgroundColor: Colors.white,
     body: const Text(
       'Eating, showering, going for a walk, doing the dishes... All of these are worth celebrating.',
       textAlign: TextAlign.left,
-      style: TextStyle(fontSize: 22),
+      style: TextStyle(
+        fontSize: 22,
+        color: CustomColours.teal,
+      ),
     ),
-    title: const Text('No Victory is too small'),
+    title: const Text(
+      'No Victory is too small',
+      style: TextStyle(color: CustomColours.teal),
+    ),
     mainImage: Image.asset(
-      'assets/lv_logo_transparent.png',
+      'assets/lv_logo_transparent_teal.png',
       alignment: Alignment.center,
-    ),
-    titleTextStyle: const TextStyle(
-      fontWeight: FontWeight.bold,
-    ),
-  );
-
-  PageViewModel fourthPageView = PageViewModel(
-    pageBackground: Container(color: CustomColours.darkPurple),
-    body: const Text(
-      'Click on the button to begin',
-      textAlign: TextAlign.left,
-      style: TextStyle(fontSize: 22),
-    ),
-    title: const Text("Let's get started"),
-    mainImage: Builder(
-      builder: (BuildContext context) => InkWell(
-          child: Image.asset(
-            'assets/lv_logo_transparent.png',
-            alignment: Alignment.center,
-          ),
-          onTap: () {
-            // Set first time setup to true
-            SecureStorage().insert(kFirstTimeSetup, 'true');
-            // Navigate to sign in screen
-            Navigator.pushReplacementNamed(context, '/sign_in');
-          }),
     ),
     titleTextStyle: const TextStyle(
       fontWeight: FontWeight.bold,
@@ -104,46 +88,50 @@ class IntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: CustomColours.darkPurple,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: LayoutBuilder(builder: (
-          BuildContext context,
-          BoxConstraints viewportConstraints,
-        ) {
-          return Builder(
-            builder: (BuildContext context) {
-              return FadeIn(
-                duration: const Duration(seconds: 2),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: IntroViewsFlutter(<PageViewModel>[
-                        firstPageView,
-                        secondPageView,
-                        thirdPageView,
-                      ],
-                          showSkipButton: false,
-                          pageButtonTextStyles: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ), onTapDoneButton: () {
-                        _onIntroEnd(context);
-                      }),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        }),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: LayoutBuilder(builder: (
+        BuildContext context,
+        BoxConstraints viewportConstraints,
+      ) {
+        return Builder(
+          builder: (BuildContext context) {
+            return FadeIn(
+              duration: const Duration(seconds: 2),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: IntroViewsFlutter(<PageViewModel>[
+                      firstPageView,
+                      secondPageView,
+                      thirdPageView,
+                    ],
+                        doneText: const AvatarGlow(
+                          endRadius: 40,
+                          glowColor: CustomColours.teal,
+                          child: Text('Start'),
+                        ),
+                        showSkipButton: false,
+                        backText: const Text('Back'),
+                        showBackButton: true,
+                        pageButtonTextStyles: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                        ), onTapDoneButton: () {
+                      _onIntroEnd(context);
+                    }),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

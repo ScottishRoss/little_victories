@@ -50,6 +50,7 @@ dependencies:
   intro_views_flutter: ^3.2.0
   avatar_glow: ^2.0.2
   flutter_fadein: ^2.0.0
+  flutter_svg: ^2.0.7
 
   # Other Packages
 
