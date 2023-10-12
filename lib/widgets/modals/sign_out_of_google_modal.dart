@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 class SignOutOfGoogleBox extends StatefulWidget {
   const SignOutOfGoogleBox({Key? key}) : super(key: key);

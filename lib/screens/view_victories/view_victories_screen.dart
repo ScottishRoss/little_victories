@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/screens/view_victories/victory.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
 import 'package:little_victories/widgets/modals/add_victory_modal.dart';
 

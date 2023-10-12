@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 const LinearGradient kTealGradient = LinearGradient(
   begin: Alignment.topRight,

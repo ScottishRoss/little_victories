@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/common/buttons.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/custom_colours.dart';
 
 class PageBody extends StatelessWidget {
   const PageBody({
@@ -11,25 +10,27 @@ class PageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: CustomColours.teal,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: child,
-                ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: SafeArea(
+        child: LayoutBuilder(builder: (
+          BuildContext context,
+          BoxConstraints viewportConstraints,
+        ) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+                minWidth: viewportConstraints.maxWidth,
               ),
-            );
-          }),
-        ),
+              child: IntrinsicHeight(
+                child: child,
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

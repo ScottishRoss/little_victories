@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/utils.dart';
 
 class CustomModal extends StatefulWidget {

@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/preferences_model.dart';
-import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/util/utils.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
@@ -12,8 +13,6 @@ import 'package:little_victories/widgets/modals/account_modal.dart';
 import 'package:little_victories/widgets/modals/sign_out_of_google_modal.dart';
 import 'package:little_victories/widgets/preferences/reminders_switch_widget.dart';
 import 'package:little_victories/widgets/preferences/reminders_timepicker_widget.dart';
-
-import '../../res/constants.dart';
 
 class PreferencesScreen extends StatefulWidget {
   const PreferencesScreen({Key? key}) : super(key: key);

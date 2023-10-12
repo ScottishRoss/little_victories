@@ -6,19 +6,25 @@ class SecureStorage {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<bool> insert(String key, String value) async {
+    log('Inserting $key with value $value... Checking if it exists already');
     final String? _doesKeyExist = await getFromKey(key);
     if (_doesKeyExist == null) {
+      log('Key does not exist, inserting...');
       try {
         await storage.write(key: key, value: value);
+        log('Inserted $key with value $value');
         return true;
       } catch (e) {
         log(e.toString());
         return false;
       }
     } else {
+      log('Key already exists, deleting and inserting...');
       deleteFromKey(key);
+      log('Deleted $key, inserting...');
       try {
         await storage.write(key: key, value: value);
+        log('Inserted $key with value $value');
         return true;
       } catch (e) {
         log(e.toString());

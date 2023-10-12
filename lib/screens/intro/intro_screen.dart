@@ -2,8 +2,8 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/secure_storage.dart';
 
 // ignore: must_be_immutable
@@ -19,9 +19,9 @@ class IntroScreen extends StatelessWidget {
 
   PageViewModel firstPageView = PageViewModel(
     pageColor: CustomColours.darkPurple,
-    bubbleBackgroundColor: Colors.white,
+    bubbleBackgroundColor: CustomColours.lightPurple,
     body: const Text(
-      'Little Victories is here to help you celebrate the small wins in life.',
+      'Little Victories is here to help you celebrate the small wins in your life.',
       textAlign: TextAlign.left,
       style: TextStyle(fontSize: 22),
     ),
@@ -40,9 +40,9 @@ class IntroScreen extends StatelessWidget {
 
   PageViewModel secondPageView = PageViewModel(
     pageColor: CustomColours.teal,
-    bubbleBackgroundColor: Colors.white,
+    bubbleBackgroundColor: CustomColours.lightPurple,
     body: const Text(
-      'Every time you achieve a small goal, keep a note of it in here. No Victory is too small.',
+      'Every time you achieve a small goal, write it down and celebrate it.',
       textAlign: TextAlign.left,
       style: TextStyle(
         fontSize: 22,
@@ -63,22 +63,22 @@ class IntroScreen extends StatelessWidget {
   );
 
   PageViewModel thirdPageView = PageViewModel(
-    pageColor: Colors.black26,
-    bubbleBackgroundColor: Colors.white,
+    pageColor: Colors.white,
+    bubbleBackgroundColor: CustomColours.lightPurple,
     body: const Text(
       'Eating, showering, going for a walk, doing the dishes... All of these are worth celebrating.',
       textAlign: TextAlign.left,
       style: TextStyle(
         fontSize: 22,
-        color: CustomColours.teal,
+        color: CustomColours.darkPurple,
       ),
     ),
     title: const Text(
       'No Victory is too small',
-      style: TextStyle(color: CustomColours.teal),
+      style: TextStyle(color: CustomColours.darkPurple),
     ),
     mainImage: Image.asset(
-      'assets/lv_logo_transparent_teal.png',
+      'assets/lv_logo_transparent_dark_purple.png',
       alignment: Alignment.center,
     ),
     titleTextStyle: const TextStyle(
@@ -110,11 +110,21 @@ class IntroScreen extends StatelessWidget {
                     ],
                         doneText: const AvatarGlow(
                           endRadius: 40,
-                          glowColor: CustomColours.teal,
-                          child: Text('Start'),
+                          glowColor: CustomColours.darkPurple,
+                          child: Text(
+                            'Start',
+                            style: TextStyle(
+                              color: CustomColours.darkPurple,
+                            ),
+                          ),
                         ),
                         showSkipButton: false,
-                        backText: const Text('Back'),
+                        backText: const Text(
+                          'Back',
+                          style: TextStyle(
+                            color: CustomColours.darkPurple,
+                          ),
+                        ),
                         showBackButton: true,
                         pageButtonTextStyles: const TextStyle(
                           color: Colors.white,

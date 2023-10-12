@@ -2,8 +2,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/custom_colours.dart';
 import 'package:little_victories/util/authentication.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 Widget buildtext(
   String text, {
