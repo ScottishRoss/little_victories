@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
+import 'package:little_victories/widgets/common/header.dart';
+import 'package:little_victories/widgets/common/quick_victory.dart';
+import 'package:little_victories/widgets/common/quick_victory_text_field.dart';
+import 'package:little_victories/widgets/common/icon_row.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/modals/add_victory_modal.dart';
@@ -21,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Authentication().authCheck(context);
-    super.initState();
   }
 
   @override
@@ -31,8 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onWillPop: () async => false,
         child: Column(
           children: <Widget>[
-            const LVLogo(isLightMode: false),
-            const Spacer(),
+            const Header(name: 'Ross'),
+            const QuickVictory(),
+
             CustomButton(
               'Preferences',
               () => Navigator.pushReplacementNamed(

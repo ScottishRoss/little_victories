@@ -281,7 +281,6 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
                             if (_formKey.currentState!.validate()) {
                               try {
                                 await saveLittleVictory(
-                                  _user,
                                   _victoryController.text,
                                   icon,
                                 );

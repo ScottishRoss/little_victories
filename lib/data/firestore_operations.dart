@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -94,26 +96,36 @@ Future<bool> createUser(User user) async {
 
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(
-  User user,
   String victory,
   String icon,
 ) async {
+  log('saveLittleVictory: $victory $icon');
   final DateTime currentDateTime = DateTime.now();
+  log('saveLittleVictory: $currentDateTime');
 
-  _usersCollection
-      .doc(user.uid)
-      .collection('victories')
-      .doc(currentDateTime.toString())
-      .set(<String, dynamic>{
-    'victory': victory,
-    'createdOn': currentDateTime,
-    'icon': icon
-  }).then((_) {
-    FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
-      'submit': 'true',
+  try {
+    final User user = FirebaseAuth.instance.currentUser!;
+    log('saveLittleVictory: $user');
+    _usersCollection
+        .doc(user.uid)
+        .collection('victories')
+        .doc(currentDateTime.toString())
+        .set(<String, dynamic>{
+      'victory': victory,
+      'createdOn': currentDateTime,
+      'icon': icon
+    }).then((_) {
+      FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
+        'submit': 'true',
+      });
+      log('saveLittleVictory: Logged event');
+      log('saveLittleVictory: Success!');
+      return true;
     });
-    return true;
-  });
+  } catch (e) {
+    log('Error: $e');
+  }
+
   return false;
 }
 

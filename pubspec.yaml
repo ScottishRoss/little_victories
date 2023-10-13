@@ -39,6 +39,7 @@ dependencies:
   awesome_notifications: ^0.8.2
   flutter_secure_storage: ^9.0.0
   intl: ^0.18.1
+  google_fonts: ^6.1.0
 
   # Social Packages
   google_sign_in: ^6.1.5

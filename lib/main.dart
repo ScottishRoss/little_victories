@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_screen.dart';
 import 'package:little_victories/screens/intro/intro_screen.dart';
@@ -70,11 +71,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: buildMaterialColor(CustomColours.darkPurple),
-        primaryColor: CustomColours.darkPurple,
+        primaryColor: Colors.white,
         secondaryHeaderColor: CustomColours.darkPurple,
-        hintColor: CustomColours.darkPurple,
+        colorScheme: ColorScheme.dark(
+          primary: CustomColours.darkPurple,
+          secondary: CustomColours.darkPurple,
+          error: CustomColours.pink,
+        ),
+        hintColor: Colors.white,
         brightness: Brightness.dark,
-        fontFamily: 'Montserrat',
+        textTheme: GoogleFonts.poppinsTextTheme(),
         highlightColor: CustomColours.lightPurple,
         timePickerTheme: TimePickerThemeData(
           backgroundColor: CustomColours.teal,

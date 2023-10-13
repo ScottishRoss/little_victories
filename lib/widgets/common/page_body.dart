@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 class PageBody extends StatelessWidget {
   const PageBody({
@@ -10,27 +11,40 @@ class PageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      body: SafeArea(
-        child: LayoutBuilder(builder: (
-          BuildContext context,
-          BoxConstraints viewportConstraints,
-        ) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: viewportConstraints.maxHeight,
-                minWidth: viewportConstraints.maxWidth,
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: <Color>[
+            CustomColours.mediumPurple,
+            CustomColours.pink,
+            CustomColours.peach,
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        body: SafeArea(
+          child: LayoutBuilder(builder: (
+            BuildContext context,
+            BoxConstraints viewportConstraints,
+          ) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                  minWidth: viewportConstraints.maxWidth,
+                ),
+                child: IntrinsicHeight(
+                  child: child,
+                ),
               ),
-              child: IntrinsicHeight(
-                child: child,
-              ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

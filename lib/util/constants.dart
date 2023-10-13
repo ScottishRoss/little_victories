@@ -12,8 +12,10 @@ const LinearGradient kTealGradient = LinearGradient(
 );
 
 const TextStyle kTitleText = TextStyle(
-  fontSize: 32,
-  fontWeight: FontWeight.bold,
+  fontSize: 46,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
+  height: 0.8,
 );
 
 const TextStyle kSubtitleStyle = TextStyle(
@@ -21,9 +23,12 @@ const TextStyle kSubtitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const double kButtonBorderRadius = 15;
+const double kButtonBorderRadius = 5;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
+
+const Color kIconRowActiveColour = CustomColours.pink;
+const Color kIconRowInactiveColour = Colors.white;
 
 bool isDebugMode() {
   return kDebugMode;
