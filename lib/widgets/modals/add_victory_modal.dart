@@ -1,5 +1,4 @@
 import 'package:confetti/confetti.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations.dart';
@@ -17,8 +16,6 @@ class AddVictoryBox extends StatefulWidget {
 }
 
 class _AddVictoryBoxState extends State<AddVictoryBox> {
-  late User _user;
-
   final TextEditingController _victoryController = TextEditingController();
   final ConfettiController _confettiController = ConfettiController(
     duration: const Duration(seconds: 3),
@@ -152,7 +149,6 @@ class _AddVictoryBoxState extends State<AddVictoryBox> {
 
   @override
   void initState() {
-    _user = FirebaseAuth.instance.currentUser!;
     icon = 'happy';
     super.initState();
   }

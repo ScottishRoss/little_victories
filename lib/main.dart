@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: buildMaterialColor(CustomColours.darkPurple),
         primaryColor: Colors.white,
         secondaryHeaderColor: CustomColours.darkPurple,
-        colorScheme: ColorScheme.dark(
+        colorScheme: const ColorScheme.dark(
           primary: CustomColours.darkPurple,
           secondary: CustomColours.darkPurple,
           error: CustomColours.pink,
