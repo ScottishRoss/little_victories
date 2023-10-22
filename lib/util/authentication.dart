@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import '../data/firestore_operations.dart';
 import 'utils.dart';
 
@@ -38,7 +39,7 @@ class Authentication {
     return firebaseApp;
   }
 
-  Future<User> signInWithGoogle({required BuildContext context}) async {
+  Future<User?> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
@@ -107,6 +108,7 @@ class Authentication {
               content: 'Error occurred using Google Sign In. Try again.');
         }
       }
+      return null;
     }
 
     final bool _isNewUser = await doesUserExist(user!);

@@ -29,7 +29,7 @@ dependencies:
   path_provider: ^2.0.8
   basic_utils: ^5.6.1
   page_transition: ^2.0.4
-  flutter_social_content_share: 
+  flutter_social_content_share:
     git:
       url: https://github.com/ScottishRoss/flutter_social_content_share.git
       ref: main
@@ -57,6 +57,7 @@ dependencies:
   # Other Packages
 
 dev_dependencies:
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
   lint: ^2.1.2

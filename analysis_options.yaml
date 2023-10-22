@@ -19,14 +19,13 @@
 # Android Studio, and the `flutter analyze` command.
 
 analyzer:
-
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
     # treat missing returns as a warning (not a hint)
     missing_return: warning
     # allow having TODOs in the code
-    todo: ignore
+    todo: warning
     # allow self-reference to deprecated members (we do this because otherwise we have
     # to annotate every member in every test, assert, etc, when we deprecate something)
     deprecated_member_use_from_same_package: ignore
@@ -35,7 +34,7 @@ analyzer:
     # Please see https://github.com/flutter/flutter/pull/24528 for details.
     sdk_version_async_exported_from_core: ignore
     # Turned off until null-safe rollout is complete.
-    unnecessary_null_comparison: ignore
+    unnecessary_null_comparison: warning
   exclude:
     - "bin/cache/**"
       # Ignore protoc generated files

@@ -48,12 +48,10 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
         hour: int.parse(time!.split(':')[0]),
         minute: int.parse(time.split(':')[1]));
     //final DateFormat format = DateFormat.jm();
-    if (time != null) {
-      setState(() {
-        selectedTime = convertedTime.format(context);
-      });
+    setState(() {
+      selectedTime = convertedTime.format(context);
+    });
     }
-  }
 
   Future<void> displayTimeDialog() async {
     final TimeOfDay? time = await showTimePicker(

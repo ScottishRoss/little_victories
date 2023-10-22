@@ -4,6 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+//import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/notifications_service.dart';
+import 'package:little_victories/util/secure_storage.dart';
+import 'package:page_transition/page_transition.dart';
+
 import 'screens/home/debug_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/intro/intro_screen.dart';
@@ -11,12 +18,6 @@ import 'screens/preferences/preferences_screen.dart';
 import 'screens/preferences/push_notifications_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
 import 'screens/view_victories/view_victories_screen.dart';
-//import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
-import 'package:page_transition/page_transition.dart';
 
 Future<Widget> routeOnFirstTimeSetup() async {
   final String? _isFirstTime =

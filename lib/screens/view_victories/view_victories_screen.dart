@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'victory.dart';
+
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/modals/add_victory_modal.dart';
+import 'victory.dart';
 
 class ViewVictoriesScreen extends StatefulWidget {
   const ViewVictoriesScreen({Key? key}) : super(key: key);

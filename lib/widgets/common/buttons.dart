@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../data/firestore_operations.dart';
 import '../../util/authentication.dart';
 import '../../util/utils.dart';
@@ -41,26 +44,28 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
+                User? _user;
                 setState(() {
                   _isSigningIn = true;
                 });
+                try {
+                  _user =
+                      await Authentication().signInWithGoogle(context: context);
 
-                final User _user =
-                    await Authentication().signInWithGoogle(context: context);
-
-                setState(() {
-                  _isSigningIn = false;
-                });
-
-                if (_user != null) {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    '/homeFromSignIn',
-                  );
-                } else {
+                  if (_user != null)
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/homeFromSignIn',
+                    );
+                } catch (e) {
+                  setState(() {
+                    _isSigningIn = false;
+                  });
+                  log(e.toString());
                   fToast.showToast(
                     child: const CustomToast(
-                        message: 'Sign-in failed, please try again later.'),
+                      message: 'Sign-in failed, please try again.',
+                    ),
                     gravity: ToastGravity.BOTTOM,
                     toastDuration: const Duration(seconds: 2),
                   );
