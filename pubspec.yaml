@@ -52,7 +52,10 @@ dependencies:
   avatar_glow: ^2.0.2
   flutter_fadein: ^2.0.0
   flutter_svg: ^2.0.7
-  lottie: ^2.6.0
+  outline_gradient_button: ^2.0.1+1
+  flutter_animated_button: ^2.0.3
+  flutter_spinkit: ^5.2.0
+  loading_icon_button: ^0.0.6
 
   # Other Packages
 

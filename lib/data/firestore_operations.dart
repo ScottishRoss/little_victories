@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import '../util/firebase_analytics.dart';
 import '../util/secure_storage.dart';
 import '../widgets/common/custom_toast.dart';
@@ -99,12 +100,14 @@ Future<bool> saveLittleVictory(
   String victory,
   String icon,
 ) async {
+  bool isSuccessful = false;
   log('saveLittleVictory: $victory $icon');
   final DateTime currentDateTime = DateTime.now();
   log('saveLittleVictory: $currentDateTime');
+  final User user = FirebaseAuth.instance.currentUser!;
+  log('saveLittleVictory: ${user.email}');
 
   try {
-    final User user = FirebaseAuth.instance.currentUser!;
     log('saveLittleVictory: $user');
     _usersCollection
         .doc(user.uid)
@@ -119,14 +122,14 @@ Future<bool> saveLittleVictory(
         'submit': 'true',
       });
       log('saveLittleVictory: Logged event');
-      log('saveLittleVictory: Success!');
-      return true;
     });
+    isSuccessful = true;
+    log('saveLittleVictory: Success!');
   } catch (e) {
     log('Error: $e');
+    isSuccessful = false;
   }
-
-  return false;
+  return isSuccessful;
 }
 
 /// START: Add Little Victory from Notification

@@ -71,15 +71,12 @@ class MyApp extends StatelessWidget {
       title: 'Little Victories',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: buildMaterialColor(CustomColours.darkPurple),
-        primaryColor: Colors.white,
-        secondaryHeaderColor: CustomColours.darkPurple,
+        hintColor: CustomColours.newDarkPurple, // Character Counter Colour
         colorScheme: const ColorScheme.dark(
           primary: CustomColours.darkPurple,
-          secondary: CustomColours.darkPurple,
-          error: CustomColours.pink,
+          secondary: CustomColours.pink,
+          error: Colors.black,
         ),
-        hintColor: Colors.white,
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
         highlightColor: CustomColours.lightPurple,

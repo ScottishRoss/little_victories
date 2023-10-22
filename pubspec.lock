@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      sha256: "7e0d52067d05f2e0324268097ba723b71cb41ac8a6a2b24d1edf9c536b987b03"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.6"
   args:
     dependency: transitive
     description:
@@ -350,6 +342,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_button:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_button
+      sha256: deb125817322cfcc4dc05e43ab79f9597bfe4837200ff145c95247ab88c2f89d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   flutter_fadein:
     dependency: "direct main"
     description:
@@ -431,6 +431,14 @@ packages:
       url: "https://github.com/ScottishRoss/flutter_social_content_share.git"
     source: git
     version: "1.0.2"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -657,6 +665,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  loading_icon_button:
+    dependency: "direct main"
+    description:
+      name: loading_icon_button
+      sha256: "5ef8c82796c19b96a5995457410037cbe05cb4840af766e50330b2d108dacdfd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   logging:
     dependency: transitive
     description:
@@ -665,14 +681,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  lottie:
-    dependency: "direct main"
-    description:
-      name: lottie
-      sha256: b8bdd54b488c54068c57d41ae85d02808da09e2bee8b8dd1f59f441e7efa60cd
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.6.0"
   matcher:
     dependency: transitive
     description:
@@ -705,6 +713,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  outline_gradient_button:
+    dependency: "direct main"
+    description:
+      name: outline_gradient_button
+      sha256: "006673015f090c314d7a14b41216ed984b21e8b55d0c8eb502d93e0bbd6b65ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1+1"
   package_config:
     dependency: transitive
     description:
@@ -841,6 +857,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   sky_engine:
     dependency: transitive
     description: flutter

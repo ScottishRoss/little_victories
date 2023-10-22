@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'custom_colours.dart';
 
 const LinearGradient kTealGradient = LinearGradient(
@@ -16,6 +17,7 @@ const TextStyle kTitleText = TextStyle(
   fontWeight: FontWeight.w500,
   color: Colors.white,
   height: 0.8,
+  letterSpacing: 5.0,
 );
 
 const TextStyle kSubtitleStyle = TextStyle(
@@ -27,8 +29,10 @@ const double kButtonBorderRadius = 5;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
-const Color kIconRowActiveColour = CustomColours.pink;
+const Color kIconRowActiveColour = CustomColours.newDarkPurple;
+const double kiconRowActiveSize = 35;
 const Color kIconRowInactiveColour = Colors.white;
+const double kIconRowInactiveSize = 25;
 
 bool isDebugMode() {
   return kDebugMode;
