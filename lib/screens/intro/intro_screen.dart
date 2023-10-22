@@ -2,9 +2,9 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/secure_storage.dart';
+import '../../util/constants.dart';
+import '../../util/custom_colours.dart';
+import '../../util/secure_storage.dart';
 
 // ignore: must_be_immutable
 class IntroScreen extends StatelessWidget {

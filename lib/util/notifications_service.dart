@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/secure_storage.dart';
+import 'constants.dart';
+import 'custom_colours.dart';
+import 'secure_storage.dart';
 
 const String kNotificationChannelKeyReminders =
     'little_victories_channel_reminders';

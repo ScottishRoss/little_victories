@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:little_victories/util/custom_colours.dart';
+import '../../util/custom_colours.dart';
 
 class CustomToast extends StatefulWidget {
   const CustomToast({

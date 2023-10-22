@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/widgets/common/custom_button.dart';
-import 'package:little_victories/widgets/common/header.dart';
-import 'package:little_victories/widgets/common/page_body.dart';
-import 'package:little_victories/widgets/common/quick_victory.dart';
-import 'package:little_victories/widgets/modals/add_victory_modal.dart';
+import '../../util/authentication.dart';
+import '../../util/constants.dart';
+import '../../util/notifications_service.dart';
+import '../../widgets/common/custom_button.dart';
+import '../../widgets/common/header.dart';
+import '../../widgets/common/page_body.dart';
+import '../../widgets/common/quick_victory.dart';
+import '../../widgets/modals/add_victory_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

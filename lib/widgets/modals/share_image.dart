@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/utils.dart';
+import '../../util/custom_colours.dart';
+import '../../util/firebase_analytics.dart';
+import '../../util/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:social_share/social_share.dart';
 

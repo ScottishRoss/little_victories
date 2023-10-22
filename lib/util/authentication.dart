@@ -6,8 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/util/utils.dart';
+import '../data/firestore_operations.dart';
+import 'utils.dart';
 
 class Authentication {
   /// Initialise Firestore

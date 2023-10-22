@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/constants.dart';
+import '../../util/constants.dart';
 
 class Header extends StatefulWidget {
   const Header({

@@ -1,11 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
-import 'package:little_victories/widgets/common/custom_button.dart';
-import 'package:little_victories/widgets/common/lv_logo.dart';
-import 'package:little_victories/widgets/common/page_body.dart';
+import '../../util/authentication.dart';
+import '../../util/notifications_service.dart';
+import '../../util/secure_storage.dart';
+import '../../widgets/common/custom_button.dart';
+import '../../widgets/common/lv_logo.dart';
+import '../../widgets/common/page_body.dart';
 
 class DebugScreen extends StatefulWidget {
   const DebugScreen({Key? key}) : super(key: key);

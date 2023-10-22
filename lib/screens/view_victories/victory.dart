@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/extensions.dart';
-import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/modals/account_modal.dart';
-import 'package:little_victories/widgets/modals/share_victory_modal.dart';
+import '../../data/firestore_operations.dart';
+import '../../util/custom_colours.dart';
+import '../../util/extensions.dart';
+import '../../util/utils.dart';
+import '../../widgets/modals/account_modal.dart';
+import '../../widgets/modals/share_victory_modal.dart';
 
 class Victory extends StatefulWidget {
   const Victory({

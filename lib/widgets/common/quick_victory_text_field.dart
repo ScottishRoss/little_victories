@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/custom_colours.dart';
+import '../../util/constants.dart';
+import '../../util/custom_colours.dart';
 
 class QuickVictoryTextField extends StatefulWidget {
   const QuickVictoryTextField({

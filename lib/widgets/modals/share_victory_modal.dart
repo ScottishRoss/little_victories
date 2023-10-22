@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/utils.dart';
+import '../../util/constants.dart';
+import '../../util/custom_colours.dart';
+import '../../util/firebase_analytics.dart';
+import '../../util/utils.dart';
 import 'package:social_share/social_share.dart';
 
 import 'share_image.dart';

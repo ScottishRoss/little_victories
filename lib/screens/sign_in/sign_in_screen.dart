@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
-import 'package:little_victories/widgets/common/buttons.dart';
-import 'package:little_victories/widgets/common/lv_logo.dart';
-import 'package:little_victories/widgets/common/page_body.dart';
+import '../../util/authentication.dart';
+import '../../util/custom_colours.dart';
+import '../../util/utils.dart';
+import '../../widgets/common/buttons.dart';
+import '../../widgets/common/lv_logo.dart';
+import '../../widgets/common/page_body.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
