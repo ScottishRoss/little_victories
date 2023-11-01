@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/widgets/common/quick_victory.dart';
+import 'package:little_victories/widgets/home/quick_victory.dart';
 
 import '../../util/authentication.dart';
 import '../../util/constants.dart';
 import '../../util/notifications_service.dart';
 import '../../widgets/common/custom_button.dart';
-import '../../widgets/common/header.dart';
 import '../../widgets/common/page_body.dart';
+import '../../widgets/home/header.dart';
 import '../../widgets/modals/add_victory_modal.dart';
 
 class HomeScreen extends StatefulWidget {
