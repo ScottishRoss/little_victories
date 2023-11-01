@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../util/custom_colours.dart';
 
 class PageBody extends StatelessWidget {
@@ -11,41 +12,55 @@ class PageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: <Color>[
-            CustomColours.mediumPurple,
-            CustomColours.pink,
-            CustomColours.peach,
-          ],
+    return Stack(
+      children: <Widget>[
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: <Color>[
+                CustomColours.mediumPurple,
+                CustomColours.pink,
+                CustomColours.peach,
+              ],
+            ),
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        body: SafeArea(
-          child: LayoutBuilder(builder: (
-            BuildContext context,
-            BoxConstraints viewportConstraints,
-          ) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                  minWidth: viewportConstraints.maxWidth,
+        Container(
+          height: MediaQuery.of(context).size.height * .5,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
                 ),
-                child: IntrinsicHeight(
-                  child: child,
-                ),
-              ),
-            );
-          }),
+                fit: BoxFit.cover),
+          ),
         ),
-      ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          body: SafeArea(
+            child: LayoutBuilder(builder: (
+              BuildContext context,
+              BoxConstraints viewportConstraints,
+            ) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                    minWidth: viewportConstraints.maxWidth,
+                  ),
+                  child: IntrinsicHeight(
+                    child: child,
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
     );
   }
 }

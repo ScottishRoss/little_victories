@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 Random random = Random();
@@ -16,6 +17,7 @@ class CustomColours {
   static const Color newLightPurple = Color(0xffbf89f3);
   static const Color brightPurple = Color(0xff9334aa);
   static const Color mediumPurple = Color(0xff9777e6);
+  static const Color hotPink = Color(0xffff4aeb);
 
   static final List<Color> customColoursList = <Color>[
     darkPurple,

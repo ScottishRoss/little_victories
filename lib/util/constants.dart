@@ -14,7 +14,7 @@ const LinearGradient kTealGradient = LinearGradient(
 
 const TextStyle kTitleText = TextStyle(
   fontSize: 46,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
   color: Colors.white,
   height: 0.8,
   letterSpacing: 5.0,
@@ -29,8 +29,8 @@ const double kButtonBorderRadius = 5;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
-const Color kIconRowActiveColour = CustomColours.newDarkPurple;
-const double kiconRowActiveSize = 35;
+const Color kIconRowActiveColour = Colors.white;
+const double kiconRowActiveSize = 40;
 const Color kIconRowInactiveColour = Colors.white;
 const double kIconRowInactiveSize = 25;
 
