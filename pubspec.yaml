@@ -79,11 +79,6 @@ flutter:
   assets:
     - assets/
 
-  fonts:
-    - family: Montserrat
-      fonts:
-        - asset: fonts/Montserrat-Regular.ttf
-
 flutter_native_splash:
   color: "#8060c3"
   image: assets/lv_logo_transparent.png

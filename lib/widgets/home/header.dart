@@ -20,12 +20,12 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * .11,
+      height: MediaQuery.of(context).size.height * .15,
       margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const FittedBox(
             fit: BoxFit.scaleDown,

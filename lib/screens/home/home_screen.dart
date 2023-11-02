@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/widgets/home/home_buttons.dart';
 import 'package:little_victories/widgets/home/quick_victory.dart';
 
 import '../../util/authentication.dart';
-import '../../util/constants.dart';
 import '../../util/notifications_service.dart';
-import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/page_body.dart';
 import '../../widgets/home/header.dart';
-import '../../widgets/modals/add_victory_modal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,47 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageBody(
       child: WillPopScope(
         onWillPop: () async => false,
-        child: Column(
+        child: const Column(
           children: <Widget>[
-            const Header(),
-            const QuickVictory(),
-
-            CustomButton(
-              'Preferences',
-              () => Navigator.pushReplacementNamed(
-                context,
-                '/preferences',
-              ),
-            ),
-
-            // View Victories
-            CustomButton(
-              'View your Victories',
-              () => Navigator.pushReplacementNamed(
-                context,
-                '/view_victories',
-              ),
-            ),
-            if (isDebugMode())
-              CustomButton(
-                'Debug Screen',
-                () => Navigator.pushReplacementNamed(
-                  context,
-                  '/debug',
-                ),
-              ),
-
-            const Spacer(),
-            // Celebrate a Victory
-            CustomButton(
-              'Celebrate a Victory',
-              () => showDialog<Widget>(
-                context: context,
-                builder: (BuildContext context) {
-                  return const AddVictoryBox();
-                },
-              ),
-            ),
+            Header(),
+            QuickVictory(),
+            HomeButtons(),
           ],
         ),
       ),
