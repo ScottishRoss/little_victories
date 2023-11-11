@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
 
 import '../../data/firestore_operations.dart';
@@ -198,7 +199,7 @@ class _QuickVictoryState extends State<QuickVictory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.all(20.0),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -211,7 +212,8 @@ class _QuickVictoryState extends State<QuickVictory> {
       ),
       width: MediaQuery.of(context).size.width,
       child: _isSaved
-          ? const Icon(Icons.face)
+          ? Lottie.asset('assets/lottie-check.json',
+              height: MediaQuery.of(context).size.height * .2)
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -226,89 +228,80 @@ class _QuickVictoryState extends State<QuickVictory> {
   }
 
   Widget get _iconRow {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <IconButton>[
-          IconButton(
-            onPressed: () {
-              _changeIconColour('happy');
-            },
-            icon: Icon(
-              Icons.sentiment_satisfied_alt,
-              color: _isHappyPressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size: _isHappyPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <IconButton>[
+        IconButton(
+          onPressed: () {
+            _changeIconColour('happy');
+          },
+          icon: Icon(
+            Icons.sentiment_satisfied_alt,
+            color:
+                _isHappyPressed ? kIconRowActiveColour : kIconRowInactiveColour,
+            size: _isHappyPressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-          IconButton(
-            onPressed: () {
-              _changeIconColour('tree');
-            },
-            icon: Icon(
-              Icons.park,
-              color: _isTreePressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size: _isTreePressed ? kiconRowActiveSize : kIconRowInactiveSize,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('tree');
+          },
+          icon: Icon(
+            Icons.park,
+            color:
+                _isTreePressed ? kIconRowActiveColour : kIconRowInactiveColour,
+            size: _isTreePressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-          IconButton(
-            onPressed: () {
-              _changeIconColour('food');
-            },
-            icon: Icon(
-              Icons.restaurant,
-              color: _isFoodPressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size: _isFoodPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('food');
+          },
+          icon: Icon(
+            Icons.restaurant,
+            color:
+                _isFoodPressed ? kIconRowActiveColour : kIconRowInactiveColour,
+            size: _isFoodPressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-          IconButton(
-            onPressed: () {
-              _changeIconColour('people');
-            },
-            icon: Icon(
-              Icons.groups,
-              color: _isPeoplePressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size:
-                  _isPeoplePressed ? kiconRowActiveSize : kIconRowInactiveSize,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('people');
+          },
+          icon: Icon(
+            Icons.groups,
+            color: _isPeoplePressed
+                ? kIconRowActiveColour
+                : kIconRowInactiveColour,
+            size: _isPeoplePressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-          IconButton(
-            onPressed: () {
-              _changeIconColour('exercise');
-            },
-            icon: Icon(
-              Icons.fitness_center,
-              color: _isExercisePressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size: _isExercisePressed
-                  ? kiconRowActiveSize
-                  : kIconRowInactiveSize,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('exercise');
+          },
+          icon: Icon(
+            Icons.fitness_center,
+            color: _isExercisePressed
+                ? kIconRowActiveColour
+                : kIconRowInactiveColour,
+            size:
+                _isExercisePressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-          IconButton(
-            onPressed: () {
-              _changeIconColour('heart');
-            },
-            icon: Icon(
-              Icons.favorite,
-              color: _isHeartPressed
-                  ? kIconRowActiveColour
-                  : kIconRowInactiveColour,
-              size: _isHeartPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            _changeIconColour('heart');
+          },
+          icon: Icon(
+            Icons.favorite,
+            color:
+                _isHeartPressed ? kIconRowActiveColour : kIconRowInactiveColour,
+            size: _isHeartPressed ? kiconRowActiveSize : kIconRowInactiveSize,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -316,7 +309,10 @@ class _QuickVictoryState extends State<QuickVictory> {
     return IntrinsicHeight(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+        padding: const EdgeInsets.only(
+          top: 10.0,
+          bottom: 10.0,
+        ),
         child: Form(
           key: _formKey,
           child: TextFormField(
@@ -399,7 +395,7 @@ class _QuickVictoryState extends State<QuickVictory> {
     return LoadingButton(
       color: CustomColours.hotPink,
       defaultWidget: const Text(
-        'celebrate',
+        'Celebrate',
         style: TextStyle(
           color: Colors.white,
           fontSize: 20,
@@ -416,33 +412,6 @@ class _QuickVictoryState extends State<QuickVictory> {
       },
     );
   }
-
-  //   return Container(
-  //     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-  //     child: LoadingButton(
-  //       primaryColor: CustomColours.hotPink,
-  //       shadowColor: Colors.transparent,
-  //       borderRadius: kButtonBorderRadius,
-  //       height: 46,
-  //       resetAfterDuration: true,
-  //       resetDuration: const Duration(seconds: 2),
-  //       completionDuration: const Duration(seconds: 4),
-  //       errorColor: Colors.redAccent,
-  //       successColor: Colors.white,
-  //       iconData: Icons.celebration,
-  //       child: const Text(
-  //         'celebrate',
-  //         style: TextStyle(
-  //           color: Colors.white,
-  //           fontSize: 20,
-  //           letterSpacing: 5,
-  //         ),
-  //       ),
-  //       onPressed: () => submitQuickVictory(),
-  //       controller: _btnController,
-  //     ),
-  //   );
-  // }
 
   Widget get _quickVictoryConfetti {
     return ConfettiWidget(

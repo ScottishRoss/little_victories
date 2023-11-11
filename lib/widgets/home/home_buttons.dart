@@ -12,11 +12,11 @@ class HomeButtons extends StatelessWidget {
         children: <Widget>[
           HomeButtonCard(
             image: 'windows.jpg',
-            title: 'preferences',
+            title: 'Preferences',
           ),
           HomeButtonCard(
             image: 'confetti.jpg',
-            title: 'preferences',
+            title: 'Your Victories',
           ),
         ],
       ),
