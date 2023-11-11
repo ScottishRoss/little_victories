@@ -342,14 +342,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_animated_button:
-    dependency: "direct main"
-    description:
-      name: flutter_animated_button
-      sha256: deb125817322cfcc4dc05e43ab79f9597bfe4837200ff145c95247ab88c2f89d
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   flutter_fadein:
     dependency: "direct main"
     description:
@@ -431,14 +423,6 @@ packages:
       url: "https://github.com/ScottishRoss/flutter_social_content_share.git"
     source: git
     version: "1.0.2"
-  flutter_spinkit:
-    dependency: "direct main"
-    description:
-      name: flutter_spinkit
-      sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -713,14 +697,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  outline_gradient_button:
-    dependency: "direct main"
-    description:
-      name: outline_gradient_button
-      sha256: "006673015f090c314d7a14b41216ed984b21e8b55d0c8eb502d93e0bbd6b65ba"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1+1"
   package_config:
     dependency: transitive
     description:
@@ -841,6 +817,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.3"
+  progress_loading_button:
+    dependency: "direct main"
+    description:
+      name: progress_loading_button
+      sha256: f5ac50d5c351e84c7120be9119785935b6d11a7727a48c583f895ca1b2620dcf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   pub_semver:
     dependency: transitive
     description:

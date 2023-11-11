@@ -18,37 +18,62 @@ class _HeaderState extends State<Header> {
       FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * .15,
-      margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              'Hello',
-              textAlign: TextAlign.left,
-              style: kTitleText,
-            ),
-          ),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              firstName,
-              textAlign: TextAlign.left,
-              style: kTitleText.copyWith(
-                color: CustomColours.newDarkPurple,
-                fontSize: 60.0,
-                fontWeight: FontWeight.bold,
+    return Material(
+      child: Container(
+        color: Colors.red,
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * .26,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/heart-cloud.jpg',
+                    //'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-              overflow: TextOverflow.fade,
             ),
-          ),
-        ],
+            Container(
+              margin: const EdgeInsets.only(
+                left: 20.0,
+                bottom: 20.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Hello',
+                      textAlign: TextAlign.left,
+                      style: kTitleText.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      firstName,
+                      textAlign: TextAlign.left,
+                      style: kTitleText.copyWith(
+                        color: CustomColours.darkBlue,
+                        fontSize: 62.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

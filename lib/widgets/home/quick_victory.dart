@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loading_icon_button/loading_icon_button.dart';
+import 'package:progress_loading_button/progress_loading_button.dart';
 
 import '../../data/firestore_operations.dart';
 import '../../util/constants.dart';
@@ -26,7 +26,6 @@ class _QuickVictoryState extends State<QuickVictory> {
     duration: const Duration(seconds: 2),
   );
   final FocusNode _focusNode = FocusNode();
-  final LoadingButtonController _btnController = LoadingButtonController();
 
   late bool _isHappyPressed = true;
   late bool _isTreePressed = false;
@@ -34,6 +33,8 @@ class _QuickVictoryState extends State<QuickVictory> {
   late bool _isPeoplePressed = false;
   late bool _isExercisePressed = false;
   late bool _isHeartPressed = false;
+
+  bool _isSaved = false;
 
   late String icon = 'happy';
 
@@ -159,58 +160,68 @@ class _QuickVictoryState extends State<QuickVictory> {
       log('submitQuickVictory: form validated');
       try {
         log('submitQuickVictory: saving victory');
-        bool? _isSaved = false;
-        _isSaved = await saveLittleVictory(
+        final bool _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
           icon,
         );
+        setState(() {
+          _isSaved = _isSuccess;
+        });
         log('_isSaved: $_isSaved');
 
         if (_isSaved) {
-          _btnController.success();
           _confettiController.play();
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           _formKey.currentState!.reset();
+
+          Future<void>.delayed(const Duration(seconds: 2), () {
+            setState(() {
+              _isSaved = false;
+            });
+          });
         }
       } catch (e) {
         Fluttertoast.showToast(msg: e.toString());
-        setState(() {});
-        _btnController.reset();
+        setState(() {
+          _isSaved = false;
+        });
       }
     } else {
       log('submitQuickVictory: form not validated');
-      setState(() {});
-      _btnController.reset();
+      setState(() {
+        _isSaved = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
-            CustomColours.newDarkPurple.withOpacity(0.9),
-            CustomColours.newDarkPurple.withOpacity(0.7),
+            CustomColours.darkBlue,
             Colors.transparent,
           ],
         ),
       ),
-      height: MediaQuery.of(context).size.height * 0.36,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          _iconRow,
-          _quickVictoryTextBox,
-          _quickVictoryButton,
-          _quickVictoryConfetti,
-        ],
-      ),
+      child: _isSaved
+          ? const Icon(Icons.face)
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _iconRow,
+                _quickVictoryTextBox,
+                _quickVictoryButton,
+                _quickVictoryConfetti,
+              ],
+            ),
     );
   }
 
@@ -222,7 +233,6 @@ class _QuickVictoryState extends State<QuickVictory> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <IconButton>[
           IconButton(
-            color: Colors.red,
             onPressed: () {
               _changeIconColour('happy');
             },
@@ -312,7 +322,7 @@ class _QuickVictoryState extends State<QuickVictory> {
           child: TextFormField(
             controller: _quickVictoryTextController,
             focusNode: _focusNode,
-            cursorColor: CustomColours.newDarkPurple,
+            cursorColor: CustomColours.darkBlue,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textCapitalization: TextCapitalization.sentences,
             spellCheckConfiguration: const SpellCheckConfiguration(),
@@ -324,7 +334,7 @@ class _QuickVictoryState extends State<QuickVictory> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               labelText: 'Celebrate a Victory',
               filled: true,
-              fillColor: Colors.white.withOpacity(0.9),
+              fillColor: Colors.white,
               errorStyle: const TextStyle(
                 fontSize: 14.0,
                 color: Colors.white,
@@ -337,25 +347,25 @@ class _QuickVictoryState extends State<QuickVictory> {
               ),
               prefixIcon: const Icon(
                 Icons.edit,
-                color: CustomColours.newDarkPurple,
+                color: CustomColours.darkBlue,
               ),
               labelStyle: const TextStyle(
                 fontSize: 18.0,
-                color: CustomColours.newDarkPurple,
+                color: CustomColours.darkBlue,
                 letterSpacing: 2.0,
               ),
-              focusColor: CustomColours.peach,
+              focusColor: CustomColours.darkBlue,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kButtonBorderRadius),
                 borderSide: const BorderSide(
-                  color: CustomColours.mediumPurple,
+                  color: CustomColours.teal,
                   width: 2,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kButtonBorderRadius),
                 borderSide: const BorderSide(
-                  color: CustomColours.newDarkPurple,
+                  color: CustomColours.teal,
                   width: 2,
                 ),
               ),
@@ -371,7 +381,7 @@ class _QuickVictoryState extends State<QuickVictory> {
             onTapOutside: (PointerDownEvent event) => _focusNode.unfocus(),
             style: const TextStyle(
               fontSize: 18,
-              color: CustomColours.newDarkPurple,
+              color: CustomColours.darkBlue,
             ),
             validator: (String? value) {
               if (value!.isEmpty) {
@@ -386,31 +396,53 @@ class _QuickVictoryState extends State<QuickVictory> {
   }
 
   Widget get _quickVictoryButton {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-      child: LoadingButton(
-        primaryColor: CustomColours.newDarkPurple,
-        borderRadius: kButtonBorderRadius,
-        width: MediaQuery.of(context).size.width * 0.75,
-        height: MediaQuery.of(context).size.height * 0.05,
-        resetAfterDuration: true,
-        resetDuration: const Duration(seconds: 2),
-        completionDuration: const Duration(seconds: 4),
-        errorColor: Colors.redAccent,
-        successColor: CustomColours.newDarkPurple,
-        child: const Text(
-          'celebrate',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            letterSpacing: 5,
-          ),
+    return LoadingButton(
+      color: CustomColours.hotPink,
+      defaultWidget: const Text(
+        'celebrate',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          letterSpacing: 5,
         ),
-        onPressed: () => submitQuickVictory(),
-        controller: _btnController,
       ),
+      loadingWidget: const CircularProgressIndicator(
+        color: Colors.white,
+      ),
+      width: double.maxFinite,
+      height: 50,
+      onPressed: () async {
+        await submitQuickVictory();
+      },
     );
   }
+
+  //   return Container(
+  //     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+  //     child: LoadingButton(
+  //       primaryColor: CustomColours.hotPink,
+  //       shadowColor: Colors.transparent,
+  //       borderRadius: kButtonBorderRadius,
+  //       height: 46,
+  //       resetAfterDuration: true,
+  //       resetDuration: const Duration(seconds: 2),
+  //       completionDuration: const Duration(seconds: 4),
+  //       errorColor: Colors.redAccent,
+  //       successColor: Colors.white,
+  //       iconData: Icons.celebration,
+  //       child: const Text(
+  //         'celebrate',
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 20,
+  //           letterSpacing: 5,
+  //         ),
+  //       ),
+  //       onPressed: () => submitQuickVictory(),
+  //       controller: _btnController,
+  //     ),
+  //   );
+  // }
 
   Widget get _quickVictoryConfetti {
     return ConfettiWidget(

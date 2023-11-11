@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../util/custom_colours.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/widgets/home/header.dart';
 
 class PageBody extends StatelessWidget {
   const PageBody({
@@ -17,26 +17,29 @@ class PageBody extends StatelessWidget {
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: <Color>[
-                CustomColours.mediumPurple,
-                CustomColours.pink,
-                CustomColours.peach,
+                Colors.white,
+                CustomColours.teal,
+                CustomColours.hotPink,
               ],
             ),
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height * .5,
+          height: MediaQuery.of(context).size.height * .32,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(
-                  'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
-                ),
-                fit: BoxFit.cover),
+              image: AssetImage(
+                'assets/heart-cloud.jpg',
+                //'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
+              ),
+              fit: BoxFit.fitHeight,
+            ),
           ),
         ),
+        const Header(),
         Scaffold(
           backgroundColor: Colors.transparent,
           extendBodyBehindAppBar: true,
@@ -46,15 +49,13 @@ class PageBody extends StatelessWidget {
               BuildContext context,
               BoxConstraints viewportConstraints,
             ) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                    minWidth: viewportConstraints.maxWidth,
-                  ),
-                  child: IntrinsicHeight(
-                    child: child,
-                  ),
+              return ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                  minWidth: viewportConstraints.maxWidth,
+                ),
+                child: IntrinsicHeight(
+                  child: child,
                 ),
               );
             }),

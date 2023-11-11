@@ -5,7 +5,6 @@ import 'package:little_victories/widgets/home/quick_victory.dart';
 import '../../util/authentication.dart';
 import '../../util/notifications_service.dart';
 import '../../widgets/common/page_body.dart';
-import '../../widgets/home/header.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,11 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageBody(
       child: WillPopScope(
         onWillPop: () async => false,
-        child: const Column(
+        child: Column(
           children: <Widget>[
-            Header(),
-            QuickVictory(),
-            HomeButtons(),
+            SizedBox(height: MediaQuery.of(context).size.height * .22),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .62,
+              child: ListView(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                children: const <Widget>[
+                  QuickVictory(),
+                  HomeButtons(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
