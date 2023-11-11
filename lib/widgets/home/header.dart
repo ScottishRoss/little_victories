@@ -19,8 +19,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        color: Colors.red,
+      child: SizedBox(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * .26,
         child: Stack(

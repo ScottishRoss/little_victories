@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/widgets/home/home_buttons.dart';
+import 'package:little_victories/widgets/home/home_button_card.dart';
 import 'package:little_victories/widgets/home/quick_victory.dart';
 
 import '../../util/authentication.dart';
@@ -29,15 +29,24 @@ class _HomeScreenState extends State<HomeScreen> {
         onWillPop: () async => false,
         child: Column(
           children: <Widget>[
-            SizedBox(height: MediaQuery.of(context).size.height * .22),
+            SizedBox(height: MediaQuery.of(context).size.height * .20),
             SizedBox(
-              height: MediaQuery.of(context).size.height * .62,
+              height: MediaQuery.of(context).size.height * .7,
               child: ListView(
                 physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 children: const <Widget>[
                   QuickVictory(),
-                  HomeButtons(),
+                  HomeButtonCard(
+                    image: 'windows.jpg',
+                    title: 'Preferences',
+                    route: '/preferences',
+                  ),
+                  HomeButtonCard(
+                    image: 'confetti.jpg',
+                    title: 'Your Victories',
+                    route: '/view_victories',
+                  ),
                 ],
               ),
             ),

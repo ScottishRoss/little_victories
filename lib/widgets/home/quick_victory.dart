@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/icon_list.dart';
 import 'package:lottie/lottie.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
 
@@ -28,132 +29,9 @@ class _QuickVictoryState extends State<QuickVictory> {
   );
   final FocusNode _focusNode = FocusNode();
 
-  late bool _isHappyPressed = true;
-  late bool _isTreePressed = false;
-  late bool _isFoodPressed = false;
-  late bool _isPeoplePressed = false;
-  late bool _isExercisePressed = false;
-  late bool _isHeartPressed = false;
-
+  int _selectedIndex = 0;
+  String _selectedIconName = 'Happy';
   bool _isSaved = false;
-
-  late String icon = 'happy';
-
-  void _changeIconColour(String iconName) {
-    setState(() {
-      icon = iconName;
-    });
-    switch (iconName) {
-      case 'happy':
-        setState(() {
-          if (_isHappyPressed) {
-            _isExercisePressed = false;
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-          } else {
-            _isHappyPressed = true;
-            _isExercisePressed = false;
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-          }
-        });
-        break;
-      case 'tree':
-        setState(() {
-          if (_isTreePressed) {
-            _isExercisePressed = false;
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isHappyPressed = false;
-          } else {
-            _isTreePressed = true;
-            _isExercisePressed = false;
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isHappyPressed = false;
-          }
-        });
-        break;
-      case 'food':
-        setState(() {
-          if (_isFoodPressed) {
-            _isExercisePressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          } else {
-            _isFoodPressed = true;
-            _isExercisePressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          }
-        });
-        break;
-      case 'people':
-        setState(() {
-          if (_isPeoplePressed) {
-            _isFoodPressed = false;
-            _isExercisePressed = false;
-            _isHeartPressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          } else {
-            _isPeoplePressed = true;
-            _isFoodPressed = false;
-            _isExercisePressed = false;
-            _isHeartPressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          }
-        });
-        break;
-      case 'exercise':
-        setState(() {
-          if (_isExercisePressed) {
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          } else {
-            _isExercisePressed = true;
-            _isFoodPressed = false;
-            _isHeartPressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          }
-        });
-        break;
-      case 'heart':
-        setState(() {
-          if (_isHeartPressed) {
-            _isFoodPressed = false;
-            _isExercisePressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          } else {
-            _isHeartPressed = true;
-            _isFoodPressed = false;
-            _isExercisePressed = false;
-            _isPeoplePressed = false;
-            _isTreePressed = false;
-            _isHappyPressed = false;
-          }
-        });
-        break;
-    }
-  }
 
   Future<void> submitQuickVictory() async {
     log('submitQuickVictory: validating form');
@@ -163,7 +41,7 @@ class _QuickVictoryState extends State<QuickVictory> {
         log('submitQuickVictory: saving victory');
         final bool _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
-          icon,
+          _selectedIconName,
         );
         setState(() {
           _isSaved = _isSuccess;
@@ -228,80 +106,41 @@ class _QuickVictoryState extends State<QuickVictory> {
   }
 
   Widget get _iconRow {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <IconButton>[
-        IconButton(
-          onPressed: () {
-            _changeIconColour('happy');
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.06,
+      child: Center(
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(width: 16);
           },
-          icon: Icon(
-            Icons.sentiment_satisfied_alt,
-            color:
-                _isHappyPressed ? kIconRowActiveColour : kIconRowInactiveColour,
-            size: _isHappyPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('tree');
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          itemCount: victoryIconList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  if (_selectedIndex != index) {
+                    _selectedIndex = index;
+                    _selectedIconName = victoryIconList[index].iconName;
+                    log('_selectedIconName: $_selectedIconName');
+                  }
+                });
+              },
+              child: Icon(
+                victoryIconList[index].icon,
+                size: _selectedIndex == index
+                    ? kiconRowActiveSize
+                    : kIconRowInactiveSize,
+                color: _selectedIndex == index
+                    ? kIconRowActiveColour
+                    : kIconRowInactiveColour,
+              ),
+            );
           },
-          icon: Icon(
-            Icons.park,
-            color:
-                _isTreePressed ? kIconRowActiveColour : kIconRowInactiveColour,
-            size: _isTreePressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
         ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('food');
-          },
-          icon: Icon(
-            Icons.restaurant,
-            color:
-                _isFoodPressed ? kIconRowActiveColour : kIconRowInactiveColour,
-            size: _isFoodPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('people');
-          },
-          icon: Icon(
-            Icons.groups,
-            color: _isPeoplePressed
-                ? kIconRowActiveColour
-                : kIconRowInactiveColour,
-            size: _isPeoplePressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('exercise');
-          },
-          icon: Icon(
-            Icons.fitness_center,
-            color: _isExercisePressed
-                ? kIconRowActiveColour
-                : kIconRowInactiveColour,
-            size:
-                _isExercisePressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            _changeIconColour('heart');
-          },
-          icon: Icon(
-            Icons.favorite,
-            color:
-                _isHeartPressed ? kIconRowActiveColour : kIconRowInactiveColour,
-            size: _isHeartPressed ? kiconRowActiveSize : kIconRowInactiveSize,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
