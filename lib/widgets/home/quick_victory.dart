@@ -78,12 +78,13 @@ class _QuickVictoryState extends State<QuickVictory> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
             CustomColours.darkBlue,
+            CustomColours.darkBlue.withOpacity(0.7),
             Colors.transparent,
           ],
         ),

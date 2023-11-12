@@ -72,7 +72,7 @@ class PageBody extends StatelessWidget {
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height * .32,
+          height: MediaQuery.of(context).size.height * .2,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
