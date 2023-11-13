@@ -18,61 +18,63 @@ class _HeaderState extends State<Header> {
       FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0];
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SizedBox(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * .26,
-        child: Stack(
-          children: <Widget>[
-            Container(
+    return SizedBox(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * .26,
+      child: Stack(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(kButtonBorderRadius),
+              topRight: Radius.circular(kButtonBorderRadius),
+            ),
+            child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
                     'assets/heart-cloud.jpg',
-                    //'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
                   ),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                left: 20.0,
-                bottom: 20.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      'Hello',
-                      textAlign: TextAlign.left,
-                      style: kTitleText.copyWith(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      firstName,
-                      textAlign: TextAlign.left,
-                      style: kTitleText.copyWith(
-                        color: CustomColours.darkBlue,
-                        fontSize: 62.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ],
-              ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              left: 20.0,
             ),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Hello',
+                    textAlign: TextAlign.left,
+                    style: kTitleText.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    firstName,
+                    textAlign: TextAlign.left,
+                    style: kTitleText.copyWith(
+                      color: CustomColours.darkBlue,
+                      fontSize: 62.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

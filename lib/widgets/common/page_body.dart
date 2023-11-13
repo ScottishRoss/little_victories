@@ -71,18 +71,6 @@ class PageBody extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * .2,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/heart-cloud.jpg',
-                //'assets/watercolor-paint-brush-strokes-from-a-hand-drawn.png',
-              ),
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-        ),
         const Header(),
         Scaffold(
           backgroundColor: Colors.transparent,

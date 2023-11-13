@@ -233,7 +233,8 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Widget get _quickVictoryButton {
     return LoadingButton(
-      color: CustomColours.hotPink,
+      //color: const Color(0xff73b9bb),
+      color: const Color(0xfff6a09f),
       defaultWidget: const Text(
         'Celebrate',
         style: TextStyle(

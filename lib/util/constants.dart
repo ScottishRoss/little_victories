@@ -25,7 +25,7 @@ const TextStyle kSubtitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const double kButtonBorderRadius = 5;
+const double kButtonBorderRadius = 20;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
