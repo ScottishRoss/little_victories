@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../../data/firestore_operations.dart';
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
@@ -80,7 +81,7 @@ class _CustomModalState extends State<CustomModal> {
             Text(
               widget.title,
               textAlign: TextAlign.center,
-              textScaleFactor: 2,
+              textScaler: const TextScaler.linear(2),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -89,7 +90,7 @@ class _CustomModalState extends State<CustomModal> {
             Text(
               widget.desc,
               textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
+              textScaler: const TextScaler.linear(1.5),
             ),
             const SizedBox(height: 20),
             Row(

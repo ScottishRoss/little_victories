@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../../data/firestore_operations.dart';
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
@@ -77,13 +78,13 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
             const Text(
               'Are you sure you want to delete your account?',
               textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
+              textScaler: TextScaler.linear(1.5),
             ),
             const SizedBox(height: 20.0),
             const Text(
               'All your Victories will be lost.',
               textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
+              textScaler: TextScaler.linear(1.5),
               style: TextStyle(
                 color: CustomColours.darkPurple,
                 fontWeight: FontWeight.bold,

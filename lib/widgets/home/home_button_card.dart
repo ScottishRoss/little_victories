@@ -15,15 +15,16 @@ class HomeButtonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, route),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            width: MediaQuery.of(context).size.width,
+    return Stack(
+      children: <Widget>[
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, route),
+          child: Container(
             height: MediaQuery.of(context).size.height * .16,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 10.0,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kButtonBorderRadius),
               color: Colors.transparent,
@@ -38,6 +39,10 @@ class HomeButtonCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(kButtonBorderRadius),
+                    bottomRight: Radius.circular(kButtonBorderRadius),
+                  ),
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
@@ -60,8 +65,8 @@ class HomeButtonCard extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

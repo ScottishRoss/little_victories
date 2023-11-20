@@ -13,45 +13,71 @@ class PageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.userChanges(),
-      builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return const Center(
-              child: Text(
-                'No internet connection, please check your network settings.',
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  CustomColours.darkBlue,
+                  CustomColours.darkBlue,
+                  CustomColours.teal,
+                  CustomColours.hotPink,
+                  CustomColours.hotPink,
+                ],
               ),
-            );
+            ),
+          ),
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.userChanges(),
+            builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return const Center(
+                    child: Text(
+                      'No internet connection, please check your network settings.',
+                    ),
+                  );
 
-          case ConnectionState.waiting:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
 
-          case ConnectionState.active:
-            if (snapshot.hasData) {
-              return _pageBody(context);
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+                case ConnectionState.active:
+                  if (snapshot.hasData) {
+                    return _pageBody(context);
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              return _pageBody(context);
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          default:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-        }
-      },
+                case ConnectionState.done:
+                  if (snapshot.hasData) {
+                    return _pageBody(context);
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                default:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 

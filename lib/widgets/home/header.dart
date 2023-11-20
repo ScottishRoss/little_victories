@@ -16,11 +16,12 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   String firstName =
       FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0];
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
+    return Container(
       height: MediaQuery.of(context).size.height * .26,
+      color: Colors.white,
       child: Stack(
         children: <Widget>[
           ClipRRect(
@@ -42,6 +43,7 @@ class _HeaderState extends State<Header> {
           Container(
             margin: const EdgeInsets.only(
               left: 20.0,
+              bottom: 10.0,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

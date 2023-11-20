@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../util/custom_colours.dart';
 
 class CustomToast extends StatefulWidget {
@@ -44,7 +45,7 @@ class _CustomToastState extends State<CustomToast> {
           ),
           Text(
             widget.message,
-            textScaleFactor: 1.5,
+            textScaler: const TextScaler.linear(1.5),
             style: const TextStyle(
               color: CustomColours.darkPurple,
             ),

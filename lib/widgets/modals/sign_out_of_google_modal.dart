@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../../util/authentication.dart';
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
@@ -63,7 +64,7 @@ class _SignOutOfGoogleBoxState extends State<SignOutOfGoogleBox> {
             const SizedBox(height: 20),
             const Text(
               'Are you sure you want to sign out?',
-              textScaleFactor: 1.5,
+              textScaler: TextScaler.linear(1.5),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),

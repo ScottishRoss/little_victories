@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/widgets/home/header.dart';
+import 'package:little_victories/widgets/common/header_placeholder.dart';
+import 'package:little_victories/widgets/common/page_body.dart';
 import 'package:little_victories/widgets/home/home_button_card.dart';
 import 'package:little_victories/widgets/home/quick_victory.dart';
 
@@ -42,56 +42,23 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Colors.white,
-                CustomColours.teal,
-                CustomColours.hotPink,
-              ],
-            ),
-          ),
-        ),
-        Scaffold(
-          backgroundColor: CustomColours.darkBlue,
-          extendBodyBehindAppBar: true,
-          extendBody: true,
-          body: SafeArea(
-            child: LayoutBuilder(
-              builder: (
-                BuildContext context,
-                BoxConstraints viewportConstraints,
-              ) {
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                    minWidth: viewportConstraints.maxWidth,
-                  ),
-                  child: IntrinsicHeight(
-                    child: getPage(pageIndex),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+    return PageBody(
+      child: Column(
+        children: <Widget>[
+          const HeaderPlaceholder(),
+          getPage(pageIndex),
+        ],
+      ),
     );
   }
 
   Widget get homeWidget {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: ListView(
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         children: const <Widget>[
-          Header(),
           QuickVictory(),
           HomeButtonCard(
             image: 'windows.jpg',

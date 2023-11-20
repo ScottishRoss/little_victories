@@ -63,7 +63,7 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
             const Text(
               'Share your Victory with your friends',
               textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
+              textScaler: TextScaler.linear(1.5),
             ),
             const SizedBox(height: 20.0),
             Row(

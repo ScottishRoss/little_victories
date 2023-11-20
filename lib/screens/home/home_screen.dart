@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child: WillPopScope(
-        onWillPop: () async => false,
+      child: PopScope(
+        canPop: false,
         child: Column(
           children: <Widget>[
             SizedBox(height: MediaQuery.of(context).size.height * .20),
