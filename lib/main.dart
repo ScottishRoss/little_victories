@@ -12,12 +12,8 @@ import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'screens/home/debug_screen.dart';
 import 'screens/intro/intro_screen.dart';
-import 'screens/preferences/preferences_screen.dart';
-import 'screens/preferences/push_notifications_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
-import 'screens/view_victories/view_victories_screen.dart';
 
 Future<Widget> routeOnFirstTimeSetup() async {
   final String? _isFirstTime =
@@ -110,31 +106,13 @@ class MyApp extends StatelessWidget {
               child: const HomePage(),
               type: PageTransitionType.fade,
             );
-          case '/debug':
-            return PageTransition<void>(
-              child: const DebugScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/preferences':
-            return PageTransition<void>(
-              child: const PreferencesScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/push_notifications':
-            return PageTransition<void>(
-              child: const PushNotificationsScreen(),
-              type: PageTransitionType.fade,
-            );
+
           case '/sign_in':
             return PageTransition<void>(
               child: const SignInScreen(),
               type: PageTransitionType.fade,
             );
-          case '/view_victories':
-            return PageTransition<void>(
-              child: const ViewVictoriesScreen(),
-              type: PageTransitionType.fade,
-            );
+
           default:
             return PageTransition<void>(
               child: const SignInScreen(),

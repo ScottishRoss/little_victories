@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:little_victories/widgets/home/home_button_card.dart';
+import 'package:little_victories/widgets/home/quick_victory.dart';
+
+class HomeWidget extends StatelessWidget {
+  const HomeWidget({
+    Key? key,
+    required this.callback,
+  }) : super(key: key);
+
+  final ValueChanged<int> callback;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        children: <Widget>[
+          const QuickVictory(),
+          GestureDetector(
+            onTap: () => callback(1),
+            child: const HomeButtonCard(
+              image: 'windows.jpg',
+              title: 'Preferences',
+            ),
+          ),
+          GestureDetector(
+            onTap: () => callback(2),
+            child: const HomeButtonCard(
+              image: 'confetti.jpg',
+              title: 'Your Victories',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

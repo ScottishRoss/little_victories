@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:little_victories/screens/home/home_widget.dart';
+import 'package:little_victories/screens/view_victories/view_victories_widget.dart';
+import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/header_placeholder.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
-import 'package:little_victories/widgets/home/home_button_card.dart';
-import 'package:little_victories/widgets/home/quick_victory.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,15 +15,22 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late int pageIndex = 0;
+  // ignore: unused_field
+  final NotificationsService _notificationsService = NotificationsService();
+
+  void _updatePageIndex(int pageIndex) {
+    setState(() => _pageIndex = pageIndex);
+  }
+
+  late int _pageIndex = 0;
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return homeWidget;
+        return HomeWidget(callback: _updatePageIndex);
       case 1:
         return const Placeholder();
       case 2:
-        return const Placeholder();
+        return ViewVictoriesWidget(callback: _updatePageIndex);
       case 3:
         return const Placeholder();
       case 4:
@@ -36,8 +44,8 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    pageIndex = 0;
-    log(pageIndex.toString());
+    _pageIndex = 0;
+    log(_pageIndex.toString());
   }
 
   @override
@@ -46,29 +54,9 @@ class HomePageState extends State<HomePage> {
       child: Column(
         children: <Widget>[
           const HeaderPlaceholder(),
-          getPage(pageIndex),
-        ],
-      ),
-    );
-  }
-
-  Widget get homeWidget {
-    return PopScope(
-      canPop: false,
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        children: const <Widget>[
-          QuickVictory(),
-          HomeButtonCard(
-            image: 'windows.jpg',
-            title: 'Preferences',
-            route: '/preferences',
-          ),
-          HomeButtonCard(
-            image: 'confetti.jpg',
-            title: 'Your Victories',
-            route: '/view_victories',
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .70,
+            child: getPage(_pageIndex),
           ),
         ],
       ),

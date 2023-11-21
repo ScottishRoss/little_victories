@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+
 import '../../data/firestore_operations.dart';
 import '../../util/custom_colours.dart';
 import '../../util/extensions.dart';
@@ -11,8 +12,8 @@ import '../../util/utils.dart';
 import '../../widgets/modals/account_modal.dart';
 import '../../widgets/modals/share_victory_modal.dart';
 
-class Victory extends StatefulWidget {
-  const Victory({
+class VictoryCard extends StatefulWidget {
+  const VictoryCard({
     Key? key,
     required this.docId,
     required this.victory,
@@ -24,10 +25,10 @@ class Victory extends StatefulWidget {
   final User user;
 
   @override
-  State<Victory> createState() => _VictoryState();
+  State<VictoryCard> createState() => _VictoryCardState();
 }
 
-class _VictoryState extends State<Victory> {
+class _VictoryCardState extends State<VictoryCard> {
   final ButtonStyle flatButtonStyle = TextButton.styleFrom(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(4.0)),
