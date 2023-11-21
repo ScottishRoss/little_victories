@@ -19,24 +19,17 @@ class _HeaderState extends State<Header> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * .26,
-      color: Colors.white,
       child: Stack(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(kButtonBorderRadius),
-              topRight: Radius.circular(kButtonBorderRadius),
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/heart-cloud.jpg',
-                  ),
-                  fit: BoxFit.cover,
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/heart-cloud.jpg',
                 ),
+                fit: BoxFit.cover,
               ),
             ),
           ),

@@ -159,7 +159,8 @@ Future<bool> saveLittleVictoryFromNotification(
 
 /// START: Delete Little Victory
 
-Future<bool> deleteLittleVictory(User user, String docId) async {
+Future<bool> deleteLittleVictory(String docId) async {
+  final User user = FirebaseAuth.instance.currentUser!;
   await _usersCollection
       .doc(user.uid)
       .collection('victories')

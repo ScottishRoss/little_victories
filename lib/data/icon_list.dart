@@ -18,3 +18,13 @@ final List<VictoryIcon> victoryIconList = <VictoryIcon>[
   VictoryIcon(icon: Icons.fitness_center, iconName: 'fitness'),
   VictoryIcon(icon: Icons.favorite, iconName: 'favorite'),
 ];
+
+IconData getIconData(String icon) {
+  try {
+    return victoryIconList.firstWhere((VictoryIcon victoryIcon) {
+      return victoryIcon.iconName == icon;
+    }).icon;
+  } catch (e) {
+    return Icons.sentiment_satisfied_alt;
+  }
+}

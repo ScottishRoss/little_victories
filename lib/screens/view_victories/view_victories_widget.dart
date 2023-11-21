@@ -1,11 +1,13 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
+import 'package:little_victories/data/victory_class.dart';
+import 'package:little_victories/screens/view_victories/victory_card.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 import '../../widgets/common/custom_button.dart';
-import 'victory.dart';
 
 class ViewVictoriesWidget extends StatefulWidget {
   const ViewVictoriesWidget({
@@ -23,6 +25,13 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late Stream<QuerySnapshot<Object?>>? _dataList;
   late User _user;
+
+  Victory convertDocumentToVictory(
+      int index, AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+    final QueryDocumentSnapshot<Object?>? result = snapshot.data?.docs[index];
+
+    return Victory.fromDocument(result!);
+  }
 
   @override
   void initState() {
@@ -55,23 +64,47 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
             child: Text('Error: ${snapshot.error}'),
           );
         } else if (snapshot.data!.docs.isNotEmpty) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * .5,
-            child: ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (BuildContext context, int index) {
-                final QueryDocumentSnapshot<Object?>? victory =
-                    snapshot.data?.docs[index];
-                final String docId = snapshot.data!.docs[index].id.toString();
+          return Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.center,
+                colors: <Color>[
+                  CustomColours.darkBlue,
+                  CustomColours.darkBlue.withOpacity(0.7),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.55,
+            child: GroupedListView<dynamic, String>(
+              elements: snapshot.data!.docs,
+              groupBy: (dynamic element) {
+                final DateTime createdOn = element['createdOn'].toDate();
+                final String formattedDate =
+                    DateFormat('MMMM yyyy').format(createdOn);
 
-                log(victory![index].data().toString());
+                return formattedDate;
+              },
+              groupSeparatorBuilder: (String groupByValue) =>
+                  Text(groupByValue),
+              indexedItemBuilder: (
+                BuildContext context,
+                dynamic element,
+                int index,
+              ) {
+                final Victory victory =
+                    convertDocumentToVictory(index, snapshot);
 
                 return VictoryCard(
-                  docId: docId,
                   victory: victory,
-                  user: _user,
                 );
               },
+              useStickyGroupSeparators: true,
+              floatingHeader: true,
+              order: GroupedListOrder.DESC,
             ),
           );
         } else {

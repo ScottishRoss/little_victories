@@ -3,13 +3,12 @@ import 'dart:developer';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/icon_list.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:lottie/lottie.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
-
-import '../../data/firestore_operations.dart';
-import '../../util/constants.dart';
-import '../../util/custom_colours.dart';
 
 class QuickVictory extends StatefulWidget {
   const QuickVictory({

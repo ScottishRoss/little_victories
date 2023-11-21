@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/widgets/home/home_button_card.dart';
-import 'package:little_victories/widgets/home/quick_victory.dart';
+import 'package:little_victories/screens/home/widgets/home_button_card.dart';
+import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({
