@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/victory_class.dart';
 import 'package:little_victories/screens/view_victories/victory_card.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -37,16 +38,7 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   void initState() {
     super.initState();
     _user = FirebaseAuth.instance.currentUser!;
-    _dataList = _getVictoriesStream(_user.uid);
-  }
-
-  Stream<QuerySnapshot<Object?>> _getVictoriesStream(String userId) {
-    return firestore
-        .collection('users')
-        .doc(userId)
-        .collection('victories')
-        .orderBy('createdOn', descending: true)
-        .snapshots();
+    _dataList = getVictoriesStream(_user.uid);
   }
 
   Widget _buildVictoryList(

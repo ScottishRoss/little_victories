@@ -95,6 +95,17 @@ Future<bool> createUser(User user) async {
 
 /// END: Create User
 
+/// START: Get Victories Stream
+Stream<QuerySnapshot<Object?>> getVictoriesStream(String userId) {
+  return _usersCollection
+      .doc(userId)
+      .collection('victories')
+      .orderBy('createdOn', descending: true)
+      .snapshots();
+}
+
+///
+
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(
   String victory,
