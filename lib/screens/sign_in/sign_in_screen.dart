@@ -1,12 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/util/constants.dart';
 import '../../util/authentication.dart';
 import '../../util/custom_colours.dart';
 import '../../util/utils.dart';
 import '../../widgets/common/buttons.dart';
 import '../../widgets/common/lv_logo.dart';
-import '../../widgets/common/page_body.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -33,47 +34,86 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageBody(
-      child:
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  CustomColours.darkBlue,
+                  CustomColours.darkBlue,
+                  CustomColours.teal,
+                ],
+              ),
+            ),
+          ),
 
           /// Sign in with Google
           FutureBuilder<FirebaseApp>(
-        future: Authentication.initializeFirebase(context: context),
-        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-          if (snapshot.hasError) {
-            return const Text(
-              'Error signing in, please try again later.',
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            return const Column(
-              children: <Widget>[
-                Expanded(
+            future: Authentication.initializeFirebase(context: context),
+            builder:
+                (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
+              if (snapshot.hasError) {
+                return const Text(
+                  'Error signing in, please try again later.',
+                );
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return Container(
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: <Widget>[
-                      // Little Victories Logo
-                      LVLogo(),
-                      Text(
-                        'Celebrate your Little Victories',
-                        style: TextStyle(
-                          color: CustomColours.teal,
-                          fontSize: 20,
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            // Little Victories Logo
+                            const LVLogo(),
+                            _tagline,
+                            const GoogleSignInButton(),
+                          ],
                         ),
                       ),
-                      Spacer(),
-                      GoogleSignInButton(),
-                      SizedBox(height: 20),
                     ],
                   ),
-                ),
-              ],
-            );
-          }
+                );
+              }
 
-          return buildCircleProgressIndicator(
-            color: CustomColours.teal,
-          );
-        },
+              return buildCircleProgressIndicator(
+                color: CustomColours.teal,
+              );
+            },
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget get _tagline {
+    return Column(
+      children: <Widget>[
+        AutoSizeText(
+          'Celebrate your',
+          style: kTitleText.copyWith(
+            fontSize: 22,
+          ),
+        ),
+        AutoSizeText(
+          'Little Victories',
+          style: kTitleText.copyWith(
+            fontSize: 46,
+            letterSpacing: 2.0,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -37,17 +38,13 @@ class _CustomToastState extends State<CustomToast> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CircleAvatar(
-            child: Image.asset('assets/lv_logo_transparent_purple.png'),
+            child: Image.asset('assets/lv_logo_transparent_dark_purple.png'),
             backgroundColor: Colors.transparent,
           ),
-          const SizedBox(
-            width: 12.0,
-          ),
-          Text(
+          AutoSizeText(
             widget.message,
-            textScaler: const TextScaler.linear(1.5),
             style: const TextStyle(
-              color: CustomColours.darkPurple,
+              color: CustomColours.darkBlue,
             ),
           ),
         ],

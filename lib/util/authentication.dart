@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 
 import '../data/firestore_operations.dart';
 import 'utils.dart';
@@ -41,9 +43,12 @@ class Authentication {
 
   Future<User?> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
+    final FToast fToast = FToast();
     User? user;
 
     log('kIsWeb: $kIsWeb');
+
+    fToast.init(context);
 
     if (kIsWeb) {
       log('Attempting to sign in with Google...');
@@ -57,8 +62,20 @@ class Authentication {
 
         user = userCredential.user;
         log('user: $user');
+        if (user != null)
+          Navigator.pushReplacementNamed(
+            context,
+            '/homeFromSignIn',
+          );
       } catch (e) {
         log('Error signing in with Google: $e');
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Sign-in failed, please try again.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
         Navigator.pop(context);
       }
     } else {

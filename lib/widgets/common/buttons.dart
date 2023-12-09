@@ -44,32 +44,15 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                User? _user;
                 setState(() {
                   _isSigningIn = true;
                 });
-                try {
-                  _user =
-                      await Authentication().signInWithGoogle(context: context);
 
-                  if (_user != null)
-                    Navigator.pushReplacementNamed(
-                      context,
-                      '/homeFromSignIn',
-                    );
-                } catch (e) {
-                  setState(() {
-                    _isSigningIn = false;
-                  });
-                  log(e.toString());
-                  fToast.showToast(
-                    child: const CustomToast(
-                      message: 'Sign-in failed, please try again.',
-                    ),
-                    gravity: ToastGravity.BOTTOM,
-                    toastDuration: const Duration(seconds: 2),
-                  );
-                }
+                await Authentication().signInWithGoogle(context: context);
+
+                setState(() {
+                  _isSigningIn = false;
+                });
               },
               child: const Padding(
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 10),

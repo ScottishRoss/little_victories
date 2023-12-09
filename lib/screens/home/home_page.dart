@@ -26,18 +26,24 @@ class HomePageState extends State<HomePage> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
+        log('Page: Home');
         return HomeWidget(callback: _updatePageIndex);
       case 1:
+        log('Page: TBC');
         return const Placeholder();
       case 2:
+        log('Page: View Victories');
         return ViewVictoriesWidget(callback: _updatePageIndex);
       case 3:
+        log('Page: TBC');
         return const Placeholder();
       case 4:
+        log('Page: TBC');
         return const Placeholder();
 
       default:
-        return const Placeholder();
+        log('Page: Home');
+        return HomeWidget(callback: _updatePageIndex);
     }
   }
 
@@ -45,7 +51,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageIndex = 0;
-    log(_pageIndex.toString());
+    log('Page Index = $_pageIndex');
   }
 
   @override

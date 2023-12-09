@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:social_share/social_share.dart';
 
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
-import '../../util/firebase_analytics.dart';
 import '../../util/utils.dart';
-import 'share_image.dart';
 
 // ignore: must_be_immutable
 class ShareVictoryModal extends StatefulWidget {
@@ -66,79 +62,9 @@ class _ShareVictoryModalState extends State<ShareVictoryModal> {
               textScaler: TextScaler.linear(1.5),
             ),
             const SizedBox(height: 20.0),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    SocialShare.shareTwitter(widget.victory!,
-                        hashtags: <String>['LittleVictories']);
-                    FirebaseAnalyticsService()
-                        .logEvent('share_victory', <String, Object>{
-                      'platform': 'twitter',
-                    });
-                  },
-                  icon: const FaIcon(
-                    FontAwesomeIcons.twitter,
-                    size: 30.0,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ShareImage(
-                          victory: widget.victory!,
-                          platform: 'Facebook',
-                        );
-                      }),
-                  icon: const FaIcon(
-                    FontAwesomeIcons.facebook,
-                    size: 30.0,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    SocialShare.shareWhatsapp(widget.victory!);
-                    FirebaseAnalyticsService()
-                        .logEvent('share_victory', <String, Object>{
-                      'platform': 'whatsapp',
-                    });
-                  },
-                  icon: const FaIcon(
-                    FontAwesomeIcons.whatsapp,
-                    size: 30.0,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ShareImage(
-                          victory: widget.victory!,
-                          platform: 'Instagram',
-                        );
-                      }),
-                  icon: const FaIcon(
-                    FontAwesomeIcons.instagram,
-                    size: 30.0,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => showDialog<Widget>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ShareImage(
-                          victory: widget.victory!,
-                          platform: 'Other',
-                        );
-                      }),
-                  icon: const FaIcon(
-                    FontAwesomeIcons.shareNodes,
-                    size: 30.0,
-                  ),
-                ),
-              ],
+              children: <Widget>[],
             ),
             const SizedBox(height: 20),
             Row(

@@ -112,21 +112,19 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          StreamBuilder<QuerySnapshot<Object?>>(
-            stream: _dataList,
-            builder: _buildVictoryList,
-          ),
-          const SizedBox(height: 5.0),
-          CustomButton(
-            'Back',
-            () => widget.callback(0),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        StreamBuilder<QuerySnapshot<Object?>>(
+          stream: _dataList,
+          builder: _buildVictoryList,
+        ),
+        const SizedBox(height: 5.0),
+        CustomButton(
+          'Back',
+          () => widget.callback(0),
+        ),
+      ],
     );
   }
 }

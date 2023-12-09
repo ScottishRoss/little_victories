@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -39,6 +41,7 @@ class PageBody extends StatelessWidget {
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+              log('StreamBuilder: ${snapshot.connectionState}');
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
                   return const Center(
@@ -53,6 +56,7 @@ class PageBody extends StatelessWidget {
                   );
 
                 case ConnectionState.active:
+                  log(snapshot.data.toString());
                   if (snapshot.hasData) {
                     return _pageBody(context);
                   } else {

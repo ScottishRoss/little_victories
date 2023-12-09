@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import 'screens/sign_in/sign_in_screen.dart';
 Future<Widget> routeOnFirstTimeSetup() async {
   final String? _isFirstTime =
       await SecureStorage().getFromKey(kFirstTimeSetup);
-  print(_isFirstTime);
+  log('isFirstTime: $_isFirstTime');
   if (_isFirstTime != null) {
     return const SignInScreen();
   } else {
@@ -37,7 +38,7 @@ Future<void> main() async {
 
   final Widget app = await routeOnFirstTimeSetup();
 
-  runApp(MyApp(route: app));
+  runApp(const MyApp(route: SignInScreen()));
 
   //FlutterNativeSplash.remove();
 }
