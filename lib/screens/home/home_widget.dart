@@ -10,6 +10,7 @@ class HomeWidget extends StatelessWidget {
 
   final ValueChanged<int> callback;
 
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -18,7 +19,7 @@ class HomeWidget extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         children: <Widget>[
-          const QuickVictory(),
+          QuickVictory(formKey: formKey),
           GestureDetector(
             onTap: () => callback(1),
             child: const HomeButtonCard(

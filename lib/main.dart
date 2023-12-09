@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         hintColor: CustomColours.newDarkPurple, // Character Counter Colour
         colorScheme: const ColorScheme.dark(
-          primary: CustomColours.darkPurple,
+          primary: CustomColours.teal,
           secondary: CustomColours.darkBlue,
           error: Colors.black,
         ),

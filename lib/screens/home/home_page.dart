@@ -57,14 +57,13 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child: Column(
-        children: <Widget>[
-          const HeaderPlaceholder(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .70,
-            child: getPage(_pageIndex),
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            const HeaderPlaceholder(),
+            getPage(_pageIndex),
+          ],
+        ),
       ),
     );
   }

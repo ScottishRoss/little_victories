@@ -19,11 +19,12 @@ class PageBody extends StatelessWidget {
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: double.infinity,
+            width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -38,6 +39,7 @@ class PageBody extends StatelessWidget {
               ),
             ),
           ),
+          const Header(),
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
@@ -58,7 +60,18 @@ class PageBody extends StatelessWidget {
                 case ConnectionState.active:
                   log(snapshot.data.toString());
                   if (snapshot.hasData) {
-                    return _pageBody(context);
+                    return LayoutBuilder(builder: (
+                      BuildContext context,
+                      BoxConstraints viewportConstraints,
+                    ) {
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: viewportConstraints.maxHeight,
+                          minWidth: viewportConstraints.maxWidth,
+                        ),
+                        child: child,
+                      );
+                    });
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -67,7 +80,18 @@ class PageBody extends StatelessWidget {
 
                 case ConnectionState.done:
                   if (snapshot.hasData) {
-                    return _pageBody(context);
+                    return LayoutBuilder(builder: (
+                      BuildContext context,
+                      BoxConstraints viewportConstraints,
+                    ) {
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: viewportConstraints.maxHeight,
+                          minWidth: viewportConstraints.maxWidth,
+                        ),
+                        child: child,
+                      );
+                    });
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -82,48 +106,6 @@ class PageBody extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _pageBody(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Colors.white,
-                CustomColours.teal,
-                CustomColours.hotPink,
-              ],
-            ),
-          ),
-        ),
-        const Header(),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          extendBodyBehindAppBar: true,
-          extendBody: true,
-          body: SafeArea(
-            child: LayoutBuilder(builder: (
-              BuildContext context,
-              BoxConstraints viewportConstraints,
-            ) {
-              return ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                  minWidth: viewportConstraints.maxWidth,
-                ),
-                child: IntrinsicHeight(
-                  child: child,
-                ),
-              );
-            }),
-          ),
-        ),
-      ],
     );
   }
 }

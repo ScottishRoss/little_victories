@@ -24,11 +24,14 @@ class ViewVictoriesWidget extends StatefulWidget {
 
 class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final ScrollController _scrollController = ScrollController();
   late Stream<QuerySnapshot<Object?>>? _dataList;
   late User _user;
 
   Victory convertDocumentToVictory(
-      int index, AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+    int index,
+    AsyncSnapshot<QuerySnapshot<Object?>> snapshot,
+  ) {
     final QueryDocumentSnapshot<Object?>? result = snapshot.data?.docs[index];
 
     return Victory.fromDocument(result!);
@@ -57,7 +60,6 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
           );
         } else if (snapshot.data!.docs.isNotEmpty) {
           return Container(
-            padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -70,33 +72,47 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
               ),
             ),
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.55,
-            child: GroupedListView<dynamic, String>(
-              elements: snapshot.data!.docs,
-              groupBy: (dynamic element) {
-                final DateTime createdOn = element['createdOn'].toDate();
-                final String formattedDate =
-                    DateFormat('MMMM yyyy').format(createdOn);
+            height: MediaQuery.of(context).size.height * 0.62,
+            child: Scrollbar(
+              controller: _scrollController,
+              child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
+                elements: snapshot.data!.docs,
+                groupBy: (dynamic element) {
+                  final Timestamp timestamp = element['createdOn'];
+                  final DateTime date = timestamp.toDate();
 
-                return formattedDate;
-              },
-              groupSeparatorBuilder: (String groupByValue) =>
-                  Text(groupByValue),
-              indexedItemBuilder: (
-                BuildContext context,
-                dynamic element,
-                int index,
-              ) {
-                final Victory victory =
-                    convertDocumentToVictory(index, snapshot);
+                  return DateTime(date.year, date.month);
+                },
+                groupSeparatorBuilder: (DateTime groupByValue) => Container(
+                  padding: const EdgeInsets.all(8.0),
+                  width: double.infinity,
+                  color: CustomColours.darkBlue.withOpacity(0.7),
+                  child: Text(
+                    DateFormat('MMMM yyyy').format(groupByValue),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                indexedItemBuilder: (
+                  BuildContext context,
+                  dynamic element,
+                  int index,
+                ) {
+                  final Victory victory =
+                      convertDocumentToVictory(index, snapshot);
 
-                return VictoryCard(
-                  victory: victory,
-                );
-              },
-              useStickyGroupSeparators: true,
-              floatingHeader: true,
-              order: GroupedListOrder.DESC,
+                  return VictoryCard(
+                    victory: victory,
+                  );
+                },
+                useStickyGroupSeparators: true,
+                floatingHeader: true,
+                order: GroupedListOrder.DESC,
+              ),
             ),
           );
         } else {
@@ -123,6 +139,8 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
         CustomButton(
           'Back',
           () => widget.callback(0),
+          marginBottom: 0,
+          marginTop: 0,
         ),
       ],
     );

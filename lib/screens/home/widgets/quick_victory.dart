@@ -13,7 +13,10 @@ import 'package:progress_loading_button/progress_loading_button.dart';
 class QuickVictory extends StatefulWidget {
   const QuickVictory({
     Key? key,
+    required this.formKey,
   }) : super(key: key);
+
+  final GlobalKey<FormState> formKey;
 
   @override
   State<QuickVictory> createState() => _QuickVictoryState();
@@ -22,7 +25,7 @@ class QuickVictory extends StatefulWidget {
 class _QuickVictoryState extends State<QuickVictory> {
   final TextEditingController _quickVictoryTextController =
       TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final ConfettiController _confettiController = ConfettiController(
     duration: const Duration(seconds: 2),
   );
@@ -34,7 +37,7 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Future<void> submitQuickVictory() async {
     log('submitQuickVictory: validating form');
-    if (_formKey.currentState!.validate()) {
+    if (widget.formKey.currentState!.validate()) {
       log('submitQuickVictory: form validated');
       try {
         log('submitQuickVictory: saving victory');
@@ -51,7 +54,7 @@ class _QuickVictoryState extends State<QuickVictory> {
           _confettiController.play();
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
-          _formKey.currentState!.reset();
+          widget.formKey.currentState!.reset();
 
           Future<void>.delayed(const Duration(seconds: 2), () {
             setState(() {
@@ -145,86 +148,84 @@ class _QuickVictoryState extends State<QuickVictory> {
   }
 
   Widget get _quickVictoryTextBox {
-    return IntrinsicHeight(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.only(
-          top: 10.0,
-          bottom: 10.0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: TextFormField(
-            controller: _quickVictoryTextController,
-            focusNode: _focusNode,
-            cursorColor: CustomColours.darkBlue,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            textCapitalization: TextCapitalization.sentences,
-            spellCheckConfiguration: const SpellCheckConfiguration(),
-            autofocus: false,
-            maxLength: 100,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelText: 'Celebrate a Victory',
-              filled: true,
-              fillColor: Colors.white,
-              errorStyle: const TextStyle(
-                fontSize: 14.0,
-                color: Colors.white,
-                letterSpacing: 1.25,
-              ),
-              counterStyle: const TextStyle(
-                fontSize: 12.0,
-                color: Colors.white,
-                letterSpacing: 2.0,
-              ),
-              prefixIcon: const Icon(
-                Icons.edit,
-                color: CustomColours.darkBlue,
-              ),
-              labelStyle: const TextStyle(
-                fontSize: 18.0,
-                color: CustomColours.darkBlue,
-                letterSpacing: 2.0,
-              ),
-              focusColor: CustomColours.darkBlue,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                borderSide: const BorderSide(
-                  color: CustomColours.teal,
-                  width: 2,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                borderSide: const BorderSide(
-                  color: CustomColours.teal,
-                  width: 2,
-                ),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                borderSide: const BorderSide(
-                  color: Colors.redAccent,
-                  width: 2,
-                ),
-              ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.only(
+        top: 10.0,
+        bottom: 10.0,
+      ),
+      child: Form(
+        key: widget.formKey,
+        child: TextFormField(
+          controller: _quickVictoryTextController,
+          focusNode: _focusNode,
+          cursorColor: CustomColours.darkBlue,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.sentences,
+          spellCheckConfiguration: const SpellCheckConfiguration(),
+          autofocus: false,
+          maxLength: 100,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            labelText: 'Celebrate a Victory',
+            filled: true,
+            fillColor: Colors.white,
+            errorStyle: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.white,
+              letterSpacing: 1.25,
             ),
-            onTap: () => _focusNode.requestFocus(),
-            onTapOutside: (PointerDownEvent event) => _focusNode.unfocus(),
-            style: const TextStyle(
-              fontSize: 18,
+            counterStyle: const TextStyle(
+              fontSize: 12.0,
+              color: Colors.white,
+              letterSpacing: 2.0,
+            ),
+            prefixIcon: const Icon(
+              Icons.edit,
               color: CustomColours.darkBlue,
             ),
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter something';
-              }
-              return null;
-            },
+            labelStyle: const TextStyle(
+              fontSize: 18.0,
+              color: CustomColours.darkBlue,
+              letterSpacing: 2.0,
+            ),
+            focusColor: CustomColours.darkBlue,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(kButtonBorderRadius),
+              borderSide: const BorderSide(
+                color: CustomColours.teal,
+                width: 2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(kButtonBorderRadius),
+              borderSide: const BorderSide(
+                color: CustomColours.teal,
+                width: 2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(kButtonBorderRadius),
+              borderSide: const BorderSide(
+                color: Colors.redAccent,
+                width: 2,
+              ),
+            ),
           ),
+          onTap: () => _focusNode.requestFocus(),
+          onTapOutside: (PointerDownEvent event) => _focusNode.unfocus(),
+          style: const TextStyle(
+            fontSize: 18,
+            color: CustomColours.darkBlue,
+          ),
+          validator: (String? value) {
+            if (value!.isEmpty) {
+              return 'Please enter something';
+            }
+            return null;
+          },
         ),
       ),
     );
