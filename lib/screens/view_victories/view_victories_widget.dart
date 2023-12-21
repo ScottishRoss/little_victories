@@ -60,6 +60,7 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
           );
         } else if (snapshot.data!.docs.isNotEmpty) {
           return Container(
+            height: MediaQuery.of(context).size.height * 0.62,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -71,12 +72,11 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
                 ],
               ),
             ),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.62,
             child: Scrollbar(
               controller: _scrollController,
               child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
                 elements: snapshot.data!.docs,
+                controller: _scrollController,
                 groupBy: (dynamic element) {
                   final Timestamp timestamp = element['createdOn'];
                   final DateTime date = timestamp.toDate();
@@ -128,8 +128,9 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       children: <Widget>[
         StreamBuilder<QuerySnapshot<Object?>>(
           stream: _dataList,

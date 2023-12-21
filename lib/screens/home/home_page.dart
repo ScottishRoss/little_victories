@@ -58,6 +58,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return PageBody(
       child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             const HeaderPlaceholder(),

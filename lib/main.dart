@@ -38,7 +38,7 @@ Future<void> main() async {
 
   final Widget app = await routeOnFirstTimeSetup();
 
-  runApp(const MyApp(route: SignInScreen()));
+  runApp(MyApp(route: app));
 
   //FlutterNativeSplash.remove();
 }
