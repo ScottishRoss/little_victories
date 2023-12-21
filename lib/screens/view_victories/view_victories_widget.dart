@@ -59,19 +59,8 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
             child: Text('Error: ${snapshot.error}'),
           );
         } else if (snapshot.data!.docs.isNotEmpty) {
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height * 0.62,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.center,
-                colors: <Color>[
-                  CustomColours.darkBlue,
-                  CustomColours.darkBlue.withOpacity(0.7),
-                  Colors.transparent,
-                ],
-              ),
-            ),
             child: Scrollbar(
               controller: _scrollController,
               child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
@@ -84,12 +73,15 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
                   return DateTime(date.year, date.month);
                 },
                 groupSeparatorBuilder: (DateTime groupByValue) => Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 5.0,
+                  ),
                   width: double.infinity,
-                  color: CustomColours.darkBlue.withOpacity(0.7),
+                  color: CustomColours.darkBlue,
                   child: Text(
                     DateFormat('MMMM yyyy').format(groupByValue),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,

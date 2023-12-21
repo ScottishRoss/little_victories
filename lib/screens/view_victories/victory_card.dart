@@ -15,10 +15,21 @@ class VictoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      color: CustomColours.teal,
+      color: CustomColours.darkBlue.withOpacity(0.7),
       child: ListTile(
-        leading: Icon(getIconData(victory.icon)),
-        title: Text(victory.victory),
+        leading: Icon(
+          getIconData(victory.icon),
+          size: 40,
+          color: Colors.white,
+        ),
+        title: Text(
+          victory.victory,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         subtitle: Text(victory.createdOn),
       ),
     );
