@@ -1,10 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../util/custom_colours.dart';
 
-class CustomToast extends StatefulWidget {
+class CustomToast extends StatelessWidget {
   const CustomToast({
     Key? key,
     required this.message,
@@ -13,38 +12,24 @@ class CustomToast extends StatefulWidget {
   final String message;
 
   @override
-  State<CustomToast> createState() => _CustomToastState();
-}
-
-class _CustomToastState extends State<CustomToast> {
-  late FToast fToast;
-
-  @override
-  void initState() {
-    super.initState();
-    fToast = FToast();
-    fToast.init(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: CustomColours.teal,
+        color: CustomColours.darkBlue,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CircleAvatar(
-            child: Image.asset('assets/lv_logo_transparent_dark_purple.png'),
+            child: Image.asset('assets/lv_logo_transparent.png'),
             backgroundColor: Colors.transparent,
           ),
           AutoSizeText(
-            widget.message,
+            message,
             style: const TextStyle(
-              color: CustomColours.darkBlue,
+              color: CustomColours.teal,
             ),
           ),
         ],

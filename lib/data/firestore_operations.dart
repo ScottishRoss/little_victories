@@ -18,16 +18,21 @@ FToast fToast = FToast();
 /// START: Check if user exists.
 
 Future<bool> doesUserExist(User user) async {
-  final QuerySnapshot<Object?> snapshot = await firestore
-      .collection('users')
-      .where('UserId', isEqualTo: user.uid)
-      .get();
-
-  if (snapshot.docs.isNotEmpty) {
-    return false;
+  bool userExists = false;
+  try {
+    final QuerySnapshot<Object?> snapshot = await firestore
+        .collection('users')
+        .where('UserId', isEqualTo: user.uid)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      userExists = true;
+    } else {
+      userExists = false;
+    }
+  } catch (e) {
+    log('doesUserExist: $e');
   }
-
-  return true;
+  return userExists;
 }
 
 /// END: Check if user exists.
@@ -35,30 +40,75 @@ Future<bool> doesUserExist(User user) async {
 /// START: Delete User
 
 Future<bool> deleteUser(User user) async {
-  final bool topicsDeleted = await deleteTopics(user);
-  final bool victoriesDeleted = await deleteAllVictories(user);
+  // final bool topicsDeleted = await deleteTopics(user);
+  bool userDeleted = false;
+  bool victoriesDeleted = false;
+  bool isSuccessful = false;
+  log('deleteUser: $user starting delete request');
 
-  if (topicsDeleted && victoriesDeleted) {
+  // Delete all Victories from the users collection.
+
+  log('deleteUser: attempting to delete victories...');
+  try {
+    await deleteAllVictories(user);
+    victoriesDeleted = true;
+    log('deleteUser: victories deleted');
+  } catch (e) {
+    log('deleteUser: error deleting victories - $e');
+  }
+
+  // If Victories have been deleted, delete the user.
+
+  if (victoriesDeleted) {
+    log('deleteUser: attempting to delete Victories...');
     try {
       await _usersCollection.doc(user.uid).delete();
+      log('deleteUser: user deleted');
+      userDeleted = true;
+    } catch (e) {
+      log('deleteUser: error deleting user - $e');
+    }
 
+    // If the user has been deleted, delete the user from Secure Storage.
+
+    if (victoriesDeleted && userDeleted) {
+      log('deleteUser: attempting to delete user from Secure Storage...');
+      try {
+        await _secureStorage.deleteFromKey('user');
+        log('deleteUser: user deleted from Secure Storage');
+
+        fToast.showToast(
+          child: const CustomToast(message: 'Account deleted.'),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
+      } catch (e) {
+        log('deleteUser: error deleting user from Secure Storage - $e');
+      }
+    }
+
+    // Victories and User have to be deleted to be considered successful.
+
+    if (victoriesDeleted && userDeleted) {
+      isSuccessful = true;
       fToast.showToast(
-        child: const CustomToast(message: 'Victory deleted.'),
+        child: const CustomToast(message: 'Account deleted.'),
         gravity: ToastGravity.BOTTOM,
         toastDuration: const Duration(seconds: 2),
       );
-    } catch (e) {
+    } else {
       fToast.showToast(
         child: const CustomToast(
-            message:
-                'Something went wrong deleting your account. Try again later.'),
+          message:
+              'Something went wrong deleting your account. Try again later.',
+        ),
         gravity: ToastGravity.BOTTOM,
         toastDuration: const Duration(seconds: 2),
       );
     }
   }
-  _secureStorage.deleteAll();
-  return true;
+
+  return isSuccessful;
 }
 
 ///
@@ -67,30 +117,37 @@ Future<bool> deleteUser(User user) async {
 
 Future<bool> createUser(User user) async {
   final DateTime currentDateTime = DateTime.now();
-  final String? token = await FirebaseMessaging.instance.getToken();
+  bool isSuccessful = false;
 
-  _usersCollection.doc(user.uid).set(<String, dynamic>{
-    'UserId': user.uid,
-    'Email': user.email,
-    'FCM-Token': token,
-    'CreatedOn': currentDateTime
-  });
+  try {
+    final String? token = await FirebaseMessaging.instance.getToken();
 
-  _usersCollection
-      .doc(user.uid)
-      .collection('notifications')
-      .doc('topics')
-      .set(<String, dynamic>{
-    'encouragement': true,
-    'news': true,
-    'reminder': true
-  }).then((_) {
-    FirebaseAnalyticsService().logEvent('g_sign_up', <String, Object>{
-      'method': 'google',
+    _usersCollection.doc(user.uid).set(<String, dynamic>{
+      'UserId': user.uid,
+      'Email': user.email,
+      'FCM-Token': token,
+      'CreatedOn': currentDateTime
     });
-    return true;
-  });
-  return false;
+
+    _usersCollection
+        .doc(user.uid)
+        .collection('notifications')
+        .doc('topics')
+        .set(<String, dynamic>{
+      'encouragement': true,
+      'news': true,
+      'reminder': true
+    }).then((_) {
+      FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
+        'method': 'email',
+      });
+      isSuccessful = true;
+    });
+  } catch (e) {
+    log('Error: $e');
+    isSuccessful = false;
+  }
+  return isSuccessful;
 }
 
 /// END: Create User
@@ -103,8 +160,6 @@ Stream<QuerySnapshot<Object?>> getVictoriesStream(String userId) {
       .orderBy('createdOn', descending: true)
       .snapshots();
 }
-
-///
 
 /// START: Add Little Victory
 Future<bool> saveLittleVictory(
@@ -137,8 +192,14 @@ Future<bool> saveLittleVictory(
     isSuccessful = true;
     log('saveLittleVictory: Success!');
   } catch (e) {
-    log('Error: $e');
-    isSuccessful = false;
+    log('saveLittleVictory: $e');
+    fToast.showToast(
+      child: const CustomToast(
+          message:
+              'Something went wrong saving your Victory. Try again later.'),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
+    );
   }
   return isSuccessful;
 }
@@ -149,65 +210,82 @@ Future<bool> saveLittleVictoryFromNotification(
   String victory,
 ) async {
   final DateTime currentDateTime = DateTime.now();
-
-  _usersCollection
-      .doc(user.uid)
-      .collection('victories')
-      .doc(currentDateTime.toString())
-      .set(<String, dynamic>{
-    'victory': victory,
-    'createdOn': currentDateTime,
-    'icon': 'notification',
-  }).then((_) {
-    FirebaseAnalyticsService()
-        .logEvent('submit_victory_from_notification', <String, Object>{
-      'submit': 'true',
+  bool isSuccessful = false;
+  try {
+    _usersCollection
+        .doc(user.uid)
+        .collection('victories')
+        .doc(currentDateTime.toString())
+        .set(<String, dynamic>{
+      'victory': victory,
+      'createdOn': currentDateTime,
+      'icon': 'notification',
+    }).then((_) {
+      FirebaseAnalyticsService()
+          .logEvent('submit_victory_from_notification', <String, Object>{
+        'submit': 'true',
+      });
+      isSuccessful = true;
     });
-    return true;
-  });
-  return false;
+  } catch (e) {
+    log('saveLittleVictoryFromNotification: $e');
+  }
+  return isSuccessful;
 }
 
 /// START: Delete Little Victory
 
 Future<bool> deleteLittleVictory(String docId) async {
   final User user = FirebaseAuth.instance.currentUser!;
-  await _usersCollection
-      .doc(user.uid)
-      .collection('victories')
-      .doc(docId)
-      .delete()
-      .then((_) {
-    fToast.showToast(
-      child: const CustomToast(message: 'Victory deleted.'),
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: const Duration(seconds: 2),
-    );
-
-    return true;
-  });
-  return false;
-}
-
-Future<bool> deleteTopics(User user) async {
-  final DocumentReference<Map<String, dynamic>> _topicsDoc =
-      _usersCollection.doc(user.uid).collection('notifications').doc('topics');
-
+  bool isSuccessful = false;
   try {
-    await _topicsDoc.delete();
+    await _usersCollection
+        .doc(user.uid)
+        .collection('victories')
+        .doc(docId)
+        .delete()
+        .then((_) {
+      fToast.showToast(
+        child: const CustomToast(message: 'Victory deleted.'),
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: const Duration(seconds: 2),
+      );
+
+      isSuccessful = true;
+    });
   } catch (e) {
+    log('deleteLittleVictory: $e');
     fToast.showToast(
-      child: const CustomToast(message: 'Something went wrong.'),
+      child: const CustomToast(
+          message:
+              'Something went wrong deleting your Victory. Try again later.'),
       gravity: ToastGravity.BOTTOM,
       toastDuration: const Duration(seconds: 2),
     );
   }
-  return true;
+  return isSuccessful;
 }
+
+// Future<bool> deleteTopics(User user) async {
+//   final DocumentReference<Map<String, dynamic>> _topicsDoc =
+//       _usersCollection.doc(user.uid).collection('notifications').doc('topics');
+
+//   try {
+//     await _topicsDoc.delete();
+//   } catch (e) {
+//     fToast.showToast(
+//       child: const CustomToast(message: 'Something went wrong.'),
+//       gravity: ToastGravity.BOTTOM,
+//       toastDuration: const Duration(seconds: 2),
+//     );
+//   }
+//   return true;
+// }
 
 Future<bool> deleteAllVictories(User user) async {
   final CollectionReference<Map<String, dynamic>> _victoriesCollection =
       _usersCollection.doc(user.uid).collection('victories');
+  bool isSuccessful = false;
 
   try {
     _victoriesCollection
@@ -219,14 +297,16 @@ Future<bool> deleteAllVictories(User user) async {
         _victoriesCollection.doc(id).delete();
       }
     });
+    isSuccessful = true;
   } catch (e) {
+    log('deleteAllVictories: $e');
     fToast.showToast(
       child: const CustomToast(message: 'Something went wrong.'),
       gravity: ToastGravity.BOTTOM,
       toastDuration: const Duration(seconds: 2),
     );
   }
-  return true;
+  return isSuccessful;
 }
 
 

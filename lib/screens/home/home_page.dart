@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/main.dart';
 import 'package:little_victories/screens/home/home_widget.dart';
 import 'package:little_victories/screens/view_victories/view_victories_widget.dart';
 import 'package:little_victories/util/notifications_service.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 import 'package:little_victories/widgets/common/header_placeholder.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 
@@ -17,6 +20,22 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   // ignore: unused_field
   final NotificationsService _notificationsService = NotificationsService();
+
+  late FToast fToast;
+
+  // ignore: unused_element
+  void _showToast(String message) {
+    fToast.showToast(
+      child: CustomToast(message: message),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: const Duration(seconds: 2),
+    );
+  }
+
+  // ignore: unused_element
+  void _removeToast() {
+    fToast.removeCustomToast();
+  }
 
   void _updatePageIndex(int pageIndex) {
     setState(() => _pageIndex = pageIndex);
@@ -51,6 +70,8 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageIndex = 0;
+    fToast = FToast();
+    fToast.init(navigatorKey.currentContext!);
     log('Page Index = $_pageIndex');
   }
 

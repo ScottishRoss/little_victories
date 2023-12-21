@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:little_victories/screens/home/home_page.dart';
 //import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -26,6 +27,8 @@ Future<Widget> routeOnFirstTimeSetup() async {
     return IntroScreen();
   }
 }
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,24 +54,15 @@ class MyApp extends StatelessWidget {
 
   final Widget route;
 
-  // ignore: avoid_field_initializers_in_const_classes
-  final SnackBar snackbar = const SnackBar(
-    backgroundColor: CustomColours.lightPurple,
-    content: Text(
-      'Tap back again to leave',
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: FToastBuilder(),
       title: 'Little Victories',
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        hintColor: CustomColours.newDarkPurple, // Character Counter Colour
+        hintColor: CustomColours.darkBlue, // Character Counter Colour
         colorScheme: const ColorScheme.dark(
           primary: CustomColours.teal,
           secondary: CustomColours.darkBlue,
@@ -76,23 +70,6 @@ class MyApp extends StatelessWidget {
         ),
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
-        highlightColor: CustomColours.lightPurple,
-        timePickerTheme: TimePickerThemeData(
-          backgroundColor: CustomColours.teal,
-          hourMinuteTextColor: CustomColours.darkPurple,
-          entryModeIconColor: CustomColours.darkPurple,
-          dayPeriodTextColor: CustomColours.darkPurple,
-          dayPeriodBorderSide: const BorderSide(
-            color: CustomColours.darkPurple,
-          ),
-          dialHandColor: CustomColours.darkPurple,
-          dialTextColor: CustomColours.darkPurple,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          hourMinuteShape: const CircleBorder(),
-          helpTextStyle: const TextStyle(color: CustomColours.darkPurple),
-        ),
       ),
       home: route,
       onGenerateRoute: (RouteSettings settings) {
