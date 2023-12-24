@@ -3,6 +3,7 @@
     package="rphenderson.dev.littlevictories">
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="Little Victories"
         android:name="${applicationName}"

@@ -15,33 +15,53 @@ class VictoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress: () => showDialog(
+      onTap: () => showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            backgroundColor: CustomColours.teal,
             title: const Text(
               'Delete Victory',
               style: TextStyle(
-                color: CustomColours.teal,
+                color: CustomColours.darkBlue,
+                letterSpacing: 1.5,
               ),
             ),
             content: const Text(
               'Are you sure you want to delete this victory?',
               style: TextStyle(
-                color: CustomColours.teal,
+                color: CustomColours.darkBlue,
+                fontSize: 18,
               ),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: CustomColours.darkBlue,
+                    fontSize: 16,
+                  ),
+                ),
               ),
-              TextButton(
+              OutlinedButton(
                 onPressed: () async {
                   await deleteLittleVictory(victory.docId);
                   Navigator.pop(context);
                 },
-                child: const Text('Delete'),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(
+                    color: CustomColours.darkBlue,
+                  ),
+                ),
+                child: const Text(
+                  'Yes, delete',
+                  style: TextStyle(
+                    color: CustomColours.darkBlue,
+                    fontSize: 18,
+                  ),
+                ),
               ),
             ],
           );

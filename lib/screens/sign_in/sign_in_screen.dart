@@ -1,13 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/constants.dart';
-import '../../util/authentication.dart';
-import '../../util/custom_colours.dart';
-import '../../util/utils.dart';
-import '../../widgets/common/buttons.dart';
-import '../../widgets/common/lv_logo.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:little_victories/screens/sign_in/widgets/sign_in_background.dart';
+import 'package:little_victories/screens/sign_in/widgets/sign_in_widget.dart';
+import 'package:little_victories/widgets/common/no_internet_connection.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -17,6 +15,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  InternetStatus? _connectionStatus;
+  late StreamSubscription<InternetStatus> _subscription;
+
   void isUserSignedIn() {
     final User? _user = FirebaseAuth.instance.currentUser;
     if (_user != null) {
@@ -27,93 +28,33 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+    _subscription =
+        InternetConnection().onStatusChange.listen((InternetStatus status) {
+      setState(() {
+        _connectionStatus = status;
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isUserSignedIn();
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  CustomColours.darkBlue,
-                  CustomColours.darkBlue,
-                  CustomColours.teal,
-                ],
-              ),
-            ),
-          ),
-
-          /// Sign in with Google
-          FutureBuilder<FirebaseApp>(
-            future: Authentication.initializeFirebase(context: context),
-            builder:
-                (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-              if (snapshot.hasError) {
-                return const Text(
-                  'Error signing in, please try again later.',
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                return Container(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            // Little Victories Logo
-                            const LVLogo(),
-                            _tagline,
-                            const GoogleSignInButton(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-
-              return buildCircleProgressIndicator(
-                color: CustomColours.teal,
-              );
-            },
-          ),
-        ],
-      ),
-    );
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
-  Widget get _tagline {
-    return Column(
-      children: <Widget>[
-        AutoSizeText(
-          'Celebrate your',
-          style: kTitleText.copyWith(
-            fontSize: 22,
-          ),
-        ),
-        AutoSizeText(
-          'Little Victories',
-          style: kTitleText.copyWith(
-            fontSize: 46,
-            letterSpacing: 2.0,
-          ),
-        ),
-      ],
-    );
+  @override
+  Widget build(BuildContext context) {
+    switch (_connectionStatus) {
+      case InternetStatus.connected:
+        return const SignInBackground(child: SignInWidget());
+      case InternetStatus.disconnected:
+        return const SignInBackground(child: NoInternetConnection());
+
+      case null:
+        return const SignInBackground(child: NoInternetConnection());
+    }
   }
 }
