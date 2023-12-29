@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/main.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_widget.dart';
+import 'package:little_victories/screens/preferences/preferences_widget.dart';
 import 'package:little_victories/screens/view_victories/view_victories_widget.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
@@ -49,8 +50,8 @@ class HomePageState extends State<HomePage> {
         log('Page: Home');
         return HomeWidget(callback: _updatePageIndex);
       case 1:
-        log('Page: TBC');
-        return const Placeholder();
+        log('Page: Preferences');
+        return const PreferencesWidget();
       case 2:
         log('Page: View Victories');
         return ViewVictoriesWidget(callback: _updatePageIndex);

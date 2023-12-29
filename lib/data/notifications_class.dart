@@ -1,8 +1,13 @@
-class Preferences {
-  Preferences({
+class Notifications {
+  Notifications({
     required this.isNotificationsEnabled,
     this.notificationTime,
   });
+
+  Notifications.fromMap(Map<String, dynamic> map) {
+    isNotificationsEnabled = map['isNotificationsEnabled'] as bool;
+    notificationTime = map['notificationTime'] as String;
+  }
 
   late final bool isNotificationsEnabled;
   late final String? notificationTime;

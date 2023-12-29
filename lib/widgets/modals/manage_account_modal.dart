@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/firestore_operations.dart';
@@ -9,23 +8,18 @@ import '../../util/utils.dart';
 class ManageAccountModal extends StatefulWidget {
   const ManageAccountModal({
     Key? key,
-    required this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   _ManageAccountModalState createState() => _ManageAccountModalState();
 }
 
 class _ManageAccountModalState extends State<ManageAccountModal> {
-  late User _user;
   bool _isSuccess = false;
 
   @override
   void initState() {
     super.initState();
-    _user = widget.user;
 
     fToast.init(context);
   }
@@ -116,7 +110,7 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                             setState(() {
                               _isSuccess = true;
                             });
-                            await deleteUser(_user);
+                            await deleteUser();
 
                             Navigator.pushNamedAndRemoveUntil(
                               context,

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/firestore_operations.dart';
@@ -9,13 +8,11 @@ import '../../util/utils.dart';
 class CustomModal extends StatefulWidget {
   const CustomModal({
     Key? key,
-    required this.user,
     required this.title,
     required this.desc,
     required this.button,
   }) : super(key: key);
 
-  final User user;
   final String title, desc;
   final Widget button;
 

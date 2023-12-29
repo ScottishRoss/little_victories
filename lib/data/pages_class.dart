@@ -1,5 +1,9 @@
 class Pages {
-  Pages({required this.index, required this.name, required this.route});
+  Pages({
+    required this.index,
+    required this.name,
+    required this.route,
+  });
   int index;
   String name;
   String route;

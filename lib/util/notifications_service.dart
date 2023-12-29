@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/notifications_class.dart';
+
 import 'constants.dart';
 import 'custom_colours.dart';
 import 'secure_storage.dart';
@@ -77,13 +79,24 @@ class NotificationsService {
     );
   }
 
+  Notifications setNotification(
+    bool isNotificationActive,
+    String notificationTime,
+  ) {
+    return Notifications.fromMap(<String, dynamic>{
+      'isNotificationActive': isNotificationActive,
+      'notificationTime': notificationTime,
+    });
+  }
+
   Future<void> startReminders() async {
-    final String? storedTime =
-        await _secureStorage.getFromKey(kNotificationTime);
+    final String storedTime =
+        await _secureStorage.getFromKey(kNotificationTime) ??
+            kDefaultNotificationTime;
     log('Stored Time: $storedTime');
 
     //? Split the 24 hour time into hours and minutes as a list.
-    final List<String> parts = storedTime!.split(':');
+    final List<String> parts = storedTime.split(':');
 
     _notifications.createNotification(
       content: _notificationContentReminders,

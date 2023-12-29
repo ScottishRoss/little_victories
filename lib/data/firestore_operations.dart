@@ -39,7 +39,8 @@ Future<bool> doesUserExist(User user) async {
 
 /// START: Delete User
 
-Future<bool> deleteUser(User user) async {
+Future<bool> deleteUser() async {
+  final User user = FirebaseAuth.instance.currentUser!;
   // final bool topicsDeleted = await deleteTopics(user);
   bool userDeleted = false;
   bool victoriesDeleted = false;

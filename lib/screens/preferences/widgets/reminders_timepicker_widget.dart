@@ -1,15 +1,19 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../util/constants.dart';
-import '../../util/custom_colours.dart';
-import '../../util/notifications_service.dart';
-import '../../util/secure_storage.dart';
+import 'package:little_victories/data/notifications_class.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/notifications_service.dart';
+import 'package:little_victories/util/secure_storage.dart';
 
 class ReminderTimepickerWidget extends StatefulWidget {
   const ReminderTimepickerWidget({
     Key? key,
+    required this.notificationsData,
   }) : super(key: key);
+
+  final Notifications notificationsData;
 
   @override
   _ReminderTimepickerWidgetState createState() =>
@@ -17,7 +21,7 @@ class ReminderTimepickerWidget extends StatefulWidget {
 }
 
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
-  String selectedTime = 'ERROR';
+  String selectedTime = kDefaultNotificationTime;
   late bool isReminderTimeUpdated = false;
   final SecureStorage _secureStorage = SecureStorage();
   final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
@@ -43,15 +47,16 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   }
 
   Future<void> getReminderTime() async {
-    final String? time = await _secureStorage.getFromKey(kNotificationTime);
+    final String time = await _secureStorage.getFromKey(kNotificationTime) ??
+        kDefaultNotificationTime;
     final TimeOfDay convertedTime = TimeOfDay(
-        hour: int.parse(time!.split(':')[0]),
+        hour: int.parse(time.split(':')[0]),
         minute: int.parse(time.split(':')[1]));
     //final DateFormat format = DateFormat.jm();
     setState(() {
       selectedTime = convertedTime.format(context);
     });
-    }
+  }
 
   Future<void> displayTimeDialog() async {
     final TimeOfDay? time = await showTimePicker(
@@ -89,23 +94,29 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        const Text(
-          'Reminder Time: ',
-        ),
         Row(
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 selectedTime,
-                style: kSubtitleStyle,
+                style: kSubtitleStyle.copyWith(
+                  fontSize: 22,
+                  color: Colors.white,
+                ),
               ),
             ),
             ElevatedButton(
               onPressed: () => displayTimeDialog(),
-              child: const Text('Change time'),
+              child: const Text(
+                'Change time',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: CustomColours.darkBlue,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColours.darkPurple,
+                backgroundColor: CustomColours.teal,
               ),
             ),
           ],
