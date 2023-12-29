@@ -9,8 +9,7 @@ import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/victory_class.dart';
 import 'package:little_victories/screens/view_victories/victory_card.dart';
 import 'package:little_victories/util/custom_colours.dart';
-
-import '../../widgets/common/custom_button.dart';
+import 'package:little_victories/widgets/common/custom_back_button.dart';
 
 class ViewVictoriesWidget extends StatefulWidget {
   const ViewVictoriesWidget({
@@ -148,11 +147,8 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
             builder: _buildVictoryList,
           ),
           const SizedBox(height: 5.0),
-          CustomButton(
-            'Back',
-            () => widget.callback(0),
-            marginBottom: 0,
-            marginTop: 0,
+          CustomBackButton(
+            callback: widget.callback,
           ),
         ],
       ),

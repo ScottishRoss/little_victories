@@ -42,7 +42,7 @@ class SecureStorage {
       final String? value = await storage.read(key: key, iOptions: options);
       return value;
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     return null;
   }

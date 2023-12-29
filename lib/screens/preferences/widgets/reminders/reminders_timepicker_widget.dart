@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ class ReminderTimepickerWidget extends StatefulWidget {
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   String selectedTime = kDefaultNotificationTime;
 
-  Time? selectedTimeOfDay;
+  Time selectedTimeOfDay = Time(hour: 18, minute: 30);
   late bool isReminderTimeUpdated = false;
   final SecureStorage _secureStorage = SecureStorage();
   final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
@@ -45,64 +47,54 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     final DateTime now = DateTime.now();
     final DateTime dt =
         DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-    final DateFormat format = DateFormat.jm();
-    return format.format(dt);
+    return DateFormat('HH:mm').format(dt);
   }
 
-  void onTimeChanged(TimeOfDay newTime) {
+  Future<bool> setReminderTime(TimeOfDay newTime) async {
+    final String formattedTime = formatTimeOfDay(newTime);
+    final Time newParseTime = Time.fromTimeOfDay(
+      newTime,
+      0,
+    );
+    log('newParseTime: $newParseTime');
     setState(() {
-      selectedTimeOfDay = Time.fromTimeOfDay(newTime, 0);
-      selectedTime = formatTimeOfDay(newTime);
+      selectedTimeOfDay = newParseTime;
+      selectedTime = formattedTime;
     });
-  }
+    try {
+      final List<NotificationModel> _notificationsList =
+          await _awesomeNotifications.listScheduledNotifications();
 
-  Future<bool> setReminderTime(String time) async {
-    final List<NotificationModel> _notificationsList =
-        await _awesomeNotifications.listScheduledNotifications();
+      if (_notificationsList.isNotEmpty) {
+        _notificationsService.cancelScheduledNotifications();
+      }
 
-    if (_notificationsList.isNotEmpty) {
-      _notificationsService.cancelScheduledNotifications();
+      _secureStorage.insert(kNotificationTime, formattedTime);
+      _notificationsService.startReminders();
+    } catch (e) {
+      print(e);
     }
-
-    return _secureStorage.insert(kNotificationTime, time.toString());
+    return true;
   }
 
   Future<void> getReminderTime() async {
-    final String time = await _secureStorage.getFromKey(kNotificationTime) ??
+    final String string = await _secureStorage.getFromKey(kNotificationTime) ??
         kDefaultNotificationTime;
-    final TimeOfDay tod =
-        await _notificationsService.convertStringToTimeOfDay(time);
 
-    final Time timeOfDay = Time(hour: tod.hour, minute: tod.minute);
+    log('getReminderTime: $string');
+
+    final int hour = int.parse(string.split(':')[0]);
+    final int minute = int.parse(string.split(':')[1]);
+
+    final Time timeOfDay = Time(
+      hour: hour,
+      minute: minute,
+    );
 
     setState(() {
+      selectedTime = string;
       selectedTimeOfDay = timeOfDay;
     });
-  }
-
-  Future<void> displayTimeDialog() async {
-    final TimeOfDay? time = await showTimePicker(
-      context: context,
-      helpText: 'Select a time',
-      initialTime: TimeOfDay.now(),
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child ?? Container(),
-        );
-      },
-    );
-    if (time != null) {
-      final DateTime now = DateTime.now();
-      final DateTime reminderStartDate =
-          DateTime(now.year, now.month, now.day, time.hour, time.minute);
-
-      await _secureStorage.deleteFromKey(kNotificationTime);
-      await _secureStorage.insert(
-          kNotificationTime, reminderStartDate.toString());
-      _notificationsService.startReminders();
-    }
-    Navigator.pushNamed(context, '/preferences');
   }
 
   @override
@@ -131,12 +123,12 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
                 themeData: isDayTime(TimeOfDay.now())
                     ? kTimePickerLightTheme
                     : kTimePickerDarkTheme,
-                value: selectedTimeOfDay!,
+                value: selectedTimeOfDay,
                 barrierColor: CustomColours.darkBlue.withOpacity(0.5),
                 sunrise: _sunrise,
                 sunset: _sunset,
                 duskSpanInMinutes: 120,
-                onChange: onTimeChanged,
+                onChange: setReminderTime,
               ),
             );
           },

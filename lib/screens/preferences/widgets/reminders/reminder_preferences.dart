@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
@@ -16,10 +18,15 @@ class ReminderPreferences extends StatelessWidget {
     final bool _notificationsValueBool =
         _notificationsSwitchValue == 'true' || false;
 
-    return Notifications(
+    log('isNotificationsOn: $_notificationsValueBool');
+    log('notificationTime: $_notificationTime');
+
+    final Notifications _notificationsData = Notifications(
       isNotificationsEnabled: _notificationsValueBool,
-      notificationTime: _notificationTime,
+      notificationTime: _notificationTime ?? '12:00',
     );
+
+    return _notificationsData;
   }
 
   @override

@@ -58,16 +58,6 @@ class NotificationsService {
     );
   }
 
-  Future<TimeOfDay> convertStringToTimeOfDay(String string) async {
-    final DateTime dateTime = DateTime.parse(string);
-    final TimeOfDay convertedTime = TimeOfDay(
-      hour: dateTime.hour,
-      minute: dateTime.minute,
-    );
-
-    return convertedTime;
-  }
-
   Future<void> showNotificationsConsentIfNeeded() async {
     final bool _isNotificationsEnabled =
         await _notifications.isNotificationAllowed();
@@ -99,36 +89,42 @@ class NotificationsService {
     });
   }
 
-  Future<void> startReminders() async {
-    final String storedTime =
-        await _secureStorage.getFromKey(kNotificationTime) ??
-            kDefaultNotificationTime;
-    log('Stored Time: $storedTime');
+  Future<bool> startReminders() async {
+    try {
+      final String storedTime =
+          await _secureStorage.getFromKey(kNotificationTime) ??
+              kDefaultNotificationTime;
+      log('Stored Time: $storedTime');
 
-    final TimeOfDay tod = await convertStringToTimeOfDay(storedTime);
+      final TimeOfDay timeOfDay = TimeOfDay(
+        hour: int.parse(storedTime.split(':')[0]),
+        minute: int.parse(storedTime.split(':')[1]),
+      );
 
-    log('Time of day: $tod');
-
-    _notifications.createNotification(
-      content: _notificationContentReminders,
-      actionButtons: <NotificationActionButton>[
-        NotificationActionButton(
-          key: 'create_victory',
-          label: 'Celebrate',
-          autoDismissible: true,
-          requireInputText: true,
+      _notifications.createNotification(
+        content: _notificationContentReminders,
+        actionButtons: <NotificationActionButton>[
+          NotificationActionButton(
+            key: 'create_victory',
+            label: 'Celebrate',
+            autoDismissible: true,
+            requireInputText: true,
+          ),
+        ],
+        schedule: NotificationCalendar(
+          hour: timeOfDay.hour,
+          minute: timeOfDay.minute,
+          second: 0,
+          allowWhileIdle: true,
+          repeats: true,
+          timeZone: AwesomeNotifications.localTimeZoneIdentifier,
         ),
-      ],
-      schedule: NotificationCalendar(
-        hour: tod.hour,
-        minute: tod.minute,
-        second: 0,
-        allowWhileIdle: true,
-        repeats: true,
-        timeZone: AwesomeNotifications.localTimeZoneIdentifier,
-      ),
-    );
-    print('Notification started');
+      );
+      return true;
+    } catch (e) {
+      log('startReminders error: $e');
+      return false;
+    }
   }
 
   void fireNotification() {

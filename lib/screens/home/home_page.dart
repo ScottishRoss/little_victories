@@ -51,7 +51,7 @@ class HomePageState extends State<HomePage> {
         return HomeWidget(callback: _updatePageIndex);
       case 1:
         log('Page: Preferences');
-        return const PreferencesWidget();
+        return PreferencesWidget(callback: _updatePageIndex);
       case 2:
         log('Page: View Victories');
         return ViewVictoriesWidget(callback: _updatePageIndex);
