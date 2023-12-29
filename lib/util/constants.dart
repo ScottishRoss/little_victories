@@ -25,6 +25,24 @@ const TextStyle kSubtitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+ThemeData kTimePickerDarkTheme = ThemeData.dark().copyWith(
+  colorScheme: const ColorScheme.dark(
+    primary: CustomColours.darkBlue,
+    onPrimary: Colors.white,
+    secondary: Colors.white,
+    surface: CustomColours.darkBlue,
+    onSurface: Colors.white,
+  ),
+  dialogBackgroundColor: CustomColours.darkBlue,
+);
+
+ThemeData kTimePickerLightTheme = ThemeData.light().copyWith(
+  colorScheme: const ColorScheme.light(
+    secondary: CustomColours.darkBlue,
+    primary: CustomColours.darkBlue,
+  ),
+);
+
 const double kButtonBorderRadius = 20;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;

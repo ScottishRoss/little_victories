@@ -58,6 +58,16 @@ class NotificationsService {
     );
   }
 
+  Future<TimeOfDay> convertStringToTimeOfDay(String string) async {
+    final DateTime dateTime = DateTime.parse(string);
+    final TimeOfDay convertedTime = TimeOfDay(
+      hour: dateTime.hour,
+      minute: dateTime.minute,
+    );
+
+    return convertedTime;
+  }
+
   Future<void> showNotificationsConsentIfNeeded() async {
     final bool _isNotificationsEnabled =
         await _notifications.isNotificationAllowed();
@@ -95,8 +105,9 @@ class NotificationsService {
             kDefaultNotificationTime;
     log('Stored Time: $storedTime');
 
-    //? Split the 24 hour time into hours and minutes as a list.
-    final List<String> parts = storedTime.split(':');
+    final TimeOfDay tod = await convertStringToTimeOfDay(storedTime);
+
+    log('Time of day: $tod');
 
     _notifications.createNotification(
       content: _notificationContentReminders,
@@ -109,8 +120,8 @@ class NotificationsService {
         ),
       ],
       schedule: NotificationCalendar(
-        hour: int.parse(parts[0]),
-        minute: int.parse(parts[1]),
+        hour: tod.hour,
+        minute: tod.minute,
         second: 0,
         allowWhileIdle: true,
         repeats: true,

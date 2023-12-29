@@ -98,6 +98,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+		<false/>
 </dict>
 </plist>

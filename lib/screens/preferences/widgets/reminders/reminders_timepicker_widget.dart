@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/data/notifications_class.dart';
@@ -22,10 +23,23 @@ class ReminderTimepickerWidget extends StatefulWidget {
 
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   String selectedTime = kDefaultNotificationTime;
+
+  Time? selectedTimeOfDay;
   late bool isReminderTimeUpdated = false;
   final SecureStorage _secureStorage = SecureStorage();
   final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
   final NotificationsService _notificationsService = NotificationsService();
+
+  final TimeOfDay _sunrise = const TimeOfDay(hour: 6, minute: 0);
+  final TimeOfDay _sunset = const TimeOfDay(hour: 18, minute: 0);
+
+  bool isDayTime(TimeOfDay now) {
+    final int currentHour = now.hour;
+    final int sunriseHour = _sunrise.hour;
+    final int sunsetHour = _sunset.hour;
+
+    return currentHour >= sunriseHour && currentHour < sunsetHour;
+  }
 
   String formatTimeOfDay(TimeOfDay tod) {
     final DateTime now = DateTime.now();
@@ -33,6 +47,13 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
         DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
     final DateFormat format = DateFormat.jm();
     return format.format(dt);
+  }
+
+  void onTimeChanged(TimeOfDay newTime) {
+    setState(() {
+      selectedTimeOfDay = Time.fromTimeOfDay(newTime, 0);
+      selectedTime = formatTimeOfDay(newTime);
+    });
   }
 
   Future<bool> setReminderTime(String time) async {
@@ -49,12 +70,13 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   Future<void> getReminderTime() async {
     final String time = await _secureStorage.getFromKey(kNotificationTime) ??
         kDefaultNotificationTime;
-    final TimeOfDay convertedTime = TimeOfDay(
-        hour: int.parse(time.split(':')[0]),
-        minute: int.parse(time.split(':')[1]));
-    //final DateFormat format = DateFormat.jm();
+    final TimeOfDay tod =
+        await _notificationsService.convertStringToTimeOfDay(time);
+
+    final Time timeOfDay = Time(hour: tod.hour, minute: tod.minute);
+
     setState(() {
-      selectedTime = convertedTime.format(context);
+      selectedTimeOfDay = timeOfDay;
     });
   }
 
@@ -91,36 +113,44 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return widget.notificationsData.isNotificationsEnabled
+        ? _buildReminderTimeRow
+        : const SizedBox();
+  }
+
+  Widget get _buildReminderTimeRow {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                selectedTime,
-                style: kSubtitleStyle.copyWith(
-                  fontSize: 22,
-                  color: Colors.white,
-                ),
+        const Text('Reminder time'),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              showPicker(
+                context: context,
+                themeData: isDayTime(TimeOfDay.now())
+                    ? kTimePickerLightTheme
+                    : kTimePickerDarkTheme,
+                value: selectedTimeOfDay!,
+                barrierColor: CustomColours.darkBlue.withOpacity(0.5),
+                sunrise: _sunrise,
+                sunset: _sunset,
+                duskSpanInMinutes: 120,
+                onChange: onTimeChanged,
               ),
+            );
+          },
+          child: Text(
+            selectedTime,
+            style: const TextStyle(
+              fontSize: 16,
+              color: CustomColours.darkBlue,
             ),
-            ElevatedButton(
-              onPressed: () => displayTimeDialog(),
-              child: const Text(
-                'Change time',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: CustomColours.darkBlue,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColours.teal,
-              ),
-            ),
-          ],
-        )
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: CustomColours.teal,
+          ),
+        ),
       ],
     );
   }

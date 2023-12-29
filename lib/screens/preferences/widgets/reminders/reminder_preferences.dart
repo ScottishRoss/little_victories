@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/notifications_class.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders_switch_widget.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders_timepicker_widget.dart';
+import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
+import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/secure_storage.dart';
 
@@ -25,24 +25,10 @@ class ReminderPreferences extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
-      ),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            'Reminders',
-            style: kTitleText.copyWith(
-              fontSize: 24.0,
-            ),
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
           FutureBuilder<Notifications>(
             future: isNotificationsOn(),
             builder:
@@ -53,20 +39,22 @@ class ReminderPreferences extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 case ConnectionState.done:
-                  return _buildNotificationsRow(snapshot);
+                  return _buildNotificationsList(snapshot);
                 case ConnectionState.none:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 case ConnectionState.active:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return _buildNotificationsList(snapshot);
+
                 default:
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return const Center(
+                      child:
+                          Text('Something went wrong, please try again later.'),
+                    );
                   } else {
-                    return _buildNotificationsRow(snapshot);
+                    return _buildNotificationsList(snapshot);
                   }
               }
             },
@@ -76,9 +64,8 @@ class ReminderPreferences extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationsRow(dynamic snapshot) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildNotificationsList(dynamic snapshot) {
+    return Column(
       children: <Widget>[
         RemindersSwitchWidget(
           notificationsData: snapshot.data!,
