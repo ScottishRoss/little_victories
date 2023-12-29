@@ -66,47 +66,64 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
             height: MediaQuery.of(context).size.height * 0.62,
             child: Scrollbar(
               controller: _scrollController,
-              child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
-                elements: snapshot.data!.docs,
-                controller: _scrollController,
-                groupBy: (dynamic element) {
-                  final Timestamp timestamp = element['createdOn'];
-                  final DateTime date = timestamp.toDate();
-
-                  return DateTime(date.year, date.month);
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[
+                      Colors.white,
+                      Colors.transparent,
+                    ],
+                    stops: <double>[0.9, 1],
+                  ).createShader(bounds);
                 },
-                groupSeparatorBuilder: (DateTime groupByValue) => Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 5.0,
-                  ),
-                  width: double.infinity,
-                  color: CustomColours.darkBlue,
-                  child: Text(
-                    DateFormat('MMMM yyyy').format(groupByValue),
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                child:
+                    GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
+                  elements: snapshot.data!.docs,
+                  controller: _scrollController,
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  cacheExtent: 50,
+                  groupBy: (dynamic element) {
+                    final Timestamp timestamp = element['createdOn'];
+                    final DateTime date = timestamp.toDate();
+
+                    return DateTime(date.year, date.month);
+                  },
+                  groupSeparatorBuilder: (DateTime groupByValue) => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 5.0,
+                    ),
+                    width: double.infinity,
+                    color: CustomColours.darkBlue,
+                    child: Text(
+                      DateFormat('MMMM yyyy').format(groupByValue),
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                indexedItemBuilder: (
-                  BuildContext context,
-                  dynamic element,
-                  int index,
-                ) {
-                  final Victory victory =
-                      convertDocumentToVictory(index, snapshot);
+                  indexedItemBuilder: (
+                    BuildContext context,
+                    dynamic element,
+                    int index,
+                  ) {
+                    final Victory victory =
+                        convertDocumentToVictory(index, snapshot);
 
-                  return VictoryCard(
-                    victory: victory,
-                  );
-                },
-                useStickyGroupSeparators: true,
-                floatingHeader: true,
-                order: GroupedListOrder.DESC,
+                    return VictoryCard(
+                      victory: victory,
+                    );
+                  },
+                  useStickyGroupSeparators: true,
+                  floatingHeader: true,
+                  order: GroupedListOrder.DESC,
+                ),
               ),
             ),
           );
@@ -123,22 +140,22 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: <Widget>[
-        StreamBuilder<QuerySnapshot<Object?>>(
-          stream: _dataList,
-          builder: _buildVictoryList,
-        ),
-        const SizedBox(height: 5.0),
-        CustomButton(
-          'Back',
-          () => widget.callback(0),
-          marginBottom: 0,
-          marginTop: 0,
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          StreamBuilder<QuerySnapshot<Object?>>(
+            stream: _dataList,
+            builder: _buildVictoryList,
+          ),
+          const SizedBox(height: 5.0),
+          CustomButton(
+            'Back',
+            () => widget.callback(0),
+            marginBottom: 0,
+            marginTop: 0,
+          ),
+        ],
+      ),
     );
   }
 }
