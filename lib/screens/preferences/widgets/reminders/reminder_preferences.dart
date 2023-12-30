@@ -1,32 +1,24 @@
-import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/secure_storage.dart';
 
-class ReminderPreferences extends StatelessWidget {
+class ReminderPreferences extends StatefulWidget {
   const ReminderPreferences({Key? key}) : super(key: key);
 
-  Future<Notifications> isNotificationsOn() async {
-    final String? _notificationsSwitchValue =
-        await SecureStorage().getFromKey(kIsNotificationsEnabled);
-    final String? _notificationTime =
-        await SecureStorage().getFromKey(kNotificationTime);
-    final bool _notificationsValueBool =
-        _notificationsSwitchValue == 'true' || false;
+  @override
+  State<ReminderPreferences> createState() => _ReminderPreferencesState();
+}
 
-    log('isNotificationsOn: $_notificationsValueBool');
-    log('notificationTime: $_notificationTime');
+class _ReminderPreferencesState extends State<ReminderPreferences> {
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> _dataList;
 
-    final Notifications _notificationsData = Notifications(
-      isNotificationsEnabled: _notificationsValueBool,
-      notificationTime: _notificationTime ?? '12:00',
-    );
-
-    return _notificationsData;
+  @override
+  void initState() {
+    super.initState();
+    _dataList = getNotificationsStream();
   }
 
   @override
@@ -36,10 +28,12 @@ class ReminderPreferences extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          FutureBuilder<Notifications>(
-            future: isNotificationsOn(),
-            builder:
-                (BuildContext context, AsyncSnapshot<Notifications> snapshot) {
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream: _dataList,
+            builder: (
+              BuildContext context,
+              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot,
+            ) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return const Center(
@@ -72,13 +66,15 @@ class ReminderPreferences extends StatelessWidget {
   }
 
   Widget _buildNotificationsList(dynamic snapshot) {
+    final Notifications notificationsData =
+        Notifications.fromMap(snapshot.data.data());
     return Column(
       children: <Widget>[
         RemindersSwitchWidget(
-          notificationsData: snapshot.data!,
+          notificationsData: notificationsData,
         ),
         ReminderTimepickerWidget(
-          notificationsData: snapshot.data!,
+          notificationsData: notificationsData,
         ),
       ],
     );

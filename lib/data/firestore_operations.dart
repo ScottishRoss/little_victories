@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/notifications_class.dart';
 
 import '../util/firebase_analytics.dart';
 import '../util/secure_storage.dart';
@@ -154,11 +155,23 @@ Future<bool> createUser(User user) async {
 /// END: Create User
 
 /// START: Get Victories Stream
-Stream<QuerySnapshot<Object?>> getVictoriesStream(String userId) {
+Stream<QuerySnapshot<Object?>> getVictoriesStream() {
+  final User user = FirebaseAuth.instance.currentUser!;
   return _usersCollection
-      .doc(userId)
+      .doc(user.uid)
       .collection('victories')
       .orderBy('createdOn', descending: true)
+      .snapshots();
+}
+
+/// START: Get Notifications Stream
+Stream<DocumentSnapshot<Map<String, dynamic>>> getNotificationsStream() {
+  final User user = FirebaseAuth.instance.currentUser!;
+
+  return _usersCollection
+      .doc(user.uid)
+      .collection('notifications')
+      .doc('time')
       .snapshots();
 }
 
@@ -309,6 +322,55 @@ Future<bool> deleteAllVictories(User user) async {
   }
   return isSuccessful;
 }
+
+// START: Update Notification Time
+Future<bool> updateNotificationPreferences(Notifications notifications) async {
+  bool isSuccessful = false;
+  final User user = FirebaseAuth.instance.currentUser!;
+  try {
+    await _usersCollection
+        .doc(user.uid)
+        .collection('notifications')
+        .doc('time')
+        .set(<String, dynamic>{
+      'isNotificationsEnabled': notifications.isNotificationsEnabled,
+      'time': notifications.notificationTime,
+    }).then((_) {
+      isSuccessful = true;
+      log('updateNotificationPreferences: ${notifications.isNotificationsEnabled} - ${notifications.notificationTime}');
+    });
+  } catch (e) {
+    log('updateNotificationPreferences: $e');
+  }
+  return isSuccessful;
+}
+
+// END: Update Notification Time
+
+// START: Get Notifications Data
+Future<Notifications> getNotificationsData() async {
+  final User user = FirebaseAuth.instance.currentUser!;
+  Notifications notifications = Notifications(
+    isNotificationsEnabled: false,
+    notificationTime: '18:30',
+  );
+  try {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await _usersCollection
+            .doc(user.uid)
+            .collection('notifications')
+            .doc('time')
+            .get();
+
+    if (snapshot.exists) {
+      notifications = Notifications.fromMap(snapshot.data()!);
+    }
+  } catch (e) {
+    log('getNotificationsData: $e');
+  }
+  return notifications;
+}
+
 
 
 /// START: Update Push Notification Preferences

@@ -648,6 +648,9 @@ PODS:
     - firebase_core
     - Flutter
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
   - FBAEMKit (16.3.1):
     - FBSDKCoreKit_Basics (= 16.3.1)
   - FBSDKCoreKit (16.3.1):
@@ -922,6 +925,7 @@ PODS:
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
+  - ReachabilitySwift (5.0.0)
   - RecaptchaInterop (100.0.0)
   - social_share (0.0.1):
     - Flutter
@@ -933,6 +937,7 @@ PODS:
 DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -985,6 +990,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - PromisesSwift
+    - ReachabilitySwift
     - RecaptchaInterop
     - Toast
 
@@ -993,6 +999,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/awesome_notifications/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -1028,6 +1036,7 @@ SPEC CHECKSUMS:
   awesome_notifications: db394d2e061e4583ba0f738ddea611e3986cc3fb
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: d2707a9ead952efd2a89e82347e46dc4b9c32e8d
+  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   FBAEMKit: 6c7b5eb77c96861bb59e040842c6e55bf39512ce
   FBSDKCoreKit: 5e4dd478947ab1bcc887e8cfadeae0727af1a942
   FBSDKCoreKit_Basics: cd7b5f5d1e8868c26706917919d058999ca672c3
@@ -1072,6 +1081,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   social_share: 702a5e3842addd22db515aa9e1e00a4b80a0296d
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a

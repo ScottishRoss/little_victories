@@ -58,7 +58,6 @@ class PageBody extends StatelessWidget {
                   );
 
                 case ConnectionState.active:
-                  log(snapshot.data.toString());
                   if (snapshot.hasData) {
                     return LayoutBuilder(builder: (
                       BuildContext context,

@@ -1,22 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Notifications {
   Notifications({
     required this.isNotificationsEnabled,
-    this.notificationTime,
+    required this.notificationTime,
   });
 
   Notifications.fromMap(Map<String, dynamic> map) {
     isNotificationsEnabled = map['isNotificationsEnabled'] as bool;
-    notificationTime = map['notificationTime'] as String;
+    notificationTime = map['time'] as String;
   }
 
-  late final bool isNotificationsEnabled;
+  factory Notifications.fromDocument(QueryDocumentSnapshot<dynamic> doc) {
+    final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+
+    return Notifications.fromMap(data);
+  }
+
+  factory Notifications.fromJson(Map<String, dynamic> json) {
+    final bool isNotificationsEnabled = json['isNotificationsEnabled'] as bool;
+    final String notificationsTime = json['time'] as String;
+
+    return Notifications(
+      isNotificationsEnabled: isNotificationsEnabled,
+      notificationTime: notificationsTime,
+    );
+  }
+
+  late bool isNotificationsEnabled;
   late final String? notificationTime;
 
-  set setIsNotificationsEnabled(bool value) {
-    isNotificationsEnabled = value;
-  }
-
-  set setNotificationTime(String value) {
-    notificationTime = value;
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'isNotificationsEnabled': isNotificationsEnabled,
+      'time': notificationTime,
+    };
   }
 }

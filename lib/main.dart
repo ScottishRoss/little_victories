@@ -28,6 +28,16 @@ Future<Widget> routeOnFirstTimeSetup() async {
   }
 }
 
+Future<void> insertDefaultNotificationTime() async {
+  final String? _notificationTime =
+      await SecureStorage().getFromKey(kNotificationTime);
+  log('notificationTime: $_notificationTime');
+  if (_notificationTime == null) {
+    await SecureStorage().insert(kNotificationTime, kDefaultNotificationTime);
+    log('Inserted default notification time');
+  }
+}
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
@@ -38,6 +48,7 @@ Future<void> main() async {
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
   await Firebase.initializeApp();
+  insertDefaultNotificationTime();
 
   final Widget app = await routeOnFirstTimeSetup();
 

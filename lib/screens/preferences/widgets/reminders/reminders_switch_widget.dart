@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/notifications_class.dart';
-import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
 
 class RemindersSwitchWidget extends StatefulWidget {
   const RemindersSwitchWidget({
@@ -18,7 +17,6 @@ class RemindersSwitchWidget extends StatefulWidget {
 }
 
 class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
-  final SecureStorage _secureStorage = SecureStorage();
   final NotificationsService _notificationsService = NotificationsService();
 
   late bool _isNotificationsEnabled;
@@ -31,6 +29,8 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final Notifications notificationsData = widget.notificationsData;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -42,19 +42,33 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
             setState(() {
               _isNotificationsEnabled = value;
             });
+
+            // Show notifications consent dialog if user has not yet consented.
+            if (_isNotificationsEnabled) {
+              _isNotificationsEnabled =
+                  await _notificationsService.showNotificationsConsent();
+              // _isNotificationsEnabled = await _notificationsService
+              //     .showNotificationsConsentIfNeeded();
+            }
+
+            // Insert user consent choice
             _notificationsService.setNotificationPreference(
               _isNotificationsEnabled,
             );
-            _secureStorage.insert(
-              kIsNotificationsEnabled,
-              _isNotificationsEnabled.toString(),
-            );
 
-            if (value) {
-              _notificationsService.showNotificationsConsentIfNeeded();
+            // Update the notifications class
+            notificationsData.isNotificationsEnabled = _isNotificationsEnabled;
+
+            // Update the notifications class in Firestore
+            updateNotificationPreferences(notificationsData);
+
+            // If notifications are enabled, cancel any scheduled notifications
+            // and start the reminders.
+            if (_isNotificationsEnabled) {
               _notificationsService.cancelScheduledNotifications();
               _notificationsService.startReminders();
             } else {
+              // If notifications are disabled, cancel any scheduled notifications
               _notificationsService.cancelScheduledNotifications();
             }
           },

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -24,10 +23,8 @@ class ViewVictoriesWidget extends StatefulWidget {
 }
 
 class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final ScrollController _scrollController = ScrollController();
   late Stream<QuerySnapshot<Object?>>? _dataList;
-  late User _user;
 
   Victory convertDocumentToVictory(
     int index,
@@ -41,8 +38,7 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   @override
   void initState() {
     super.initState();
-    _user = FirebaseAuth.instance.currentUser!;
-    _dataList = getVictoriesStream(_user.uid);
+    _dataList = getVictoriesStream();
   }
 
   Widget _buildVictoryList(

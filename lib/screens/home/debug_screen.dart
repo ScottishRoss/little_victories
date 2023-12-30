@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +54,15 @@ class _DebugScreenState extends State<DebugScreen> {
               print(notifications);
             },
           ),
+          CustomButton('Log secure storage', () async {
+            final Map<String, String>? _secureStorageData =
+                await _secureStorage.getAll();
+
+            for (final MapEntry<String, String> item
+                in _secureStorageData!.entries) {
+              log(item.toString());
+            }
+          }),
           CustomButton(
             'Back',
             () => Navigator.pushNamed(
