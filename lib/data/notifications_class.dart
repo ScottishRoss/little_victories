@@ -28,7 +28,7 @@ class Notifications {
   }
 
   late bool isNotificationsEnabled;
-  late final String? notificationTime;
+  late final String notificationTime;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{

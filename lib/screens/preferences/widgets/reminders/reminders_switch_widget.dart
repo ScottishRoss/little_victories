@@ -51,23 +51,25 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
               //     .showNotificationsConsentIfNeeded();
             }
 
-            // Insert user consent choice
-            _notificationsService.setNotificationPreference(
-              _isNotificationsEnabled,
-            );
-
-            // Update the notifications class
-            _notificationData = Notifications(
-              isNotificationsEnabled: _isNotificationsEnabled,
-              notificationTime: _notificationData.notificationTime,
-            );
-
-            // Update the notifications class in Firestore
-            updateNotificationPreferences(_notificationData);
-
-            // If notifications are enabled, cancel any scheduled notifications
-            // and start the reminders.
+            // If notifications are still enabled, continue.
             if (_isNotificationsEnabled) {
+              // Insert user consent choice
+              _notificationsService.setNotificationPreference(
+                _isNotificationsEnabled,
+              );
+
+              // Update the notifications class
+              _notificationData = Notifications(
+                isNotificationsEnabled: _isNotificationsEnabled,
+                notificationTime: _notificationData.notificationTime,
+              );
+
+              // Update the notifications class in Firestore
+              updateNotificationPreferences(_notificationData);
+
+              // If notifications are enabled, cancel any scheduled notifications
+              // and start the reminders.
+
               _notificationsService.cancelScheduledNotifications();
               _notificationsService.startReminders();
             } else {

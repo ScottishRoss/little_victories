@@ -1,14 +1,15 @@
 import 'dart:developer';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 
 class ReminderTimepickerWidget extends StatefulWidget {
   const ReminderTimepickerWidget({
@@ -26,10 +27,11 @@ class ReminderTimepickerWidget extends StatefulWidget {
 class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   String selectedTime = kDefaultNotificationTime;
 
+  late Notifications _notificationsData;
+
   Time selectedTimeOfDay = Time(hour: 18, minute: 30);
   late bool isReminderTimeUpdated = false;
-  final SecureStorage _secureStorage = SecureStorage();
-  final AwesomeNotifications _awesomeNotifications = AwesomeNotifications();
+
   final NotificationsService _notificationsService = NotificationsService();
 
   final TimeOfDay _sunrise = const TimeOfDay(hour: 6, minute: 0);
@@ -56,35 +58,37 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
       newTime,
       0,
     );
-    log('newParseTime: $newParseTime');
+    _notificationsData = Notifications(
+      isNotificationsEnabled: _notificationsData.isNotificationsEnabled,
+      notificationTime: formattedTime,
+    );
     setState(() {
       selectedTimeOfDay = newParseTime;
       selectedTime = formattedTime;
     });
     try {
-      final List<NotificationModel> _notificationsList =
-          await _awesomeNotifications.listScheduledNotifications();
-
-      if (_notificationsList.isNotEmpty) {
-        _notificationsService.cancelScheduledNotifications();
-      }
-
-      _secureStorage.insert(kNotificationTime, formattedTime);
+      _notificationsService.cancelScheduledNotifications();
+      updateNotificationPreferences(_notificationsData);
       _notificationsService.startReminders();
     } catch (e) {
-      print(e);
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Something went wrong, please try again later.',
+        ),
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: const Duration(seconds: 2),
+      );
     }
     return true;
   }
 
   Future<void> getReminderTime() async {
-    final String string = await _secureStorage.getFromKey(kNotificationTime) ??
-        kDefaultNotificationTime;
+    final String currentTime = _notificationsData.notificationTime;
 
-    log('getReminderTime: $string');
+    log('getReminderTime: $currentTime');
 
-    final int hour = int.parse(string.split(':')[0]);
-    final int minute = int.parse(string.split(':')[1]);
+    final int hour = int.parse(currentTime.split(':')[0]);
+    final int minute = int.parse(currentTime.split(':')[1]);
 
     final Time timeOfDay = Time(
       hour: hour,
@@ -92,13 +96,14 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     );
 
     setState(() {
-      selectedTime = string;
+      selectedTime = currentTime;
       selectedTimeOfDay = timeOfDay;
     });
   }
 
   @override
   void initState() {
+    _notificationsData = widget.notificationsData;
     getReminderTime();
     super.initState();
   }
