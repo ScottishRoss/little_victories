@@ -20,21 +20,21 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
   final NotificationsService _notificationsService = NotificationsService();
 
   late bool _isNotificationsEnabled;
+  late Notifications _notificationData;
 
   @override
   void initState() {
     super.initState();
-    _isNotificationsEnabled = widget.notificationsData.isNotificationsEnabled;
+    _notificationData = widget.notificationsData;
+    _isNotificationsEnabled = _notificationData.isNotificationsEnabled;
   }
 
   @override
   Widget build(BuildContext context) {
-    final Notifications notificationsData = widget.notificationsData;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Text('Reminders?'),
+        const Text('Enabled?'),
         Switch(
           activeColor: CustomColours.hotPink,
           value: _isNotificationsEnabled,
@@ -57,10 +57,13 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
             );
 
             // Update the notifications class
-            notificationsData.isNotificationsEnabled = _isNotificationsEnabled;
+            _notificationData = Notifications(
+              isNotificationsEnabled: _isNotificationsEnabled,
+              notificationTime: _notificationData.notificationTime,
+            );
 
             // Update the notifications class in Firestore
-            updateNotificationPreferences(notificationsData);
+            updateNotificationPreferences(_notificationData);
 
             // If notifications are enabled, cancel any scheduled notifications
             // and start the reminders.
