@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations.dart';
 import 'package:little_victories/main.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_widget.dart';
@@ -75,6 +76,7 @@ class HomePageState extends State<HomePage> {
     fToast = FToast();
     fToast.init(navigatorKey.currentContext!);
     log('Page Index = $_pageIndex');
+    setNotificationsForExistingUsers();
   }
 
   @override

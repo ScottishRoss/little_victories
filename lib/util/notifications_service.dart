@@ -95,18 +95,10 @@ class NotificationsService {
     });
   }
 
-  Future<bool> startReminders() async {
+  Future<bool> startReminders(String startTime) async {
+    final int hour = int.parse(startTime.split(':')[0]);
+    final int minute = int.parse(startTime.split(':')[1]);
     try {
-      final String storedTime =
-          await _secureStorage.getFromKey(kNotificationTime) ??
-              kDefaultNotificationTime;
-      log('Stored Time: $storedTime');
-
-      final TimeOfDay timeOfDay = TimeOfDay(
-        hour: int.parse(storedTime.split(':')[0]),
-        minute: int.parse(storedTime.split(':')[1]),
-      );
-
       _notifications.createNotification(
         content: _notificationContentReminders,
         actionButtons: <NotificationActionButton>[
@@ -118,8 +110,8 @@ class NotificationsService {
           ),
         ],
         schedule: NotificationCalendar(
-          hour: timeOfDay.hour,
-          minute: timeOfDay.minute,
+          hour: hour,
+          minute: minute,
           second: 0,
           allowWhileIdle: true,
           repeats: true,
@@ -151,58 +143,6 @@ class NotificationsService {
     return TimeOfDay(
       hour: dateTime.hour,
       minute: dateTime.minute,
-    );
-  }
-
-  Future<void> firstTimeNotificationSetup() async {
-    bool _isTimeInserted = false;
-    log('Starting first time notification setup...');
-
-    //? Check to see if reminders are off or haven't been started.
-    final String? _reminderFlag =
-        await _secureStorage.getFromKey(kIsNotificationsEnabled);
-    log('Reminder flag: $_reminderFlag');
-
-    //? Notifications package check to see if notifications are enabled.
-    //? Not final as we do another check later.
-    final bool _isNotificationsEnabled =
-        await _notifications.isNotificationAllowed();
-    log('Notifications enabled: $_isNotificationsEnabled');
-
-    //? If false or null
-    if (_reminderFlag == 'false' || _reminderFlag == null) {
-      //? Insert the reminder flag.
-      _secureStorage.insert(
-        kIsNotificationsEnabled,
-        _isNotificationsEnabled.toString(),
-      );
-      log('Set reminder flag to: $_isNotificationsEnabled');
-
-      //? Get the notification time which should be there from initialisation.
-      final String? _notificationTime =
-          await _secureStorage.getFromKey(kNotificationTime);
-      log('Notification time: $_notificationTime');
-
-      //? If null it means it hasn't been initialised so insert the default time.
-      if (_notificationTime == null)
-        _isTimeInserted = await _secureStorage.insert(
-          kNotificationTime,
-          kDefaultNotificationTime,
-        );
-      log('Time inserted: $_isTimeInserted');
-
-      if (_isNotificationsEnabled) {
-        //? Start default reminders.
-        NotificationsService().startReminders();
-        log('Started reminders');
-      } else {
-        log('Notifications not enabled');
-      }
-    }
-    //? Insert user notifications preference.
-    _secureStorage.insert(
-      kIsNotificationsEnabled,
-      _isNotificationsEnabled.toString(),
     );
   }
 }

@@ -134,17 +134,46 @@ Future<bool> createUser(User user) async {
     _usersCollection
         .doc(user.uid)
         .collection('notifications')
-        .doc('topics')
+        .doc('time')
         .set(<String, dynamic>{
-      'encouragement': true,
-      'news': true,
-      'reminder': true
+      'isNotificationsEnabled': true,
+      'time': '18:30',
     }).then((_) {
       FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
         'method': 'email',
       });
       isSuccessful = true;
     });
+  } catch (e) {
+    log('Error: $e');
+    isSuccessful = false;
+  }
+  return isSuccessful;
+}
+
+Future<bool> setNotificationsForExistingUsers() async {
+  final User user = FirebaseAuth.instance.currentUser!;
+  bool isSuccessful = false;
+
+  try {
+    final Notifications _notifications = await getNotificationsData();
+    if (_notifications.notificationTime == null) {
+      updateNotificationPreferences(_notifications);
+
+      _usersCollection
+          .doc(user.uid)
+          .collection('notifications')
+          .doc('time')
+          .set(<String, dynamic>{
+        'isNotificationsEnabled': true,
+        'time': '18:30',
+      }).then((_) {
+        FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
+          'method': 'email',
+        });
+      });
+      isSuccessful = true;
+    }
   } catch (e) {
     log('Error: $e');
     isSuccessful = false;
@@ -352,7 +381,7 @@ Future<Notifications> getNotificationsData() async {
   final User user = FirebaseAuth.instance.currentUser!;
   Notifications notifications = Notifications(
     isNotificationsEnabled: false,
-    notificationTime: '18:30',
+    notificationTime: null,
   );
   try {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =

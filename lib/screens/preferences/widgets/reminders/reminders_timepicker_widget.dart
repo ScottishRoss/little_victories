@@ -69,7 +69,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     try {
       _notificationsService.cancelScheduledNotifications();
       updateNotificationPreferences(_notificationsData);
-      _notificationsService.startReminders();
+      _notificationsService.startReminders(formattedTime);
     } catch (e) {
       fToast.showToast(
         child: const CustomToast(
@@ -83,7 +83,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
   }
 
   Future<void> getReminderTime() async {
-    final String currentTime = _notificationsData.notificationTime;
+    final String currentTime = _notificationsData.notificationTime!;
 
     log('getReminderTime: $currentTime');
 
@@ -110,7 +110,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.notificationsData.isNotificationsEnabled
+    return widget.notificationsData.isNotificationsEnabled!
         ? _buildReminderTimeRow
         : const SizedBox();
   }
@@ -125,6 +125,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
             Navigator.of(context).push(
               showPicker(
                 context: context,
+                is24HrFormat: true,
                 themeData: isDayTime(TimeOfDay.now())
                     ? kTimePickerLightTheme
                     : kTimePickerDarkTheme,

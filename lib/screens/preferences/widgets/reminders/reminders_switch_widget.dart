@@ -26,7 +26,7 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
   void initState() {
     super.initState();
     _notificationData = widget.notificationsData;
-    _isNotificationsEnabled = _notificationData.isNotificationsEnabled;
+    _isNotificationsEnabled = _notificationData.isNotificationsEnabled!;
   }
 
   @override
@@ -71,7 +71,8 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
               // and start the reminders.
 
               _notificationsService.cancelScheduledNotifications();
-              _notificationsService.startReminders();
+              _notificationsService
+                  .startReminders(_notificationData.notificationTime!);
             } else {
               // If notifications are disabled, cancel any scheduled notifications
               _notificationsService.cancelScheduledNotifications();

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Notifications {
   Notifications({
-    required this.isNotificationsEnabled,
-    required this.notificationTime,
+    this.isNotificationsEnabled,
+    this.notificationTime,
   });
 
   Notifications.fromMap(Map<String, dynamic> map) {
@@ -27,8 +27,8 @@ class Notifications {
     );
   }
 
-  late bool isNotificationsEnabled;
-  late final String notificationTime;
+  bool? isNotificationsEnabled;
+  String? notificationTime;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
