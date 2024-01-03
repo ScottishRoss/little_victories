@@ -131,7 +131,7 @@ class Authentication {
     final bool _isNewUser = await doesUserExist(user!);
 
     // ignore: always_put_control_body_on_new_line
-    if (_isNewUser) createUser(user);
+    if (_isNewUser) createUser(user: user);
 
     return user;
   }

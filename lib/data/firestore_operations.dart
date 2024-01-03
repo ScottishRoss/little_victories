@@ -37,7 +37,7 @@ Future<bool> doesUserExist(User user) async {
 }
 
 /// END: Check if user exists.
-
+///
 /// START: Delete User
 
 Future<bool> deleteUser() async {
@@ -117,7 +117,10 @@ Future<bool> deleteUser() async {
 
 /// START: Create User.
 
-Future<bool> createUser(User user) async {
+Future<bool> createUser({
+  required User user,
+  String? firstName,
+}) async {
   final DateTime currentDateTime = DateTime.now();
   bool isSuccessful = false;
 
@@ -127,6 +130,7 @@ Future<bool> createUser(User user) async {
     _usersCollection.doc(user.uid).set(<String, dynamic>{
       'UserId': user.uid,
       'Email': user.email,
+      'FirstName': firstName,
       'FCM-Token': token,
       'CreatedOn': currentDateTime
     });
@@ -136,7 +140,7 @@ Future<bool> createUser(User user) async {
         .collection('notifications')
         .doc('time')
         .set(<String, dynamic>{
-      'isNotificationsEnabled': true,
+      'isNotificationsEnabled': false,
       'time': '18:30',
     }).then((_) {
       FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
@@ -399,8 +403,6 @@ Future<Notifications> getNotificationsData() async {
   }
   return notifications;
 }
-
-
 
 /// START: Update Push Notification Preferences
 //
