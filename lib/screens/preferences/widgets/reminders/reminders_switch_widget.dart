@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/data/notifications_class.dart';
+import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
 
@@ -34,7 +35,10 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Text('Enabled?'),
+        const Text(
+          'Enabled?',
+          style: kPreferencesItemStyle,
+        ),
         Switch(
           activeColor: CustomColours.hotPink,
           value: _isNotificationsEnabled,

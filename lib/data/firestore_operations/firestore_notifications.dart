@@ -5,10 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
-import 'package:little_victories/util/secure_storage.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-SecureStorage _secureStorage = SecureStorage();
 CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 FToast fToast = FToast();

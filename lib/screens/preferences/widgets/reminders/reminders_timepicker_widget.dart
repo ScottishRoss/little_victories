@@ -119,7 +119,10 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Text('Reminder time'),
+        const Text(
+          'Reminder time',
+          style: kPreferencesItemStyle,
+        ),
         TextButton(
           onPressed: () {
             Navigator.of(context).push(

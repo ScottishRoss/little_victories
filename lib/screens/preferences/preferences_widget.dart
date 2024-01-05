@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminder_preferences.dart';
 import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_back_button.dart';
 
 class PreferencesWidget extends StatefulWidget {
@@ -46,7 +47,20 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.all(20.0),
-          height: MediaQuery.of(context).size.height * 0.62,
+          color: CustomColours.darkBlue,
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //     begin: Alignment.topCenter,
+          //     end: Alignment.bottomCenter,
+          //     colors: <Color>[
+          //       CustomColours.darkBlue,
+          //       CustomColours.darkBlue.withOpacity(0.7),
+          //       Colors.transparent,
+          //     ],
+          //   ),
+          // ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.60,
           child: GroupedListView<dynamic, dynamic>(
             elements: _preferencesList.toList(),
             groupHeaderBuilder: (dynamic element) => Container(
@@ -72,6 +86,9 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
             floatingHeader: true,
             order: GroupedListOrder.ASC,
           ),
+        ),
+        const SizedBox(
+          height: 20.0,
         ),
         CustomBackButton(
           callback: widget.callback,

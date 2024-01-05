@@ -25,6 +25,12 @@ const TextStyle kSubtitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const TextStyle kPreferencesItemStyle = TextStyle(
+  fontSize: 18,
+  letterSpacing: 1.5,
+  color: Colors.white,
+);
+
 ThemeData kTimePickerDarkTheme = ThemeData.dark().copyWith(
   colorScheme: const ColorScheme.dark(
     primary: CustomColours.darkBlue,
