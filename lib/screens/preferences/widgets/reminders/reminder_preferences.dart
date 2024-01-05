@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';

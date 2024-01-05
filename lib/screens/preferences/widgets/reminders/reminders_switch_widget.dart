@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/utils.dart';
 
-import '../../data/firestore_operations.dart';
-import '../../util/constants.dart';
-import '../../util/custom_colours.dart';
-import '../../util/utils.dart';
+import '../../data/firestore_operations/firestore_account.dart';
 
 class ManageAccountModal extends StatefulWidget {
   const ManageAccountModal({

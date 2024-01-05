@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../data/firestore_operations.dart';
-import '../../util/constants.dart';
-import '../../util/custom_colours.dart';
-import '../../util/utils.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/utils.dart';
 
 class CustomModal extends StatefulWidget {
   const CustomModal({
@@ -96,6 +95,7 @@ class _CustomModalState extends State<CustomModal> {
                   onPressed: () {
                     Navigator.of(this.context).pop();
                   },
+                  // TODO: Refactor this
                   child: buildtext(
                     'Close',
                     fontSize: 15,

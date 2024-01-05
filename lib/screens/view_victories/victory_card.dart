@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/data/icon_list.dart';
 import 'package:little_victories/data/victory_class.dart';
 import 'package:little_victories/util/custom_colours.dart';

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
-import 'package:little_victories/data/firestore_operations.dart';
+import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/data/victory_class.dart';
 import 'package:little_victories/screens/view_victories/victory_card.dart';
 import 'package:little_victories/util/custom_colours.dart';
