@@ -7,7 +7,10 @@ import '../../util/constants.dart';
 class Header extends StatefulWidget {
   const Header({
     Key? key,
+    this.displayName,
   }) : super(key: key);
+
+  final String? displayName;
 
   @override
   State<Header> createState() => _HeaderState();
@@ -56,7 +59,7 @@ class _HeaderState extends State<Header> {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    firstName,
+                    widget.displayName ?? firstName,
                     textAlign: TextAlign.left,
                     style: kTitleText.copyWith(
                       color: CustomColours.darkBlue,

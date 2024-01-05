@@ -70,6 +70,13 @@ class _DebugScreenState extends State<DebugScreen> {
               '/home',
             ),
           ),
+          CustomButton(
+            'Set Display Name',
+            () => Navigator.pushNamed(
+              context,
+              '/display_name',
+            ),
+          ),
           const SizedBox(height: 20.0),
         ],
       ),

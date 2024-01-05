@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:little_victories/screens/home/home_page.dart';
+import 'package:little_victories/screens/misc/set_display_name.dart';
 //import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -99,6 +100,12 @@ class MyApp extends StatelessWidget {
           case '/sign_in':
             return PageTransition<void>(
               child: const SignInScreen(),
+              type: PageTransitionType.fade,
+            );
+
+          case '/display_name':
+            return PageTransition<void>(
+              child: const DisplayName(),
               type: PageTransitionType.fade,
             );
 

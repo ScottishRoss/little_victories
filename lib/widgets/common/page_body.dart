@@ -9,9 +9,11 @@ class PageBody extends StatelessWidget {
   const PageBody({
     Key? key,
     required this.child,
+    this.displayName,
   }) : super(key: key);
 
   final Widget child;
+  final String? displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,9 @@ class PageBody extends StatelessWidget {
               ),
             ),
           ),
-          const Header(),
+          Header(
+            displayName: displayName,
+          ),
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

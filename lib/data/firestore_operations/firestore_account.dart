@@ -19,21 +19,29 @@ FToast fToast = FToast();
 
 Future<bool> createUser({
   required User user,
-  String? firstName,
+  String? displayName,
 }) async {
   final DateTime currentDateTime = DateTime.now();
   bool isSuccessful = false;
 
+  log('createUser: $user starting create request');
+
   try {
     final String? token = await FirebaseMessaging.instance.getToken();
+    log('createUser: token: $token');
 
     _usersCollection.doc(user.uid).set(<String, dynamic>{
       'UserId': user.uid,
       'Email': user.email,
-      'FirstName': firstName,
       'FCM-Token': token,
       'CreatedOn': currentDateTime
     });
+
+    log('createUser: user documentcreated');
+
+    user.updateDisplayName(displayName);
+
+    log('createUser: user display name updated');
 
     _usersCollection
         .doc(user.uid)
@@ -48,8 +56,10 @@ Future<bool> createUser({
       });
       isSuccessful = true;
     });
+
+    log('createUser: notifications document created');
   } catch (e) {
-    log('Error: $e');
+    log('createUser error: $e');
     isSuccessful = false;
   }
   return isSuccessful;
