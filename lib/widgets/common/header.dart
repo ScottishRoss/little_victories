@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -7,19 +9,13 @@ import '../../util/constants.dart';
 class Header extends StatefulWidget {
   const Header({
     Key? key,
-    this.displayName,
   }) : super(key: key);
-
-  final String? displayName;
 
   @override
   State<Header> createState() => _HeaderState();
 }
 
 class _HeaderState extends State<Header> {
-  String firstName =
-      FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0];
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -56,18 +52,56 @@ class _HeaderState extends State<Header> {
                     ),
                   ),
                 ),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    widget.displayName ?? firstName,
-                    textAlign: TextAlign.left,
-                    style: kTitleText.copyWith(
-                      color: CustomColours.darkBlue,
-                      fontSize: 62.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.fade,
-                  ),
+                StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.userChanges(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                    log('StreamBuilder: ${snapshot.connectionState}');
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return const Center(
+                          child: Text(
+                            'No internet connection, please check your network settings.',
+                          ),
+                        );
+
+                      case ConnectionState.waiting:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+
+                      case ConnectionState.active:
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            FirebaseAuth.instance.currentUser!.displayName!
+                                .split(' ')[0],
+                            textAlign: TextAlign.left,
+                            style: kTitleText.copyWith(
+                              color: CustomColours.darkBlue,
+                              fontSize: 62.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
+                        );
+                      case ConnectionState.done:
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            FirebaseAuth.instance.currentUser!.displayName!
+                                .split(' ')[0],
+                            textAlign: TextAlign.left,
+                            style: kTitleText.copyWith(
+                              color: CustomColours.darkBlue,
+                              fontSize: 62.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
+                        );
+                    }
+                  },
                 ),
               ],
             ),

@@ -167,51 +167,14 @@ class _QuickVictoryState extends State<QuickVictory> {
           maxLength: 100,
           keyboardType: TextInputType.multiline,
           maxLines: null,
-          decoration: InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            labelText: 'Celebrate a Victory',
-            filled: true,
-            fillColor: Colors.white,
-            errorStyle: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.white,
-              letterSpacing: 1.25,
+          decoration: kFormInputDecoration.copyWith(
+            prefixIcon: Icon(
+              victoryIconList[_selectedIndex].icon,
+              color: CustomColours.darkBlue,
             ),
+            labelText: "What's your little victory?",
             counterStyle: const TextStyle(
-              fontSize: 12.0,
               color: Colors.white,
-              letterSpacing: 2.0,
-            ),
-            prefixIcon: const Icon(
-              Icons.edit,
-              color: CustomColours.darkBlue,
-            ),
-            labelStyle: const TextStyle(
-              fontSize: 18.0,
-              color: CustomColours.darkBlue,
-              letterSpacing: 2.0,
-            ),
-            focusColor: CustomColours.darkBlue,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kButtonBorderRadius),
-              borderSide: const BorderSide(
-                color: CustomColours.teal,
-                width: 2,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kButtonBorderRadius),
-              borderSide: const BorderSide(
-                color: CustomColours.teal,
-                width: 2,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kButtonBorderRadius),
-              borderSide: const BorderSide(
-                color: Colors.redAccent,
-                width: 2,
-              ),
             ),
           ),
           onTap: () => _focusNode.requestFocus(),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/util/firebase_analytics.dart';
@@ -165,3 +166,41 @@ Future<bool> deleteUser() async {
 }
 
 /// END: Delete User
+
+/// START: Update display name
+
+Future<bool> updateDisplayName(
+  String displayName,
+  BuildContext context,
+) async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool isSuccessful = false;
+  try {
+    log('updateDisplayName attempt: $displayName');
+    await user!.updateDisplayName(displayName);
+    final User? updatedUser = FirebaseAuth.instance.currentUser;
+
+    if (updatedUser!.displayName == user.displayName) {
+      isSuccessful = false;
+      log('updateDisplayName: name is the same as before');
+    } else {
+      isSuccessful = true;
+      log('updateDisplayName success: ${updatedUser.displayName}');
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Display name updated',
+        ),
+      );
+    }
+  } catch (e) {
+    log('updateDisplayName error: $e');
+    fToast.showToast(
+      child: const CustomToast(
+        message: 'Something weng wrong. Try again later.',
+      ),
+    );
+  }
+  return isSuccessful;
+}
+
+/// END: Update display name

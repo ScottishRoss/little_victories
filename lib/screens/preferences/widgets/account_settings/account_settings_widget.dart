@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
-import 'package:little_victories/data/notifications_class.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/widgets/common/custom_button.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -13,12 +14,17 @@ class AccountSettings extends StatefulWidget {
 }
 
 class _AccountSettingsState extends State<AccountSettings> {
-  late Stream<DocumentSnapshot<Map<String, dynamic>>> _dataList;
+  late Stream<User?> _data;
+  final TextEditingController _displayNameController = TextEditingController();
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _dataList = getNotificationsStream();
+    _data = FirebaseAuth.instance.userChanges();
+    _displayNameController.text =
+        FirebaseAuth.instance.currentUser!.displayName!;
   }
 
   @override
@@ -28,11 +34,11 @@ class _AccountSettingsState extends State<AccountSettings> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: _dataList,
+          StreamBuilder<User?>(
+            stream: _data,
             builder: (
               BuildContext context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot,
+              AsyncSnapshot<User?> snapshot,
             ) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -40,13 +46,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                     child: CircularProgressIndicator(),
                   );
                 case ConnectionState.done:
-                  return _buildNotificationsList(snapshot);
+                  return _buildAccountDetailsList(snapshot);
                 case ConnectionState.none:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 case ConnectionState.active:
-                  return _buildNotificationsList(snapshot);
+                  return _buildAccountDetailsList(snapshot);
 
                 default:
                   if (snapshot.hasError) {
@@ -55,7 +61,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                           Text('Something went wrong, please try again later.'),
                     );
                   } else {
-                    return _buildNotificationsList(snapshot);
+                    return _buildAccountDetailsList(snapshot);
                   }
               }
             },
@@ -65,18 +71,102 @@ class _AccountSettingsState extends State<AccountSettings> {
     );
   }
 
-  Widget _buildNotificationsList(dynamic snapshot) {
-    final Notifications notificationsData =
-        Notifications.fromMap(snapshot.data.data());
+  Widget _buildAccountDetailsList(dynamic snapshot) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        RemindersSwitchWidget(
-          notificationsData: notificationsData,
+        _accountDetailsColumn(
+          'Email',
+          snapshot.data.email ?? '',
+          context,
         ),
-        ReminderTimepickerWidget(
-          notificationsData: notificationsData,
+        const SizedBox(height: 20.0),
+        _displayName(
+          _form,
+          _displayNameController,
+          _focusNode,
+        ),
+        CustomButton(
+          'Update',
+          () => updateDisplayName(
+            _displayNameController.text,
+            context,
+          ),
+          backgroundColor: CustomColours.hotPink,
+          textColor: CustomColours.darkBlue,
+          marginTop: 0,
+          marginLeft: 0,
+          marginRight: 0,
         ),
       ],
     );
   }
+}
+
+Widget _accountDetailsColumn(
+  String title,
+  String subtitle,
+  BuildContext context,
+) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      AutoSizeText(
+        title,
+        style: kPreferencesItemStyle,
+      ),
+      const SizedBox(height: 10.0),
+      AutoSizeText(
+        subtitle,
+        style: kSubtitleStyle.copyWith(color: Colors.white),
+        overflow: TextOverflow.ellipsis,
+      ),
+    ],
+  );
+}
+
+Widget _displayName(
+  GlobalKey<FormState> _form,
+  TextEditingController _displayNameController,
+  FocusNode _focusNode,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      const AutoSizeText(
+        'Display name',
+        style: kPreferencesItemStyle,
+      ),
+      const SizedBox(height: 5.0),
+      Form(
+        key: _form,
+        child: TextFormField(
+          controller: _displayNameController,
+          focusNode: _focusNode,
+          cursorColor: CustomColours.darkBlue,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textCapitalization: TextCapitalization.words,
+          spellCheckConfiguration: const SpellCheckConfiguration(),
+          autofocus: false,
+          maxLength: 50,
+          keyboardType: TextInputType.multiline,
+          maxLines: 1,
+          decoration: kFormInputDecoration,
+          onTap: () => _focusNode.requestFocus(),
+          onTapOutside: (PointerDownEvent event) => _focusNode.unfocus(),
+          style: const TextStyle(
+            fontSize: 18,
+            color: CustomColours.darkBlue,
+          ),
+          validator: (String? value) {
+            if (value!.isEmpty) {
+              return 'Please enter something';
+            }
+            return null;
+          },
+        ),
+      ),
+    ],
+  );
 }

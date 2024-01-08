@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
 
 // ignore: must_be_immutable
-class CustomButton extends StatelessWidget {
+class CustomButton extends StatefulWidget {
   CustomButton(
     this.text,
     this.onPressed, {
@@ -24,32 +26,53 @@ class CustomButton extends StatelessWidget {
   double marginTop, marginBottom, marginLeft, marginRight;
 
   @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  bool _isProcessing = false;
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
+      onTap: () {
+        _isProcessing = true;
+
+        try {
+          widget.onPressed();
+        } catch (e) {
+          log('CustomButton error: $e');
+        }
+        _isProcessing = false;
+      },
       borderRadius: BorderRadius.circular(kButtonBorderRadius),
       child: Container(
         height: 50,
         width: double.infinity,
         margin: EdgeInsets.fromLTRB(
-          marginLeft,
-          marginTop,
-          marginRight,
-          marginBottom,
+          widget.marginLeft,
+          widget.marginTop,
+          widget.marginRight,
+          widget.marginBottom,
         ),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kButtonBorderRadius),
-          color: backgroundColor,
+          color: widget.backgroundColor,
         ),
         alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child: _isProcessing
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(widget.textColor),
+              )
+            : Text(
+                widget.text,
+                style: TextStyle(
+                  color: widget.textColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }

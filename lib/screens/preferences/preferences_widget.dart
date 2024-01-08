@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:little_victories/screens/preferences/widgets/account_settings/account_settings_widget.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminder_preferences.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -31,7 +32,7 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
       'title': 'Account Settings',
       'subtitle': 'Change your account settings',
       'icon': Icons.person,
-      'widget': const Placeholder(),
+      'widget': const AccountSettings(),
     },
     <String, dynamic>{
       'index': 2,
@@ -48,17 +49,6 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
         Container(
           padding: const EdgeInsets.all(20.0),
           color: CustomColours.darkBlue,
-          // decoration: BoxDecoration(
-          //   gradient: LinearGradient(
-          //     begin: Alignment.topCenter,
-          //     end: Alignment.bottomCenter,
-          //     colors: <Color>[
-          //       CustomColours.darkBlue,
-          //       CustomColours.darkBlue.withOpacity(0.7),
-          //       Colors.transparent,
-          //     ],
-          //   ),
-          // ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.60,
           child: GroupedListView<dynamic, dynamic>(

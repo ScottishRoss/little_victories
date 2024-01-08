@@ -41,9 +41,7 @@ class PageBody extends StatelessWidget {
               ),
             ),
           ),
-          Header(
-            displayName: displayName,
-          ),
+          const Header(),
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

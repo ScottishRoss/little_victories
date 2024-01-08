@@ -83,3 +83,57 @@ const BoxDecoration kBackground = BoxDecoration(
     ),
   ],
 );
+
+InputDecoration kFormInputDecoration = InputDecoration(
+  floatingLabelBehavior: FloatingLabelBehavior.never,
+  filled: true,
+  fillColor: Colors.white,
+  errorStyle: const TextStyle(
+    fontSize: 14.0,
+    color: Colors.white,
+    letterSpacing: 1.25,
+  ),
+  counterStyle: const TextStyle(
+    fontSize: 12.0,
+    color: CustomColours.darkBlue,
+    letterSpacing: 2.0,
+  ),
+  prefixIcon: const Icon(
+    Icons.person,
+    color: CustomColours.darkBlue,
+  ),
+  labelStyle: const TextStyle(
+    fontSize: 18.0,
+    color: CustomColours.darkBlue,
+    letterSpacing: 2.0,
+  ),
+  focusColor: CustomColours.darkBlue,
+  enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(kButtonBorderRadius),
+    borderSide: const BorderSide(
+      color: CustomColours.teal,
+      width: 2,
+    ),
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(kButtonBorderRadius),
+    borderSide: const BorderSide(
+      color: Colors.redAccent,
+      width: 2,
+    ),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(kButtonBorderRadius),
+    borderSide: const BorderSide(
+      color: CustomColours.teal,
+      width: 2,
+    ),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(kButtonBorderRadius),
+    borderSide: const BorderSide(
+      color: Colors.redAccent,
+      width: 2,
+    ),
+  ),
+);

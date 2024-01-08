@@ -3,11 +3,10 @@ import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_button.dart';
-import 'package:little_victories/widgets/common/custom_toast.dart';
 import 'package:little_victories/widgets/common/header_placeholder.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 
@@ -54,59 +53,7 @@ class _DisplayNameState extends State<DisplayName> {
                 maxLength: 50,
                 keyboardType: TextInputType.multiline,
                 maxLines: 1,
-                decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  filled: true,
-                  fillColor: Colors.white,
-                  errorStyle: const TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    letterSpacing: 1.25,
-                  ),
-                  counterStyle: const TextStyle(
-                    fontSize: 12.0,
-                    color: CustomColours.darkBlue,
-                    letterSpacing: 2.0,
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.person,
-                    color: CustomColours.darkBlue,
-                  ),
-                  labelStyle: const TextStyle(
-                    fontSize: 18.0,
-                    color: CustomColours.darkBlue,
-                    letterSpacing: 2.0,
-                  ),
-                  focusColor: CustomColours.darkBlue,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                    borderSide: const BorderSide(
-                      color: CustomColours.teal,
-                      width: 2,
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                    borderSide: const BorderSide(
-                      color: Colors.redAccent,
-                      width: 2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                    borderSide: const BorderSide(
-                      color: CustomColours.teal,
-                      width: 2,
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(kButtonBorderRadius),
-                    borderSide: const BorderSide(
-                      color: Colors.redAccent,
-                      width: 2,
-                    ),
-                  ),
-                ),
+                decoration: kFormInputDecoration,
                 onTap: () => _focusNode.requestFocus(),
                 onTapOutside: (PointerDownEvent event) => _focusNode.unfocus(),
                 style: const TextStyle(
@@ -140,28 +87,20 @@ class _DisplayNameState extends State<DisplayName> {
               () async {
                 if (_form.currentState!.validate()) {
                   try {
-                    log('updateDisplayName attempt: ${_displayNameController.text}');
-                    await user!.updateDisplayName(_displayNameController.text);
-                    log('updateDisplayName success: ${user!.displayName}');
-                    fToast.showToast(
-                      child: const CustomToast(
-                        message: 'Display name updated.',
-                      ),
+                    await updateDisplayName(
+                      _displayNameController.text,
+                      context,
                     );
-                    Navigator.pushNamed(context, '/home');
                   } catch (e) {
                     log('updateDisplayName error: $e');
-                    fToast.showToast(
-                      child: const CustomToast(
-                        message: 'Something weng wrong. Try again later.',
-                      ),
-                    );
                   }
                 }
               },
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text(
                 "I'll do this later",
                 style: kPreferencesItemStyle,
