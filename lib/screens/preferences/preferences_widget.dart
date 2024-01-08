@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/account_settings_widget.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminder_preferences.dart';
+import 'package:little_victories/screens/preferences/widgets/victory_data/victory_data.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_back_button.dart';
@@ -39,6 +40,14 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
       'title': 'Victory Data',
       'subtitle': 'View your victory data',
       'icon': Icons.analytics,
+      'widget': const VictoryData(),
+    },
+    <String, dynamic>{
+      'index': 3,
+      'title': 'Danger zone',
+      'subtitle': 'Careful, these actions are permanent!',
+      'icon': Icons.warning,
+      'widget': const Placeholder(),
     },
   ];
 

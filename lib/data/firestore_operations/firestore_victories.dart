@@ -134,3 +134,17 @@ Future<bool> deleteAllVictories(User user) async {
 }
 
 /// END: Delete all Victories
+
+/// START: Victories analytics
+
+Future<AggregateQuerySnapshot> getVictoriesAnalytics() async {
+  final User user = FirebaseAuth.instance.currentUser!;
+  final AggregateQuerySnapshot result = await _usersCollection
+      .doc(user.uid)
+      .collection('victories')
+      .count()
+      .get();
+  return result;
+}
+
+/// END: Victories analytics

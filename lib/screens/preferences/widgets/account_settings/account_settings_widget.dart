@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -78,7 +79,13 @@ class _AccountSettingsState extends State<AccountSettings> {
         _accountDetailsColumn(
           'Email',
           snapshot.data.email ?? '',
-          context,
+        ),
+        const SizedBox(height: 20.0),
+        _accountDetailsColumn(
+          'Joined on',
+          DateFormat('EEEE, MMM d, yyyy').format(
+            snapshot.data.metadata.creationTime,
+          ),
         ),
         const SizedBox(height: 20.0),
         _displayName(
@@ -106,7 +113,6 @@ class _AccountSettingsState extends State<AccountSettings> {
 Widget _accountDetailsColumn(
   String title,
   String subtitle,
-  BuildContext context,
 ) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
