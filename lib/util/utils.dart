@@ -2,7 +2,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/custom_colours.dart';
 
 Widget buildtext(
@@ -23,15 +22,6 @@ Widget buildtext(
     );
 
 //
-
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-    buildScaffoldMessenger(BuildContext context, {String? content}) =>
-        ScaffoldMessenger.of(context).showSnackBar(
-          Authentication.customSnackBar(
-            content: content ??
-                'The account already exists with different credentials',
-          ),
-        );
 
 Widget buildTextFormField(
   TextEditingController controller,

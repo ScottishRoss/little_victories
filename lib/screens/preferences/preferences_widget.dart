@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/account_settings_widget.dart';
+import 'package:little_victories/screens/preferences/widgets/danger_zone/danger_zone.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminder_preferences.dart';
 import 'package:little_victories/screens/preferences/widgets/victory_data/victory_data.dart';
 import 'package:little_victories/util/constants.dart';
@@ -20,6 +21,8 @@ class PreferencesWidget extends StatefulWidget {
 }
 
 class _PreferencesWidgetState extends State<PreferencesWidget> {
+  final ScrollController _scrollController = ScrollController();
+
   final List<Map<String, dynamic>> _preferencesList = <Map<String, dynamic>>[
     <String, dynamic>{
       'index': 0,
@@ -47,7 +50,7 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
       'title': 'Danger zone',
       'subtitle': 'Careful, these actions are permanent!',
       'icon': Icons.warning,
-      'widget': const Placeholder(),
+      'widget': const DangerZone(),
     },
   ];
 
@@ -61,6 +64,8 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.60,
           child: GroupedListView<dynamic, dynamic>(
+            controller: _scrollController,
+            physics: const ClampingScrollPhysics(),
             elements: _preferencesList.toList(),
             groupHeaderBuilder: (dynamic element) => Container(
               padding: const EdgeInsets.all(8.0),

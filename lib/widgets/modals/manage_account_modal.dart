@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/util/utils.dart';
 
 import '../../data/firestore_operations/firestore_account.dart';
 
@@ -18,13 +17,6 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
   bool _isSuccess = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    fToast.init(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Dialog(
       insetPadding: const EdgeInsets.all(10),
@@ -36,15 +28,12 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
       child: Container(
         padding: const EdgeInsets.all(kModalPadding),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: <Color>[
-              CustomColours.lightPurple,
-              CustomColours.teal,
-            ],
-          ),
+          color: CustomColours.darkBlue,
           borderRadius: BorderRadius.circular(kModalPadding),
+          border: Border.all(
+            color: CustomColours.teal,
+            width: 2,
+          ),
           boxShadow: const <BoxShadow>[
             BoxShadow(
               offset: Offset(0, 10),
@@ -64,48 +53,43 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(kModalAvatarRadius),
                   ),
-                  child: Image.asset('assets/lv_logo_transparent.png'),
+                  child: Image.asset(
+                    'assets/lv_logo_transparent_teal.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             const Text(
               'Are you sure you want to delete your account?',
+              style: kPreferencesItemStyle,
               textAlign: TextAlign.center,
-              textScaler: TextScaler.linear(1.5),
             ),
             const SizedBox(height: 20.0),
-            const Text(
+            Text(
               'All your Victories will be lost.',
               textAlign: TextAlign.center,
-              textScaler: TextScaler.linear(1.5),
-              style: TextStyle(
-                color: CustomColours.darkPurple,
-                fontWeight: FontWeight.bold,
+              style: kSubtitleStyle.copyWith(
+                color: Colors.redAccent,
               ),
             ),
             const SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(this.context).pop();
                   },
-                  child: buildtext(
+                  child: const Text(
                     'Close',
-                    fontSize: 15,
                   ),
                 ),
-                const Spacer(),
                 Container(
                   child: _isSuccess
-                      ? buildCircleProgressIndicator()
-                      : buildOutlinedButton(
-                          textType: 'Delete Account',
-                          iconData: Icons.delete_forever,
-                          textColor: Colors.white,
-                          textSize: 15,
-                          backgroundColor: CustomColours.darkPurple,
+                      ? const Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
                           onPressed: () async {
                             setState(() {
                               _isSuccess = true;
@@ -118,6 +102,14 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                               (Route<dynamic> route) => false,
                             );
                           },
+                          child: const Text(
+                            'Yes, delete',
+                            style: kPreferencesItemStyle,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            foregroundColor: Colors.white,
+                          ),
                         ),
                 ),
               ],

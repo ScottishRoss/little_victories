@@ -10,21 +10,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
-import 'utils.dart';
-
 class Authentication {
   /// Initialise Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  static SnackBar customSnackBar({required String content}) {
-    return SnackBar(
-      backgroundColor: Colors.black,
-      content: Text(
-        content,
-        style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-      ),
-    );
-  }
 
   static Future<FirebaseApp> initializeFirebase(
       {required BuildContext context}) async {
@@ -112,17 +100,32 @@ class Authentication {
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             log('Error: account-exists-with-different-credential');
-            buildScaffoldMessenger(context);
+            fToast.showToast(
+              child: const CustomToast(
+                message: 'Authentication failed, please try again later.',
+              ),
+              gravity: ToastGravity.BOTTOM,
+              toastDuration: const Duration(seconds: 2),
+            );
           } else if (e.code == 'invalid-credential') {
             log('Error: invalid-credential');
-            buildScaffoldMessenger(context,
-                content:
-                    'Error occurred while accessing credentials. Try again.');
+            fToast.showToast(
+              child: const CustomToast(
+                message: 'Authentication failed, please try again later.',
+              ),
+              gravity: ToastGravity.BOTTOM,
+              toastDuration: const Duration(seconds: 2),
+            );
           }
         } catch (e) {
           log('Error occurred using Google Sign In: $e');
-          buildScaffoldMessenger(context,
-              content: 'Error occurred using Google Sign In. Try again.');
+          fToast.showToast(
+            child: const CustomToast(
+              message: 'Authentication failed, please try again later.',
+            ),
+            gravity: ToastGravity.BOTTOM,
+            toastDuration: const Duration(seconds: 2),
+          );
         }
       }
       return null;
@@ -146,7 +149,13 @@ class Authentication {
       }
       await FirebaseAuth.instance.signOut();
     } catch (e) {
-      buildScaffoldMessenger(context, content: 'Error signing out. Try again.');
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Something went wrong, please try again later.',
+        ),
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: const Duration(seconds: 2),
+      );
     }
 
     Future<dynamic>.delayed(const Duration(milliseconds: 1000));
