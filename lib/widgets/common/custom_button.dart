@@ -36,14 +36,17 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _isProcessing = true;
+        setState(() {
+          _isProcessing = true;
+          log('CustomButton: _isProcessing = $_isProcessing');
+        });
 
-        try {
-          widget.onPressed();
-        } catch (e) {
-          log('CustomButton error: $e');
-        }
-        _isProcessing = false;
+        widget.onPressed();
+
+        setState(() {
+          _isProcessing = false;
+          log('CustomButton: _isProcessing = $_isProcessing');
+        });
       },
       borderRadius: BorderRadius.circular(kButtonBorderRadius),
       child: Container(
@@ -62,9 +65,7 @@ class _CustomButtonState extends State<CustomButton> {
         ),
         alignment: Alignment.center,
         child: _isProcessing
-            ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(widget.textColor),
-              )
+            ? const CircularProgressIndicator()
             : Text(
                 widget.text,
                 style: TextStyle(

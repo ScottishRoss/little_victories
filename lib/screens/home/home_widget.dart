@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
@@ -37,14 +36,14 @@ class HomeWidget extends StatelessWidget {
                 title: 'Your Victories',
               ),
             ),
-            if (kDebugMode)
-              GestureDetector(
-                onTap: () => callback(3),
-                child: const HomeButtonCard(
-                  image: 'confetti.jpg',
-                  title: 'debug',
-                ),
-              ),
+            // if (kDebugMode)
+            //   GestureDetector(
+            //     onTap: () => callback(3),
+            //     child: const HomeButtonCard(
+            //       image: 'confetti.jpg',
+            //       title: 'debug',
+            //     ),
+            //   ),
           ],
         ),
       ),

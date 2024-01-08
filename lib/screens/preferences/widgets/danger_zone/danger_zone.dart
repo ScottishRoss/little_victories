@@ -25,7 +25,7 @@ class DangerZone extends StatelessWidget {
                 }),
             Icons.delete_forever,
             Colors.redAccent,
-            Colors.white,
+            CustomColours.darkBlue,
           ),
           _dangerZoneRow(
             'Sign out',
@@ -33,7 +33,7 @@ class DangerZone extends StatelessWidget {
             () => Authentication.signOutOfGoogle(context: context),
             Icons.logout,
             CustomColours.teal,
-            Colors.white,
+            CustomColours.darkBlue,
           ),
         ],
       ),
