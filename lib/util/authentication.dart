@@ -38,19 +38,19 @@ class Authentication {
 
     fToast.init(context);
 
+    // If the platform is web, use the web sign in method
     if (kIsWeb) {
-      log('Attempting to sign in with Google...');
+      log('Web sign in: getting authProvider...');
       final GoogleAuthProvider authProvider = GoogleAuthProvider();
 
       try {
+        log('Web sign in: attempting to get userCredential...');
         final UserCredential userCredential =
             await auth.signInWithPopup(authProvider);
 
-        log('userCredential: $userCredential');
+        log('Web sign in: user: ${userCredential.user}');
 
-        user = userCredential.user;
-        log('user: $user');
-        if (user != null)
+        if (userCredential.user != null)
           Navigator.pushReplacementNamed(
             context,
             '/homeFromSignIn',
@@ -76,27 +76,24 @@ class Authentication {
       log('googleSignInAccount: $googleSignInAccount');
 
       if (googleSignInAccount != null) {
-        log('googleSignInAccount is not null');
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
-
-        log('googleSignInAuthentication: $googleSignInAuthentication');
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
-        log('credential: $credential');
-
         try {
-          log('Attempting to sign in with Google...');
+          log('Attempting to sign in with Google using AuthCredential...');
           final UserCredential userCredential =
               await auth.signInWithCredential(credential);
 
-          log('userCredential: $userCredential');
-
           user = userCredential.user;
+
+          log(user.toString());
+
+          Navigator.pushReplacementNamed(context, '/homeFromSignIn');
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             log('Error: account-exists-with-different-credential');
