@@ -3,12 +3,26 @@ import 'package:flutter/material.dart';
 
 import 'custom_colours.dart';
 
-const LinearGradient kTealGradient = LinearGradient(
-  begin: Alignment.topRight,
-  end: Alignment.bottomLeft,
+const LinearGradient kBackgroundGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
   colors: <Color>[
-    CustomColours.lightPurple,
+    CustomColours.darkBlue,
+    CustomColours.darkBlue,
     CustomColours.teal,
+    CustomColours.hotPink,
+    CustomColours.hotPink,
+  ],
+);
+
+const LinearGradient kIntroGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: <Color>[
+    CustomColours.darkBlue,
+    CustomColours.darkBlue,
+    CustomColours.teal,
+    CustomColours.hotPink,
   ],
 );
 
@@ -66,23 +80,6 @@ const String kFirstTimeSetup = 'first_time_setup';
 const String kIsNotificationsEnabled = 'is_notifications_enabled';
 const String kNotificationTime = 'notification_time';
 const String kDefaultNotificationTime = '18:30';
-
-const BoxDecoration kBackground = BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: <Color>[
-      CustomColours.darkPurple,
-      CustomColours.teal,
-    ],
-  ),
-  boxShadow: <BoxShadow>[
-    BoxShadow(
-      offset: Offset(0, 10),
-      blurRadius: 10,
-    ),
-  ],
-);
 
 InputDecoration kFormInputDecoration = InputDecoration(
   floatingLabelBehavior: FloatingLabelBehavior.never,

@@ -36,14 +36,13 @@ class HomeWidget extends StatelessWidget {
                 title: 'Your Victories',
               ),
             ),
-            // if (kDebugMode)
-            //   GestureDetector(
-            //     onTap: () => callback(3),
-            //     child: const HomeButtonCard(
-            //       image: 'confetti.jpg',
-            //       title: 'debug',
-            //     ),
-            //   ),
+            GestureDetector(
+              onTap: () => callback(3),
+              child: const HomeButtonCard(
+                image: 'confetti.jpg',
+                title: 'debug',
+              ),
+            ),
           ],
         ),
       ),

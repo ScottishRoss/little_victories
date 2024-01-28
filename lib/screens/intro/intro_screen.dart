@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
 import '../../util/secure_storage.dart';
@@ -18,15 +20,48 @@ class IntroScreen extends StatelessWidget {
   }
 
   PageViewModel firstPageView = PageViewModel(
-    pageColor: CustomColours.darkPurple,
-    bubbleBackgroundColor: CustomColours.lightPurple,
-    body: const Text(
-      'Little Victories is here to help you celebrate the small wins in your life.',
-      textAlign: TextAlign.left,
-      style: TextStyle(fontSize: 22),
+    pageBackground: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            CustomColours.darkBlue,
+            CustomColours.darkBlue,
+            CustomColours.teal,
+            CustomColours.hotPink,
+          ],
+        ),
+      ),
     ),
-    title: const Text(
-      'Welcome to Little Victories',
+    bubbleBackgroundColor: Colors.white,
+    body: const AutoSizeText(
+      'Little Victories is here to help you celebrate the small wins in your life',
+      style: TextStyle(
+        fontSize: 24,
+      ),
+    ),
+    title: const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        AutoSizeText(
+          'Welcome to',
+          style: TextStyle(
+            fontSize: 24,
+            letterSpacing: 1.5,
+          ),
+        ),
+        AutoSizeText(
+          'Little Victories',
+          style: TextStyle(
+            fontSize: 46,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
+        ),
+      ],
     ),
     titleTextStyle: const TextStyle(
       fontWeight: FontWeight.bold,
@@ -39,82 +74,111 @@ class IntroScreen extends StatelessWidget {
   );
 
   PageViewModel secondPageView = PageViewModel(
-    pageColor: CustomColours.teal,
-    bubbleBackgroundColor: CustomColours.lightPurple,
-    body: const Text(
-      'Every time you achieve a small goal, write it down and celebrate it.',
-      textAlign: TextAlign.left,
+    pageColor: CustomColours.darkBlue,
+    bubbleBackgroundColor: CustomColours.peach,
+    body: const AutoSizeText(
+      'Every time you achieve a small goal, write it down and celebrate it',
       style: TextStyle(
         fontSize: 22,
-        color: CustomColours.darkPurple,
       ),
     ),
-    title: const Text(
-      'Celebrate your Victories',
-      style: TextStyle(
-        color: CustomColours.darkPurple,
-        fontWeight: FontWeight.bold,
-      ),
+    title: const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        AutoSizeText(
+          'Celebrate your',
+          style: TextStyle(
+            fontSize: 24,
+            letterSpacing: 1.5,
+            color: CustomColours.teal,
+          ),
+        ),
+        AutoSizeText(
+          'Victories',
+          style: TextStyle(
+            fontSize: 46,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
+        ),
+      ],
     ),
-    mainImage: Image.asset(
-      'assets/lv_logo_transparent_dark_purple.png',
-      alignment: Alignment.center,
-    ),
+    mainImage: Image.asset('assets/lv_logo_transparent.png'),
   );
 
   PageViewModel thirdPageView = PageViewModel(
-    pageColor: Colors.white,
-    bubbleBackgroundColor: CustomColours.lightPurple,
-    body: const Text(
-      'Eating, showering, going for a walk, doing the dishes... All of these are worth celebrating.',
-      textAlign: TextAlign.left,
+    pageColor: CustomColours.teal,
+    bubbleBackgroundColor: CustomColours.darkBlue,
+    body: const AutoSizeText(
+      'Eating, showering, going for a walk, doing the dishes... All of these are worth celebrating',
       style: TextStyle(
         fontSize: 22,
-        color: CustomColours.darkPurple,
+        color: CustomColours.darkBlue,
       ),
     ),
-    title: const Text(
-      'No Victory is too small',
-      style: TextStyle(color: CustomColours.darkPurple),
+    title: const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        AutoSizeText(
+          'No Victory is too',
+          style: TextStyle(
+            fontSize: 24,
+            letterSpacing: 1.5,
+          ),
+        ),
+        AutoSizeText(
+          'small',
+          style: TextStyle(
+            fontSize: 64,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2.0,
+            color: CustomColours.darkBlue,
+          ),
+        ),
+      ],
     ),
     mainImage: Image.asset(
-      'assets/lv_logo_transparent_dark_purple.png',
+      'assets/lv_logo_transparent.png',
       alignment: Alignment.center,
-    ),
-    titleTextStyle: const TextStyle(
-      fontWeight: FontWeight.bold,
     ),
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: LayoutBuilder(builder: (
         BuildContext context,
         BoxConstraints viewportConstraints,
       ) {
-        return Builder(
-          builder: (BuildContext context) {
-            return FadeIn(
-              duration: const Duration(seconds: 2),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: IntroViewsFlutter(<PageViewModel>[
-                      firstPageView,
-                      secondPageView,
-                      thirdPageView,
-                    ],
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: kBackgroundGradient,
+          ),
+          child: Builder(
+            builder: (BuildContext context) {
+              return FadeIn(
+                duration: const Duration(seconds: 2),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: IntroViewsFlutter(
+                        <PageViewModel>[
+                          firstPageView,
+                          secondPageView,
+                          thirdPageView,
+                        ],
                         doneText: const AvatarGlow(
                           endRadius: 40,
-                          glowColor: CustomColours.darkPurple,
+                          glowColor: CustomColours.hotPink,
                           child: Text(
                             'Start',
                             style: TextStyle(
-                              color: CustomColours.darkPurple,
+                              color: CustomColours.darkBlue,
+                              fontSize: 24,
+                              letterSpacing: 1.5,
                             ),
                           ),
                         ),
@@ -122,24 +186,25 @@ class IntroScreen extends StatelessWidget {
                         backText: const Text(
                           'Back',
                           style: TextStyle(
-                            color: CustomColours.darkPurple,
+                            color: CustomColours.darkBlue,
+                            fontSize: 18,
+                            letterSpacing: 1.5,
                           ),
                         ),
                         showBackButton: true,
-                        pageButtonTextStyles: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ), onTapDoneButton: () {
-                      _onIntroEnd(context);
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-            );
-          },
+                        onTapDoneButton: () {
+                          _onIntroEnd(context);
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         );
       }),
     );

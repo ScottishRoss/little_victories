@@ -7,6 +7,7 @@ import 'package:little_victories/data/firestore_operations/firestore_victories.d
 import 'package:little_victories/data/icon_list.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
 
@@ -36,42 +37,49 @@ class _QuickVictoryState extends State<QuickVictory> {
   bool _isSaved = false;
 
   Future<bool> submitQuickVictory() async {
+    log('submitQuickVictory: submitting...');
     bool _isSuccess = false;
-    log('submitQuickVictory: validating form');
     if (widget.formKey.currentState!.validate()) {
       log('submitQuickVictory: form validated');
       try {
-        log('submitQuickVictory: saving victory');
         _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
           _selectedIconName,
         );
+        log('submitQuickVictory: _isSuccess: $_isSuccess');
 
         setState(() {
           _isSaved = _isSuccess;
         });
 
+        log('submitQuickVictory: success! Playing confetti, clearing text, unfocusing focus node, resetting form');
         if (_isSuccess) {
-          log('play confetti');
           _confettiController.play();
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
-
           Future<void>.delayed(const Duration(seconds: 4), () {
             setState(() {
               _isSaved = false;
             });
+            log('submitQuickVictory: widget reset');
           });
         }
       } catch (e) {
-        Fluttertoast.showToast(msg: e.toString());
+        FToast().showToast(
+          child: const CustomToast(
+            message:
+                'Something went wrong saving your Victory. Try again later.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
         setState(() {
           _isSaved = false;
         });
       }
     } else {
-      log('submitQuickVictory: form not validated');
+      log('submitQuickVictory: form invalid');
       setState(() {
         _isSaved = false;
       });
@@ -232,7 +240,7 @@ class _QuickVictoryState extends State<QuickVictory> {
           gravity: 0.05,
           colors: const <Color>[
             CustomColours.brightPurple,
-            CustomColours.newDarkPurple,
+            CustomColours.mediumPurple,
             CustomColours.pink,
             CustomColours.peach,
             Colors.white,

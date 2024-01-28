@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/widgets/common/header.dart';
 
 class PageBody extends StatelessWidget {
@@ -28,17 +28,7 @@ class PageBody extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[
-                  CustomColours.darkBlue,
-                  CustomColours.darkBlue,
-                  CustomColours.teal,
-                  CustomColours.hotPink,
-                  CustomColours.hotPink,
-                ],
-              ),
+              gradient: kBackgroundGradient,
             ),
           ),
           const Header(),

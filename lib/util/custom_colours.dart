@@ -7,32 +7,13 @@ int colourIndex = 0;
 
 // ignore: avoid_classes_with_only_static_members
 class CustomColours {
-  static const Color googleBackground = Color(0xFF4285F4);
-  static const Color darkPurple = Color(0xff3b1777);
-  static const Color lightPurple = Color(0xff8060c3);
   static const Color teal = Color(0xff80bfce);
   static const Color pink = Color(0xffe8a2fa);
   static const Color peach = Color(0xffffd4c4);
-  static const Color newDarkPurple = Color(0xff42206c);
-  static const Color newLightPurple = Color(0xffbf89f3);
   static const Color brightPurple = Color(0xff9334aa);
   static const Color mediumPurple = Color(0xff9777e6);
   static const Color hotPink = Color(0xFFeb7ba8);
   static const Color darkBlue = Color(0xff0b1524);
-
-  static final List<Color> customColoursList = <Color>[
-    darkPurple,
-    lightPurple,
-    teal,
-  ];
-}
-
-Color getRandomColor() {
-  final List<Color> list = CustomColours.customColoursList;
-  final Random _random = Random();
-  final Color colour = list[_random.nextInt(list.length)];
-
-  return colour;
 }
 
 MaterialColor buildMaterialColor(Color color) {
