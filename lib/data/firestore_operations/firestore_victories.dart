@@ -148,3 +148,4 @@ Future<AggregateQuerySnapshot> getVictoriesAnalytics() async {
 }
 
 /// END: Victories analytics
+/// 

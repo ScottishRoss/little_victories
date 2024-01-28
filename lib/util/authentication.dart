@@ -18,14 +18,6 @@ class Authentication {
       {required BuildContext context}) async {
     final FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-    // final User? user = FirebaseAuth.instance.currentUser;
-
-    // if (user != null) {
-    //   Navigator.pushNamedAndRemoveUntil(
-    //       context, '/homeFromSignIn', (Route<dynamic> route) => false,
-    //       arguments: <User>[user]);
-    // }
-
     return firebaseApp;
   }
 

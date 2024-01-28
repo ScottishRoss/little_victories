@@ -27,7 +27,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       TextEditingController();
 
   final ConfettiController _confettiController = ConfettiController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 6),
   );
   final FocusNode _focusNode = FocusNode();
 
@@ -35,28 +35,30 @@ class _QuickVictoryState extends State<QuickVictory> {
   String _selectedIconName = 'Happy';
   bool _isSaved = false;
 
-  Future<void> submitQuickVictory() async {
+  Future<bool> submitQuickVictory() async {
+    bool _isSuccess = false;
     log('submitQuickVictory: validating form');
     if (widget.formKey.currentState!.validate()) {
       log('submitQuickVictory: form validated');
       try {
         log('submitQuickVictory: saving victory');
-        final bool _isSuccess = await saveLittleVictory(
+        _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
           _selectedIconName,
         );
+
         setState(() {
           _isSaved = _isSuccess;
         });
-        log('_isSaved: $_isSaved');
 
-        if (_isSaved) {
+        if (_isSuccess) {
+          log('play confetti');
           _confettiController.play();
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
 
-          Future<void>.delayed(const Duration(seconds: 2), () {
+          Future<void>.delayed(const Duration(seconds: 4), () {
             setState(() {
               _isSaved = false;
             });
@@ -74,6 +76,7 @@ class _QuickVictoryState extends State<QuickVictory> {
         _isSaved = false;
       });
     }
+    return _isSuccess;
   }
 
   @override
@@ -93,16 +96,13 @@ class _QuickVictoryState extends State<QuickVictory> {
       ),
       width: MediaQuery.of(context).size.width,
       child: _isSaved
-          ? Lottie.asset('assets/lottie-check.json',
-              height: MediaQuery.of(context).size.height * .2)
+          ? _quickVictoryConfetti
           : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _iconRow,
                 _quickVictoryTextBox,
                 _quickVictoryButton,
-                _quickVictoryConfetti,
               ],
             ),
     );
@@ -218,18 +218,26 @@ class _QuickVictoryState extends State<QuickVictory> {
   }
 
   Widget get _quickVictoryConfetti {
-    return ConfettiWidget(
-      blastDirectionality: BlastDirectionality.explosive,
-      confettiController: _confettiController,
-      emissionFrequency: 0,
-      numberOfParticles: 30,
-      gravity: 0.05,
-      colors: const <Color>[
-        CustomColours.brightPurple,
-        CustomColours.newDarkPurple,
-        CustomColours.pink,
-        CustomColours.peach,
-        Colors.white,
+    return Column(
+      children: <Widget>[
+        Lottie.asset(
+          'assets/lottie-check.json',
+          height: MediaQuery.of(context).size.height * .2,
+        ),
+        ConfettiWidget(
+          blastDirectionality: BlastDirectionality.explosive,
+          confettiController: _confettiController,
+          emissionFrequency: 0,
+          numberOfParticles: 30,
+          gravity: 0.05,
+          colors: const <Color>[
+            CustomColours.brightPurple,
+            CustomColours.newDarkPurple,
+            CustomColours.pink,
+            CustomColours.peach,
+            Colors.white,
+          ],
+        ),
       ],
     );
   }
