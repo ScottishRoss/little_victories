@@ -14,7 +14,7 @@ FToast fToast = FToast();
 /// START: Set notifications for existing users
 
 Future<bool> setNotificationsForExistingUsers() async {
-  final User user = FirebaseAuth.instance.currentUser!;
+  final User? user = FirebaseAuth.instance.currentUser;
   bool isSuccessful = false;
 
   try {
@@ -23,7 +23,7 @@ Future<bool> setNotificationsForExistingUsers() async {
       updateNotificationPreferences(_notifications);
 
       _usersCollection
-          .doc(user.uid)
+          .doc(user!.uid)
           .collection('notifications')
           .doc('time')
           .set(<String, dynamic>{

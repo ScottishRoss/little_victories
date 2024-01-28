@@ -19,18 +19,19 @@ class VictoryCard extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: CustomColours.teal,
+            backgroundColor: CustomColours.darkBlue,
             title: const Text(
               'Delete Victory',
               style: TextStyle(
-                color: CustomColours.darkBlue,
+                color: Colors.white,
                 letterSpacing: 1.5,
+                fontWeight: FontWeight.w600,
               ),
             ),
             content: const Text(
               'Are you sure you want to delete this victory?',
               style: TextStyle(
-                color: CustomColours.darkBlue,
+                color: Colors.white,
                 fontSize: 18,
               ),
             ),
@@ -40,25 +41,25 @@ class VictoryCard extends StatelessWidget {
                 child: const Text(
                   'Cancel',
                   style: TextStyle(
-                    color: CustomColours.darkBlue,
+                    color: Colors.white,
                     fontSize: 16,
                   ),
                 ),
               ),
-              OutlinedButton(
+              ElevatedButton(
                 onPressed: () async {
                   await deleteLittleVictory(victory.docId);
                   Navigator.pop(context);
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(
-                    color: CustomColours.darkBlue,
+                    color: CustomColours.hotPink,
                   ),
                 ),
                 child: const Text(
                   'Yes, delete',
                   style: TextStyle(
-                    color: CustomColours.darkBlue,
+                    color: CustomColours.hotPink,
                     fontSize: 18,
                   ),
                 ),

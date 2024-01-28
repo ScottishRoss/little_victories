@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
@@ -78,7 +77,6 @@ class HomePageState extends State<HomePage> {
     fToast.init(navigatorKey.currentContext!);
     log('Page Index = $_pageIndex');
     setNotificationsForExistingUsers();
-    log(FirebaseAuth.instance.currentUser!.toString());
   }
 
   @override

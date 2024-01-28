@@ -25,7 +25,7 @@ class DangerZone extends StatelessWidget {
                 }),
             Icons.delete_forever,
             Colors.redAccent,
-            CustomColours.darkBlue,
+            Colors.white,
           ),
           _dangerZoneRow(
             'Sign out',

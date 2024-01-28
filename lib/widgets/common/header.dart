@@ -71,20 +71,23 @@ class _HeaderState extends State<Header> {
                         );
 
                       case ConnectionState.active:
-                        return FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            FirebaseAuth.instance.currentUser!.displayName!
-                                .split(' ')[0],
-                            textAlign: TextAlign.left,
-                            style: kTitleText.copyWith(
-                              color: CustomColours.darkBlue,
-                              fontSize: 62.0,
-                              fontWeight: FontWeight.bold,
+                        if (snapshot.hasData) {
+                          return FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              snapshot.data!.displayName!.split(' ')[0],
+                              textAlign: TextAlign.left,
+                              style: kTitleText.copyWith(
+                                color: CustomColours.darkBlue,
+                                fontSize: 62.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.fade,
                             ),
-                            overflow: TextOverflow.fade,
-                          ),
-                        );
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       case ConnectionState.done:
                         return FittedBox(
                           fit: BoxFit.scaleDown,

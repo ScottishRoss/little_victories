@@ -26,24 +26,24 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
   final List<Map<String, dynamic>> _preferencesList = <Map<String, dynamic>>[
     <String, dynamic>{
       'index': 0,
+      'title': 'Victory Data',
+      'subtitle': 'View your victory data',
+      'icon': Icons.analytics,
+      'widget': const VictoryData(),
+    },
+    <String, dynamic>{
+      'index': 1,
       'title': 'Reminders',
       'subtitle': 'Set reminders to keep you on track',
       'icon': Icons.notifications,
       'widget': const ReminderPreferences(),
     },
     <String, dynamic>{
-      'index': 1,
+      'index': 2,
       'title': 'Account Settings',
       'subtitle': 'Change your account settings',
       'icon': Icons.person,
       'widget': const AccountSettings(),
-    },
-    <String, dynamic>{
-      'index': 2,
-      'title': 'Victory Data',
-      'subtitle': 'View your victory data',
-      'icon': Icons.analytics,
-      'widget': const VictoryData(),
     },
     <String, dynamic>{
       'index': 3,

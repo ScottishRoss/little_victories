@@ -53,7 +53,7 @@ class Authentication {
         if (userCredential.user != null)
           Navigator.pushReplacementNamed(
             context,
-            '/homeFromSignIn',
+            '/home',
           );
       } catch (e) {
         log('Error signing in with Google: $e');
@@ -93,7 +93,7 @@ class Authentication {
 
           log(user.toString());
 
-          Navigator.pushReplacementNamed(context, '/homeFromSignIn');
+          Navigator.pushReplacementNamed(context, '/home');
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
             log('Error: account-exists-with-different-credential');
@@ -138,13 +138,15 @@ class Authentication {
 
   /// SIGN OUT
   static Future<void> signOutOfGoogle({required BuildContext context}) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
+    log('Signing out of Google...');
     try {
-      if (!kIsWeb) {
-        await googleSignIn.signOut();
-      }
-      await FirebaseAuth.instance.signOut();
+      log('Signing out of Firebase...');
+      await FirebaseAuth.instance
+          .signOut()
+          .then((dynamic value) => log('Signed out!'));
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/sign_in', (Route<dynamic> route) => false);
     } catch (e) {
       fToast.showToast(
         child: const CustomToast(
@@ -154,10 +156,6 @@ class Authentication {
         toastDuration: const Duration(seconds: 2),
       );
     }
-
-    Future<dynamic>.delayed(const Duration(milliseconds: 1000));
-
-    Navigator.pushNamed(context, '/sign_in');
   }
 
   void authCheck(BuildContext context) {
