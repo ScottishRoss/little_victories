@@ -26,8 +26,8 @@ class SignInBackground extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: <Color>[
                   CustomColours.darkBlue,
-                  CustomColours.darkBlue,
                   CustomColours.teal,
+                  CustomColours.hotPink,
                 ],
               ),
             ),
