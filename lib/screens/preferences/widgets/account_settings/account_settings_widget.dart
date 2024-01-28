@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/account_details_column.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/display_name_widget.dart';
-import 'package:little_victories/screens/preferences/widgets/account_settings/update_display_name_button.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _AccountSettingsState extends State<AccountSettings> {
     _data = FirebaseAuth.instance.userChanges();
     _displayNameController.text =
         FirebaseAuth.instance.currentUser!.displayName!;
+    log(FirebaseAuth.instance.currentUser!.displayName!);
   }
 
   @override
@@ -90,10 +92,6 @@ class _AccountSettingsState extends State<AccountSettings> {
           form: _form,
           textController: _displayNameController,
           focusNode: _focusNode,
-        ),
-        UpdateDisplayNameButton(
-          displayName: _displayNameController.text,
-          context: context,
         ),
       ],
     );

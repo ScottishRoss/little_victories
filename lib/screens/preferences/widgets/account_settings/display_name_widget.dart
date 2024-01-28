@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
+import 'package:progress_loading_button/progress_loading_button.dart';
 
 class DisplayNameWidget extends StatelessWidget {
   const DisplayNameWidget({
@@ -52,6 +54,29 @@ class DisplayNameWidget extends StatelessWidget {
               return null;
             },
           ),
+        ),
+        LoadingButton(
+          color: CustomColours.hotPink,
+          borderRadius: kButtonBorderRadius,
+          defaultWidget: const Text(
+            'Update',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              letterSpacing: 5,
+            ),
+          ),
+          loadingWidget: const CircularProgressIndicator(
+            color: Colors.white,
+          ),
+          width: double.maxFinite,
+          height: 50,
+          onPressed: () async {
+            await updateDisplayName(
+              textController.text,
+              context,
+            );
+          },
         ),
       ],
     );
