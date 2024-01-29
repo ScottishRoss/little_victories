@@ -10,6 +10,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
         classpath 'com.google.gms:google-services:4.3.10'
+        val billing_version = "6.1.0"
+        implementation("com.android.billingclient:billing:$billing_version")
     }
 }
 

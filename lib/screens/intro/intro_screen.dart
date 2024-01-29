@@ -15,6 +15,8 @@ class IntroScreen extends StatelessWidget {
   void _onIntroEnd(BuildContext context) {
     // Set first time setup to true
     SecureStorage().insert(kFirstTimeSetup, 'true');
+    // Set victory counter to 0
+    SecureStorage().insert(kVictoryCounter, '0');
     // Navigate to sign in screen
     Navigator.pushReplacementNamed(context, '/sign_in');
   }

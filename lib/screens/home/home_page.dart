@@ -2,14 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/main.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_widget.dart';
 import 'package:little_victories/screens/preferences/preferences_widget.dart';
 import 'package:little_victories/screens/view_victories/view_victories_widget.dart';
-import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 import 'package:little_victories/widgets/common/header_placeholder.dart';
@@ -28,8 +26,6 @@ class HomePageState extends State<HomePage> {
 
   late FToast fToast;
 
-  BannerAd? _bannerAd;
-
   // ignore: unused_element
   void _showToast(String message) {
     fToast.showToast(
@@ -46,12 +42,6 @@ class HomePageState extends State<HomePage> {
 
   void _updatePageIndex(int pageIndex) {
     setState(() => _pageIndex = pageIndex);
-  }
-
-  @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
   }
 
   late int _pageIndex = 0;
@@ -87,46 +77,16 @@ class HomePageState extends State<HomePage> {
     fToast.init(navigatorKey.currentContext!);
     log('Page Index = $_pageIndex');
     setNotificationsForExistingUsers();
-
-    BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (Ad ad) {
-          setState(() {
-            _bannerAd = ad as BannerAd;
-          });
-        },
-        onAdFailedToLoad: (Ad ad, LoadAdError err) {
-          print('Failed to load a banner ad: ${err.message}');
-          ad.dispose();
-        },
-      ),
-    ).load();
   }
 
   @override
   Widget build(BuildContext context) {
     return PageBody(
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          if (_bannerAd != null)
-            Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                width: _bannerAd!.size.width.toDouble(),
-                height: _bannerAd!.size.height.toDouble(),
-                child: AdWidget(ad: _bannerAd!),
-              ),
-            ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const HeaderPlaceholder(),
-              getPage(_pageIndex),
-            ],
-          ),
+          const HeaderPlaceholder(),
+          getPage(_pageIndex),
         ],
       ),
     );

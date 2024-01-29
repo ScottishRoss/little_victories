@@ -1,4 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
+
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/secure_storage.dart';
 
 class AdHelper {
   static String get bannerAdUnitId {
@@ -29,5 +33,26 @@ class AdHelper {
     } else {
       throw UnsupportedError('Unsupported platform');
     }
+  }
+
+  Future<void> incrementAdCounter() async {
+    final String? adCounter = await SecureStorage().getFromKey(kVictoryCounter);
+    int counter = int.parse(adCounter ?? '0');
+    counter++;
+    await SecureStorage().insert(kVictoryCounter, counter.toString());
+    log('Ad counter incremented to $counter');
+  }
+
+  Future<int> getAdCounter() async {
+    final String? adCounter = await SecureStorage().getFromKey(kVictoryCounter);
+    final int counter = int.parse(adCounter ?? '0');
+
+    log('Ad counter is $counter');
+    return counter;
+  }
+
+  Future<void> resetAdCounter() async {
+    await SecureStorage().insert(kVictoryCounter, '0');
+    log('Ad counter reset to 0');
   }
 }

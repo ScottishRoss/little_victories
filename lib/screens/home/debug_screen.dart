@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:little_victories/util/ad_helper.dart';
 
 import '../../util/authentication.dart';
 import '../../util/notifications_service.dart';
@@ -18,43 +16,10 @@ class DebugScreen extends StatefulWidget {
 }
 
 class _DebugScreenState extends State<DebugScreen> {
-  InterstitialAd? _interstitialAd;
-
-  void _loadInterstitialAd() {
-    InterstitialAd.load(
-      adUnitId: AdHelper.interstitialAdUnitId,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          ad.fullScreenContentCallback =
-              FullScreenContentCallback<InterstitialAd>(
-            onAdDismissedFullScreenContent: (InterstitialAd ad) {
-              Navigator.pushReplacementNamed(context, '/home');
-            },
-          );
-
-          setState(() {
-            _interstitialAd = ad;
-          });
-        },
-        onAdFailedToLoad: (LoadAdError err) {
-          print('Failed to load an interstitial ad: ${err.message}');
-        },
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _interstitialAd?.dispose();
-    super.dispose();
-  }
-
   final SecureStorage _secureStorage = SecureStorage();
   @override
   void initState() {
     Authentication().authCheck(context);
-    _loadInterstitialAd();
     super.initState();
   }
 
@@ -66,13 +31,6 @@ class _DebugScreenState extends State<DebugScreen> {
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         children: <Widget>[
-          CustomButton('Load Ad', () {
-            if (_interstitialAd != null) {
-              _interstitialAd?.show();
-            } else {
-              log('Interstitial ad is still loading...');
-            }
-          }),
           CustomButton(
             'Intro screen',
             () => Navigator.pushReplacementNamed(context, '/intro'),

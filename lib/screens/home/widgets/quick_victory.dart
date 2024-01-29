@@ -28,7 +28,7 @@ class QuickVictory extends StatefulWidget {
 class _QuickVictoryState extends State<QuickVictory> {
   InterstitialAd? _interstitialAd;
 
-  void _loadInterstitialAd() {
+  Future<void> _loadInterstitialAd() async {
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -37,7 +37,8 @@ class _QuickVictoryState extends State<QuickVictory> {
           ad.fullScreenContentCallback =
               FullScreenContentCallback<InterstitialAd>(
             onAdDismissedFullScreenContent: (InterstitialAd ad) {
-              Navigator.pushReplacementNamed(context, '/home');
+              AdHelper().resetAdCounter();
+              log('ad dismissed');
             },
           );
 
@@ -46,7 +47,7 @@ class _QuickVictoryState extends State<QuickVictory> {
           });
         },
         onAdFailedToLoad: (LoadAdError err) {
-          print('Failed to load an interstitial ad: ${err.message}');
+          log('Failed to load an interstitial ad: ${err.message}');
         },
       ),
     );
@@ -77,6 +78,7 @@ class _QuickVictoryState extends State<QuickVictory> {
   bool _isSaved = false;
 
   Future<bool> submitQuickVictory() async {
+    final int adCounter = await AdHelper().getAdCounter();
     log('submitQuickVictory: submitting...');
     bool _isSuccess = false;
     if (widget.formKey.currentState!.validate()) {
@@ -98,12 +100,14 @@ class _QuickVictoryState extends State<QuickVictory> {
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
-          Future<void>.delayed(const Duration(seconds: 4), () {
+          Future<void>.delayed(const Duration(seconds: 3), () {
             setState(() {
               _isSaved = false;
             });
             log('submitQuickVictory: widget reset');
-            _interstitialAd?.show();
+            if (adCounter >= 3) {
+              _interstitialAd?.show();
+            }
           });
         }
       } catch (e) {
@@ -125,6 +129,8 @@ class _QuickVictoryState extends State<QuickVictory> {
         _isSaved = false;
       });
     }
+
+    AdHelper().incrementAdCounter();
     return _isSuccess;
   }
 
