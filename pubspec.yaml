@@ -38,6 +38,7 @@ dependencies:
 
   # Social Packages
   google_sign_in: ^6.2.0
+  sign_in_with_apple: ^5.0.0
 
   # Widget Packages
   expansion_tile_card: ^3.0.0
@@ -53,6 +54,7 @@ dependencies:
   day_night_time_picker: ^1.3.0+1
 
   # Other Packages
+  google_mobile_ads: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^3.0.0

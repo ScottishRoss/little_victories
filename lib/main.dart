@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/screens/home/home_page.dart';
 import 'package:little_victories/screens/misc/set_display_name.dart';
 //import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -43,12 +44,16 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  log('Initializing MobileAds');
+  MobileAds.instance.initialize();
+  log('Initializing NotificationsService');
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
+  log('Initializing Firebase');
   await Firebase.initializeApp();
+  log('Inserting default notification time');
   insertDefaultNotificationTime();
 
   final Widget app = await routeOnFirstTimeSetup();

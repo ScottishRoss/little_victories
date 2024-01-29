@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/data/icon_list.dart';
+import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
@@ -24,6 +26,44 @@ class QuickVictory extends StatefulWidget {
 }
 
 class _QuickVictoryState extends State<QuickVictory> {
+  InterstitialAd? _interstitialAd;
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          ad.fullScreenContentCallback =
+              FullScreenContentCallback<InterstitialAd>(
+            onAdDismissedFullScreenContent: (InterstitialAd ad) {
+              Navigator.pushReplacementNamed(context, '/home');
+            },
+          );
+
+          setState(() {
+            _interstitialAd = ad;
+          });
+        },
+        onAdFailedToLoad: (LoadAdError err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInterstitialAd();
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
+
   final TextEditingController _quickVictoryTextController =
       TextEditingController();
 
@@ -63,6 +103,7 @@ class _QuickVictoryState extends State<QuickVictory> {
               _isSaved = false;
             });
             log('submitQuickVictory: widget reset');
+            _interstitialAd?.show();
           });
         }
       } catch (e) {
