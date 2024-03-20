@@ -24,7 +24,7 @@ class _AccountSettingsState extends State<AccountSettings> {
     super.initState();
     _data = FirebaseAuth.instance.userChanges();
     _displayNameController.text =
-        FirebaseAuth.instance.currentUser!.displayName!;
+        FirebaseAuth.instance.currentUser!.displayName!.split(' ')[0];
     log(FirebaseAuth.instance.currentUser!.displayName!);
   }
 
