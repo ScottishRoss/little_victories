@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
+import 'package:little_victories/util/ad_helper.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({
@@ -29,22 +32,22 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
-    // BannerAd(
-    //   adUnitId: AdHelper.bannerAdUnitId,
-    //   request: const AdRequest(),
-    //   size: AdSize.banner,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (Ad ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (Ad ad, LoadAdError err) {
-    //       log('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    // ).load();
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError err) {
+          log('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 
   @override
@@ -56,7 +59,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           children: <Widget>[
             if (_bannerAd != null)
               Align(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.topCenter,
                 child: SizedBox(
                   width: _bannerAd!.size.width.toDouble(),
                   height: _bannerAd!.size.height.toDouble(),
@@ -81,6 +84,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                   child: const HomeButtonCard(
                     image: 'confetti.jpg',
                     title: 'Your Victories',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => widget.callback(3),
+                  child: const HomeButtonCard(
+                    image: 'confetti.jpg',
+                    title: 'Debug',
                   ),
                 ),
               ],
