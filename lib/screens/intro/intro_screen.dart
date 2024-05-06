@@ -172,10 +172,10 @@ class IntroScreen extends StatelessWidget {
                           secondPageView,
                           thirdPageView,
                         ],
-                        doneText: const AvatarGlow(
-                          endRadius: 40,
+                        doneText: AvatarGlow(
+                          glowRadiusFactor: 40,
                           glowColor: CustomColours.hotPink,
-                          child: Text(
+                          child: const Text(
                             'Start',
                             style: TextStyle(
                               color: CustomColours.darkBlue,
