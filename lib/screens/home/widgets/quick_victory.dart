@@ -136,19 +136,18 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: <Color>[
-            CustomColours.darkBlue,
-            CustomColours.darkBlue.withOpacity(0.7),
-            Colors.transparent,
-          ],
-        ),
-      ),
+    return SizedBox(
+      // decoration: BoxDecoration(
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //     colors: <Color>[
+      //       CustomColours.darkBlue,
+      //       CustomColours.darkBlue.withOpacity(0.7),
+      //       Colors.transparent,
+      //     ],
+      //   ),
+      // ),
       width: MediaQuery.of(context).size.width,
       child: _isSaved
           ? _quickVictoryConfetti

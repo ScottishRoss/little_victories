@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 import 'package:little_victories/util/ad_helper.dart';
+import 'package:little_victories/util/custom_colours.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({
@@ -66,34 +69,141 @@ class _HomeWidgetState extends State<HomeWidget> {
                   child: AdWidget(ad: _bannerAd!),
                 ),
               ),
-            ListView(
-              padding: EdgeInsets.zero,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              children: <Widget>[
-                QuickVictory(formKey: HomeWidget.formKey),
-                GestureDetector(
-                  onTap: () => widget.callback(1),
-                  child: const HomeButtonCard(
-                    image: 'windows.jpg',
-                    title: 'Preferences',
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 40.0,
+                horizontal: 40.0,
+              ),
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 20.0),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Hi Ross!',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 60,
+                      ),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => widget.callback(2),
-                  child: const HomeButtonCard(
-                    image: 'confetti.jpg',
-                    title: 'Your Victories',
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: CustomColours.peach,
+                        ),
+                        padding: const EdgeInsets.all(15.0),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Victories',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              '16',
+                              style: TextStyle(
+                                fontSize: 50,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white,
+                        ),
+                        padding: const EdgeInsets.all(15.0),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Icon(
+                              Icons.app_settings_alt_outlined,
+                              color: Colors.black,
+                              size: 60.0,
+                            ),
+                            Text(
+                              'Settings',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => widget.callback(3),
-                  child: const HomeButtonCard(
-                    image: 'confetti.jpg',
-                    title: 'Debug',
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(15.0),
+                    height: MediaQuery.of(context).size.height / 6,
+                    width: MediaQuery.of(context).size.width,
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Icon(
+                          Icons.app_settings_alt_outlined,
+                          color: Colors.black,
+                          size: 60.0,
+                        ),
+                        Text(
+                          'Settings',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  // GestureDetector(
+                  //   onTap: () => widget.callback(1),
+                  //   child: const HomeButtonCard(
+                  //     image: 'windows.jpg',
+                  //     title: 'Preferences',
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () => widget.callback(2),
+                  //   child: const HomeButtonCard(
+                  //     image: 'confetti.jpg',
+                  //     title: 'Your Victories',
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () => widget.callback(3),
+                  //   child: const HomeButtonCard(
+                  //     image: 'confetti.jpg',
+                  //     title: 'Debug',
+                  //   ),
+                  // ),
+
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: QuickVictory(formKey: HomeWidget.formKey),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

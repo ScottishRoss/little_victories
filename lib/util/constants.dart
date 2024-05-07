@@ -63,13 +63,13 @@ ThemeData kTimePickerLightTheme = ThemeData.light().copyWith(
   ),
 );
 
-const double kButtonBorderRadius = 20;
+const double kButtonBorderRadius = 30;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
-const Color kIconRowActiveColour = Colors.white;
+const Color kIconRowActiveColour = CustomColours.darkBlue;
 const double kiconRowActiveSize = 40;
-const Color kIconRowInactiveColour = Colors.white;
+const Color kIconRowInactiveColour = CustomColours.darkBlue;
 const double kIconRowInactiveSize = 25;
 
 bool isDebugMode() {

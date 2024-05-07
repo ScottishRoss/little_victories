@@ -85,7 +85,6 @@ class HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          const HeaderPlaceholder(),
           getPage(_pageIndex),
         ],
       ),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/header.dart';
 
 class PageBody extends StatelessWidget {
@@ -27,11 +28,11 @@ class PageBody extends StatelessWidget {
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: kBackgroundGradient,
-            ),
+            color: CustomColours.teal,
+            // decoration: const BoxDecoration(
+            //   gradient: kBackgroundGradient,
+            // ),
           ),
-          const Header(),
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
