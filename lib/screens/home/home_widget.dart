@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/screens/home/widgets/first_name_header.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
+import 'package:little_victories/screens/home/widgets/settings_card.dart';
 import 'package:little_victories/screens/home/widgets/victories_counter.dart';
 import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -80,35 +81,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const FirstNameHeader(),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const VictoriesCounter(),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.all(15.0),
-                        height: MediaQuery.of(context).size.height / 6,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.app_settings_alt_outlined,
-                              color: Colors.black,
-                              size: 60.0,
-                            ),
-                            Text(
-                              'Settings',
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      VictoriesCounter(),
+                      SettingsCard(),
                     ],
                   ),
                   Container(

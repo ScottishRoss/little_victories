@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/custom_colours.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
     Key? key,
     required this.children,
-    required this.colour,
+    this.colour = Colors.white,
     this.widthDivision = 2,
   }) : super(key: key);
 
@@ -24,7 +23,7 @@ class HomeCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 6,
       width: MediaQuery.of(context).size.width / widthDivision,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: children,
       ),
     );
