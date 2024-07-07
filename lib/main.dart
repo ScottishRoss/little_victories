@@ -26,7 +26,7 @@ Future<Widget> routeOnFirstTimeSetup() async {
   if (_isFirstTime != null) {
     return const SignInScreen();
   } else {
-    return IntroScreen();
+    return const IntroScreen();
   }
 }
 
@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case '/intro':
             return PageTransition<void>(
-              child: IntroScreen(),
+              child: const IntroScreen(),
               type: PageTransitionType.fade,
             );
           case '/home':

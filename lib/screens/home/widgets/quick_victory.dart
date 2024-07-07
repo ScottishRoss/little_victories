@@ -78,6 +78,7 @@ class _QuickVictoryState extends State<QuickVictory> {
   bool _isSaved = false;
 
   Future<bool> submitQuickVictory() async {
+    // ignore: unused_local_variable
     final int adCounter = await AdHelper().getAdCounter();
     log('submitQuickVictory: submitting...');
     bool _isSuccess = false;

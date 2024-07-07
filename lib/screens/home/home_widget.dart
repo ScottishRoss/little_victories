@@ -1,10 +1,7 @@
 import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -62,7 +59,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           children: <Widget>[
             if (_bannerAd != null)
               Align(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   width: _bannerAd!.size.width.toDouble(),
                   height: _bannerAd!.size.height.toDouble(),
@@ -72,7 +69,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             Container(
               padding: const EdgeInsets.symmetric(
                 vertical: 40.0,
-                horizontal: 40.0,
+                horizontal: 20.0,
               ),
               height: MediaQuery.of(context).size.height,
               child: Column(

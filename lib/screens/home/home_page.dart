@@ -10,7 +10,6 @@ import 'package:little_victories/screens/preferences/preferences_widget.dart';
 import 'package:little_victories/screens/view_victories/view_victories_widget.dart';
 import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
-import 'package:little_victories/widgets/common/header_placeholder.dart';
 import 'package:little_victories/widgets/common/page_body.dart';
 
 class HomePage extends StatefulWidget {
