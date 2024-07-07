@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:little_victories/screens/home/widgets/first_name_header.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
+import 'package:little_victories/screens/home/widgets/victories_counter.dart';
 import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/custom_colours.dart';
 
@@ -74,53 +76,14 @@ class _HomeWidgetState extends State<HomeWidget> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const SizedBox(height: 20.0),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Hi Ross!',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 60,
-                      ),
-                    ),
-                  ),
-
+                  const FirstNameHeader(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: CustomColours.peach,
-                        ),
-                        padding: const EdgeInsets.all(15.0),
-                        height: MediaQuery.of(context).size.height / 6,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Victories',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              '16',
-                              style: TextStyle(
-                                fontSize: 50,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      const VictoriesCounter(),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),

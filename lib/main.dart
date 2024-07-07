@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,14 +20,13 @@ import 'package:page_transition/page_transition.dart';
 import 'screens/intro/intro_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
 
-Future<Widget> routeOnFirstTimeSetup() async {
-  final String? _isFirstTime =
-      await SecureStorage().getFromKey(kFirstTimeSetup);
-  log('isFirstTime: $_isFirstTime');
-  if (_isFirstTime != null) {
-    return const SignInScreen();
+Future<Widget> isSignedIn() async {
+  final User? _user = FirebaseAuth.instance.currentUser;
+  log('isUserSignedIn: $_user');
+  if (_user != null) {
+    return const HomePage();
   } else {
-    return const IntroScreen();
+    return const SignInScreen();
   }
 }
 
@@ -56,7 +56,7 @@ Future<void> main() async {
   log('Inserting default notification time');
   insertDefaultNotificationTime();
 
-  final Widget app = await routeOnFirstTimeSetup();
+  final Widget app = await isSignedIn();
 
   runApp(MyApp(route: app));
 

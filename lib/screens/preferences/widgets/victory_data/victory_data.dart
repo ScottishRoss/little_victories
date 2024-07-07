@@ -16,7 +16,7 @@ class _VictoryDataState extends State<VictoryData> {
   @override
   void initState() {
     super.initState();
-    _victoriesData = getVictoriesAnalytics();
+    // _victoriesData = getVictoriesAnalytics();
   }
 
   @override

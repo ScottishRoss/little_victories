@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
-import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:little_victories/screens/intro/widgets/buttons/intro_back_button.dart';
-import 'package:little_victories/screens/intro/widgets/buttons/intro_start_button.dart';
-import 'package:little_victories/screens/intro/widgets/first_intro_page.dart';
-import 'package:little_victories/screens/intro/widgets/second_intro_page.dart';
-import 'package:little_victories/screens/intro/widgets/third_intro_page.dart';
+
+import 'package:introduction_screen/introduction_screen.dart';
+
+import 'package:little_victories/screens/intro/widgets/pages/first_intro_page.dart';
+import 'package:little_victories/screens/intro/widgets/pages/second_intro_page.dart';
+import 'package:little_victories/screens/intro/widgets/pages/third_intro_page.dart';
 
 import '../../util/constants.dart';
 import '../../util/secure_storage.dart';
@@ -40,17 +40,17 @@ class IntroScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Expanded(
-                    child: IntroViewsFlutter(
-                      <PageViewModel>[
+                    child: IntroductionScreen(
+                      pages: <PageViewModel>[
                         firstPageView,
                         secondPageView,
                         thirdPageView,
                       ],
-                      doneText: const IntroStartButton(),
-                      showSkipButton: false,
-                      backText: const IntroBackButton(),
-                      showBackButton: true,
-                      onTapDoneButton: () {
+                      showSkipButton: true,
+                      showNextButton: false,
+                      skip: const Text('Skip'),
+                      done: const Text('Done'),
+                      onDone: () {
                         _onIntroEnd(context);
                       },
                     ),
