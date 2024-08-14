@@ -60,7 +60,6 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.all(20.0),
-          color: CustomColours.darkBlue,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.60,
           child: GroupedListView<dynamic, dynamic>(

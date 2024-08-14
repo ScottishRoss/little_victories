@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/screens/home/home_page.dart';
 import 'package:little_victories/screens/misc/set_display_name.dart';
-import 'package:little_victories/screens/preferences/preferences_widget.dart';
 //import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';

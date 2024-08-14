@@ -26,10 +26,6 @@ class PageBody extends StatelessWidget {
           const SizedBox(
             height: double.infinity,
             width: double.infinity,
-
-            // decoration: const BoxDecoration(
-            //   gradient: kBackgroundGradient,
-            // ),
           ),
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.userChanges(),

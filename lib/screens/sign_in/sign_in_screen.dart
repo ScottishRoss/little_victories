@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:little_victories/screens/sign_in/widgets/sign_in_background.dart';
 import 'package:little_victories/screens/sign_in/widgets/sign_in_widget.dart';
-import 'package:little_victories/widgets/common/no_internet_connection.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -53,10 +52,10 @@ class _SignInScreenState extends State<SignInScreen> {
       case InternetStatus.connected:
         return const SignInBackground(child: SignInWidget());
       case InternetStatus.disconnected:
-        return const SignInBackground(child: NoInternetConnection());
+        return const SignInBackground(child: Text('No internet'));
 
       case null:
-        return const SignInBackground(child: NoInternetConnection());
+        return const SignInBackground(child: Text('No internet'));
     }
   }
 }

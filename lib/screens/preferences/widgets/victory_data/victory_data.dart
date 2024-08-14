@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/util/constants.dart';
 
 class VictoryData extends StatefulWidget {

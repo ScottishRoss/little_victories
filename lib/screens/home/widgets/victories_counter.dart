@@ -36,7 +36,7 @@ class _VictoriesCounterState extends State<VictoriesCounter> {
   }
 }
 
-Widget victoriesStreambuilder(_data) {
+Widget victoriesStreambuilder(Stream<QuerySnapshot<Object?>> _data) {
   return StreamBuilder<QuerySnapshot<Object?>>(
     stream: _data,
     builder: _buildVictoriesCount,
