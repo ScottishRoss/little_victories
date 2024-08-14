@@ -36,16 +36,26 @@ class AdHelper {
   }
 
   Future<void> incrementAdCounter() async {
-    final String? adCounter = await SecureStorage().getFromKey(kVictoryCounter);
-    int counter = int.parse(adCounter ?? '0');
+    final String? result = await SecureStorage().getFromKey(kVictoryCounter);
+    int counter;
+
+    if (result != null) {
+      counter = int.parse(result);
+    } else {
+      counter = 0;
+    }
     counter++;
     await SecureStorage().insert(kVictoryCounter, counter.toString());
-    log('Ad counter incremented to $counter');
   }
 
   Future<int> getAdCounter() async {
-    final String? adCounter = await SecureStorage().getFromKey(kVictoryCounter);
-    final int counter = int.parse(adCounter ?? '0');
+    final String? result = await SecureStorage().getFromKey(kVictoryCounter);
+    int counter;
+    if (result != null) {
+      counter = int.parse(result);
+    } else {
+      counter = 0;
+    }
 
     log('Ad counter is $counter');
     return counter;

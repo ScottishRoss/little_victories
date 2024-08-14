@@ -31,14 +31,11 @@ Future<bool> saveLittleVictory(
   String icon,
 ) async {
   bool isSuccessful = false;
-  log('saveLittleVictory: $victory $icon');
   final DateTime currentDateTime = DateTime.now();
   log('saveLittleVictory: $currentDateTime');
   final User user = FirebaseAuth.instance.currentUser!;
-  log('saveLittleVictory: ${user.email}');
 
   try {
-    log('saveLittleVictory: $user');
     _usersCollection
         .doc(user.uid)
         .collection('victories')
@@ -51,7 +48,6 @@ Future<bool> saveLittleVictory(
       FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
         'submit': 'true',
       });
-      log('saveLittleVictory: Logged event');
     });
     isSuccessful = true;
     log('saveLittleVictory: Success!');
@@ -65,7 +61,6 @@ Future<bool> saveLittleVictory(
       toastDuration: const Duration(seconds: 2),
     );
   }
-  AdHelper().incrementAdCounter();
   return isSuccessful;
 }
 

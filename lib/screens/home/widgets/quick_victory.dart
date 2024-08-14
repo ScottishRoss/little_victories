@@ -29,6 +29,7 @@ class _QuickVictoryState extends State<QuickVictory> {
   InterstitialAd? _interstitialAd;
 
   Future<void> _loadInterstitialAd() async {
+    log('Showing interstitial');
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -78,25 +79,27 @@ class _QuickVictoryState extends State<QuickVictory> {
   bool _isSaved = false;
 
   Future<bool> submitQuickVictory() async {
-    final int adCounter = await AdHelper().getAdCounter();
     log('submitQuickVictory: submitting...');
+    final int adCounter = await AdHelper().getAdCounter();
     bool _isSuccess = false;
     if (widget.formKey.currentState!.validate()) {
-      log('submitQuickVictory: form validated');
       try {
         _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
           _selectedIconName,
         );
-        log('submitQuickVictory: _isSuccess: $_isSuccess');
 
         setState(() {
           _isSaved = _isSuccess;
         });
 
-        log('submitQuickVictory: success! Playing confetti, clearing text, unfocusing focus node, resetting form');
         if (_isSuccess) {
-          _confettiController.play();
+          if (adCounter >= 3) {
+            _interstitialAd?.show();
+          } else {
+            _confettiController.play();
+          }
+          AdHelper().incrementAdCounter();
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
@@ -104,10 +107,6 @@ class _QuickVictoryState extends State<QuickVictory> {
             setState(() {
               _isSaved = false;
             });
-            log('submitQuickVictory: widget reset');
-            if (adCounter >= 3) {
-              _interstitialAd?.show();
-            }
           });
         }
       } catch (e) {
@@ -124,13 +123,11 @@ class _QuickVictoryState extends State<QuickVictory> {
         });
       }
     } else {
-      log('submitQuickVictory: form invalid');
       setState(() {
         _isSaved = false;
       });
     }
 
-    AdHelper().incrementAdCounter();
     return _isSuccess;
   }
 
