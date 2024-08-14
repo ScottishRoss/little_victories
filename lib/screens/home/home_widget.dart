@@ -6,8 +6,8 @@ import 'package:little_victories/screens/home/widgets/first_name_header.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 import 'package:little_victories/screens/home/widgets/settings_card.dart';
 import 'package:little_victories/screens/home/widgets/victories_counter.dart';
+import 'package:little_victories/screens/home/widgets/view_victories_card.dart';
 import 'package:little_victories/util/ad_helper.dart';
-import 'package:little_victories/util/custom_colours.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({
@@ -71,8 +71,8 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
             Container(
               padding: const EdgeInsets.symmetric(
-                vertical: 40.0,
-                horizontal: 20.0,
+                vertical: 60.0,
+                horizontal: 30.0,
               ),
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -81,60 +81,24 @@ class _HomeWidgetState extends State<HomeWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const FirstNameHeader(),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      VictoriesCounter(),
-                      SettingsCard(),
+                      // Todo: Remove before release.
+                      GestureDetector(
+                        onTap: () => widget.callback(3),
+                        child: const VictoriesCounter(),
+                      ),
+                      GestureDetector(
+                        onTap: () => widget.callback(1),
+                        child: const SettingsCard(),
+                      ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.all(15.0),
-                    height: MediaQuery.of(context).size.height / 6,
-                    width: MediaQuery.of(context).size.width,
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Icon(
-                          Icons.app_settings_alt_outlined,
-                          color: Colors.black,
-                          size: 60.0,
-                        ),
-                        Text(
-                          'Settings',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
+                  GestureDetector(
+                    onTap: () => widget.callback(2),
+                    child: const ViewVictoriesCard(),
                   ),
-                  // GestureDetector(
-                  //   onTap: () => widget.callback(1),
-                  //   child: const HomeButtonCard(
-                  //     image: 'windows.jpg',
-                  //     title: 'Preferences',
-                  //   ),
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () => widget.callback(2),
-                  //   child: const HomeButtonCard(
-                  //     image: 'confetti.jpg',
-                  //     title: 'Your Victories',
-                  //   ),
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () => widget.callback(3),
-                  //   child: const HomeButtonCard(
-                  //     image: 'confetti.jpg',
-                  //     title: 'Debug',
-                  //   ),
-                  // ),
-
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: QuickVictory(formKey: HomeWidget.formKey),

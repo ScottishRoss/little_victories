@@ -9,6 +9,7 @@ class CustomColours {
   static const Color mediumPurple = Color(0xff9777e6);
   static const Color hotPink = Color(0xFFeb7ba8);
   static const Color darkBlue = Color(0xff0b1524);
+  static const Color dark = Color(0xFF090c1d);
 }
 
 MaterialColor buildMaterialColor(Color color) {

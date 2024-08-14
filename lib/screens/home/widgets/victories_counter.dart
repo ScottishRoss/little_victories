@@ -26,6 +26,7 @@ class _VictoriesCounterState extends State<VictoriesCounter> {
   @override
   Widget build(BuildContext context) {
     return HomeCard(
+      widthDivision: 2.25,
       colour: CustomColours.peach,
       children: <Widget>[
         victoriesText(),

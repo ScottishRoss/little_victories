@@ -67,9 +67,9 @@ const double kButtonBorderRadius = 30;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
-const Color kIconRowActiveColour = CustomColours.darkBlue;
+const Color kIconRowActiveColour = CustomColours.teal;
 const double kiconRowActiveSize = 40;
-const Color kIconRowInactiveColour = CustomColours.darkBlue;
+const Color kIconRowInactiveColour = Colors.white;
 const double kIconRowInactiveSize = 25;
 
 bool isDebugMode() {

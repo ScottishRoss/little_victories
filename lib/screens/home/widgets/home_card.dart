@@ -5,12 +5,12 @@ class HomeCard extends StatelessWidget {
     Key? key,
     required this.children,
     this.colour = Colors.white,
-    this.widthDivision = 2,
+    this.widthDivision = 1,
   }) : super(key: key);
 
   final List<Widget> children;
   final Color colour;
-  final int widthDivision;
+  final double widthDivision;
 
   @override
   Widget build(BuildContext context) {

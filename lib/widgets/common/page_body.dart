@@ -17,16 +17,16 @@ class PageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: CustomColours.dark,
       extendBodyBehindAppBar: true,
       extendBody: true,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
-          Container(
+          const SizedBox(
             height: double.infinity,
             width: double.infinity,
-            color: CustomColours.teal,
+
             // decoration: const BoxDecoration(
             //   gradient: kBackgroundGradient,
             // ),

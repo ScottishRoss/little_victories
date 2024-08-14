@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -27,14 +28,18 @@ class _FirstNameHeaderState extends State<FirstNameHeader> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topLeft,
-      child: Text(
+      child: AutoSizeText(
         'Hi ${_getFirstName()}',
         style: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w400,
           fontSize: 60,
         ),
+        minFontSize: 48,
+        maxLines: 1,
+        wrapWords: false,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

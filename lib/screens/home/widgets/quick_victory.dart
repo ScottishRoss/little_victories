@@ -97,7 +97,9 @@ class _QuickVictoryState extends State<QuickVictory> {
 
         log('submitQuickVictory: success! Playing confetti, clearing text, unfocusing focus node, resetting form');
         if (_isSuccess) {
+          log('Playing confetti');
           _confettiController.play();
+          log('Clearing quick victory text field');
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
@@ -106,9 +108,9 @@ class _QuickVictoryState extends State<QuickVictory> {
               _isSaved = false;
             });
             log('submitQuickVictory: widget reset');
-            // if (adCounter >= 3) {
-            //   _interstitialAd?.show();
-            // }
+            if (adCounter >= 3) {
+              _interstitialAd?.show();
+            }
           });
         }
       } catch (e) {
@@ -131,24 +133,13 @@ class _QuickVictoryState extends State<QuickVictory> {
       });
     }
 
-    // AdHelper().incrementAdCounter();
+    AdHelper().incrementAdCounter();
     return _isSuccess;
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter,
-      //     colors: <Color>[
-      //       CustomColours.darkBlue,
-      //       CustomColours.darkBlue.withOpacity(0.7),
-      //       Colors.transparent,
-      //     ],
-      //   ),
-      // ),
       width: MediaQuery.of(context).size.width,
       child: _isSaved
           ? _quickVictoryConfetti
@@ -227,7 +218,7 @@ class _QuickVictoryState extends State<QuickVictory> {
               victoryIconList[_selectedIndex].icon,
               color: CustomColours.darkBlue,
             ),
-            labelText: "What's your little victory?",
+            labelText: "What's your Victory?",
             counterStyle: const TextStyle(
               color: Colors.white,
             ),
@@ -251,12 +242,12 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Widget get _quickVictoryButton {
     return LoadingButton(
-      color: CustomColours.darkBlue,
+      color: CustomColours.teal,
       borderRadius: kButtonBorderRadius,
       defaultWidget: const Text(
         'Celebrate',
         style: TextStyle(
-          color: Colors.white,
+          color: CustomColours.dark,
           fontSize: 20,
           letterSpacing: 5,
         ),
@@ -277,7 +268,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       children: <Widget>[
         Lottie.asset(
           'assets/lottie-check.json',
-          height: MediaQuery.of(context).size.height * .2,
+          height: MediaQuery.of(context).size.height * .25,
         ),
         ConfettiWidget(
           blastDirectionality: BlastDirectionality.explosive,
@@ -286,10 +277,10 @@ class _QuickVictoryState extends State<QuickVictory> {
           numberOfParticles: 30,
           gravity: 0.05,
           colors: const <Color>[
-            CustomColours.brightPurple,
-            CustomColours.mediumPurple,
-            CustomColours.pink,
+            CustomColours.dark,
+            CustomColours.teal,
             CustomColours.peach,
+            CustomColours.hotPink,
             Colors.white,
           ],
         ),
