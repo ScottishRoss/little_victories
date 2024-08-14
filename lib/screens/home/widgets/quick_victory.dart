@@ -105,9 +105,9 @@ class _QuickVictoryState extends State<QuickVictory> {
               _isSaved = false;
             });
             log('submitQuickVictory: widget reset');
-            // if (adCounter >= 3) {
-            //   _interstitialAd?.show();
-            // }
+            if (adCounter >= 3) {
+              _interstitialAd?.show();
+            }
           });
         }
       } catch (e) {
@@ -130,7 +130,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       });
     }
 
-    // AdHelper().incrementAdCounter();
+    AdHelper().incrementAdCounter();
     return _isSuccess;
   }
 

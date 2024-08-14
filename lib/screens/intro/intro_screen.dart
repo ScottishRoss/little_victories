@@ -18,25 +18,15 @@ class IntroScreen extends StatelessWidget {
     // Set victory counter to 0
     SecureStorage().insert(kVictoryCounter, '0');
     // Navigate to sign in screen
-    Navigator.pushReplacementNamed(context, '/sign_in');
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/sign_in', (Route<dynamic> route) => false);
   }
 
   PageViewModel firstPageView = PageViewModel(
     pageBackground: Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: <Color>[
-            CustomColours.darkBlue,
-            CustomColours.darkBlue,
-            CustomColours.teal,
-            CustomColours.hotPink,
-          ],
-        ),
-      ),
+      color: CustomColours.darkBlue,
     ),
     bubbleBackgroundColor: Colors.white,
     body: const AutoSizeText(
@@ -51,18 +41,33 @@ class IntroScreen extends StatelessWidget {
         AutoSizeText(
           'Welcome to',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 28,
             letterSpacing: 1.5,
           ),
         ),
-        AutoSizeText(
-          'Little Victories',
-          style: TextStyle(
-            fontSize: 46,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AutoSizeText(
+              'Little ',
+              style: TextStyle(
+                fontSize: 46,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+                color: CustomColours.teal,
+              ),
+            ),
+            AutoSizeText(
+              'Victories',
+              style: TextStyle(
+                fontSize: 46,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+              ),
+            ),
+          ],
+        )
       ],
     ),
     titleTextStyle: const TextStyle(
@@ -76,8 +81,8 @@ class IntroScreen extends StatelessWidget {
   );
 
   PageViewModel secondPageView = PageViewModel(
-    pageColor: CustomColours.darkBlue,
-    bubbleBackgroundColor: CustomColours.peach,
+    pageColor: CustomColours.hotPink,
+    bubbleBackgroundColor: Colors.white,
     body: const AutoSizeText(
       'Every time you achieve a small goal, write it down and celebrate it',
       style: TextStyle(
@@ -92,7 +97,6 @@ class IntroScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 24,
             letterSpacing: 1.5,
-            color: CustomColours.teal,
           ),
         ),
         AutoSizeText(
@@ -101,6 +105,7 @@ class IntroScreen extends StatelessWidget {
             fontSize: 46,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
+            color: CustomColours.darkBlue,
           ),
         ),
       ],
@@ -110,7 +115,7 @@ class IntroScreen extends StatelessWidget {
 
   PageViewModel thirdPageView = PageViewModel(
     pageColor: CustomColours.teal,
-    bubbleBackgroundColor: CustomColours.darkBlue,
+    bubbleBackgroundColor: Colors.white,
     body: const AutoSizeText(
       'Eating, showering, going for a walk, doing the dishes... All of these are worth celebrating',
       style: TextStyle(
@@ -126,6 +131,7 @@ class IntroScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 24,
             letterSpacing: 1.5,
+            color: CustomColours.darkBlue,
           ),
         ),
         AutoSizeText(
@@ -134,7 +140,7 @@ class IntroScreen extends StatelessWidget {
             fontSize: 64,
             fontWeight: FontWeight.bold,
             letterSpacing: 2.0,
-            color: CustomColours.darkBlue,
+            color: CustomColours.hotPink,
           ),
         ),
       ],
@@ -148,7 +154,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: LayoutBuilder(builder: (
@@ -174,12 +180,14 @@ class IntroScreen extends StatelessWidget {
                         ],
                         doneText: AvatarGlow(
                           glowRadiusFactor: 40,
-                          glowColor: CustomColours.hotPink,
+                          repeat: false,
+                          glowColor: CustomColours.darkBlue,
                           child: const Text(
                             'Start',
                             style: TextStyle(
                               color: CustomColours.darkBlue,
                               fontSize: 24,
+                              fontWeight: FontWeight.w500,
                               letterSpacing: 1.5,
                             ),
                           ),
