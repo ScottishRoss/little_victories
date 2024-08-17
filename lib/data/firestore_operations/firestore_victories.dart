@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:little_victories/util/ad_helper.dart';
-import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -45,12 +43,8 @@ Future<bool> saveLittleVictory(
       'createdOn': currentDateTime,
       'icon': icon
     }).then((_) {
-      FirebaseAnalyticsService().logEvent('submit_victory', <String, Object>{
-        'submit': 'true',
-      });
+      isSuccessful = true;
     });
-    isSuccessful = true;
-    log('saveLittleVictory: Success!');
   } catch (e) {
     log('saveLittleVictory: $e');
     fToast.showToast(

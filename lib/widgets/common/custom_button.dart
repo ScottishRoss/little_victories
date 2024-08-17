@@ -11,9 +11,9 @@ class CustomButton extends StatefulWidget {
     this.text,
     this.onPressed, {
     Key? key,
-    this.backgroundColor = CustomColours.darkBlue,
-    this.borderColor = CustomColours.darkBlue,
-    this.textColor = Colors.white,
+    this.backgroundColor = CustomColours.teal,
+    this.borderColor = CustomColours.teal,
+    this.textColor = CustomColours.darkBlue,
     this.marginBottom = 15,
     this.marginLeft = 25,
     this.marginRight = 25,

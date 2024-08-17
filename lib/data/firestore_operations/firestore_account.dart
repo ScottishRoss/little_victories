@@ -2,11 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
-import 'package:little_victories/util/firebase_analytics.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
@@ -28,13 +26,11 @@ Future<bool> createUser({
   log('createUser: $user starting create request');
 
   try {
-    final String? token = await FirebaseMessaging.instance.getToken();
-    log('createUser: token: $token');
-
+    // FCM token not being added until push notifications are put back in.
     _usersCollection.doc(user.uid).set(<String, dynamic>{
       'UserId': user.uid,
       'Email': user.email,
-      'FCM-Token': token,
+      'FCM-Token': null,
       'CreatedOn': currentDateTime
     });
 
@@ -52,9 +48,6 @@ Future<bool> createUser({
       'isNotificationsEnabled': false,
       'time': '18:30',
     }).then((_) {
-      FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
-        'method': 'email',
-      });
       isSuccessful = true;
     });
 

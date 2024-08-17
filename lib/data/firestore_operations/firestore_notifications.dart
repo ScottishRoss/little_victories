@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/notifications_class.dart';
-import 'package:little_victories/util/firebase_analytics.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 CollectionReference<Map<String, dynamic>> _usersCollection =
@@ -30,11 +29,8 @@ Future<bool> setNotificationsForExistingUsers() async {
         'isNotificationsEnabled': true,
         'time': '18:30',
       }).then((_) {
-        FirebaseAnalyticsService().logEvent('sign_up', <String, Object>{
-          'method': 'email',
-        });
+        isSuccessful = true;
       });
-      isSuccessful = true;
     }
   } catch (e) {
     log('Error: $e');
@@ -75,10 +71,6 @@ Future<bool> saveLittleVictoryFromNotification(
       'createdOn': currentDateTime,
       'icon': 'notification',
     }).then((_) {
-      FirebaseAnalyticsService()
-          .logEvent('submit_victory_from_notification', <String, Object>{
-        'submit': 'true',
-      });
       isSuccessful = true;
     });
   } catch (e) {

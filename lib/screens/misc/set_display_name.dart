@@ -30,7 +30,7 @@ class _DisplayNameState extends State<DisplayName> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const HeaderPlaceholder(),
             AutoSizeText(
@@ -72,16 +72,17 @@ class _DisplayNameState extends State<DisplayName> {
             AutoSizeText(
               "This is the name that's displayed at the top of the screen.",
               style: kPreferencesItemStyle.copyWith(
-                color: CustomColours.darkBlue,
+                color: Colors.white,
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 20.0),
             AutoSizeText(
               "You can change this later in the 'Preferences' screen.",
               style: kPreferencesItemStyle.copyWith(
-                color: CustomColours.darkBlue,
+                color: Colors.white,
               ),
             ),
+            const SizedBox(height: 20.0),
             CustomButton(
               'Submit',
               () async {
@@ -96,6 +97,7 @@ class _DisplayNameState extends State<DisplayName> {
                   }
                 }
               },
+              backgroundColor: CustomColours.teal,
             ),
             TextButton(
               onPressed: () {

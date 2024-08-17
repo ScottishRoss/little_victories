@@ -18,12 +18,9 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   # Firebase Packages
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.2
-  firebase_analytics: ^10.7.4
-  firebase_messaging: ^14.7.8
-  firebase_crashlytics: ^3.4.8
-  cloud_firestore: ^4.13.5
+  firebase_core: ^3.3.0
+  firebase_auth: ^5.1.4
+  cloud_firestore: ^5.2.1
 
   # Utils Packages
   path_provider: ^2.1.1

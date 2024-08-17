@@ -52,6 +52,7 @@ class VictoryCard extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 style: OutlinedButton.styleFrom(
+                  backgroundColor: CustomColours.hotPink,
                   side: const BorderSide(
                     color: CustomColours.hotPink,
                   ),
@@ -59,7 +60,7 @@ class VictoryCard extends StatelessWidget {
                 child: const Text(
                   'Yes, delete',
                   style: TextStyle(
-                    color: CustomColours.hotPink,
+                    color: CustomColours.darkBlue,
                     fontSize: 18,
                   ),
                 ),

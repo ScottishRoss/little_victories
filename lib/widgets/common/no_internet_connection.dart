@@ -9,14 +9,8 @@ class NoInternetConnection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.wifi_off,
-            size: 100,
-            color: Colors.white,
-          ),
-          SizedBox(height: 20),
           Text(
-            'No Internet Connection',
+            'No internet connection',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,

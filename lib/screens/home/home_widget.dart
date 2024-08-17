@@ -86,13 +86,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                     title: 'Your Victories',
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () => widget.callback(3),
-                //   child: const HomeButtonCard(
-                //     image: 'confetti.jpg',
-                //     title: 'Debug',
-                //   ),
-                // ),
+                GestureDetector(
+                  onTap: () => widget.callback(3),
+                  child: const HomeButtonCard(
+                    image: 'confetti.jpg',
+                    title: 'Debug',
+                  ),
+                ),
               ],
             ),
           ],
