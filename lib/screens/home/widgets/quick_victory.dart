@@ -27,8 +27,8 @@ class QuickVictory extends StatefulWidget {
 }
 
 class _QuickVictoryState extends State<QuickVictory> {
-  late InterstitialAd? _interstitialAd;
-  late Future<bool> _future;
+  InterstitialAd? _interstitialAd;
+  Future<bool>? _future;
 
   Future<bool> _loadInterstitialAd() async {
     await InterstitialAd.load(
@@ -166,7 +166,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       constraints: BoxConstraints(
         minHeight: MediaQuery.of(context).size.height * .30,
       ),
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -282,12 +282,11 @@ class _QuickVictoryState extends State<QuickVictory> {
     return LoadingButton(
       color: CustomColours.hotPink,
       borderRadius: kButtonBorderRadius,
-      defaultWidget: const Text(
+      defaultWidget: Text(
         'Celebrate',
-        style: TextStyle(
+        style: kSubtitleStyle.copyWith(
           color: CustomColours.darkBlue,
-          fontSize: 20,
-          letterSpacing: 5,
+          fontSize: 22,
         ),
       ),
       loadingWidget: const CircularProgressIndicator(

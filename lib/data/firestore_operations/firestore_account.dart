@@ -242,11 +242,6 @@ Future<bool> updateAdCounter() async {
     });
   } catch (e) {
     log('updateAdCounter error: $e');
-    fToast.showToast(
-      child: const CustomToast(
-        message: 'Something weng wrong. Try again later.',
-      ),
-    );
   }
   return isSuccessful;
 }

@@ -59,7 +59,6 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
     return Column(
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.all(20.0),
           color: CustomColours.darkBlue,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.60,
@@ -68,10 +67,12 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
             physics: const ClampingScrollPhysics(),
             elements: _preferencesList.toList(),
             groupHeaderBuilder: (dynamic element) => Container(
+              color: CustomColours.hotPink,
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 element['title'] as String,
                 style: kTitleTextStyle.copyWith(
+                  color: CustomColours.darkBlue,
                   fontSize: 24.0,
                 ),
               ),
@@ -105,6 +106,7 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
               'Back',
               style: kSubtitleStyle.copyWith(
                 color: CustomColours.darkBlue,
+                fontSize: 22,
               ),
             ),
             loadingWidget: const CircularProgressIndicator(

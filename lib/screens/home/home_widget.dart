@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 import 'package:little_victories/util/ad_helper.dart';
@@ -25,6 +26,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
+    setNotificationsForExistingUsers();
     BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       request: const AdRequest(),
@@ -70,18 +72,18 @@ class _HomeWidgetState extends State<HomeWidget> {
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               children: <Widget>[
-                 QuickVictory(formKey: HomeWidget.formKey),
+                QuickVictory(formKey: HomeWidget.formKey),
                 GestureDetector(
                   onTap: () => widget.callback(1),
                   child: const HomeButtonCard(
-                    image: 'you-got-this.jpg',
+                    image: '3497643.jpg',
                     title: 'Preferences',
                   ),
                 ),
                 GestureDetector(
                   onTap: () => widget.callback(2),
                   child: const HomeButtonCard(
-                    image: 'today-is-your-day.jpg',
+                    image: '3719063.jpg',
                     title: 'Your Victories',
                   ),
                 ),

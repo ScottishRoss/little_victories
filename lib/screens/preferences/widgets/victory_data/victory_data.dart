@@ -89,10 +89,11 @@ Widget _victoryDataRow(
         title,
         style: kPreferencesItemStyle,
       ),
-      const SizedBox(height: 10.0),
       AutoSizeText(
         subtitle,
-        style: kSubtitleStyle.copyWith(color: Colors.white),
+        style: kSubtitleStyle.copyWith(
+          color: Colors.white,
+        ),
         overflow: TextOverflow.ellipsis,
       ),
     ],

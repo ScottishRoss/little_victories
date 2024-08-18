@@ -114,13 +114,9 @@ class IntroScreen extends StatelessWidget {
   final PageViewModel fourthPageView = PageViewModel(
     pageColor: CustomColours.darkBlue,
     bubbleBackgroundColor: Colors.white,
-    mainImage: Builder(
-      builder: (BuildContext context) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: const ExampleList(),
-        );
-      },
+    mainImage: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: const ExampleList(),
     ),
     body: AutoSizeText(
       'Celebrate your victories today',
@@ -164,6 +160,7 @@ class IntroScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    columnMainAxisAlignment: MainAxisAlignment.start,
                     showSkipButton: false,
                     showBackButton: false,
                     onTapDoneButton: () {

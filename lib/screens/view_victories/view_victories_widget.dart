@@ -42,70 +42,33 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      default:
+      case ConnectionState.active:
         if (snapshot.hasError) {
-          log('Error: ${snapshot.error}');
-          return const Center(
-            child: Text('Something went wrong, please try again later.'),
-          );
-        } else if (snapshot.data!.docs.isNotEmpty) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.62,
-            child: Scrollbar(
-              controller: _scrollController,
-              child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
-                elements: snapshot.data!.docs,
-                controller: _scrollController,
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                cacheExtent: 50,
-                groupBy: (dynamic element) {
-                  final Timestamp timestamp = element['createdOn'];
-                  final DateTime date = timestamp.toDate();
-
-                  return DateTime(date.year, date.month);
-                },
-                groupSeparatorBuilder: (DateTime groupByValue) => Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 5.0,
-                  ),
-                  width: double.infinity,
-                  color: CustomColours.hotPink,
-                  child: Text(
-                    DateFormat('MMMM yyyy').format(groupByValue),
-                    textAlign: TextAlign.left,
-                    style: kSubtitleStyle.copyWith(
-                      color: CustomColours.darkBlue,
-                    ),
-                  ),
-                ),
-                indexedItemBuilder: (
-                  BuildContext context,
-                  dynamic element,
-                  int index,
-                ) {
-                  final Victory victory =
-                      Victory.convertDocumentToVictory(index, snapshot);
-
-                  return VictoryCard(
-                    victory: victory,
-                  );
-                },
-                useStickyGroupSeparators: true,
-                floatingHeader: true,
-                order: GroupedListOrder.DESC,
-              ),
-            ),
-          );
+          return _error;
         } else {
-          return const Center(
-            child: Text(
-              'No Victories, yet!',
-              style: TextStyle(fontSize: 18.0),
-            ),
-          );
+          if (snapshot.hasData) {
+            return _victoryList(snapshot);
+          } else {
+            return _noVictories;
+          }
         }
+      case ConnectionState.done:
+        if (snapshot.hasError) {
+          return _error;
+        } else {
+          if (snapshot.hasData) {
+            return _victoryList(snapshot);
+          } else {
+            return _noVictories;
+          }
+        }
+      case ConnectionState.none:
+        return Center(
+          child: Text(
+            'No internet connection',
+            style: kSubtitleStyle,
+          ),
+        );
     }
   }
 
@@ -113,6 +76,7 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           StreamBuilder<QuerySnapshot<Object?>>(
             stream: _dataList,
@@ -123,6 +87,76 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
             callback: widget.callback,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget get _error {
+    return Center(
+      child: Text(
+        'Something went wrong, please try again later.',
+        style: kSubtitleStyle,
+      ),
+    );
+  }
+
+  Widget get _noVictories {
+    return Center(
+      child: Text(
+        'No Victories, yet!',
+        style: kSubtitleStyle,
+      ),
+    );
+  }
+
+  Widget _victoryList(dynamic snapshot) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.62,
+      child: Scrollbar(
+        controller: _scrollController,
+        child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
+          elements: snapshot.data.docs,
+          controller: _scrollController,
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          cacheExtent: 50,
+          groupBy: (dynamic element) {
+            final Timestamp timestamp = element['createdOn'];
+            final DateTime date = timestamp.toDate();
+
+            return DateTime(date.year, date.month);
+          },
+          groupSeparatorBuilder: (DateTime groupByValue) => Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 5.0,
+            ),
+            width: double.infinity,
+            color: CustomColours.hotPink,
+            child: Text(
+              DateFormat('MMMM yyyy').format(groupByValue),
+              textAlign: TextAlign.left,
+              style: kSubtitleStyle.copyWith(
+                color: CustomColours.darkBlue,
+              ),
+            ),
+          ),
+          indexedItemBuilder: (
+            BuildContext context,
+            dynamic element,
+            int index,
+          ) {
+            final Victory victory =
+                Victory.convertDocumentToVictory(index, snapshot);
+
+            return VictoryCard(
+              victory: victory,
+            );
+          },
+          useStickyGroupSeparators: true,
+          floatingHeader: true,
+          order: GroupedListOrder.DESC,
+        ),
       ),
     );
   }

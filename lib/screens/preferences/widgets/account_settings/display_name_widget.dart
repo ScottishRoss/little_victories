@@ -56,14 +56,13 @@ class DisplayNameWidget extends StatelessWidget {
           ),
         ),
         LoadingButton(
-          color: CustomColours.hotPink,
+          color: CustomColours.teal,
           borderRadius: kButtonBorderRadius,
-          defaultWidget: const Text(
+          defaultWidget: Text(
             'Update',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              letterSpacing: 5,
+            style: kSubtitleStyle.copyWith(
+              color: CustomColours.darkBlue,
+              fontSize: 22,
             ),
           ),
           loadingWidget: const CircularProgressIndicator(

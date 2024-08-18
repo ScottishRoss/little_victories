@@ -25,9 +25,7 @@ class _HeaderState extends State<Header> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return const Center(
-                child: Text(
-                  'No internet connection, please check your network settings.',
-                ),
+                child: CircularProgressIndicator(),
               );
 
             case ConnectionState.waiting:
@@ -92,7 +90,7 @@ Widget _headerWidget(
                   style: kTitleTextStyle.copyWith(
                     color: CustomColours.darkBlue,
                     fontSize: 62.0,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                   overflow: TextOverflow.fade,
                 ),
