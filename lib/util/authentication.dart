@@ -65,8 +65,6 @@ class Authentication {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
 
-      log('googleSignInAccount: $googleSignInAccount');
-
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
@@ -122,8 +120,9 @@ class Authentication {
 
     final bool _isNewUser = await doesUserExist(user!);
 
-    // ignore: always_put_control_body_on_new_line
-    if (_isNewUser) createUser(user: user);
+    if (_isNewUser) {
+      createUser(user: user);
+    }
 
     return user;
   }
@@ -152,7 +151,6 @@ class Authentication {
 
   void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      // ignore: unnecessary_statements
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushNamed(context, '/sign_in');
       });

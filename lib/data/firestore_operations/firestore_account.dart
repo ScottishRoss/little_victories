@@ -51,6 +51,16 @@ Future<bool> createUser({
       isSuccessful = true;
     });
 
+    _usersCollection
+        .doc(user.uid)
+        .collection('utils')
+        .doc('ads')
+        .set(<String, dynamic>{
+      'counter': '0',
+    }).then((_) {
+      isSuccessful = true;
+    });
+
     log('createUser: notifications document created');
   } catch (e) {
     log('createUser error: $e');
@@ -161,7 +171,6 @@ Future<bool> deleteUser() async {
 /// END: Delete User
 
 /// START: Update display name
-
 Future<bool> updateDisplayName(
   String displayName,
   BuildContext context,
@@ -197,3 +206,68 @@ Future<bool> updateDisplayName(
 }
 
 /// END: Update display name
+
+/// START: Update ad counter
+Future<bool> updateAdCounter() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool isSuccessful = false;
+  int currentAdCount;
+  try {
+    currentAdCount = await getAdCounter();
+
+    if (currentAdCount == 3) {
+      updateAdCounter();
+      currentAdCount = 0;
+    } else {
+      currentAdCount++;
+    }
+
+    _usersCollection
+        .doc(user!.uid)
+        .collection('utils')
+        .doc('ads')
+        .set(<String, int>{
+      'counter': currentAdCount,
+    }).then((_) async {
+      isSuccessful = true;
+      log('updateAdCounter: $isSuccessful');
+      return isSuccessful;
+    });
+  } catch (e) {
+    log('updateAdCounter error: $e');
+    fToast.showToast(
+      child: const CustomToast(
+        message: 'Something weng wrong. Try again later.',
+      ),
+    );
+  }
+  return isSuccessful;
+}
+
+/// END: updateAdCounter
+///
+/// Start: getAdCounter
+
+Future<int> getAdCounter() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  int? counter;
+  try {
+    log('getAdCounter starting...');
+
+    final DocumentSnapshot<Map<String, dynamic>> result = await _usersCollection
+        .doc(user!.uid)
+        .collection('utils')
+        .doc('ads')
+        .get();
+
+    final Map<String, dynamic>? map = result.data();
+    final dynamic counter = map?['counter'];
+
+    log('getAdCounter complete: $counter');
+    return counter;
+  } catch (e) {
+    log('getAdCounter error: $e');
+    counter = 0;
+  }
+  return counter;
+}

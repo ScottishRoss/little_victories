@@ -71,7 +71,7 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 element['title'] as String,
-                style: kTitleText.copyWith(
+                style: kTitleTextStyle.copyWith(
                   fontSize: 24.0,
                 ),
               ),

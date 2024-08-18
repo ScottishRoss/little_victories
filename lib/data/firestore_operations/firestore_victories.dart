@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 FToast fToast = FToast();
@@ -34,7 +36,7 @@ Future<bool> saveLittleVictory(
   final User user = FirebaseAuth.instance.currentUser!;
 
   try {
-    _usersCollection
+    await _usersCollection
         .doc(user.uid)
         .collection('victories')
         .doc(currentDateTime.toString())
@@ -42,8 +44,12 @@ Future<bool> saveLittleVictory(
       'victory': victory,
       'createdOn': currentDateTime,
       'icon': icon
-    }).then((_) {
+    }).then((_) async {
+      await updateAdCounter();
       isSuccessful = true;
+      log('saveLittleVictory: $isSuccessful');
+
+      return isSuccessful;
     });
   } catch (e) {
     log('saveLittleVictory: $e');
@@ -55,6 +61,7 @@ Future<bool> saveLittleVictory(
       toastDuration: const Duration(seconds: 2),
     );
   }
+
   return isSuccessful;
 }
 

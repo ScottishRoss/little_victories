@@ -15,29 +15,22 @@ const LinearGradient kBackgroundGradient = LinearGradient(
   ],
 );
 
-const LinearGradient kIntroGradient = LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: <Color>[
-    CustomColours.darkBlue,
-    CustomColours.darkBlue,
-    CustomColours.teal,
-    CustomColours.hotPink,
-  ],
-);
-
-const TextStyle kTitleText = TextStyle(
+const TextStyle kTitleTextStyle = TextStyle(
   fontSize: 46,
-  fontWeight: FontWeight.w600,
   color: Colors.white,
   height: 0.8,
   letterSpacing: 5.0,
 );
 
-const TextStyle kSubtitleStyle = TextStyle(
+const TextStyle kBodyTextStyle = TextStyle(
   fontSize: 18,
-  fontWeight: FontWeight.bold,
+  color: Colors.white,
 );
+
+TextStyle kSubtitleStyle = kBodyTextStyle.copyWith(letterSpacing: 2.0);
+
+TextStyle kSubtitleStyleBold =
+    kSubtitleStyle.copyWith(fontWeight: FontWeight.bold);
 
 const TextStyle kPreferencesItemStyle = TextStyle(
   fontSize: 18,
@@ -80,7 +73,7 @@ const String kFirstTimeSetup = 'first_time_setup';
 const String kIsNotificationsEnabled = 'is_notifications_enabled';
 const String kNotificationTime = 'notification_time';
 const String kDefaultNotificationTime = '18:30';
-const String kVictoryCounter = 'victory_counter';
+const String kAdCounter = 'ad_counter';
 
 InputDecoration kFormInputDecoration = InputDecoration(
   floatingLabelBehavior: FloatingLabelBehavior.never,

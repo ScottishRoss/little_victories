@@ -1,9 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:little_victories/util/constants.dart';
-import 'package:little_victories/util/secure_storage.dart';
-
+// ignore: avoid_classes_with_only_static_members
 class AdHelper {
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
@@ -33,36 +30,5 @@ class AdHelper {
     } else {
       throw UnsupportedError('Unsupported platform');
     }
-  }
-
-  Future<void> incrementAdCounter() async {
-    final String? result = await SecureStorage().getFromKey(kVictoryCounter);
-    int counter;
-
-    if (result != null) {
-      counter = int.parse(result);
-    } else {
-      counter = 0;
-    }
-    counter++;
-    await SecureStorage().insert(kVictoryCounter, counter.toString());
-  }
-
-  Future<int> getAdCounter() async {
-    final String? result = await SecureStorage().getFromKey(kVictoryCounter);
-    int counter;
-    if (result != null) {
-      counter = int.parse(result);
-    } else {
-      counter = 0;
-    }
-
-    log('Ad counter is $counter');
-    return counter;
-  }
-
-  Future<void> resetAdCounter() async {
-    await SecureStorage().insert(kVictoryCounter, '0');
-    log('Ad counter reset to 0');
   }
 }

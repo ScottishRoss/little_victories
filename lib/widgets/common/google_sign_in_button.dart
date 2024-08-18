@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
+import 'package:little_victories/main.dart';
 import 'package:little_victories/util/authentication.dart';
 
 class GoogleSignInButton extends StatefulWidget {
@@ -29,8 +31,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(Colors.white),
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
                   ),
@@ -42,6 +44,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 await Authentication().signInWithGoogle(context: context);
+                await setNotificationsForExistingUsers();
+                await insertDefaultNotificationTime();
 
                 setState(() {
                   _isSigningIn = false;

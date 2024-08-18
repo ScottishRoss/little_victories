@@ -4,6 +4,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/data/icon_list.dart';
 import 'package:little_victories/util/ad_helper.dart';
@@ -26,10 +27,9 @@ class QuickVictory extends StatefulWidget {
 }
 
 class _QuickVictoryState extends State<QuickVictory> {
-  InterstitialAd? _interstitialAd;
+  late InterstitialAd? _interstitialAd;
 
   Future<void> _loadInterstitialAd() async {
-    log('Showing interstitial');
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -37,9 +37,8 @@ class _QuickVictoryState extends State<QuickVictory> {
         onAdLoaded: (InterstitialAd ad) {
           ad.fullScreenContentCallback =
               FullScreenContentCallback<InterstitialAd>(
-            onAdDismissedFullScreenContent: (InterstitialAd ad) {
-              AdHelper().resetAdCounter();
-              log('ad dismissed');
+            onAdDismissedFullScreenContent: (InterstitialAd ad) async {
+              await updateAdCounter();
             },
           );
 
@@ -80,26 +79,28 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Future<bool> submitQuickVictory() async {
     log('submitQuickVictory: submitting...');
-    final int adCounter = await AdHelper().getAdCounter();
     bool _isSuccess = false;
+    final int adCounter = await getAdCounter();
+
     if (widget.formKey.currentState!.validate()) {
       try {
         _isSuccess = await saveLittleVictory(
           _quickVictoryTextController.text,
           _selectedIconName,
         );
+        log('isSuccess $_isSuccess');
 
         setState(() {
           _isSaved = _isSuccess;
         });
 
         if (_isSuccess) {
-          if (adCounter >= 3) {
+          _confettiController.play();
+          if (adCounter > 2) {
+            log('Adcounter is $adCounter, showing interstitial');
             _interstitialAd?.show();
-          } else {
-            _confettiController.play();
           }
-          AdHelper().incrementAdCounter();
+
           _quickVictoryTextController.clear();
           _focusNode.unfocus();
           widget.formKey.currentState!.reset();
@@ -112,8 +113,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       } catch (e) {
         FToast().showToast(
           child: const CustomToast(
-            message:
-                'Something went wrong saving your Victory. Try again later.',
+            message: 'Something went wrong.',
           ),
           gravity: ToastGravity.BOTTOM,
           toastDuration: const Duration(seconds: 2),
@@ -122,10 +122,6 @@ class _QuickVictoryState extends State<QuickVictory> {
           _isSaved = false;
         });
       }
-    } else {
-      setState(() {
-        _isSaved = false;
-      });
     }
 
     return _isSuccess;
@@ -283,10 +279,10 @@ class _QuickVictoryState extends State<QuickVictory> {
           numberOfParticles: 30,
           gravity: 0.05,
           colors: const <Color>[
-            CustomColours.brightPurple,
-            CustomColours.mediumPurple,
-            CustomColours.pink,
-            CustomColours.peach,
+            CustomColours.darkBlue,
+            CustomColours.hotPink,
+            Colors.white,
+            CustomColours.teal,
             Colors.white,
           ],
         ),

@@ -13,7 +13,6 @@ class HomeWidget extends StatefulWidget {
   }) : super(key: key);
 
   final ValueChanged<int> callback;
-
   static GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -22,12 +21,6 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   BannerAd? _bannerAd;
-
-  @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -48,6 +41,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         },
       ),
     ).load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 
   @override

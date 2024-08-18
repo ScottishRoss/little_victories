@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/screens/home/home_page.dart';
 import 'package:little_victories/screens/misc/set_display_name.dart';
-//import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
@@ -40,27 +40,35 @@ Future<void> insertDefaultNotificationTime() async {
   }
 }
 
+Future<void> insertAdCounter() async {
+  final String? _isFirstTime =
+      await SecureStorage().getFromKey(kFirstTimeSetup);
+  if (_isFirstTime == null) {
+    updateAdCounter();
+    log('Initialised ad counter');
+  } else {
+    log('Ad counter is already initialised');
+  }
+}
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   log('Initializing MobileAds');
   MobileAds.instance.initialize();
+  log('Initializing Firebase');
+  await Firebase.initializeApp();
+  insertAdCounter();
   log('Initializing NotificationsService');
   NotificationsService().init();
   SystemChrome.setPreferredOrientations(
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
-  log('Initializing Firebase');
-  await Firebase.initializeApp();
-  log('Inserting default notification time');
-  insertDefaultNotificationTime();
 
   final Widget app = await routeOnFirstTimeSetup();
 
   runApp(MyApp(route: app));
-
-  //FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {

@@ -42,14 +42,12 @@ class _HeaderState extends State<Header> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FittedBox(
+                const FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     'Hello',
                     textAlign: TextAlign.left,
-                    style: kTitleText.copyWith(
-                      color: Colors.white,
-                    ),
+                    style: kTitleTextStyle,
                   ),
                 ),
                 StreamBuilder<User?>(
@@ -77,7 +75,7 @@ class _HeaderState extends State<Header> {
                             child: Text(
                               snapshot.data!.displayName!.split(' ')[0],
                               textAlign: TextAlign.left,
-                              style: kTitleText.copyWith(
+                              style: kTitleTextStyle.copyWith(
                                 color: CustomColours.darkBlue,
                                 fontSize: 62.0,
                                 fontWeight: FontWeight.bold,
@@ -95,7 +93,7 @@ class _HeaderState extends State<Header> {
                             FirebaseAuth.instance.currentUser!.displayName!
                                 .split(' ')[0],
                             textAlign: TextAlign.left,
-                            style: kTitleText.copyWith(
+                            style: kTitleTextStyle.copyWith(
                               color: CustomColours.darkBlue,
                               fontSize: 62.0,
                               fontWeight: FontWeight.bold,

@@ -35,7 +35,7 @@ class _DisplayNameState extends State<DisplayName> {
             const HeaderPlaceholder(),
             AutoSizeText(
               'What can we call you?',
-              style: kTitleText.copyWith(
+              style: kTitleTextStyle.copyWith(
                 fontSize: 20.0,
               ),
             ),
