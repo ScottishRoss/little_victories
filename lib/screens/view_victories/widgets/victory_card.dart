@@ -71,12 +71,23 @@ class VictoryCard extends StatelessWidget {
       ),
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        color: CustomColours.darkBlue.withOpacity(0.7),
+        color: CustomColours.darkBlue,
+        shape: const StadiumBorder(
+          side: BorderSide(
+            // border color
+            color: CustomColours.teal,
+            // border thickness
+            width: 2,
+          ),
+        ),
         child: ListTile(
-          leading: Icon(
-            getIconData(victory.icon),
-            size: 40,
-            color: Colors.white,
+          leading: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: Icon(
+              getIconData(victory.icon),
+              size: 40,
+              color: Colors.white,
+            ),
           ),
           title: Text(
             victory.victory,

@@ -34,7 +34,7 @@ class _ReminderTimepickerWidgetState extends State<ReminderTimepickerWidget> {
 
   final NotificationsService _notificationsService = NotificationsService();
 
-  final TimeOfDay _sunrise = const TimeOfDay(hour: 6, minute: 0);
+  final TimeOfDay _sunrise = const TimeOfDay(hour: 7, minute: 0);
   final TimeOfDay _sunset = const TimeOfDay(hour: 18, minute: 0);
 
   bool isDayTime(TimeOfDay now) {

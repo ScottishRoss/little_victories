@@ -99,14 +99,12 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
             horizontal: 25.0,
           ),
           child: LoadingButton(
-            color: CustomColours.darkBlue,
+            color: CustomColours.teal,
             borderRadius: kButtonBorderRadius,
-            defaultWidget: const Text(
+            defaultWidget: Text(
               'Back',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                letterSpacing: 5,
+              style: kSubtitleStyle.copyWith(
+                color: CustomColours.darkBlue,
               ),
             ),
             loadingWidget: const CircularProgressIndicator(

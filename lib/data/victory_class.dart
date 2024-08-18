@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Victory {
@@ -8,6 +9,14 @@ class Victory {
     required this.createdOn,
     required this.icon,
   });
+
+  factory Victory.convertDocumentToVictory(
+    int index,
+    AsyncSnapshot<QuerySnapshot<Object?>> snapshot,
+  ) {
+    final QueryDocumentSnapshot<Object?>? result = snapshot.data?.docs[index];
+    return Victory.fromDocument(result!);
+  }
 
   factory Victory.fromDocument(QueryDocumentSnapshot<dynamic> doc) {
     final String docId = doc.id.toString();

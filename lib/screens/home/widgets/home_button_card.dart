@@ -18,10 +18,7 @@ class HomeButtonCard extends StatelessWidget {
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height * .16,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 10.0,
-          ),
+          margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kButtonBorderRadius),
             border: Border.all(
@@ -41,15 +38,15 @@ class HomeButtonCard extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(kButtonBorderRadius),
-                  bottomRight: Radius.circular(kButtonBorderRadius),
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: <Color>[
                     Colors.black,
-                    Colors.black.withOpacity(0.7),
+                    Colors.black.withOpacity(0.6),
                     Colors.transparent,
                   ],
                 ),

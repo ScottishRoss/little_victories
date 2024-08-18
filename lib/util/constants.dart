@@ -41,10 +41,7 @@ const TextStyle kPreferencesItemStyle = TextStyle(
 ThemeData kTimePickerDarkTheme = ThemeData.dark().copyWith(
   colorScheme: const ColorScheme.dark(
     primary: CustomColours.darkBlue,
-    onPrimary: Colors.white,
-    secondary: Colors.white,
-    surface: CustomColours.darkBlue,
-    onSurface: Colors.white,
+    secondary: CustomColours.hotPink,
   ),
   dialogBackgroundColor: CustomColours.darkBlue,
 );

@@ -87,12 +87,8 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        hintColor: CustomColours.darkBlue, // Character Counter Colour
-        colorScheme: const ColorScheme.dark(
-          primary: CustomColours.teal,
-          secondary: CustomColours.darkBlue,
-          error: Colors.black,
-        ),
+        hintColor: CustomColours.teal, // Character Counter Colour
+
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),

@@ -28,9 +28,10 @@ class QuickVictory extends StatefulWidget {
 
 class _QuickVictoryState extends State<QuickVictory> {
   late InterstitialAd? _interstitialAd;
+  late Future<bool> _future;
 
-  Future<void> _loadInterstitialAd() async {
-    InterstitialAd.load(
+  Future<bool> _loadInterstitialAd() async {
+    await InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
@@ -51,12 +52,13 @@ class _QuickVictoryState extends State<QuickVictory> {
         },
       ),
     );
+    return true;
   }
 
   @override
   void initState() {
     super.initState();
-    _loadInterstitialAd();
+    _future = _loadInterstitialAd();
   }
 
   @override
@@ -129,8 +131,42 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            log('waiting');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          case ConnectionState.active:
+            log('active');
+            return _main;
+          case ConnectionState.none:
+            log('none');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+
+          case ConnectionState.done:
+            log('done');
+            return _main;
+
+          default:
+            log('default');
+            return _main;
+        }
+      },
+    );
+  }
+
+  Widget get _main {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * .30,
+      ),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -143,7 +179,6 @@ class _QuickVictoryState extends State<QuickVictory> {
         ),
       ),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * .32,
       child: _isSaved
           ? _quickVictoryConfetti
           : Column(

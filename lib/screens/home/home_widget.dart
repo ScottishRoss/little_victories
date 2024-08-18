@@ -70,7 +70,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               children: <Widget>[
-                QuickVictory(formKey: HomeWidget.formKey),
+                 QuickVictory(formKey: HomeWidget.formKey),
                 GestureDetector(
                   onTap: () => widget.callback(1),
                   child: const HomeButtonCard(
