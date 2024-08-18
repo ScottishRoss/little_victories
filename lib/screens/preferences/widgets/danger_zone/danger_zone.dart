@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/screens/preferences/widgets/danger_zone/manage_account_modal.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
-import 'package:little_victories/widgets/modals/manage_account_modal.dart';
 
 class DangerZone extends StatelessWidget {
   const DangerZone({Key? key}) : super(key: key);

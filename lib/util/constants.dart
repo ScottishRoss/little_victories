@@ -60,7 +60,7 @@ const double kButtonBorderRadius = 20;
 const double kModalPadding = 20;
 const double kModalAvatarRadius = 45;
 
-const Color kIconRowActiveColour = Colors.white;
+const Color kIconRowActiveColour = CustomColours.teal;
 const double kiconRowActiveSize = 40;
 const Color kIconRowInactiveColour = Colors.white;
 const double kIconRowInactiveSize = 25;
@@ -73,7 +73,6 @@ const String kFirstTimeSetup = 'first_time_setup';
 const String kIsNotificationsEnabled = 'is_notifications_enabled';
 const String kNotificationTime = 'notification_time';
 const String kDefaultNotificationTime = '18:30';
-const String kAdCounter = 'ad_counter';
 
 InputDecoration kFormInputDecoration = InputDecoration(
   floatingLabelBehavior: FloatingLabelBehavior.never,

@@ -17,8 +17,6 @@ class IntroScreen extends StatelessWidget {
   void _onIntroEnd(BuildContext context) {
     // Set first time setup to true
     SecureStorage().insert(kFirstTimeSetup, 'true');
-    // Set ad counter to 0
-    SecureStorage().insert(kAdCounter, '0');
     // Navigate to sign in screen
     Navigator.pushNamedAndRemoveUntil(
         context, '/sign_in', (Route<dynamic> route) => false);

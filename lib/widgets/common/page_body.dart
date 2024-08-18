@@ -27,7 +27,7 @@ class PageBody extends StatelessWidget {
           Container(
             height: double.infinity,
             width: double.infinity,
-            color: CustomColours.teal,
+            color: CustomColours.darkBlue,
           ),
           const Header(),
           StreamBuilder<User?>(

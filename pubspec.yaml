@@ -65,7 +65,7 @@ flutter_icons:
   macos: true
   windows: true
   web: true
-  image_path: "assets/lv_logo_purple_circle.png"
+  image_path: "assets/logo_purple_circle.png"
 
 flutter:
   uses-material-design: true
@@ -75,10 +75,10 @@ flutter:
 
 flutter_native_splash:
   color: "#8060c3"
-  image: assets/lv_logo_transparent.png
+  image: assets/logo.png
   fullscreen: true
   android_12:
-    image: assets/lv_logo_transparent.png
+    image: assets/logo.png
     color: "#8060c3"
 # flutter pub run flutter_native_splash:create
 

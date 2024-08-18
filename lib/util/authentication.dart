@@ -132,12 +132,9 @@ class Authentication {
     log('Signing out of Google...');
     try {
       log('Signing out of Firebase...');
-      await FirebaseAuth.instance
-          .signOut()
-          .then((dynamic value) => log('Signed out!'));
-
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/sign_in', (Route<dynamic> route) => false);
+      await FirebaseAuth.instance.signOut().then((dynamic value) =>
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/sign_in', (Route<dynamic> route) => false));
     } catch (e) {
       fToast.showToast(
         child: const CustomToast(

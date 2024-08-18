@@ -137,12 +137,13 @@ class _QuickVictoryState extends State<QuickVictory> {
           end: Alignment.bottomCenter,
           colors: <Color>[
             CustomColours.darkBlue,
-            CustomColours.darkBlue.withOpacity(0.7),
+            CustomColours.darkBlue.withOpacity(0.2),
             Colors.transparent,
           ],
         ),
       ),
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * .32,
       child: _isSaved
           ? _quickVictoryConfetti
           : Column(
@@ -244,18 +245,18 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Widget get _quickVictoryButton {
     return LoadingButton(
-      color: CustomColours.darkBlue,
+      color: CustomColours.hotPink,
       borderRadius: kButtonBorderRadius,
       defaultWidget: const Text(
         'Celebrate',
         style: TextStyle(
-          color: Colors.white,
+          color: CustomColours.darkBlue,
           fontSize: 20,
           letterSpacing: 5,
         ),
       ),
       loadingWidget: const CircularProgressIndicator(
-        color: Colors.white,
+        color: CustomColours.darkBlue,
       ),
       width: double.maxFinite,
       height: 50,
@@ -270,7 +271,7 @@ class _QuickVictoryState extends State<QuickVictory> {
       children: <Widget>[
         Lottie.asset(
           'assets/lottie-check.json',
-          height: MediaQuery.of(context).size.height * .2,
+          height: MediaQuery.of(context).size.height * .22,
         ),
         ConfettiWidget(
           blastDirectionality: BlastDirectionality.explosive,

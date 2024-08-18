@@ -97,7 +97,6 @@ Future<bool> doesUserExist(User user) async {
 
 Future<bool> deleteUser() async {
   final User user = FirebaseAuth.instance.currentUser!;
-  // final bool topicsDeleted = await deleteTopics(user);
   bool userDeleted = false;
   bool victoriesDeleted = false;
   bool isSuccessful = false;
@@ -114,13 +113,27 @@ Future<bool> deleteUser() async {
     log('deleteUser: error deleting victories - $e');
   }
 
-  // If Victories have been deleted, delete the user.
+  // If Victories have been deleted, sign out and delete the user.
 
   if (victoriesDeleted) {
-    log('deleteUser: attempting to delete Victories...');
+    log('deleteUser: attempting to delete user...');
     try {
       await _usersCollection.doc(user.uid).delete();
-      log('deleteUser: user deleted');
+      log('deleteUser: user document deleted');
+      try {
+        await FirebaseAuth.instance.currentUser!.delete();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          final GoogleAuthProvider authProvider = GoogleAuthProvider();
+          await FirebaseAuth.instance.currentUser!
+              .reauthenticateWithProvider(authProvider);
+          await FirebaseAuth.instance.currentUser!.delete();
+        } else {
+          log('Firebase exception $e');
+        }
+      } catch (e) {
+        log('Exception $e');
+      }
       userDeleted = true;
     } catch (e) {
       log('deleteUser: error deleting user - $e');
@@ -129,18 +142,12 @@ Future<bool> deleteUser() async {
     // If the user has been deleted, delete the user from Secure Storage.
 
     if (victoriesDeleted && userDeleted) {
-      log('deleteUser: attempting to delete user from Secure Storage...');
+      log('deleteUser: attempting to delete Secure Storage');
       try {
-        await _secureStorage.deleteFromKey('user');
-        log('deleteUser: user deleted from Secure Storage');
-
-        fToast.showToast(
-          child: const CustomToast(message: 'Account deleted.'),
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: const Duration(seconds: 2),
-        );
+        await _secureStorage.deleteAll();
+        log('deleteUser: secure storage deleted');
       } catch (e) {
-        log('deleteUser: error deleting user from Secure Storage - $e');
+        log('deleteUser: error deleting secure storage - $e');
       }
     }
 

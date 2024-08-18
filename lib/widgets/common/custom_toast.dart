@@ -23,7 +23,7 @@ class CustomToast extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           CircleAvatar(
-            child: Image.asset('assets/lv_logo_transparent.png'),
+            child: Image.asset('assets/logo.png'),
             backgroundColor: Colors.transparent,
           ),
           AutoSizeText(
