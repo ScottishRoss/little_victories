@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:dotenv/dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/firebase_options.dart';
 import 'package:little_victories/screens/home/home_page.dart';
-import 'package:little_victories/screens/misc/set_display_name.dart';
-import 'package:little_victories/util/authentication.dart';
+import 'package:little_victories/splash_screen.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
@@ -30,23 +28,6 @@ Future<bool> isFirstTime() async {
     return true;
   } else {
     return false;
-  }
-}
-
-Future<Widget> routeOnAppLaunch(bool isFirstTime) async {
-  // If it is the first time, go to intro screen.
-  if (isFirstTime) {
-    return IntroScreen();
-  } else {
-    // If it is not the first time, check to see if user is signed in.
-    final bool _isUserSignedIn = Authentication().isUserSignedIn();
-    if (_isUserSignedIn) {
-      // If a user is signed in, go to home page.
-      return const HomePage();
-    } else {
-      // If a user is not signed in, go to sign in page.
-      return const SignInScreen();
-    }
   }
 }
 
@@ -99,18 +80,20 @@ Future<void> main() async {
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
 
-  // Get the page to route to.
-  final Widget app = await routeOnAppLaunch(_isFirstTime);
-  runApp(MyApp(route: app));
+  runApp(
+    MyApp(
+      isFirstTime: _isFirstTime,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
-    required this.route,
+    required this.isFirstTime,
   }) : super(key: key);
 
-  final Widget route;
+  final bool isFirstTime;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +107,16 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
-      home: route,
+      home: Builder(
+        builder: (BuildContext context) {
+          return Center(
+            child: SplashScreen(
+              isFirstTime: isFirstTime,
+              context: context,
+            ),
+          );
+        },
+      ),
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/intro':
@@ -144,15 +136,9 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.fade,
             );
 
-          case '/display_name':
-            return PageTransition<void>(
-              child: const DisplayName(),
-              type: PageTransitionType.fade,
-            );
-
           default:
             return PageTransition<void>(
-              child: const SignInScreen(),
+              child: SplashScreen(context: context),
               type: PageTransitionType.fade,
             );
         }

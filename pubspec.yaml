@@ -43,6 +43,7 @@ dependencies:
   intro_views_flutter: ^3.2.0
   avatar_glow: ^3.0.1
   progress_loading_button: ^2.0.2
+  another_flutter_splash_screen: ^1.2.1
   lottie: ^3.1.0
   grouped_list: ^5.1.2
   auto_size_text: ^3.0.0
