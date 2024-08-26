@@ -37,7 +37,6 @@ dependencies:
   sign_in_with_apple: ^5.0.0
 
   # Widget Packages
-
   simple_animations: ^5.0.2
   confetti: ^0.7.0
   intro_views_flutter: ^3.2.0
@@ -51,8 +50,9 @@ dependencies:
 
   # Other Packages
   google_mobile_ads: ^5.0.0
-  in_app_purchase: ^3.1.13
   dotenv: ^4.2.0
+  flutter_native_splash: ^2.4.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -63,10 +63,8 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  macos: true
-  windows: true
-  web: true
-  image_path: "assets/logo_purple_circle.png"
+  image_path: "assets/app-icon-dark.png"
+# flutter pub run flutter_launcher_icons
 
 flutter:
   uses-material-design: true
@@ -75,11 +73,10 @@ flutter:
     - assets/
 
 flutter_native_splash:
-  color: "#8060c3"
+  color: "#0b1524"
   image: assets/logo.png
   fullscreen: true
   android_12:
     image: assets/logo.png
-    color: "#8060c3"
+    color: "#0b1524"
 # flutter pub run flutter_native_splash:create
-

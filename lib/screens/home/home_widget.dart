@@ -76,14 +76,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                 GestureDetector(
                   onTap: () => widget.callback(1),
                   child: const HomeButtonCard(
-                    image: '3497643.jpg',
+                    image: 'person-phone.jpg',
                     title: 'Preferences',
                   ),
                 ),
                 GestureDetector(
                   onTap: () => widget.callback(2),
                   child: const HomeButtonCard(
-                    image: '3719063.jpg',
+                    image: 'person-meditating.jpg',
                     title: 'Your Victories',
                   ),
                 ),
