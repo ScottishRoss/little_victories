@@ -10,32 +10,28 @@ CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 FToast fToast = FToast();
 
-/// START: Set notifications for existing users
-Future<bool> setNotificationsForExistingUsers() async {
-  final User? user = FirebaseAuth.instance.currentUser;
-  bool isSuccessful = false;
-
+// START: Get Notifications Data
+Future<Notifications> getNotificationsData() async {
+  final User user = FirebaseAuth.instance.currentUser!;
+  Notifications notifications = Notifications(
+    isNotificationsEnabled: false,
+    notificationTime: null,
+  );
   try {
-    final Notifications? _notifications = await getNotificationsData();
-    if (_notifications == null) {
-      updateNotificationPreferences(_notifications!);
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await _usersCollection
+            .doc(user.uid)
+            .collection('notifications')
+            .doc('time')
+            .get();
 
-      _usersCollection
-          .doc(user!.uid)
-          .collection('notifications')
-          .doc('time')
-          .set(<String, dynamic>{
-        'isNotificationsEnabled': true,
-        'time': '18:30',
-      }).then((_) {
-        isSuccessful = true;
-      });
+    if (snapshot.exists) {
+      notifications = Notifications.fromMap(snapshot.data()!);
     }
   } catch (e) {
-    log('Error: $e');
-    isSuccessful = false;
+    log('getNotificationsData: $e');
   }
-  return isSuccessful;
+  return notifications;
 }
 
 /// END: Set notifications for existing users
@@ -81,7 +77,9 @@ Future<bool> saveLittleVictoryFromNotification(
 /// END: Add Little Victory from Notification
 
 // START: Update Notification Time
-Future<bool> updateNotificationPreferences(Notifications notifications) async {
+Future<bool> updateNotificationPreferences(
+  Notifications notifications,
+) async {
   bool isSuccessful = false;
   final User user = FirebaseAuth.instance.currentUser!;
   try {
@@ -104,22 +102,29 @@ Future<bool> updateNotificationPreferences(Notifications notifications) async {
 
 // END: Update Notification Time
 
-// START: Get Notifications Data
-Future<Notifications?> getNotificationsData() async {
-  final User user = FirebaseAuth.instance.currentUser!;
+/// START: Set notifications for existing users
+Future<bool> setNotificationsForExistingUsers() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool isSuccessful = false;
   try {
-    final DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await _usersCollection
-            .doc(user.uid)
-            .collection('notifications')
-            .doc('time')
-            .get();
+    final Notifications _notifications = await getNotificationsData();
 
-    if (snapshot.exists) {
-      return Notifications.fromMap(snapshot.data()!);
+    if (_notifications.notificationTime == null) {
+      updateNotificationPreferences(_notifications);
+
+      _usersCollection
+          .doc(user!.uid)
+          .collection('notifications')
+          .doc('time')
+          .set(<String, dynamic>{
+        'isNotificationsEnabled': true,
+        'time': '18:30',
+      }).then((_) {
+        isSuccessful = true;
+      });
     }
   } catch (e) {
-    log('getNotificationsData: $e');
+    log(e.toString());
   }
-  return null;
+  return isSuccessful;
 }
