@@ -23,10 +23,11 @@ import 'screens/sign_in/sign_in_screen.dart';
 Future<bool> isFirstTime() async {
   final String? _isFirstTime =
       await SecureStorage().getFromKey(kFirstTimeSetup);
-  log('_isFirstTime = $_isFirstTime');
   if (_isFirstTime == null) {
+    log('_isFirstTime = true');
     return true;
   } else {
+    log('_isFirstTime = false');
     return false;
   }
 }
@@ -42,7 +43,7 @@ Future<void> insertDefaultNotificationTime() async {
 }
 
 Future<void> initialiseAdCounter(bool isFirstTime) async {
-  if (!isFirstTime) {
+  if (isFirstTime) {
     initAdCounter();
   }
 }
