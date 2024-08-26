@@ -214,6 +214,30 @@ Future<bool> updateDisplayName(
 
 /// END: Update display name
 
+/// START: Initialise ad counter
+Future<bool> initAdCounter() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool isSuccessful = false;
+  try {
+    _usersCollection
+        .doc(user!.uid)
+        .collection('utils')
+        .doc('ads')
+        .set(<String, int>{
+      'counter': 0,
+    }).then((_) async {
+      isSuccessful = true;
+      log('initAdCounter: $isSuccessful');
+      return isSuccessful;
+    });
+  } catch (e) {
+    log('initAdCounter error: $e');
+  }
+  return isSuccessful;
+}
+
+/// END: Initialise ad counter
+
 /// START: Update ad counter
 Future<bool> updateAdCounter() async {
   final User? user = FirebaseAuth.instance.currentUser;

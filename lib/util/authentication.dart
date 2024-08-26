@@ -153,4 +153,16 @@ class Authentication {
       });
     }
   }
+
+  bool isUserSignedIn() {
+    final User? _user = FirebaseAuth.instance.currentUser;
+
+    if (_user != null) {
+      log('isUserSignedIn: true');
+      return true;
+    } else {
+      log('isUserSignedIn: false');
+      return false;
+    }
+  }
 }
