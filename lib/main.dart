@@ -73,7 +73,7 @@ Future<void> main() async {
 
   // Finally initialise notifications.
   log('Initializing NotificationsService');
-  NotificationsService().init();
+  NotificationsService().initialise();
 
   // Prevent the device from going landscape.
   SystemChrome.setPreferredOrientations(

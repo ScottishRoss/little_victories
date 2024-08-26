@@ -51,8 +51,6 @@ class _RemindersSwitchWidgetState extends State<RemindersSwitchWidget> {
             if (_isNotificationsEnabled) {
               _isNotificationsEnabled =
                   await _notificationsService.showNotificationsConsent();
-              // _isNotificationsEnabled = await _notificationsService
-              //     .showNotificationsConsentIfNeeded();
             }
 
             // If notifications are still enabled, continue.

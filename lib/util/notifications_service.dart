@@ -42,7 +42,7 @@ class NotificationsService {
     enableVibration: true,
   );
 
-  Future<void> init() async {
+  Future<void> initialise() async {
     _notifications.initialize(
       'resource://drawable/app_icon',
       <NotificationChannel>[

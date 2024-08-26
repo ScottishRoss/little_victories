@@ -11,15 +11,14 @@ CollectionReference<Map<String, dynamic>> _usersCollection =
 FToast fToast = FToast();
 
 /// START: Set notifications for existing users
-
 Future<bool> setNotificationsForExistingUsers() async {
   final User? user = FirebaseAuth.instance.currentUser;
   bool isSuccessful = false;
 
   try {
-    final Notifications _notifications = await getNotificationsData();
-    if (_notifications.notificationTime == null) {
-      updateNotificationPreferences(_notifications);
+    final Notifications? _notifications = await getNotificationsData();
+    if (_notifications == null) {
+      updateNotificationPreferences(_notifications!);
 
       _usersCollection
           .doc(user!.uid)
@@ -106,12 +105,8 @@ Future<bool> updateNotificationPreferences(Notifications notifications) async {
 // END: Update Notification Time
 
 // START: Get Notifications Data
-Future<Notifications> getNotificationsData() async {
+Future<Notifications?> getNotificationsData() async {
   final User user = FirebaseAuth.instance.currentUser!;
-  Notifications notifications = Notifications(
-    isNotificationsEnabled: false,
-    notificationTime: null,
-  );
   try {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
         await _usersCollection
@@ -121,10 +116,10 @@ Future<Notifications> getNotificationsData() async {
             .get();
 
     if (snapshot.exists) {
-      notifications = Notifications.fromMap(snapshot.data()!);
+      return Notifications.fromMap(snapshot.data()!);
     }
   } catch (e) {
     log('getNotificationsData: $e');
   }
-  return notifications;
+  return null;
 }
