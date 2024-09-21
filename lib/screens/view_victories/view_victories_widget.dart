@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
@@ -108,52 +109,54 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   }
 
   Widget _victoryList(dynamic snapshot) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.62,
-      child: Scrollbar(
-        controller: _scrollController,
-        child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
-          elements: snapshot.data.docs,
+    return FadeIn(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.62,
+        child: Scrollbar(
           controller: _scrollController,
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          cacheExtent: 50,
-          groupBy: (dynamic element) {
-            final Timestamp timestamp = element['createdOn'];
-            final DateTime date = timestamp.toDate();
+          child: GroupedListView<QueryDocumentSnapshot<Object?>, DateTime>(
+            elements: snapshot.data.docs,
+            controller: _scrollController,
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            cacheExtent: 50,
+            groupBy: (dynamic element) {
+              final Timestamp timestamp = element['createdOn'];
+              final DateTime date = timestamp.toDate();
 
-            return DateTime(date.year, date.month);
-          },
-          groupSeparatorBuilder: (DateTime groupByValue) => Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20.0,
-              vertical: 5.0,
-            ),
-            width: double.infinity,
-            color: CustomColours.hotPink,
-            child: Text(
-              DateFormat('MMMM yyyy').format(groupByValue),
-              textAlign: TextAlign.left,
-              style: kSubtitleStyle.copyWith(
-                color: CustomColours.darkBlue,
+              return DateTime(date.year, date.month);
+            },
+            groupSeparatorBuilder: (DateTime groupByValue) => Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 5.0,
+              ),
+              width: double.infinity,
+              color: CustomColours.hotPink,
+              child: Text(
+                DateFormat('MMMM yyyy').format(groupByValue),
+                textAlign: TextAlign.left,
+                style: kSubtitleStyle.copyWith(
+                  color: CustomColours.darkBlue,
+                ),
               ),
             ),
-          ),
-          indexedItemBuilder: (
-            BuildContext context,
-            dynamic element,
-            int index,
-          ) {
-            final Victory victory =
-                Victory.convertDocumentToVictory(index, snapshot);
+            indexedItemBuilder: (
+              BuildContext context,
+              dynamic element,
+              int index,
+            ) {
+              final Victory victory =
+                  Victory.convertDocumentToVictory(index, snapshot);
 
-            return VictoryCard(
-              victory: victory,
-            );
-          },
-          useStickyGroupSeparators: true,
-          floatingHeader: true,
-          order: GroupedListOrder.DESC,
+              return VictoryCard(
+                victory: victory,
+              );
+            },
+            useStickyGroupSeparators: true,
+            floatingHeader: true,
+            order: GroupedListOrder.DESC,
+          ),
         ),
       ),
     );

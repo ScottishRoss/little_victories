@@ -68,10 +68,8 @@ class _CustomButtonState extends State<CustomButton> {
             ? const CircularProgressIndicator()
             : Text(
                 widget.text,
-                style: TextStyle(
-                  color: widget.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                style: kSubtitleStyle.copyWith(
+                  color: CustomColours.darkBlue,
                 ),
               ),
       ),

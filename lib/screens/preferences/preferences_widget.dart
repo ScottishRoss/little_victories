@@ -6,6 +6,7 @@ import 'package:little_victories/screens/preferences/widgets/reminders/reminder_
 import 'package:little_victories/screens/preferences/widgets/victory_data/victory_data.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/widgets/common/custom_back_button.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
 
 class PreferencesWidget extends StatefulWidget {
@@ -99,24 +100,8 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
           margin: const EdgeInsets.symmetric(
             horizontal: 25.0,
           ),
-          child: LoadingButton(
-            color: CustomColours.teal,
-            borderRadius: kButtonBorderRadius,
-            defaultWidget: Text(
-              'Back',
-              style: kSubtitleStyle.copyWith(
-                color: CustomColours.darkBlue,
-                fontSize: 22,
-              ),
-            ),
-            loadingWidget: const CircularProgressIndicator(
-              color: Colors.white,
-            ),
-            width: double.infinity,
-            height: 50,
-            onPressed: () async {
-              widget.callback(0);
-            },
+          child: CustomBackButton(
+            callback: widget.callback,
           ),
         ),
       ],

@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 
-class HomeButtonCard extends StatelessWidget {
+class HomeButtonCard extends StatefulWidget {
   const HomeButtonCard({
     Key? key,
     required this.image,
@@ -11,6 +13,25 @@ class HomeButtonCard extends StatelessWidget {
 
   final String image;
   final String title;
+
+  @override
+  State<HomeButtonCard> createState() => _HomeButtonCardState();
+}
+
+class _HomeButtonCardState extends State<HomeButtonCard> {
+  Future<void> loadImage(String image, BuildContext context) async {
+    try {
+      await precacheImage(AssetImage(image), context);
+    } catch (e) {
+      log('Failed to cache images');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadImage(widget.image, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +46,7 @@ class HomeButtonCard extends StatelessWidget {
         ),
         color: Colors.white,
         image: DecorationImage(
-          image: AssetImage('assets/$image'),
+          image: AssetImage('assets/${widget.image}'),
           fit: BoxFit.contain,
           alignment: Alignment.centerRight,
         ),
@@ -51,7 +72,7 @@ class HomeButtonCard extends StatelessWidget {
             ),
           ),
           child: Text(
-            title,
+            widget.title,
             style: kSubtitleStyle.copyWith(
               color: CustomColours.darkBlue,
               fontSize: 22,

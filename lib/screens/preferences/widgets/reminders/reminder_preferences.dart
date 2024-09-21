@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/data/notifications_class.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
 import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';
+import 'package:little_victories/widgets/common/loading.dart';
 
 class ReminderPreferences extends StatefulWidget {
   const ReminderPreferences({Key? key}) : super(key: key);
@@ -36,15 +38,11 @@ class _ReminderPreferencesState extends State<ReminderPreferences> {
             ) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Loading();
                 case ConnectionState.done:
                   return _buildNotificationsList(snapshot);
                 case ConnectionState.none:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Loading();
                 case ConnectionState.active:
                   return _buildNotificationsList(snapshot);
 
@@ -68,15 +66,18 @@ class _ReminderPreferencesState extends State<ReminderPreferences> {
   Widget _buildNotificationsList(dynamic snapshot) {
     final Notifications notificationsData =
         Notifications.fromMap(snapshot.data.data());
-    return Column(
-      children: <Widget>[
-        RemindersSwitchWidget(
-          notificationsData: notificationsData,
-        ),
-        ReminderTimepickerWidget(
-          notificationsData: notificationsData,
-        ),
-      ],
+    return FadeIn(
+      duration: const Duration(seconds: 1),
+      child: Column(
+        children: <Widget>[
+          RemindersSwitchWidget(
+            notificationsData: notificationsData,
+          ),
+          ReminderTimepickerWidget(
+            notificationsData: notificationsData,
+          ),
+        ],
+      ),
     );
   }
 }

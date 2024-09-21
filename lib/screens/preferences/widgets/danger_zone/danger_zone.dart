@@ -19,13 +19,14 @@ class DangerZone extends StatelessWidget {
             'Delete account',
             'Delete',
             () => showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const ManageAccountModal();
-                }),
+              context: context,
+              builder: (BuildContext context) {
+                return const ManageAccountModal();
+              },
+            ),
             Icons.delete_forever,
             Colors.redAccent,
-            Colors.white,
+            CustomColours.darkBlue,
           ),
           _dangerZoneRow(
             'Sign out',

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -54,8 +55,8 @@ Future<void> main() async {
   // Ensure everything is initialised.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // // Get env variables
-  // final DotEnv env = DotEnv(includePlatformEnvironment: true)..load();
+  // init cache
+  final DefaultCacheManager cache = DefaultCacheManager();
 
   // Check to see if it's the first time the app has been launched.
   final bool _isFirstTime = await isFirstTime();
@@ -119,28 +120,33 @@ class MyApp extends StatelessWidget {
         },
       ),
       onGenerateRoute: (RouteSettings settings) {
+        const Duration _duration = Duration(milliseconds: 1000);
         switch (settings.name) {
           case '/intro':
             return PageTransition<void>(
               child: IntroScreen(),
               type: PageTransitionType.fade,
+              duration: _duration,
             );
           case '/home':
             return PageTransition<void>(
               child: const HomePage(),
               type: PageTransitionType.fade,
+              duration: _duration,
             );
 
           case '/sign_in':
             return PageTransition<void>(
               child: const SignInScreen(),
               type: PageTransitionType.fade,
+              duration: _duration,
             );
 
           default:
             return PageTransition<void>(
               child: SplashScreen(context: context),
               type: PageTransitionType.fade,
+              duration: _duration,
             );
         }
       },

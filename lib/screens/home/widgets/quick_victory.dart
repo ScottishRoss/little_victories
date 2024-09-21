@@ -28,9 +28,8 @@ class QuickVictory extends StatefulWidget {
 
 class _QuickVictoryState extends State<QuickVictory> {
   InterstitialAd? _interstitialAd;
-  Future<bool>? _future;
 
-  Future<bool> _loadInterstitialAd() async {
+  Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -52,13 +51,12 @@ class _QuickVictoryState extends State<QuickVictory> {
         },
       ),
     );
-    return true;
   }
 
   @override
   void initState() {
     super.initState();
-    _future = _loadInterstitialAd();
+    _loadInterstitialAd();
   }
 
   @override
@@ -131,37 +129,6 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: _future,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            log('waiting');
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          case ConnectionState.active:
-            log('active');
-            return _main;
-          case ConnectionState.none:
-            log('none');
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-
-          case ConnectionState.done:
-            log('done');
-            return _main;
-
-          default:
-            log('default');
-            return _main;
-        }
-      },
-    );
-  }
-
-  Widget get _main {
     return Container(
       constraints: BoxConstraints(
         minHeight: MediaQuery.of(context).size.height * .30,

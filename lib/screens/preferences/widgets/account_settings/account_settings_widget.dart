@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intl/intl.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/account_details_column.dart';
 import 'package:little_victories/screens/preferences/widgets/account_settings/display_name_widget.dart';
+import 'package:little_victories/widgets/common/loading.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -43,15 +45,11 @@ class _AccountSettingsState extends State<AccountSettings> {
             ) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Loading(height: 50);
                 case ConnectionState.done:
                   return _buildAccountDetailsList(snapshot);
                 case ConnectionState.none:
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Loading();
                 case ConnectionState.active:
                   return _buildAccountDetailsList(snapshot);
 
@@ -73,27 +71,30 @@ class _AccountSettingsState extends State<AccountSettings> {
   }
 
   Widget _buildAccountDetailsList(dynamic snapshot) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        AccountDetailsColumn(
-          title: 'Email',
-          subtitle: snapshot.data.email ?? '',
-        ),
-        const SizedBox(height: 20.0),
-        AccountDetailsColumn(
-          title: 'Joined on',
-          subtitle: DateFormat('EEEE, MMM d, yyyy').format(
-            snapshot.data.metadata.creationTime,
+    return FadeIn(
+      duration: const Duration(seconds: 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AccountDetailsColumn(
+            title: 'Email',
+            subtitle: snapshot.data.email ?? '',
           ),
-        ),
-        const SizedBox(height: 20.0),
-        DisplayNameWidget(
-          form: _form,
-          textController: _displayNameController,
-          focusNode: _focusNode,
-        ),
-      ],
+          const SizedBox(height: 20.0),
+          AccountDetailsColumn(
+            title: 'Joined on',
+            subtitle: DateFormat('EEEE, MMM d, yyyy').format(
+              snapshot.data.metadata.creationTime,
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          DisplayNameWidget(
+            form: _form,
+            textController: _displayNameController,
+            focusNode: _focusNode,
+          ),
+        ],
+      ),
     );
   }
 }
