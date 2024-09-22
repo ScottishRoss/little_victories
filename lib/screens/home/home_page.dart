@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/main.dart';
 import 'package:little_victories/screens/home/debug_screen.dart';
 import 'package:little_victories/screens/home/home_widget.dart';
@@ -20,6 +23,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late FToast fToast;
+
+  // Data streams
+  late Future<AggregateQuerySnapshot> _victoriesData;
 
   void _updatePageIndex(int pageIndex) {
     setState(() => _pageIndex = pageIndex);
@@ -54,6 +60,9 @@ class HomePageState extends State<HomePage> {
     fToast = FToast();
     fToast.init(navigatorKey.currentContext!);
     NotificationsService().showNotificationsConsentIfNeeded();
+
+    // Get data
+    _victoriesData = getVictoriesAnalytics();
   }
 
   @override

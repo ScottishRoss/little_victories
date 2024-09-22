@@ -105,9 +105,12 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primaryColor: CustomColours.teal,
+
         hintColor: CustomColours.teal, // Character Counter Colour
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
+
       ),
       home: Builder(
         builder: (BuildContext context) {

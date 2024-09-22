@@ -62,50 +62,44 @@ class Authentication {
       log('Attempting to sign in with Google...');
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
+      // Sign out of google, just in case
+      await googleSignIn.signOut();
+
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+      log(googleSignInAccount!.email);
 
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
 
-        try {
-          log('Attempting to sign in with Google using AuthCredential...');
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-          user = userCredential.user;
+      try {
+        log('Attempting to sign in with Google using AuthCredential...');
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
 
-          log(user.toString());
+        user = userCredential.user;
 
-          Navigator.pushReplacementNamed(context, '/home');
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            log('Error: account-exists-with-different-credential');
-            fToast.showToast(
-              child: const CustomToast(
-                message: 'Authentication failed, please try again later.',
-              ),
-              gravity: ToastGravity.BOTTOM,
-              toastDuration: const Duration(seconds: 2),
-            );
-          } else if (e.code == 'invalid-credential') {
-            log('Error: invalid-credential');
-            fToast.showToast(
-              child: const CustomToast(
-                message: 'Authentication failed, please try again later.',
-              ),
-              gravity: ToastGravity.BOTTOM,
-              toastDuration: const Duration(seconds: 2),
-            );
-          }
-        } catch (e) {
-          log('Error occurred using Google Sign In: $e');
+        log(user.toString());
+
+        Navigator.pushReplacementNamed(context, '/home');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          log('Error: account-exists-with-different-credential');
+          fToast.showToast(
+            child: const CustomToast(
+              message: 'Authentication failed, please try again later.',
+            ),
+            gravity: ToastGravity.BOTTOM,
+            toastDuration: const Duration(seconds: 2),
+          );
+        } else if (e.code == 'invalid-credential') {
+          log('Error: invalid-credential');
           fToast.showToast(
             child: const CustomToast(
               message: 'Authentication failed, please try again later.',
@@ -114,6 +108,15 @@ class Authentication {
             toastDuration: const Duration(seconds: 2),
           );
         }
+      } catch (e) {
+        log('Error occurred using Google Sign In: $e');
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Authentication failed, please try again later.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
       }
       return null;
     }

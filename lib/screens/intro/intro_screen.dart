@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:little_victories/screens/intro/widgets/example_list.dart';
 import 'package:little_victories/widgets/common/little_victories.dart';
@@ -137,41 +138,45 @@ class IntroScreen extends StatelessWidget {
       ) {
         return Builder(
           builder: (BuildContext context) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  child: IntroViewsFlutter(
-                    <PageViewModel>[
-                      firstPageView,
-                      secondPageView,
-                      thirdPageView,
-                      fourthPageView,
-                    ],
-                    doneText: AvatarGlow(
-                      glowRadiusFactor: 40,
-                      repeat: false,
-                      glowColor: CustomColours.teal,
-                      child: const Text(
-                        'start',
-                        style: TextStyle(
-                          color: CustomColours.hotPink,
-                          fontSize: 28,
-                          letterSpacing: 1.5,
+            return FadeIn(
+              duration: const Duration(seconds: 2),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: IntroViewsFlutter(
+                      <PageViewModel>[
+                        firstPageView,
+                        secondPageView,
+                        thirdPageView,
+                        fourthPageView,
+                      ],
+                      doneText: AvatarGlow(
+                        glowRadiusFactor: 40,
+                        repeat: false,
+                        glowColor: CustomColours.teal,
+                        child: const Text(
+                          'start',
+                          style: TextStyle(
+                            color: CustomColours.hotPink,
+                            fontSize: 28,
+                            letterSpacing: 1.5,
+                          ),
                         ),
                       ),
+                      columnMainAxisAlignment: MainAxisAlignment.start,
+                      showSkipButton: false,
+                      showBackButton: false,
+                      onTapDoneButton: () {
+                        _onIntroEnd(context);
+                      },
                     ),
-                    columnMainAxisAlignment: MainAxisAlignment.start,
-                    showSkipButton: false,
-                    showBackButton: false,
-                    onTapDoneButton: () {
-                      _onIntroEnd(context);
-                    },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
             );
           },
         );

@@ -27,6 +27,7 @@ class _ReminderPreferencesState extends State<ReminderPreferences> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
+      height: 140,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[

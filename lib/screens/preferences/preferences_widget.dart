@@ -96,13 +96,8 @@ class _PreferencesWidgetState extends State<PreferencesWidget> {
         const SizedBox(
           height: 20.0,
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 25.0,
-          ),
-          child: CustomBackButton(
-            callback: widget.callback,
-          ),
+        CustomBackButton(
+          callback: widget.callback,
         ),
       ],
     );

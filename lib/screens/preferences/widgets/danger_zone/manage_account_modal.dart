@@ -66,7 +66,7 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
               style: kPreferencesItemStyle,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Text(
               'All your Victories will be lost.',
               textAlign: TextAlign.center,
@@ -74,7 +74,15 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                 color: Colors.redAccent,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            Text(
+              'You may be asked to reauthenticate your account to connfirm.',
+              textAlign: TextAlign.center,
+              style: kSubtitleStyle.copyWith(
+                color: CustomColours.teal,
+              ),
+            ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

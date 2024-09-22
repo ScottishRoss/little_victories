@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
@@ -9,6 +11,7 @@ import 'package:little_victories/screens/view_victories/widgets/victory_card.dar
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_back_button.dart';
+import 'package:little_victories/widgets/common/loading.dart';
 
 class ViewVictoriesWidget extends StatefulWidget {
   const ViewVictoriesWidget({
@@ -38,9 +41,8 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
   ) {
     switch (snapshot.connectionState) {
       case ConnectionState.waiting:
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const Loading();
+
       case ConnectionState.active:
         if (snapshot.hasError) {
           return _error;
@@ -77,9 +79,12 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          StreamBuilder<QuerySnapshot<Object?>>(
-            stream: _dataList,
-            builder: _buildVictoryList,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.62,
+            child: StreamBuilder<QuerySnapshot<Object?>>(
+              stream: _dataList,
+              builder: _buildVictoryList,
+            ),
           ),
           const SizedBox(height: 5.0),
           CustomBackButton(
@@ -110,6 +115,7 @@ class _ViewVictoriesWidgetState extends State<ViewVictoriesWidget> {
 
   Widget _victoryList(dynamic snapshot) {
     return FadeIn(
+      duration: const Duration(seconds: 1),
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.62,
         child: Scrollbar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:little_victories/screens/sign_in/widgets/sign_in_widget.dart';
 import 'package:little_victories/util/custom_colours.dart';
 
@@ -16,7 +17,10 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: CustomColours.darkBlue,
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: SignInWidget(),
+      body: FadeIn(
+        duration: Duration(seconds: 2),
+        child: SignInWidget(),
+      ),
     );
   }
 }

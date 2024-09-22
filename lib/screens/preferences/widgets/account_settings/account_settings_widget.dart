@@ -34,6 +34,7 @@ class _AccountSettingsState extends State<AccountSettings> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
+      height: 400,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -45,7 +46,7 @@ class _AccountSettingsState extends State<AccountSettings> {
             ) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return const Loading(height: 50);
+                  return const Loading();
                 case ConnectionState.done:
                   return _buildAccountDetailsList(snapshot);
                 case ConnectionState.none:

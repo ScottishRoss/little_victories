@@ -12,6 +12,7 @@ class DangerZone extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
+      height: 140,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
