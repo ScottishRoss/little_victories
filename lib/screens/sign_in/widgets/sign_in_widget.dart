@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/widgets/common/google_sign_in_button.dart';
 import 'package:little_victories/widgets/common/little_victories.dart';
+import 'package:little_victories/widgets/common/loading.dart';
 import 'package:little_victories/widgets/common/lv_logo.dart';
 
 class SignInWidget extends StatelessWidget {
@@ -11,24 +12,21 @@ class SignInWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FirebaseApp>(
-        future: Authentication.initializeFirebase(context: context),
-        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            case ConnectionState.active:
-              return _buildSignInPage;
+      future: Authentication.initializeFirebase(context: context),
+      builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return const Loading();
+          case ConnectionState.waiting:
+            return const Loading();
+          case ConnectionState.active:
+            return _buildSignInPage;
 
-            case ConnectionState.done:
-              return _buildSignInPage;
-          }
-        });
+          case ConnectionState.done:
+            return _buildSignInPage;
+        }
+      },
+    );
   }
 
   Widget get _buildSignInPage {

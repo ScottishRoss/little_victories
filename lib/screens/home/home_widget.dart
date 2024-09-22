@@ -28,7 +28,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     setNotificationsForExistingUsers();
     BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getAdIdByType(AdType.banner),
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

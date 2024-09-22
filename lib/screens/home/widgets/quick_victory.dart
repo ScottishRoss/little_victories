@@ -31,7 +31,7 @@ class _QuickVictoryState extends State<QuickVictory> {
 
   Future<void> _loadInterstitialAd() async {
     await InterstitialAd.load(
-      adUnitId: AdHelper.interstitialAdUnitId,
+      adUnitId: AdHelper.getAdIdByType(AdType.interstitial),
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {

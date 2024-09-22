@@ -58,14 +58,14 @@ class NotificationsService {
     );
   }
 
-  Future<bool> showNotificationsConsentIfNeeded() async {
-    final bool _isNotificationsEnabled =
+  Future<void> showNotificationsConsentIfNeeded() async {
+    final bool _isNotificationsAllowed =
         await _notifications.isNotificationAllowed();
-    log('Notifications Consent: $_isNotificationsEnabled');
-    if (!_isNotificationsEnabled)
-      log('Notifications consent not given, showing dialog...');
-    _notifications.requestPermissionToSendNotifications();
-    return _isNotificationsEnabled;
+    final String? _isNotificationsEnabled =
+        await SecureStorage().getFromKey(kIsNotificationsEnabled);
+
+    if (_isNotificationsEnabled == 'true' && !_isNotificationsAllowed)
+      showNotificationsConsent();
   }
 
   Future<bool> showNotificationsConsent() {
@@ -104,7 +104,7 @@ class NotificationsService {
         actionButtons: <NotificationActionButton>[
           NotificationActionButton(
             key: 'create_victory',
-            label: 'Celebrate',
+            label: 'Reminder',
             autoDismissible: true,
             requireInputText: true,
           ),
