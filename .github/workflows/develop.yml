@@ -47,9 +47,11 @@ jobs:
         run: cd ../
   
       # Android
-      - name: Build Android
-      - run: flutter build apk
-      - run: flutter build appbundle
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Build AppBundle
+        run: flutter build appbundle
 
       # iOS
       - name: Building IPA
