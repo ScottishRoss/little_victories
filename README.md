@@ -1,15 +1,10 @@
-# little_victories
+# Little Victories
 
 A new Flutter application.
 
+An application that will help you celebrate the Little Victories you have every day.
+
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
@@ -55,13 +50,12 @@ See the [open issues](https://github.com/scottishross/little_victories/issues) f
 <!-- CONTRIBUTING -->
 ## Contributing
 
-1. Fork the Project
-2. Create your Feature Branch from develop (`git checkout -b feature/AmazingFeature`)
-3. Remember to create a test Firebase project and add your google-services.json file. 
-4. Configure your Firebase for Google Authentication. (https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
-5. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-6. Push to the Branch (`git push origin feature/AmazingFeature`)
-7. Open a Pull Request targetting the Develop branch.
+1. Create your Feature Branch from develop (`git checkout -b feature/AmazingFeature`)
+2. Remember to create a test Firebase project and add your google-services.json file. 
+3. Configure your Firebase for Google Authentication. (https://blog.codemagic.io/firebase-authentication-google-sign-in-using-flutter/)
+4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the Branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request targetting the Develop branch.
 
 
 <!-- LICENSE -->

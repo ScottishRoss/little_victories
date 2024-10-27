@@ -1,11 +1,11 @@
-name: Build release
+name: Build develop
 on:
   pull_request:
     branches:
-      - main
+      - develop
   push:
     branches:
-      - main
+      - develop
       
 jobs:
   build:
@@ -46,20 +46,9 @@ jobs:
       - name: Return to root
         run: cd ../
 
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
-
-      - name: Create key.properties
-        run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=keystore.jks" >> android/key.properties
-          
       # Android
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk
 
       - name: Build AppBundle
         run: flutter build appbundle
@@ -72,15 +61,6 @@ jobs:
         run: |
           cd build
           tar -czf ios_build.tar.gz ios
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4.4.3
-        with:
-          name: Releases
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
-            build/ios_build.tar.gz
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -110,4 +90,3 @@ jobs:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.TOKEN }}
-      
