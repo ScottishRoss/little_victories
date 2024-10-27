@@ -29,7 +29,7 @@ jobs:
           flutter-version-file: pubspec.yaml # path to pubspec.yaml
       
       - name: Install Dependencies
-      - run: flutter pub get
+        run: flutter pub get
 
       - name: Ensure CocoaPods is installed and up-to-date
         run: |
@@ -58,9 +58,11 @@ jobs:
           echo "storeFile=keystore.jks" >> android/key.properties
           
       # Android
-      - name: Build Android
-      - run: flutter build apk --release
-      - run: flutter build appbundle
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Build AppBundle
+        run: flutter build appbundle
 
       # iOS
       - name: Building IPA
