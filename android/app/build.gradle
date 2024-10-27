@@ -54,7 +54,7 @@ android {
 
     defaultConfig {
         applicationId "rphenderson.dev.littlevictories"
-        compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
+        compileSdkVersion flutter.compileSdkVersion
         minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
         targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
         versionCode localProperties.getProperty('flutter.versionCode').toInteger()
