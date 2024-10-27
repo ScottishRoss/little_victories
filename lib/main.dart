@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -44,9 +43,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   // Ensure everything is initialised.
   WidgetsFlutterBinding.ensureInitialized();
-
-  // init cache
-  final DefaultCacheManager cache = DefaultCacheManager();
 
   // Check to see if it's the first time the app has been launched.
   final bool _isFirstTime = await isFirstTime();

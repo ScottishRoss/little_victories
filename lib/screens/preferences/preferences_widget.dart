@@ -7,7 +7,6 @@ import 'package:little_victories/screens/preferences/widgets/victory_data/victor
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/widgets/common/custom_back_button.dart';
-import 'package:progress_loading_button/progress_loading_button.dart';
 
 class PreferencesWidget extends StatefulWidget {
   const PreferencesWidget({
