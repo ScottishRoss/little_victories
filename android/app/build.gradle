@@ -64,7 +64,13 @@ android {
     }
 
     signingConfigs {
-       release {
+        debug {
+           keyAlias keystoreProperties['debugKeyAlias']
+           keyPassword keystoreProperties['debugKeyPassword']
+           storeFile keystoreProperties['debugStoreFile'] ? file(keystoreProperties['debugStoreFile']) : null
+           storePassword keystoreProperties['debugStorePassword']
+       }
+        release {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
@@ -72,9 +78,12 @@ android {
        }
    }
    buildTypes {
-       release {
-           signingConfig signingConfigs.release
-       }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
    }
 }
 
