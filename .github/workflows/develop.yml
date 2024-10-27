@@ -31,36 +31,12 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Ensure CocoaPods is installed and up-to-date
-        run: |
-          sudo gem install cocoapods
-          pod --version
-          
-      - name: Pod install
-        run: |
-          flutter clean
-          flutter pub get
-          cd ios
-          pod install --repo-update
-
-      - name: Return to root
-        run: cd ../
-
       # Android
       - name: Build APK
         run: flutter build apk
 
       - name: Build AppBundle
         run: flutter build appbundle
-
-      # iOS
-      - name: Building IPA
-        run: flutter build ipa --no-codesign
-
-      - name: Compress Archives and IPAs
-        run: |
-          cd build
-          tar -czf ios_build.tar.gz ios
 
       - name: Extract version from pubspec.yaml
         id: extract_version
