@@ -5,7 +5,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # Version code is Major.Minor.Patch. ie. 2.1.2
 # Version number follows the patch as double digits per version concatenated. ie. 201020
-version: 2.3.1+203010
+version: 3.0.0+300000
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
