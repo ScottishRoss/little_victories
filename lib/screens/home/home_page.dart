@@ -54,7 +54,7 @@ class HomePageState extends State<HomePage> {
     super.initState();
     fToast = FToast();
     fToast.init(navigatorKey.currentContext!);
-    NotificationsService().showNotificationsConsentIfNeeded();
+    NotificationsService().checkNotificationsConsent();
   }
 
   @override

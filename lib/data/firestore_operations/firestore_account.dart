@@ -26,11 +26,9 @@ Future<bool> createUser({
   log('createUser: $user starting create request');
 
   try {
-    // FCM token not being added until push notifications are put back in.
     _usersCollection.doc(user.uid).set(<String, dynamic>{
       'UserId': user.uid,
       'Email': user.email,
-      'FCM-Token': null,
       'CreatedOn': currentDateTime
     });
 

@@ -33,16 +33,6 @@ Future<bool> isFirstTime() async {
   }
 }
 
-Future<void> insertDefaultNotificationTime() async {
-  final String? _notificationTime =
-      await SecureStorage().getFromKey(kNotificationTime);
-  log('notificationTime: $_notificationTime');
-  if (_notificationTime == null) {
-    await SecureStorage().insert(kNotificationTime, kDefaultNotificationTime);
-    log('Inserted default notification time');
-  }
-}
-
 Future<void> initialiseAdCounter(bool isFirstTime) async {
   if (isFirstTime) {
     initAdCounter();
@@ -110,7 +100,6 @@ class MyApp extends StatelessWidget {
         hintColor: CustomColours.teal, // Character Counter Colour
         brightness: Brightness.dark,
         textTheme: GoogleFonts.poppinsTextTheme(),
-
       ),
       home: Builder(
         builder: (BuildContext context) {

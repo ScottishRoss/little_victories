@@ -128,3 +128,30 @@ Future<bool> setNotificationsForExistingUsers() async {
   }
   return isSuccessful;
 }
+
+/// START: Set notifications for existing users
+Future<bool> setNotificationsForNewUsers() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool isSuccessful = false;
+  try {
+    final Notifications _notifications = await getNotificationsData();
+
+    if (_notifications.notificationTime == null) {
+      updateNotificationPreferences(_notifications);
+
+      _usersCollection
+          .doc(user!.uid)
+          .collection('notifications')
+          .doc('time')
+          .set(<String, dynamic>{
+        'isNotificationsEnabled': false,
+        'time': '18:30',
+      }).then((_) {
+        isSuccessful = true;
+      });
+    }
+  } catch (e) {
+    log(e.toString());
+  }
+  return isSuccessful;
+}

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/data/notifications_class.dart';
 
 import 'constants.dart';
@@ -58,14 +59,17 @@ class NotificationsService {
     );
   }
 
-  Future<void> showNotificationsConsentIfNeeded() async {
-    final bool _isNotificationsAllowed =
-        await _notifications.isNotificationAllowed();
-    final String? _isNotificationsEnabled =
-        await SecureStorage().getFromKey(kIsNotificationsEnabled);
+  Future<void> checkNotificationsConsent() async {
+    final Notifications _notificationData = await getNotificationsData();
+    final bool _enabled =
+        _notificationData.isNotificationsEnabled != null || false;
 
-    if (_isNotificationsEnabled == 'true' && !_isNotificationsAllowed)
+    final bool _consented = await _notifications.isNotificationAllowed();
+    log('Notifications  enabled: $_enabled');
+    log('Notifications consented: $_consented');
+    if (!_consented && _enabled) {
       showNotificationsConsent();
+    }
   }
 
   Future<bool> showNotificationsConsent() {
