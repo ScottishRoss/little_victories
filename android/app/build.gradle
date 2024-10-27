@@ -55,8 +55,8 @@ android {
     defaultConfig {
         applicationId "rphenderson.dev.littlevictories"
         compileSdkVersion flutter.compileSdkVersion
-        minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
-        targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+        minSdkVersion 23
+        targetSdkVersion 34
         versionCode localProperties.getProperty('flutter.versionCode').toInteger()
         versionName localProperties.getProperty('flutter.versionName')
         multiDexEnabled true
