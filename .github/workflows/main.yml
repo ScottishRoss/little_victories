@@ -105,7 +105,7 @@ jobs:
           echo "VERSION=$new_version" >> $GITHUB_ENV
 
       - name: Create Release
-        uses: ncipollo/release-action@vv1.14.0
+        uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
           tag: v${{ env.VERSION }}
