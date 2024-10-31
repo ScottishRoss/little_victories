@@ -31,21 +31,6 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Ensure CocoaPods is installed and up-to-date
-        run: |
-          sudo gem install cocoapods
-          pod --version
-          
-      - name: Pod install
-        run: |
-          flutter clean
-          flutter pub get
-          cd ios
-          pod install --repo-update
-
-      - name: Return to root
-        run: cd ../
-
       # Android
       - name: Create Google Services JSON File
         env:
@@ -67,31 +52,6 @@ jobs:
           cd build
           tar -czf ios_build.tar.gz ios
 
-      - name: Extract version from pubspec.yaml
-        id: extract_version
-        run: |
-          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
-          echo "VERSION=$version" >> $GITHUB_ENV
-
-      - name: Check if Tag Exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
-          else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
-          fi
-
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1.14.0
-        with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
           tag: v${{ env.VERSION }}
           token: ${{ secrets.TOKEN }}
