@@ -30,22 +30,6 @@ jobs:
       
       - name: Install Dependencies
         run: flutter pub get
-
-      - name: Ensure CocoaPods is installed and up-to-date
-        run: |
-          sudo gem install cocoapods
-          pod --version
-          
-      - name: Pod install
-        run: |
-          flutter clean
-          flutter pub get
-          cd ios
-          pod install --repo-update
-
-      - name: Return to root
-        run: cd ../
-
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
