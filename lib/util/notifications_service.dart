@@ -80,15 +80,6 @@ class NotificationsService {
     await _notifications.cancelAllSchedules();
   }
 
-  void setNotificationPreference(bool isNotificationsEnabled) {
-    final String _notificationsValue =
-        isNotificationsEnabled ? 'true' : 'false';
-    _secureStorage.insert(
-      kIsNotificationsEnabled,
-      _notificationsValue,
-    );
-  }
-
   Notifications setNotification(
     bool isNotificationActive,
     String notificationTime,

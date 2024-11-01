@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 
 import '../../util/authentication.dart';
 import '../../util/notifications_service.dart';
@@ -78,10 +79,10 @@ class _DebugScreenState extends State<DebugScreen> {
               '/display_name',
             ),
           ),
-          CustomButton(
-            'Get ad counter',
-            () => getAdCounter(),
-          ),
+          CustomButton('Get ad counter', () async {
+            final LVUser? lvUser = await getLVUser();
+            log('adCounter: ${lvUser!.adCounter}');
+          }),
           CustomButton(
             'Update ad counter',
             () => updateAdCounter(),

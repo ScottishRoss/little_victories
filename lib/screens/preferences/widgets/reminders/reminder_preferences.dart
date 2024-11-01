@@ -1,10 +1,16 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
+import 'package:day_night_time_picker/lib/state/time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:intl/intl.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
-import 'package:little_victories/data/notifications_class.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders/reminders_switch_widget.dart';
-import 'package:little_victories/screens/preferences/widgets/reminders/reminders_timepicker_widget.dart';
+import 'package:little_victories/util/constants.dart';
+import 'package:little_victories/util/custom_colours.dart';
+import 'package:little_victories/util/notifications_service.dart';
 import 'package:little_victories/widgets/common/loading.dart';
 
 class ReminderPreferences extends StatefulWidget {
@@ -16,11 +22,47 @@ class ReminderPreferences extends StatefulWidget {
 
 class _ReminderPreferencesState extends State<ReminderPreferences> {
   late Stream<DocumentSnapshot<Map<String, dynamic>>> _dataList;
+  final NotificationsService _notificationsService = NotificationsService();
+
+  final TimeOfDay _sunrise = const TimeOfDay(hour: 7, minute: 0);
+  final TimeOfDay _sunset = const TimeOfDay(hour: 18, minute: 0);
+
+  Time selectedTimeOfDay = Time(hour: 18, minute: 30);
+
+  bool isDayTime(TimeOfDay now) {
+    final int currentHour = now.hour;
+    final int sunriseHour = _sunrise.hour;
+    final int sunsetHour = _sunset.hour;
+
+    return currentHour >= sunriseHour && currentHour < sunsetHour;
+  }
+
+  String formatTimeOfDay(TimeOfDay tod) {
+    final DateTime now = DateTime.now();
+    final DateTime dt =
+        DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    return DateFormat('HH:mm').format(dt);
+  }
+
+  Future<bool> setReminderTime(TimeOfDay newTime) async {
+    final String formattedTime = formatTimeOfDay(newTime);
+
+    updateNotificationTime(formattedTime);
+
+    try {
+      _notificationsService.cancelScheduledNotifications();
+
+      _notificationsService.startReminders(formattedTime);
+    } catch (e) {
+      log('Updating notification time error: $e');
+    }
+    return true;
+  }
 
   @override
   void initState() {
     super.initState();
-    _dataList = getNotificationsStream();
+    _dataList = getUserStream();
   }
 
   @override
@@ -65,18 +107,67 @@ class _ReminderPreferencesState extends State<ReminderPreferences> {
   }
 
   Widget _buildNotificationsList(dynamic snapshot) {
-    final Notifications notificationsData =
-        Notifications.fromMap(snapshot.data.data());
     return FadeIn(
       duration: const Duration(seconds: 1),
       child: Column(
         children: <Widget>[
-          RemindersSwitchWidget(
-            notificationsData: notificationsData,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const Text(
+                'Enabled?',
+                style: kPreferencesItemStyle,
+              ),
+              Switch(
+                activeColor: CustomColours.hotPink,
+                value: snapshot.data!['notificationsEnabled'],
+                onChanged: (bool value) async {
+                  await toggleNotifications(value);
+                },
+              ),
+            ],
           ),
-          ReminderTimepickerWidget(
-            notificationsData: notificationsData,
-          ),
+          if (snapshot.data!['notificationsEnabled'])
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Reminder time',
+                  style: kPreferencesItemStyle,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      showPicker(
+                        context: context,
+                        is24HrFormat: true,
+                        themeData: isDayTime(TimeOfDay.now())
+                            ? kTimePickerLightTheme
+                            : kTimePickerDarkTheme,
+                        value: selectedTimeOfDay,
+                        barrierColor: CustomColours.darkBlue.withOpacity(0.5),
+                        sunrise: _sunrise,
+                        sunset: _sunset,
+                        duskSpanInMinutes: 120,
+                        onChange: setReminderTime,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    snapshot.data!['notificationTime'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: CustomColours.darkBlue,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColours.teal,
+                  ),
+                ),
+              ],
+            )
+          else
+            const SizedBox()
         ],
       ),
     );

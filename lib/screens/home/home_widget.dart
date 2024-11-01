@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
 import 'package:little_victories/screens/home/widgets/home_button_card.dart';
 import 'package:little_victories/screens/home/widgets/quick_victory.dart';
 import 'package:little_victories/util/ad_helper.dart';
@@ -26,7 +25,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
-    setNotificationsForExistingUsers();
     BannerAd(
       adUnitId: AdHelper.getAdIdByType(AdType.banner),
       request: const AdRequest(),

@@ -7,45 +7,21 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/firebase_options.dart';
 import 'package:little_victories/screens/home/home_page.dart';
 import 'package:little_victories/splash_screen.dart';
-import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
 import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'screens/intro/intro_screen.dart';
 import 'screens/sign_in/sign_in_screen.dart';
-
-Future<bool> isFirstTime() async {
-  final String? _isFirstTime =
-      await SecureStorage().getFromKey(kFirstTimeSetup);
-  if (_isFirstTime == null) {
-    log('_isFirstTime = true');
-    return true;
-  } else {
-    log('_isFirstTime = false');
-    return false;
-  }
-}
-
-Future<void> initialiseAdCounter(bool isFirstTime) async {
-  if (isFirstTime) {
-    initAdCounter();
-  }
-}
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   // Ensure everything is initialised.
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Check to see if it's the first time the app has been launched.
-  final bool _isFirstTime = await isFirstTime();
 
   // Initialise Firebase first.
   log('Initializing Firebase');
@@ -55,9 +31,7 @@ Future<void> main() async {
 
   // Then initialise Google Ads
   log('Initializing MobileAds');
-  await MobileAds.instance.initialize().then((_) async {
-    await initialiseAdCounter(_isFirstTime);
-  });
+  await MobileAds.instance.initialize();
 
   // Finally initialise notifications.
   log('Initializing NotificationsService');
@@ -69,19 +43,12 @@ Future<void> main() async {
   );
 
   runApp(
-    MyApp(
-      isFirstTime: _isFirstTime,
-    ),
+    const MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
-    Key? key,
-    required this.isFirstTime,
-  }) : super(key: key);
-
-  final bool isFirstTime;
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +68,6 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context) {
           return Center(
             child: SplashScreen(
-              isFirstTime: isFirstTime,
               context: context,
             ),
           );

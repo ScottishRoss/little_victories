@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 import 'package:little_victories/data/notifications_class.dart';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -19,11 +21,7 @@ Future<Notifications> getNotificationsData() async {
   );
   try {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await _usersCollection
-            .doc(user.uid)
-            .collection('notifications')
-            .doc('time')
-            .get();
+        await _usersCollection.doc(user.uid).get();
 
     if (snapshot.exists) {
       notifications = Notifications.fromMap(snapshot.data()!);
@@ -76,82 +74,47 @@ Future<bool> saveLittleVictoryFromNotification(
 
 /// END: Add Little Victory from Notification
 
-// START: Update Notification Time
-Future<bool> updateNotificationPreferences(
-  Notifications notifications,
+// START: Update Notifications
+Future<bool> updateNotificationTime(
+  String? notificationTime,
 ) async {
   bool isSuccessful = false;
-  final User user = FirebaseAuth.instance.currentUser!;
-  try {
-    await _usersCollection
-        .doc(user.uid)
-        .collection('notifications')
-        .doc('time')
-        .set(<String, dynamic>{
-      'isNotificationsEnabled': notifications.isNotificationsEnabled,
-      'time': notifications.notificationTime,
-    }).then((_) {
-      isSuccessful = true;
-      log('updateNotificationPreferences: ${notifications.isNotificationsEnabled} - ${notifications.notificationTime}');
-    });
-  } catch (e) {
-    log('updateNotificationPreferences: $e');
+
+  final LVUser? lvUser = await getLVUser();
+  if (lvUser != null) {
+    try {
+      await _usersCollection.doc(lvUser.userId).update(
+          <String, dynamic>{'notificationTime': notificationTime}).then((_) {
+        isSuccessful = true;
+      });
+    } catch (e) {
+      log('updateNotificationPreferences: $e');
+    }
   }
   return isSuccessful;
 }
 
 // END: Update Notification Time
 
-/// START: Set notifications for existing users
-Future<bool> setNotificationsForExistingUsers() async {
-  final User? user = FirebaseAuth.instance.currentUser;
+// START: Update Notifications
+Future<bool> toggleNotifications(
+  bool isEnabled,
+) async {
   bool isSuccessful = false;
-  try {
-    final Notifications _notifications = await getNotificationsData();
 
-    if (_notifications.notificationTime == null) {
-      updateNotificationPreferences(_notifications);
-
-      _usersCollection
-          .doc(user!.uid)
-          .collection('notifications')
-          .doc('time')
-          .set(<String, dynamic>{
-        'isNotificationsEnabled': true,
-        'time': '18:30',
+  final LVUser? lvUser = await getLVUser();
+  if (lvUser != null) {
+    try {
+      await _usersCollection.doc(lvUser.userId).update(<String, bool>{
+        'notificationsEnabled': isEnabled,
       }).then((_) {
         isSuccessful = true;
       });
+    } catch (e) {
+      log('notificationsEnabled: $e');
     }
-  } catch (e) {
-    log(e.toString());
   }
   return isSuccessful;
 }
 
-/// START: Set notifications for existing users
-Future<bool> setNotificationsForNewUsers() async {
-  final User? user = FirebaseAuth.instance.currentUser;
-  bool isSuccessful = false;
-  try {
-    final Notifications _notifications = await getNotificationsData();
-
-    if (_notifications.notificationTime == null) {
-      updateNotificationPreferences(_notifications);
-
-      _usersCollection
-          .doc(user!.uid)
-          .collection('notifications')
-          .doc('time')
-          .set(<String, dynamic>{
-        'isNotificationsEnabled': false,
-        'time': '18:30',
-      }).then((_) {
-        isSuccessful = true;
-      });
-    }
-  } catch (e) {
-    log(e.toString());
-  }
-  return isSuccessful;
-}
+// END: Update Notification Time

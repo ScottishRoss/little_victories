@@ -14,7 +14,7 @@
             android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7100257291492276~4761790441"/>
+            android:value="ca-app-pub-7100257291492276~4761790441" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,7 +30,7 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
-              />
+            />
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
@@ -45,16 +45,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.shekarmudaliyar.social_share"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
     </application>
 </manifest>

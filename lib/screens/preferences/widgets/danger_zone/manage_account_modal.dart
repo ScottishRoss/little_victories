@@ -103,19 +103,13 @@ class _ManageAccountModalState extends State<ManageAccountModal> {
                             setState(() {
                               _isSuccess = false;
                             });
-                            final bool isDeleted = await deleteUser();
+                            final bool isDeleted = await deleteUser(context);
 
                             if (isDeleted) {
                               setState(() {
                                 _isSuccess = true;
                               });
                             }
-
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/sign_in',
-                              (Route<dynamic> route) => false,
-                            );
                           },
                           child: const Text(
                             'Yes, delete',

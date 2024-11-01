@@ -1,4 +1,4 @@
-package rphenderson.dev.little_victories
+package rphenderson.dev.littlevictories
 
 import io.flutter.embedding.android.FlutterActivity
 

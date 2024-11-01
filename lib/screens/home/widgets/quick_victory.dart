@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
 import 'package:little_victories/data/icon_list.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 import 'package:little_victories/util/ad_helper.dart';
 import 'package:little_victories/util/constants.dart';
 import 'package:little_victories/util/custom_colours.dart';
@@ -80,7 +81,7 @@ class _QuickVictoryState extends State<QuickVictory> {
   Future<bool> submitQuickVictory() async {
     log('submitQuickVictory: submitting...');
     bool _isSuccess = false;
-    final int adCounter = await getAdCounter();
+    final LVUser? lvUser = await getLVUser();
 
     if (widget.formKey.currentState!.validate()) {
       try {
@@ -96,8 +97,7 @@ class _QuickVictoryState extends State<QuickVictory> {
 
         if (_isSuccess) {
           _confettiController.play();
-          if (adCounter > 2) {
-            log('Adcounter is $adCounter, showing interstitial');
+          if (lvUser!.adCounter > 2) {
             _interstitialAd?.show();
           }
 

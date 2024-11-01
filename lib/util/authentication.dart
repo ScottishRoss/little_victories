@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
 class Authentication {
@@ -20,12 +21,12 @@ class Authentication {
     return firebaseApp;
   }
 
-  Future<User?> signInWithGoogle({required BuildContext context}) async {
+  Future<LVUser?> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final FToast fToast = FToast();
 
     fToast.init(context);
-    User? user;
+    LVUser? lvUser;
 
     final bool _isUserSignedIn = isUserSignedIn();
 
@@ -56,17 +57,13 @@ class Authentication {
       final UserCredential userCredential =
           await auth.signInWithCredential(credential);
 
-      user = userCredential.user;
-
-      log(user.toString());
-
-      Navigator.pushReplacementNamed(context, '/home');
+      lvUser = await createUserIfNeeded(user: userCredential.user!);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         log('Error: account-exists-with-different-credential');
         fToast.showToast(
           child: const CustomToast(
-            message: 'Authentication failed, please try again later.',
+            message: 'Sign in failed, please try again later.',
           ),
           gravity: ToastGravity.BOTTOM,
           toastDuration: const Duration(seconds: 2),
@@ -75,30 +72,32 @@ class Authentication {
         log('Error: invalid-credential');
         fToast.showToast(
           child: const CustomToast(
-            message: 'Authentication failed, please try again later.',
+            message: 'Sign in failed, please try again later.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
+      } else {
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Something went wrong.',
           ),
           gravity: ToastGravity.BOTTOM,
           toastDuration: const Duration(seconds: 2),
         );
       }
     } catch (e) {
-      log('Error occurred using Google Sign In: $e');
+      log('Sign in failed: $e');
       fToast.showToast(
         child: const CustomToast(
-          message: 'Authentication failed, please try again later.',
+          message: 'Sign in failed, please try again later.',
         ),
         gravity: ToastGravity.BOTTOM,
         toastDuration: const Duration(seconds: 2),
       );
     }
 
-    final bool _isNewUser = await doesUserExist(user!);
-
-    if (_isNewUser) {
-      createUser(user: user);
-    }
-
-    return user;
+    return lvUser;
   }
 
   /// SIGN OUT

@@ -1,6 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 import 'package:little_victories/util/authentication.dart';
 import 'package:little_victories/widgets/common/little_victories.dart';
 import 'package:little_victories/widgets/common/loading.dart';
@@ -66,19 +67,18 @@ class _SignInWidgetState extends State<SignInWidget> {
             setState(() {
               _isLoading = true;
             });
-            await Authentication().signInWithGoogle(context: context);
+            final LVUser? _user =
+                await Authentication().signInWithGoogle(context: context);
+
+            if (_user != null) {
+              Navigator.pushReplacementNamed(context, '/home');
+            } else {
+              setState(() {
+                _isLoading = false;
+              });
+            }
           },
         ),
-        // const SizedBox(height: 5),
-        // AppleAuthButton(
-        //   isLoading: _isLoading,
-        //   onPressed: () async {
-        //     setState(() {
-        //       _isLoading = true;
-        //     });
-        //     await GoogleAuth().signInWithGoogle();
-        //   },
-        // ),
       ],
     );
   }

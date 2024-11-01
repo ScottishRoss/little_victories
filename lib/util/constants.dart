@@ -66,11 +66,6 @@ bool isDebugMode() {
   return kDebugMode;
 }
 
-const String kFirstTimeSetup = 'first_time_setup';
-const String kIsNotificationsEnabled = 'is_notifications_enabled';
-const String kNotificationTime = 'notification_time';
-const String kDefaultNotificationTime = '18:30';
-
 InputDecoration kFormInputDecoration = InputDecoration(
   floatingLabelBehavior: FloatingLabelBehavior.never,
   filled: true,

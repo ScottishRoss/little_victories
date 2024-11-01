@@ -10,14 +10,11 @@ import 'package:simple_animations/animation_builder/play_animation_builder.dart'
 
 import '../../util/constants.dart';
 import '../../util/custom_colours.dart';
-import '../../util/secure_storage.dart';
 
 class IntroScreen extends StatelessWidget {
   IntroScreen({Key? key}) : super(key: key);
 
   void _onIntroEnd(BuildContext context) {
-    // Set first time setup to true
-    SecureStorage().insert(kFirstTimeSetup, 'true');
     // Navigate to sign in screen
     Navigator.pushNamedAndRemoveUntil(
         context, '/sign_in', (Route<dynamic> route) => false);

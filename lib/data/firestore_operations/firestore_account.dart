@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:little_victories/data/firestore_operations/firestore_victories.dart';
+import 'package:little_victories/data/lv_user_class.dart';
 import 'package:little_victories/util/secure_storage.dart';
 import 'package:little_victories/widgets/common/custom_toast.dart';
 
@@ -14,86 +15,88 @@ CollectionReference<Map<String, dynamic>> _usersCollection =
     firestore.collection('users');
 FToast fToast = FToast();
 
-/// START: Create User.
-
-Future<bool> createUser({
-  required User user,
-  String? displayName,
-}) async {
-  final DateTime currentDateTime = DateTime.now();
-  bool isSuccessful = false;
-
-  log('createUser: $user starting create request');
-
-  try {
-    _usersCollection.doc(user.uid).set(<String, dynamic>{
-      'UserId': user.uid,
-      'Email': user.email,
-      'CreatedOn': currentDateTime
-    });
-
-    log('createUser: user documentcreated');
-
-    user.updateDisplayName(displayName);
-
-    log('createUser: user display name updated');
-
-    _usersCollection
-        .doc(user.uid)
-        .collection('notifications')
-        .doc('time')
-        .set(<String, dynamic>{
-      'isNotificationsEnabled': false,
-      'time': '18:30',
-    }).then((_) {
-      isSuccessful = true;
-    });
-
-    _usersCollection
-        .doc(user.uid)
-        .collection('utils')
-        .doc('ads')
-        .set(<String, dynamic>{
-      'counter': '0',
-    }).then((_) {
-      isSuccessful = true;
-    });
-
-    log('createUser: notifications document created');
-  } catch (e) {
-    log('createUser error: $e');
-    isSuccessful = false;
-  }
-  return isSuccessful;
-}
-
-// END: Create User
-
 /// START: Check if user exists.
 
-Future<bool> doesUserExist(User user) async {
-  bool userExists = false;
+Future<LVUser?> doesUserExist(User user) async {
   try {
     final QuerySnapshot<Object?> snapshot = await firestore
         .collection('users')
         .where('UserId', isEqualTo: user.uid)
         .get();
     if (snapshot.docs.isNotEmpty) {
-      userExists = true;
-    } else {
-      userExists = false;
+      return getLVUser();
     }
   } catch (e) {
     log('doesUserExist: $e');
   }
-  return userExists;
+
+  return null;
 }
 
 /// END: Check if user exists.
 
+/// START: Create User.
+
+Future<LVUser> createUserIfNeeded({
+  required User user,
+}) async {
+  LVUser? lvUser;
+
+  lvUser = await doesUserExist(user);
+
+  if (lvUser == null) {
+    lvUser = LVUser(
+      userId: user.uid,
+      email: user.email!,
+      displayName: user.displayName!.split(' ')[0],
+      notificationsEnabled: false,
+      notificationTime: '18:30',
+      adCounter: 0,
+    );
+
+    log('createUser: $user starting create request');
+
+    try {
+      _usersCollection.doc(user.uid).set(<String, dynamic>{
+        'UserId': lvUser.userId,
+        'Email': lvUser.email,
+        'displayName': lvUser.displayName,
+        'notificationsEnabled': lvUser.notificationsEnabled,
+        'notificationTime': lvUser.notificationTime,
+        'adCounter': lvUser.adCounter,
+      });
+
+      log('createUser: user document created');
+
+      user.updateDisplayName(user.displayName);
+
+      log('createUser: user display name updated');
+    } catch (e) {
+      log('createUser error: $e');
+    }
+  } else {
+    log('User already exists.');
+  }
+  return lvUser;
+}
+
+// END: Create User
+
+/// START: Get User data
+
+Future<LVUser?> getLVUser() async {
+  final User user = FirebaseAuth.instance.currentUser!;
+  log('userId: ${user.uid}');
+  final DocumentSnapshot<Map<String, dynamic>> result =
+      await _usersCollection.doc(user.uid).get();
+  log(result.data().toString());
+
+  return LVUser.fromJson(result.data()!);
+}
+
 /// START: Delete User
 
-Future<bool> deleteUser() async {
+Future<bool> deleteUser(BuildContext context) async {
   final User user = FirebaseAuth.instance.currentUser!;
   bool userDeleted = false;
   bool victoriesDeleted = false;
@@ -120,15 +123,15 @@ Future<bool> deleteUser() async {
       log('deleteUser: user document deleted');
       try {
         await FirebaseAuth.instance.currentUser!.delete();
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'requires-recent-login') {
-          final GoogleAuthProvider authProvider = GoogleAuthProvider();
-          await FirebaseAuth.instance.currentUser!
-              .reauthenticateWithProvider(authProvider);
-          await FirebaseAuth.instance.currentUser!.delete();
-        } else {
-          log('Firebase exception $e');
-        }
+        // } on FirebaseAuthException catch (e) {
+        //   if (e.code == 'requires-recent-login') {
+        //     final GoogleAuthProvider authProvider = GoogleAuthProvider();
+        //     await FirebaseAuth.instance.currentUser!
+        //         .reauthenticateWithProvider(authProvider);
+        //     await FirebaseAuth.instance.currentUser!.delete();
+        //   } else {
+        //     log('Firebase exception $e');
+        //   }
       } catch (e) {
         log('Exception $e');
       }
@@ -153,6 +156,15 @@ Future<bool> deleteUser() async {
 
     if (victoriesDeleted && userDeleted) {
       isSuccessful = true;
+
+      if (isSuccessful) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/sign_in',
+          (Route<dynamic> route) => false,
+        );
+      }
+
       fToast.showToast(
         child: const CustomToast(message: 'Account deleted.'),
         gravity: ToastGravity.BOTTOM,
@@ -180,118 +192,91 @@ Future<bool> updateDisplayName(
   String displayName,
   BuildContext context,
 ) async {
-  final User? user = FirebaseAuth.instance.currentUser;
+  LVUser? lvUser = await getLVUser();
   bool isSuccessful = false;
-  try {
-    log('updateDisplayName attempt: $displayName');
-    await user!.updateDisplayName(displayName);
-    final User? updatedUser = FirebaseAuth.instance.currentUser;
 
-    if (updatedUser!.displayName == user.displayName) {
-      isSuccessful = false;
-      log('updateDisplayName: name is the same as before');
-    } else {
-      isSuccessful = true;
-      log('updateDisplayName success: ${updatedUser.displayName}');
+  if (lvUser != null) {
+    try {
+      log('updateDisplayName attempt: $displayName');
+
+      if (displayName == lvUser.displayName) {
+        isSuccessful = false;
+        log('updateDisplayName: name is the same as before');
+      } else {
+        _usersCollection.doc(lvUser.userId).update(<String, String>{
+          'displayName': displayName,
+        });
+        log('updateDisplayName: Updated, checking...');
+
+        lvUser = await getLVUser();
+
+        if (lvUser!.displayName == displayName) {
+          isSuccessful = true;
+        }
+      }
+    } catch (e) {
+      log('updateDisplayName error: $e');
       fToast.showToast(
         child: const CustomToast(
-          message: 'Display name updated',
+          message: 'Something weng wrong. Try again later.',
         ),
       );
     }
-  } catch (e) {
-    log('updateDisplayName error: $e');
-    fToast.showToast(
-      child: const CustomToast(
-        message: 'Something weng wrong. Try again later.',
-      ),
-    );
+
+    if (isSuccessful) {
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Updated display name',
+        ),
+      );
+    } else {
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Something weng wrong. Try again later.',
+        ),
+      );
+    }
   }
   return isSuccessful;
 }
 
 /// END: Update display name
 
-/// START: Initialise ad counter
-Future<bool> initAdCounter() async {
-  final User? user = FirebaseAuth.instance.currentUser;
-  bool isSuccessful = false;
-  try {
-    _usersCollection
-        .doc(user!.uid)
-        .collection('utils')
-        .doc('ads')
-        .set(<String, int>{
-      'counter': 0,
-    }).then((_) async {
-      isSuccessful = true;
-      log('initAdCounter: $isSuccessful');
-      return isSuccessful;
-    });
-  } catch (e) {
-    log('initAdCounter error: $e');
-  }
-  return isSuccessful;
-}
-
-/// END: Initialise ad counter
-
 /// START: Update ad counter
 Future<bool> updateAdCounter() async {
-  final User? user = FirebaseAuth.instance.currentUser;
+  final LVUser? lvUser = await getLVUser();
   bool isSuccessful = false;
   int currentAdCount;
-  try {
-    currentAdCount = await getAdCounter();
+  if (lvUser != null) {
+    try {
+      currentAdCount = lvUser.adCounter;
 
-    if (currentAdCount == 3) {
-      updateAdCounter();
-      currentAdCount = 0;
-    } else {
-      currentAdCount++;
+      if (currentAdCount == 3) {
+        currentAdCount = 0;
+      } else {
+        currentAdCount++;
+      }
+
+      _usersCollection.doc(lvUser.userId).update(<String, int>{
+        'adCounter': currentAdCount,
+      }).then((_) async {
+        isSuccessful = true;
+        log('updateAdCounter: $isSuccessful');
+        return isSuccessful;
+      });
+    } catch (e) {
+      log('updateAdCounter error: $e');
     }
-
-    _usersCollection
-        .doc(user!.uid)
-        .collection('utils')
-        .doc('ads')
-        .set(<String, int>{
-      'counter': currentAdCount,
-    }).then((_) async {
-      isSuccessful = true;
-      log('updateAdCounter: $isSuccessful');
-      return isSuccessful;
-    });
-  } catch (e) {
-    log('updateAdCounter error: $e');
   }
   return isSuccessful;
 }
 
 /// END: updateAdCounter
 ///
-/// Start: getAdCounter
+/// Start: getUserStream
 
-Future<int> getAdCounter() async {
-  final User? user = FirebaseAuth.instance.currentUser;
-  int? counter;
-  try {
-    log('getAdCounter starting...');
+Stream<DocumentSnapshot<Map<String, dynamic>>> getUserStream() {
+  final User user = FirebaseAuth.instance.currentUser!;
 
-    final DocumentSnapshot<Map<String, dynamic>> result = await _usersCollection
-        .doc(user!.uid)
-        .collection('utils')
-        .doc('ads')
-        .get();
-
-    final Map<String, dynamic>? map = result.data();
-    final dynamic counter = map?['counter'];
-
-    log('getAdCounter complete: $counter');
-    return counter;
-  } catch (e) {
-    log('getAdCounter error: $e');
-    counter = 0;
-  }
-  return counter;
+  return _usersCollection.doc(user.uid).snapshots();
 }

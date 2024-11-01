@@ -1,7 +1,6 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
 import 'package:little_victories/util/custom_colours.dart';
 
 import '../../util/constants.dart';
@@ -16,38 +15,46 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> _dataList;
+
+  @override
+  void initState() {
+    super.initState();
+    _dataList = getUserStream();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.userChanges(),
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          log('StreamBuilder: ${snapshot.connectionState}');
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: _dataList,
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
 
-            case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
 
-            case ConnectionState.active:
-              if (snapshot.hasData) {
-                return _headerWidget(snapshot, context);
-              } else {
-                return const SizedBox();
-              }
-            case ConnectionState.done:
-              return _headerWidget(snapshot, context);
-          }
-        });
+          case ConnectionState.active:
+            return _headerWidget(snapshot.data!['displayName'], context);
+
+          case ConnectionState.done:
+            return _headerWidget(snapshot.data!['displayName'], context);
+        }
+      },
+    );
   }
 }
 
 Widget _headerWidget(
-  dynamic snapshot,
+  String displayName,
   BuildContext context,
 ) {
   return SizedBox(
@@ -85,7 +92,7 @@ Widget _headerWidget(
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  snapshot.data!.displayName!.split(' ')[0],
+                  displayName,
                   textAlign: TextAlign.left,
                   style: kTitleTextStyle.copyWith(
                     color: CustomColours.darkBlue,

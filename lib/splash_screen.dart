@@ -8,35 +8,23 @@ import 'package:little_victories/util/custom_colours.dart';
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
     Key? key,
-    this.isFirstTime = false,
     required this.context,
   }) : super(key: key);
-
-  final bool isFirstTime;
   final BuildContext context;
 
-  Future<void> routeAfterSplash(bool isFirstTime) async {
+  Future<void> routeAfterSplash() async {
     // If it is the first time, go to intro screen.
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        if (isFirstTime) {
-          log('Splash: Navigating to intro');
+        final bool _isUserSignedIn = Authentication().isUserSignedIn();
+        if (_isUserSignedIn) {
+          // If a user is signed in, go to home page.
+          log('Splash: Navigating to home');
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home', (Route<dynamic> route) => false);
+        } else {
           Navigator.pushNamedAndRemoveUntil(
               context, '/intro', (Route<dynamic> route) => false);
-        } else {
-          // If it is not the first time, check to see if user is signed in.
-          final bool _isUserSignedIn = Authentication().isUserSignedIn();
-          if (_isUserSignedIn) {
-            // If a user is signed in, go to home page.
-            log('Splash: Navigating to home');
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (Route<dynamic> route) => false);
-          } else {
-            // If a user is not signed in, go to sign in page.
-            log('Splash: Navigating to sign in');
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/sign_in', (Route<dynamic> route) => false);
-          }
         }
       },
     );
@@ -50,7 +38,7 @@ class SplashScreen extends StatelessWidget {
       asyncNavigationCallback: () async {
         await Future<dynamic>.delayed(const Duration(seconds: 2));
         if (context.mounted) {
-          await routeAfterSplash(isFirstTime);
+          await routeAfterSplash();
         }
       },
       childWidget: Image.asset('assets/logo.png'),
