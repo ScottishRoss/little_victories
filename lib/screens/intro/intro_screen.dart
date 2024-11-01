@@ -1,120 +1,183 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/secure_storage.dart';
-import 'package:little_victories/widgets/common/page_body.dart';
+import 'package:little_victories/screens/intro/widgets/example_list.dart';
+import 'package:little_victories/widgets/common/little_victories.dart';
+import 'package:little_victories/widgets/common/lv_logo.dart';
+import 'package:simple_animations/animation_builder/play_animation_builder.dart';
+
+import '../../util/constants.dart';
+import '../../util/custom_colours.dart';
 
 class IntroScreen extends StatelessWidget {
   IntroScreen({Key? key}) : super(key: key);
 
-  final List<PageViewModel> pages = <PageViewModel>[
-    PageViewModel(
-      pageBackground: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            stops: <double>[0.0, 1.0],
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter,
-            tileMode: TileMode.repeated,
-            colors: <Color>[
-              CustomColours.darkPurple,
-              CustomColours.teal,
-            ],
-          ),
-        ),
-      ),
-      body: const Text(
-        'Little Victories has been designed to help you celebrate the Little Victories you have each day.',
-      ),
-      title: const Text(
-        'Welcome to Little Victories',
-      ),
-      titleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyTextStyle: const TextStyle(color: Colors.white),
-      mainImage: Image.asset(
-        'assets/lv_logo_transparent.png',
-        alignment: Alignment.center,
+  void _onIntroEnd(BuildContext context) {
+    // Navigate to sign in screen
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/sign_in', (Route<dynamic> route) => false);
+  }
+
+  final PageViewModel firstPageView = PageViewModel(
+    pageColor: CustomColours.darkBlue,
+    bubbleBackgroundColor: Colors.white,
+    body: AutoSizeText(
+      'Celebrate the small wins you have every day',
+      style: kBodyTextStyle.copyWith(
+        fontSize: 22,
       ),
     ),
-    PageViewModel(
-      pageBackground: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            stops: <double>[0.0, 1.0],
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter,
-            tileMode: TileMode.repeated,
-            colors: <Color>[
-              CustomColours.darkPurple,
-              CustomColours.lightPurple,
-            ],
+    title: const LittleVictories(variant: NameVariant.dark),
+    mainImage: const LVLogo(),
+  );
+
+  final PageViewModel secondPageView = PageViewModel(
+    pageColor: CustomColours.teal,
+    bubbleBackgroundColor: Colors.white,
+    body: AutoSizeText(
+      "We often don't track the many things we do every day that takes effort - and we should!",
+      style: kBodyTextStyle.copyWith(
+        fontSize: 22,
+        color: CustomColours.darkBlue,
+      ),
+    ),
+    title: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        AutoSizeText(
+          'Celebrate your',
+          style: kSubtitleStyle.copyWith(fontSize: 22),
+        ),
+        AutoSizeText(
+          'Victories',
+          style: kTitleTextStyle.copyWith(
+            color: CustomColours.darkBlue,
           ),
         ),
-      ),
-      body: const Text(
-        'Every time you achieve a small goal, keep a note of it in here. No Victory is too small to celebrate!',
-      ),
-      title: const Text('Celebrate your Victories'),
-      mainImage: Image.asset(
-        'assets/lv_logo_transparent.png',
-        alignment: Alignment.center,
-      ),
-      titleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyTextStyle: const TextStyle(color: Colors.white),
+      ],
     ),
-    PageViewModel(
-      pageBackground: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            stops: <double>[0.0, 1.0],
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter,
-            tileMode: TileMode.repeated,
-            colors: <Color>[
-              CustomColours.teal,
-              CustomColours.darkPurple,
-            ],
-          ),
+    mainImage: const LVLogo(
+      variant: LogoVariant.pink,
+    ),
+  );
+
+  final PageViewModel thirdPageView = PageViewModel(
+    pageColor: CustomColours.hotPink,
+    bubbleBackgroundColor: Colors.white,
+    body: AutoSizeText(
+      'Eating, showering, going for a walk... Nothing is too small to celebrate',
+      style: kBodyTextStyle.copyWith(
+        fontSize: 22,
+        color: CustomColours.darkBlue,
+      ),
+    ),
+    title: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        AutoSizeText(
+          'No Victory is too',
+          style: kSubtitleStyle.copyWith(fontSize: 22),
+          maxFontSize: 100,
         ),
-      ),
-      body: const Text(
-        'Remembering to eat, having a shower, going for a walk, doing the dishes, etc... All of these are worth celebrating.',
-      ),
-      title: const Text('No Victory is too small!'),
-      mainImage: Image.asset(
-        'assets/lv_logo_transparent.png',
-        alignment: Alignment.center,
-      ),
-      titleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyTextStyle: const TextStyle(color: Colors.white),
+        PlayAnimationBuilder<double>(
+          tween: Tween<double>(begin: 100.0, end: 220.0),
+          duration: const Duration(seconds: 2),
+          builder: (BuildContext context, double value, _) {
+            return SizedBox(
+              width: value,
+              height: 40,
+              child: Center(
+                child: AutoSizeText(
+                  'small',
+                  style: kTitleTextStyle.copyWith(
+                    color: CustomColours.darkBlue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  minFontSize: 12,
+                  maxFontSize: 100,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     ),
-  ];
+    mainImage: const LVLogo(
+      variant: LogoVariant.white,
+    ),
+  );
+
+  final PageViewModel fourthPageView = PageViewModel(
+    pageColor: CustomColours.darkBlue,
+    bubbleBackgroundColor: Colors.white,
+    mainImage: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: const ExampleList(),
+    ),
+    body: AutoSizeText(
+      'Celebrate your victories today',
+      style: kSubtitleStyle.copyWith(fontSize: 22),
+    ),
+    title: const LittleVictories(variant: NameVariant.dark),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return PageBody(
-      child: Builder(
-        builder: (BuildContext context) => IntroViewsFlutter(pages,
-            showNextButton: true,
-            showBackButton: true,
-            pageButtonTextStyles: const TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ), onTapDoneButton: () {
-          SecureStorage().insert(kFirstTimeSetup, 'true');
-          Navigator.pushReplacementNamed(context, '/sign_in');
-        }),
-      ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: LayoutBuilder(builder: (
+        BuildContext context,
+        BoxConstraints viewportConstraints,
+      ) {
+        return Builder(
+          builder: (BuildContext context) {
+            return FadeIn(
+              duration: const Duration(seconds: 2),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: IntroViewsFlutter(
+                      <PageViewModel>[
+                        firstPageView,
+                        secondPageView,
+                        thirdPageView,
+                        fourthPageView,
+                      ],
+                      doneText: AvatarGlow(
+                        glowRadiusFactor: 40,
+                        repeat: false,
+                        glowColor: CustomColours.teal,
+                        child: const Text(
+                          'start',
+                          style: TextStyle(
+                            color: CustomColours.hotPink,
+                            fontSize: 28,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ),
+                      columnMainAxisAlignment: MainAxisAlignment.start,
+                      showSkipButton: false,
+                      showBackButton: false,
+                      onTapDoneButton: () {
+                        _onIntroEnd(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

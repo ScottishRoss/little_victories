@@ -6,24 +6,13 @@ class SecureStorage {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<bool> insert(String key, String value) async {
-    final String? _doesKeyExist = await getFromKey(key);
-    if (_doesKeyExist == null) {
-      try {
-        await storage.write(key: key, value: value);
-        return true;
-      } catch (e) {
-        log(e.toString());
-        return false;
-      }
-    } else {
-      deleteFromKey(key);
-      try {
-        await storage.write(key: key, value: value);
-        return true;
-      } catch (e) {
-        log(e.toString());
-        return false;
-      }
+    log('Inserting $key with value $value');
+    try {
+      await storage.write(key: key, value: value);
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
     }
   }
 
@@ -36,7 +25,7 @@ class SecureStorage {
       final String? value = await storage.read(key: key, iOptions: options);
       return value;
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     return null;
   }

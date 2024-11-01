@@ -1,15 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/custom_colours.dart';
+
+import '../../util/constants.dart';
+import '../../util/custom_colours.dart';
 
 // ignore: must_be_immutable
-class CustomButton extends StatelessWidget {
+class CustomButton extends StatefulWidget {
   CustomButton(
     this.text,
     this.onPressed, {
     Key? key,
-    this.backgroundColor = CustomColours.darkPurple,
+    this.backgroundColor = CustomColours.teal,
     this.borderColor = CustomColours.teal,
-    this.textColor = Colors.white,
+    this.textColor = CustomColours.darkBlue,
     this.marginBottom = 15,
     this.marginLeft = 25,
     this.marginRight = 25,
@@ -22,45 +26,52 @@ class CustomButton extends StatelessWidget {
   double marginTop, marginBottom, marginLeft, marginRight;
 
   @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  bool _isProcessing = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(35),
-        border: Border.all(
-          color: borderColor,
-          width: 2,
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isProcessing = true;
+          log('CustomButton: _isProcessing = $_isProcessing');
+        });
+
+        widget.onPressed();
+
+        setState(() {
+          _isProcessing = false;
+          log('CustomButton: _isProcessing = $_isProcessing');
+        });
+      },
+      borderRadius: BorderRadius.circular(kButtonBorderRadius),
+      child: Container(
+        height: 50,
+        width: double.infinity,
+        margin: EdgeInsets.fromLTRB(
+          widget.marginLeft,
+          widget.marginTop,
+          widget.marginRight,
+          widget.marginBottom,
         ),
-      ),
-      width: double.infinity,
-      margin: EdgeInsets.fromLTRB(
-        marginLeft,
-        marginTop,
-        marginRight,
-        marginBottom,
-      ),
-      child: Material(
-        elevation: 10,
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(25),
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(kButtonBorderRadius),
+          color: widget.backgroundColor,
+        ),
+        alignment: Alignment.center,
+        child: _isProcessing
+            ? const CircularProgressIndicator()
+            : Text(
+                widget.text,
+                style: kSubtitleStyle.copyWith(
+                  color: CustomColours.darkBlue,
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -8,6 +8,9 @@
 .buildlog/
 .history
 .svn/
+.env
+.keystores
+
 
 # IntelliJ related
 *.iml
@@ -30,6 +33,7 @@
 .pub-cache/
 .pub/
 /build/
+key.properties
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -50,4 +54,4 @@ app.*.map.json
 google-services.json
 
 # Api Keys
-lib/api_keys.dart
+lib/api_keys.dart.env*

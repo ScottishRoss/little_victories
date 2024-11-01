@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "rphenderson.dev" "\0"
-            VALUE "FileDescription", "little_victories" "\0"
+            VALUE "FileDescription", "littlevictories" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "little_victories" "\0"
+            VALUE "InternalName", "littlevictories" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 rphenderson.dev. All rights reserved." "\0"
-            VALUE "OriginalFilename", "little_victories.exe" "\0"
-            VALUE "ProductName", "little_victories" "\0"
+            VALUE "OriginalFilename", "littlevictories.exe" "\0"
+            VALUE "ProductName", "littlevictories" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

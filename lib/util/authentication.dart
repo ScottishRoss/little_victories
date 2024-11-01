@@ -3,144 +3,139 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:little_victories/data/firestore_operations.dart';
-import 'package:little_victories/util/utils.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/data/lv_user_class.dart';
+import 'package:little_victories/widgets/common/custom_toast.dart';
 
 class Authentication {
   /// Initialise Firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static SnackBar customSnackBar({required String content}) {
-    return SnackBar(
-      backgroundColor: Colors.black,
-      content: Text(
-        content,
-        style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-      ),
-    );
-  }
-
   static Future<FirebaseApp> initializeFirebase(
       {required BuildContext context}) async {
     final FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-    // final User? user = FirebaseAuth.instance.currentUser;
-
-    // if (user != null) {
-    //   Navigator.pushNamedAndRemoveUntil(
-    //       context, '/homeFromSignIn', (Route<dynamic> route) => false,
-    //       arguments: <User>[user]);
-    // }
-
     return firebaseApp;
   }
 
-  Future<User> signInWithGoogle({required BuildContext context}) async {
+  Future<LVUser?> signInWithGoogle({required BuildContext context}) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+    final FToast fToast = FToast();
 
-    log('kIsWeb: $kIsWeb');
+    fToast.init(context);
+    LVUser? lvUser;
 
-    if (kIsWeb) {
-      log('Attempting to sign in with Google...');
-      final GoogleAuthProvider authProvider = GoogleAuthProvider();
+    final bool _isUserSignedIn = isUserSignedIn();
 
-      try {
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+    log('Attempting to sign in with Google...');
+    final GoogleSignIn googleSignIn =
+        GoogleSignIn(scopes: <String>['profile', 'email']);
 
-        log('userCredential: $userCredential');
-
-        user = userCredential.user;
-        log('user: $user');
-      } catch (e) {
-        log('Error signing in with Google: $e');
-        Navigator.pop(context);
-      }
-    } else {
-      log('Attempting to sign in with Google...');
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
-
-      log('googleSignInAccount: $googleSignInAccount');
-
-      if (googleSignInAccount != null) {
-        log('googleSignInAccount is not null');
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-
-        log('googleSignInAuthentication: $googleSignInAuthentication');
-
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
-        log('credential: $credential');
-
-        try {
-          log('Attempting to sign in with Google...');
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
-
-          log('userCredential: $userCredential');
-
-          user = userCredential.user;
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            log('Error: account-exists-with-different-credential');
-            buildScaffoldMessenger(context);
-          } else if (e.code == 'invalid-credential') {
-            log('Error: invalid-credential');
-            buildScaffoldMessenger(context,
-                content:
-                    'Error occurred while accessing credentials. Try again.');
-          }
-        } catch (e) {
-          log('Error occurred using Google Sign In: $e');
-          buildScaffoldMessenger(context,
-              content: 'Error occurred using Google Sign In. Try again.');
-        }
-      }
+    if (_isUserSignedIn) {
+      await googleSignIn.signOut();
+      log('User as already signed in, signed out');
     }
 
-    final bool _isNewUser = await doesUserExist(user!);
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
 
-    // ignore: always_put_control_body_on_new_line
-    if (_isNewUser) createUser(user);
+    log(googleSignInAccount!.email);
 
-    return user;
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    try {
+      log('Attempting to sign in with Google using AuthCredential...');
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      lvUser = await createUserIfNeeded(user: userCredential.user!);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        log('Error: account-exists-with-different-credential');
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Sign in failed, please try again later.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
+      } else if (e.code == 'invalid-credential') {
+        log('Error: invalid-credential');
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Sign in failed, please try again later.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
+      } else {
+        fToast.showToast(
+          child: const CustomToast(
+            message: 'Something went wrong.',
+          ),
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: const Duration(seconds: 2),
+        );
+      }
+    } catch (e) {
+      log('Sign in failed: $e');
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Sign in failed, please try again later.',
+        ),
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: const Duration(seconds: 2),
+      );
+    }
+
+    return lvUser;
   }
 
   /// SIGN OUT
   static Future<void> signOutOfGoogle({required BuildContext context}) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
+    log('Signing out of Google...');
     try {
-      if (!kIsWeb) {
-        await googleSignIn.signOut();
-      }
-      await FirebaseAuth.instance.signOut();
+      log('Signing out of Firebase...');
+      await FirebaseAuth.instance.signOut().then((dynamic value) =>
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/sign_in', (Route<dynamic> route) => false));
     } catch (e) {
-      buildScaffoldMessenger(context, content: 'Error signing out. Try again.');
+      fToast.showToast(
+        child: const CustomToast(
+          message: 'Something went wrong, please try again later.',
+        ),
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: const Duration(seconds: 2),
+      );
     }
-
-    Future<dynamic>.delayed(const Duration(milliseconds: 1000));
-
-    Navigator.pushNamed(context, '/sign_in');
   }
 
   void authCheck(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
-      // ignore: unnecessary_statements
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushNamed(context, '/sign_in');
       });
+    }
+  }
+
+  bool isUserSignedIn() {
+    final User? _user = FirebaseAuth.instance.currentUser;
+
+    if (_user != null) {
+      log('isUserSignedIn: true');
+      return true;
+    } else {
+      log('isUserSignedIn: false');
+      return false;
     }
   }
 }

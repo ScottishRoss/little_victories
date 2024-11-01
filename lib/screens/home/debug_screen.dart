@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/util/authentication.dart';
-import 'package:little_victories/util/notifications_service.dart';
-import 'package:little_victories/util/secure_storage.dart';
-import 'package:little_victories/widgets/common/custom_button.dart';
-import 'package:little_victories/widgets/common/lv_logo.dart';
-import 'package:little_victories/widgets/common/page_body.dart';
+import 'package:little_victories/data/firestore_operations/firestore_account.dart';
+import 'package:little_victories/data/lv_user_class.dart';
+
+import '../../util/authentication.dart';
+import '../../util/notifications_service.dart';
+import '../../util/secure_storage.dart';
+import '../../widgets/common/custom_button.dart';
 
 class DebugScreen extends StatefulWidget {
   const DebugScreen({Key? key}) : super(key: key);
@@ -24,15 +27,15 @@ class _DebugScreenState extends State<DebugScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageBody(
-      child: Column(
+    return Expanded(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
         children: <Widget>[
-          // Little Victories Logo
-          const LVLogo(),
-          const Spacer(),
           CustomButton(
             'Intro screen',
-            () => Navigator.pushNamed(context, '/intro'),
+            () => Navigator.pushReplacementNamed(context, '/intro'),
           ),
           CustomButton(
             'Fire Notification',
@@ -52,6 +55,37 @@ class _DebugScreenState extends State<DebugScreen> {
                   await AwesomeNotifications().listScheduledNotifications();
               print(notifications);
             },
+          ),
+          CustomButton('Log secure storage', () async {
+            final Map<String, String>? _secureStorageData =
+                await _secureStorage.getAll();
+
+            for (final MapEntry<String, String> item
+                in _secureStorageData!.entries) {
+              log(item.toString());
+            }
+          }),
+          CustomButton(
+            'Back',
+            () => Navigator.pushNamed(
+              context,
+              '/home',
+            ),
+          ),
+          CustomButton(
+            'Set Display Name',
+            () => Navigator.pushNamed(
+              context,
+              '/display_name',
+            ),
+          ),
+          CustomButton('Get ad counter', () async {
+            final LVUser? lvUser = await getLVUser();
+            log('adCounter: ${lvUser!.adCounter}');
+          }),
+          CustomButton(
+            'Update ad counter',
+            () => updateAdCounter(),
           ),
           const SizedBox(height: 20.0),
         ],

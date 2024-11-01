@@ -2,9 +2,12 @@ import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:little_victories/res/constants.dart';
-import 'package:little_victories/res/custom_colours.dart';
-import 'package:little_victories/util/secure_storage.dart';
+import 'package:little_victories/data/firestore_operations/firestore_notifications.dart';
+import 'package:little_victories/data/notifications_class.dart';
+
+import 'constants.dart';
+import 'custom_colours.dart';
+import 'secure_storage.dart';
 
 const String kNotificationChannelKeyReminders =
     'little_victories_channel_reminders';
@@ -40,7 +43,7 @@ class NotificationsService {
     enableVibration: true,
   );
 
-  Future<void> init() async {
+  Future<void> initialise() async {
     _notifications.initialize(
       'resource://drawable/app_icon',
       <NotificationChannel>[
@@ -56,55 +59,65 @@ class NotificationsService {
     );
   }
 
-  Future<void> showNotificationsConsentIfNeeded() async {
-    final bool _isNotificationsEnabled =
-        await _notifications.isNotificationAllowed();
-    print('Notifications Consent: $_isNotificationsEnabled');
-    if (!_isNotificationsEnabled)
-      _notifications.requestPermissionToSendNotifications();
+  Future<void> checkNotificationsConsent() async {
+    final Notifications _notificationData = await getNotificationsData();
+    final bool _enabled =
+        _notificationData.isNotificationsEnabled != null || false;
+
+    final bool _consented = await _notifications.isNotificationAllowed();
+    log('Notifications  enabled: $_enabled');
+    log('Notifications consented: $_consented');
+    if (!_consented && _enabled) {
+      showNotificationsConsent();
+    }
+  }
+
+  Future<bool> showNotificationsConsent() {
+    return _notifications.requestPermissionToSendNotifications();
   }
 
   Future<void> cancelScheduledNotifications() async {
     await _notifications.cancelAllSchedules();
   }
 
-  void setNotificationPreference(bool isNotificationsEnabled) {
-    final String _notificationsValue =
-        isNotificationsEnabled ? 'true' : 'false';
-    _secureStorage.insert(
-      kIsNotificationsEnabled,
-      _notificationsValue,
-    );
+  Notifications setNotification(
+    bool isNotificationActive,
+    String notificationTime,
+  ) {
+    return Notifications.fromMap(<String, dynamic>{
+      'isNotificationActive': isNotificationActive,
+      'notificationTime': notificationTime,
+    });
   }
 
-  Future<void> startReminders() async {
-    final String? storedTime =
-        await _secureStorage.getFromKey(kNotificationTime);
-    log('Stored Time: $storedTime');
-
-    //? Split the 24 hour time into hours and minutes as a list.
-    final List<String> parts = storedTime!.split(':');
-
-    _notifications.createNotification(
-      content: _notificationContentReminders,
-      actionButtons: <NotificationActionButton>[
-        NotificationActionButton(
-          key: 'create_victory',
-          label: 'Celebrate',
-          autoDismissible: true,
-          requireInputText: true,
+  Future<bool> startReminders(String startTime) async {
+    final int hour = int.parse(startTime.split(':')[0]);
+    final int minute = int.parse(startTime.split(':')[1]);
+    try {
+      _notifications.createNotification(
+        content: _notificationContentReminders,
+        actionButtons: <NotificationActionButton>[
+          NotificationActionButton(
+            key: 'create_victory',
+            label: 'Reminder',
+            autoDismissible: true,
+            requireInputText: true,
+          ),
+        ],
+        schedule: NotificationCalendar(
+          hour: hour,
+          minute: minute,
+          second: 0,
+          allowWhileIdle: true,
+          repeats: true,
+          timeZone: AwesomeNotifications.localTimeZoneIdentifier,
         ),
-      ],
-      schedule: NotificationCalendar(
-        hour: int.parse(parts[0]),
-        minute: int.parse(parts[1]),
-        second: 0,
-        allowWhileIdle: true,
-        repeats: true,
-        timeZone: AwesomeNotifications.localTimeZoneIdentifier,
-      ),
-    );
-    print('Notification started');
+      );
+      return true;
+    } catch (e) {
+      log('startReminders error: $e');
+      return false;
+    }
   }
 
   void fireNotification() {
@@ -125,58 +138,6 @@ class NotificationsService {
     return TimeOfDay(
       hour: dateTime.hour,
       minute: dateTime.minute,
-    );
-  }
-
-  Future<void> firstTimeNotificationSetup() async {
-    bool _isTimeInserted = false;
-    log('Starting first time notification setup...');
-
-    //? Check to see if reminders are off or haven't been started.
-    final String? _reminderFlag =
-        await _secureStorage.getFromKey(kIsNotificationsEnabled);
-    log('Reminder flag: $_reminderFlag');
-
-    //? Notifications package check to see if notifications are enabled.
-    //? Not final as we do another check later.
-    final bool _isNotificationsEnabled =
-        await _notifications.isNotificationAllowed();
-    log('Notifications enabled: $_isNotificationsEnabled');
-
-    //? If false or null
-    if (_reminderFlag == 'false' || _reminderFlag == null) {
-      //? Insert the reminder flag.
-      _secureStorage.insert(
-        kIsNotificationsEnabled,
-        _isNotificationsEnabled.toString(),
-      );
-      log('Set reminder flag to: $_isNotificationsEnabled');
-
-      //? Get the notification time which should be there from initialisation.
-      final String? _notificationTime =
-          await _secureStorage.getFromKey(kNotificationTime);
-      log('Notification time: $_notificationTime');
-
-      //? If null it means it hasn't been initialised so insert the default time.
-      if (_notificationTime == null)
-        _isTimeInserted = await _secureStorage.insert(
-          kNotificationTime,
-          kDefaultNotificationTime,
-        );
-      log('Time inserted: $_isTimeInserted');
-
-      if (_isNotificationsEnabled) {
-        //? Start default reminders.
-        NotificationsService().startReminders();
-        log('Started reminders');
-      } else {
-        log('Notifications not enabled');
-      }
-    }
-    //? Insert user notifications preference.
-    _secureStorage.insert(
-      kIsNotificationsEnabled,
-      _isNotificationsEnabled.toString(),
     );
   }
 }
